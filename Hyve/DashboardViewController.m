@@ -28,6 +28,7 @@
     [self stylingHyveLabel];
 }
 
+#pragma mark - styling Hyve label
 -(void)stylingHyveLabel
 {
     self.hyveLabel.text = @"Hyve";
@@ -36,28 +37,13 @@
     self.hyveLabel.textColor = [UIColor lightTextColor];
 }
 
+
+#pragma mark - pressing on Hyve button
 - (IBAction)onHyveButtonPressed:(id)sender
 {
     if (self.isHyveButtonPressed == NO)
     {
-//        POPSpringAnimation *rotateAnimation = [POPSpringAnimation animation];
-//        rotateAnimation.property = [POPAnimatableProperty propertyWithName:kPOPLayerRotation];
-//        rotateAnimation.toValue = @(M_PI / 4);
-//        rotateAnimation.name = @"rotateThis";
-//        rotateAnimation.delegate = self;
-//        
-//        [self.hyveButton.layer pop_addAnimation:rotateAnimation forKey:@"rotateThis"];
-        
-//        [UIView animateWithDuration:2.0 delay:0.0 options:UIViewAnimationOptionRepeat | UIViewAnimationOptionCurveLinear animations:^{
-//            CGAffineTransform transform = CGAffineTransformMakeRotation(M_PI);
-//            self.hyveButton.transform = transform;
-//        } completion:^(BOOL finished) {
-//            [self displayBluetoothNetworkDetectionIndicator];
-//        }];
-
-
         [UIView animateWithDuration:2.0 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-//            self.hyveButton.frame = CGRectMake(self.hyveButton.frame.origin.x, self.hyveButton.frame.origin.y + 370, self.hyveButton.frame.size.width, self.hyveButton.frame.size.height);
             
             CABasicAnimation *slideDownAnimation = [CABasicAnimation animationWithKeyPath:@"position"];
             [slideDownAnimation setDelegate:self];
@@ -79,6 +65,7 @@
     }
 }
 
+#pragma mark - displaying Bluetooth network detection indicator
 -(void)displayBluetoothNetworkDetectionIndicator
 {
     self.hyveNetworkDetectionIndicatorImage.alpha = 1;

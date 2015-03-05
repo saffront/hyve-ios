@@ -17,6 +17,7 @@
 		3B5772BD1AA714E1009FC171 /* HyveTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5772BC1AA714E1009FC171 /* HyveTests.m */; };
 		3B5772C81AA7E45E009FC171 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5772C71AA7E45E009FC171 /* DashboardViewController.m */; };
 		3B5772CB1AA84361009FC171 /* AvenirLTStd-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3B5772CA1AA8435B009FC171 /* AvenirLTStd-Medium.otf */; };
+		3BFDD94B1AA852E200849EDA /* Hyve.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFDD94A1AA852E200849EDA /* Hyve.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,8 @@
 		3B5772C61AA7E45E009FC171 /* DashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashboardViewController.h; sourceTree = "<group>"; };
 		3B5772C71AA7E45E009FC171 /* DashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashboardViewController.m; sourceTree = "<group>"; };
 		3B5772CA1AA8435B009FC171 /* AvenirLTStd-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirLTStd-Medium.otf"; sourceTree = "<group>"; };
+		3BFDD9491AA852E200849EDA /* Hyve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hyve.h; sourceTree = "<group>"; };
+		3BFDD94A1AA852E200849EDA /* Hyve.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Hyve.m; sourceTree = "<group>"; };
 		5AF139C90BAC94F5EF0C7945 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -109,6 +112,7 @@
 				3B5772AA1AA714E1009FC171 /* Main.storyboard */,
 				3B5772C61AA7E45E009FC171 /* DashboardViewController.h */,
 				3B5772C71AA7E45E009FC171 /* DashboardViewController.m */,
+				3BFDD94C1AA852EA00849EDA /* Model */,
 				3B5772C91AA8433B009FC171 /* Font */,
 				3B5772AD1AA714E1009FC171 /* Images.xcassets */,
 				3B5772AF1AA714E1009FC171 /* LaunchScreen.xib */,
@@ -149,6 +153,15 @@
 				3B5772CA1AA8435B009FC171 /* AvenirLTStd-Medium.otf */,
 			);
 			name = Font;
+			sourceTree = "<group>";
+		};
+		3BFDD94C1AA852EA00849EDA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3BFDD9491AA852E200849EDA /* Hyve.h */,
+				3BFDD94A1AA852E200849EDA /* Hyve.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		565EC602E325AFAD2F08862D /* Frameworks */ = {
@@ -295,6 +308,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BFDD94B1AA852E200849EDA /* Hyve.m in Sources */,
 				3B5772A91AA714E1009FC171 /* ViewController.m in Sources */,
 				3B5772A61AA714E1009FC171 /* AppDelegate.m in Sources */,
 				3B5772A31AA714E1009FC171 /* main.m in Sources */,

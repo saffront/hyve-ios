@@ -40,30 +40,58 @@
 {
     if (self.isHyveButtonPressed == NO)
     {
-//        POPBasicAnimation *fadingAnimation = [POPBasicAnimation animationWithPropertyNamed:@"kPOPViewAlpha"];
-//        fadingAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-//        fadingAnimation.fromValue = @(1.0);
-//        fadingAnimation.toValue = @(0.1);
-//        [self.hyveNetworkDetectionIndicatorImage.layer pop_addAnimation:fadingAnimation forKey:@"fade"];
+//        POPSpringAnimation *rotateAnimation = [POPSpringAnimation animation];
+//        rotateAnimation.property = [POPAnimatableProperty propertyWithName:kPOPLayerRotation];
+//        rotateAnimation.toValue = @(M_PI / 4);
+//        rotateAnimation.name = @"rotateThis";
+//        rotateAnimation.delegate = self;
+//        
+//        [self.hyveButton.layer pop_addAnimation:rotateAnimation forKey:@"rotateThis"];
         
-        POPDecayAnimation *decayAnimation = [POPDecayAnimation animationWithPropertyNamed:kPOPLayerPositionY];
-        decayAnimation.velocity = @(650);
-        [self.hyveButton.layer pop_addAnimation:decayAnimation forKey:@"slide"];
-        
-        self.isHyveButtonPressed = YES;
-        
-        self.hyveNetworkDetectionIndicatorImage.image = [UIImage imageNamed:@"jlaw"];
-        
-        CABasicAnimation *fadingAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
-        fadingAnimation.duration = 2;
-        fadingAnimation.repeatCount = 1e100f;
-        fadingAnimation.autoreverses = YES;
-        fadingAnimation.fromValue = [NSNumber numberWithFloat:1.0];
-        fadingAnimation.toValue = [NSNumber numberWithFloat:0.1];
-        [self.hyveNetworkDetectionIndicatorImage.layer addAnimation:fadingAnimation forKey:@"animateOpacity"];
-        self.hyveNetworkDetectionIndicatorImage.alpha = 1;
+//        [UIView animateWithDuration:2.0 delay:0.0 options:UIViewAnimationOptionRepeat | UIViewAnimationOptionCurveLinear animations:^{
+//            CGAffineTransform transform = CGAffineTransformMakeRotation(M_PI);
+//            self.hyveButton.transform = transform;
+//        } completion:^(BOOL finished) {
+//            [self displayBluetoothNetworkDetectionIndicator];
+//        }];
+
+
+        [UIView animateWithDuration:2.0 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+//            self.hyveButton.frame = CGRectMake(self.hyveButton.frame.origin.x, self.hyveButton.frame.origin.y + 370, self.hyveButton.frame.size.width, self.hyveButton.frame.size.height);
+            
+            CABasicAnimation *slideDownAnimation = [CABasicAnimation animationWithKeyPath:@"position"];
+            [slideDownAnimation setDelegate:self];
+            slideDownAnimation.toValue = [NSValue valueWithCGRect:CGRectMake(self.view.frame.size.width / 2, self.hyveButton.frame.origin.y + 470, self.hyveButton.frame.size.width, self.hyveButton.frame.size.height)];
+            slideDownAnimation.fromValue = [NSValue valueWithCGPoint:self.hyveButton.layer.position];
+            slideDownAnimation.autoreverses = NO;
+            slideDownAnimation.repeatCount = 0;
+            slideDownAnimation.duration = 2;
+            slideDownAnimation.fillMode = kCAFillModeForwards;
+            slideDownAnimation.removedOnCompletion = NO;
+            slideDownAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+            [self.hyveButton.layer addAnimation:slideDownAnimation forKey:@"moveY"];
+            
+        } completion:^(BOOL finished) {
+            
+            [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(displayBluetoothNetworkDetectionIndicator) userInfo:nil repeats:NO];
+        }];
+
     }
 }
 
+-(void)displayBluetoothNetworkDetectionIndicator
+{
+    self.hyveNetworkDetectionIndicatorImage.alpha = 1;
+    self.hyveNetworkDetectionIndicatorImage.image = [UIImage imageNamed:@"jlaw"];
+    
+    CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    fadeAnimation.duration = 1.3;
+    fadeAnimation.repeatCount = 1e1000f;
+    fadeAnimation.autoreverses = YES;
+    fadeAnimation.fromValue = [NSNumber numberWithFloat:1.0];
+    fadeAnimation.toValue = [NSNumber numberWithFloat:0.1];
+    
+    [self.hyveNetworkDetectionIndicatorImage.layer addAnimation:fadeAnimation forKey:@"animateOpacity"];
+}
 
 @end

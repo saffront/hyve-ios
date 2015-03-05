@@ -7,15 +7,32 @@
 //
 
 #import "DashboardViewController.h"
+#import <CoreBluetooth/CoreBluetooth.h>
+#import "Hyve.h"
 #import <POP.h>
+// 5F10970D-4751-8EAE-0E80-FCA227055CB5 --- name=rpts , kCBAdvDataServiceUUIDs = FFF0,
+/*
+ Central has found Peripheral. Peripheral : <CBPeripheral: 0x17e5f8c0, identifier = 5F10970D-4751-8EAE-0E80-FCA227055CB5, name = rpts, state = disconnected>, RSSI: 127, advertisementData: {
+ kCBAdvDataIsConnectable = 1;
+ kCBAdvDataLocalName = rpts;
+ kCBAdvDataManufacturerData = <0112>;
+ kCBAdvDataServiceUUIDs =     (
+ FFF0
+ );
+ kCBAdvDataTxPowerLevel = 4;
+ }
+*/
 
-@interface DashboardViewController ()
+@interface DashboardViewController () <CBCentralManagerDelegate, CBPeripheralDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *hyveLabel;
 @property (weak, nonatomic) IBOutlet UIButton *hyveButton;
 @property (weak, nonatomic) IBOutlet UIImageView *hyveNetworkDetectionIndicatorImage;
 @property BOOL isHyveButtonPressed;
 @property (weak, nonatomic) IBOutlet UILabel *detectingHyveLabel;
+@property (strong, nonatomic) CBCentralManager *centralManager;
+@property (strong, nonatomic) Hyve *hyve;
+@property (strong, nonatomic) CBPeripheral *peripheral;
 @end
 
 
@@ -23,6 +40,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+    self.centralManager.delegate = self;
+    
     self.view.backgroundColor = [UIColor darkGrayColor];
     self.isHyveButtonPressed = NO;
     self.hyveNetworkDetectionIndicatorImage.alpha = 0;
@@ -45,6 +66,7 @@
     self.detectingHyveLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
     self.detectingHyveLabel.textColor = [UIColor whiteColor];
     self.detectingHyveLabel.numberOfLines = 0;
+    
 }
 
 
@@ -70,6 +92,7 @@
         } completion:^(BOOL finished) {
             
             [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(displayBluetoothNetworkDetectionIndicator) userInfo:nil repeats:NO];
+            [self.centralManager scanForPeripheralsWithServices:nil options:nil];
         }];
     }
 }
@@ -103,5 +126,76 @@
 //    
 //    [self.hyveNetworkDetectionIndicatorImage.layer addAnimation:fadeAnimation forKey:@"animateOpacity"];
 }
+
+#pragma mark - Core Bluetooth
+
+-(void)centralManagerDidUpdateState:(CBCentralManager *)central
+{
+    switch (central.state) {
+        case CBCentralManagerStatePoweredOff:
+            NSLog(@"The central is off. Turn it on");
+            break;
+        case CBCentralManagerStatePoweredOn:
+            NSLog(@"Central is on and ready to use");
+            break;
+        case CBCentralManagerStateResetting:
+            NSLog(@"Central is resetting");
+            break;
+        case CBCentralManagerStateUnauthorized:
+            NSLog(@"Central state is unautorized");
+            break;
+        case CBCentralManagerStateUnknown:
+            NSLog(@"Central is state is unkown.");
+            break;
+        case CBCentralManagerStateUnsupported:
+            NSLog(@"Device does not have CoreBluetooth BLE");
+            break;
+        default:
+            break;
+    }
+}
+
+-(void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
+{
+    NSLog(@"Central has found Peripheral. Peripheral : %@, RSSI: %@, advertisementData: %@", peripheral, RSSI, advertisementData);
+
+//    if ([peripheral.name isEqualToString:self.hyve.peripheralName])
+//    {
+//        self.peripheral = peripheral;
+//        [self.centralManager stopScan];
+//    }
+
+}
+
+-(void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
+{
+    NSLog(@"Central has connected to peripheral: %@ with UUID: %@",peripheral,peripheral.identifier);
+    peripheral.delegate = self;
+}
+
+-(void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
+{
+    if (error)
+    {
+        NSLog(@"didFailToConnectPeripheral : %@", error);
+    }
+    else
+    {
+        NSLog(@"connectedToPeripheral : peripheral ==> %@ self.pheripheral ~~> %@", peripheral, self.peripheral);
+    }
+}
+
+-(void)centralManager:(CBCentralManager *)central didRetrievePeripherals:(NSArray *)peripherals
+{
+    NSLog(@"didReceivePeripherals");
+    
+    for (CBPeripheral *peripheral in peripherals)
+    {
+        NSLog(@"Peripherals Array has %@  == >peripheral %@ %@",peripherals, peripheral, peripheral.identifier);
+    }
+}
+
+
+
 
 @end

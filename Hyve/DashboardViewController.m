@@ -47,7 +47,7 @@
             
             CABasicAnimation *slideDownAnimation = [CABasicAnimation animationWithKeyPath:@"position"];
             [slideDownAnimation setDelegate:self];
-            slideDownAnimation.toValue = [NSValue valueWithCGRect:CGRectMake(self.view.frame.size.width / 2, self.hyveButton.frame.origin.y + 470, self.hyveButton.frame.size.width, self.hyveButton.frame.size.height)];
+            slideDownAnimation.toValue = [NSValue valueWithCGRect:CGRectMake(self.view.frame.size.width / 2, self.hyveButton.frame.origin.y + 400, self.hyveButton.frame.size.width, self.hyveButton.frame.size.height)];
             slideDownAnimation.fromValue = [NSValue valueWithCGPoint:self.hyveButton.layer.position];
             slideDownAnimation.autoreverses = NO;
             slideDownAnimation.repeatCount = 0;
@@ -61,7 +61,6 @@
             
             [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(displayBluetoothNetworkDetectionIndicator) userInfo:nil repeats:NO];
         }];
-
     }
 }
 
@@ -69,16 +68,29 @@
 -(void)displayBluetoothNetworkDetectionIndicator
 {
     self.hyveNetworkDetectionIndicatorImage.alpha = 1;
-    self.hyveNetworkDetectionIndicatorImage.image = [UIImage imageNamed:@"jlaw"];
     
-    CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
-    fadeAnimation.duration = 1.3;
-    fadeAnimation.repeatCount = 1e1000f;
-    fadeAnimation.autoreverses = YES;
-    fadeAnimation.fromValue = [NSNumber numberWithFloat:1.0];
-    fadeAnimation.toValue = [NSNumber numberWithFloat:0.1];
+    UIImage *bluetooth1 = [UIImage imageNamed:@"bluetooth1"];
+    UIImage *bluetooth2 = [UIImage imageNamed:@"bluetooth2"];
+    UIImage *bluetooth3 = [UIImage imageNamed:@"bluetooth3"];
     
-    [self.hyveNetworkDetectionIndicatorImage.layer addAnimation:fadeAnimation forKey:@"animateOpacity"];
+    NSMutableArray *bluetoothIndicatorImage = [NSMutableArray arrayWithObjects:bluetooth1, bluetooth2, bluetooth3, nil];
+    
+    self.hyveNetworkDetectionIndicatorImage.animationImages = bluetoothIndicatorImage;
+    self.hyveNetworkDetectionIndicatorImage.animationDuration = 2;
+    self.hyveNetworkDetectionIndicatorImage.backgroundColor = [UIColor clearColor];
+    [self.hyveNetworkDetectionIndicatorImage startAnimating];
+    
+//    self.hyveNetworkDetectionIndicatorImage.alpha = 1;
+//    self.hyveNetworkDetectionIndicatorImage.image = [UIImage imageNamed:@"jlaw"];
+//    
+//    CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+//    fadeAnimation.duration = 1.3;
+//    fadeAnimation.repeatCount = 1e1000f;
+//    fadeAnimation.autoreverses = YES;
+//    fadeAnimation.fromValue = [NSNumber numberWithFloat:1.0];
+//    fadeAnimation.toValue = [NSNumber numberWithFloat:0.1];
+//    
+//    [self.hyveNetworkDetectionIndicatorImage.layer addAnimation:fadeAnimation forKey:@"animateOpacity"];
 }
 
 @end

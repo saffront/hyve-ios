@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>9A176C43-6ECD-432E-BA24-3DA439DED733</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Hyve</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>B52995C48EC7BD3374179B5F8512B531AB97ECBD</key>
+		<string>https://github.com/vltlabs/Hyve-iOS.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Hyve.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>B52995C48EC7BD3374179B5F8512B531AB97ECBD</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/vltlabs/Hyve-iOS.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>B52995C48EC7BD3374179B5F8512B531AB97ECBD</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>B52995C48EC7BD3374179B5F8512B531AB97ECBD</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Hyve</string>
+		</dict>
+	</array>
+</dict>
+</plist>

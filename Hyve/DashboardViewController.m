@@ -33,7 +33,7 @@
 {
     self.hyveLabel.text = @"Hyve";
     self.hyveLabel.numberOfLines = 0;
-    self.hyveLabel.font = [UIFont fontWithName:@"Helvetica" size:40];
+    self.hyveLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:40];
     self.hyveLabel.textColor = [UIColor lightTextColor];
 }
 

@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *hyveButton;
 @property (weak, nonatomic) IBOutlet UIImageView *hyveNetworkDetectionIndicatorImage;
 @property BOOL isHyveButtonPressed;
+@property (weak, nonatomic) IBOutlet UILabel *detectingHyveLabel;
 @end
 
 
@@ -35,6 +36,15 @@
     self.hyveLabel.numberOfLines = 0;
     self.hyveLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:40];
     self.hyveLabel.textColor = [UIColor lightTextColor];
+}
+
+#pragma mark - styling detection hyve label
+-(void)stylingDetectingHyveLabel
+{
+    self.detectingHyveLabel.text = [NSString stringWithFormat:@"Searching for Hyve"];
+    self.detectingHyveLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+    self.detectingHyveLabel.textColor = [UIColor whiteColor];
+    self.detectingHyveLabel.numberOfLines = 0;
 }
 
 
@@ -80,6 +90,7 @@
     self.hyveNetworkDetectionIndicatorImage.backgroundColor = [UIColor clearColor];
     [self.hyveNetworkDetectionIndicatorImage startAnimating];
     
+    [self stylingDetectingHyveLabel];
 //    self.hyveNetworkDetectionIndicatorImage.alpha = 1;
 //    self.hyveNetworkDetectionIndicatorImage.image = [UIImage imageNamed:@"jlaw"];
 //    

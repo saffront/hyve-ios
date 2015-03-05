@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Dashboard View Controller-->
@@ -21,28 +22,117 @@
                                 <state key="normal" title="Button">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="100" y="300" width="200" height="200"/>
-                                </variation>
                                 <connections>
                                     <action selector="onHyveButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="TcQ-MV-k2T"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3iT-8h-G92">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="aPs-VI-pd2"/>
+                                    <constraint firstAttribute="height" constant="50" id="lFK-bh-5sP"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="aPs-VI-pd2"/>
+                                        <exclude reference="lFK-bh-5sP"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="aPs-VI-pd2"/>
+                                        <include reference="lFK-bh-5sP"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7ga-oH-u03">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="437" id="SXJ-Vb-lSn"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="SXJ-Vb-lSn"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="SXJ-Vb-lSn"/>
+                                    </mask>
+                                </variation>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="3iT-8h-G92" secondAttribute="bottom" constant="37" id="1Qd-SB-cjo"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="vpO-kJ-HlX" secondAttribute="trailing" constant="84" id="3Gn-p3-aUN"/>
+                            <constraint firstItem="vpO-kJ-HlX" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="84" id="BiY-Uh-tZz"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="3iT-8h-G92" secondAttribute="trailing" constant="34" id="Dyv-XQ-11R"/>
+                            <constraint firstItem="vpO-kJ-HlX" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="280" id="Fp6-HY-Z68"/>
+                            <constraint firstAttribute="centerX" secondItem="7ga-oH-u03" secondAttribute="centerX" id="JT4-wo-nLk"/>
+                            <constraint firstItem="7ga-oH-u03" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="34" id="RE9-PC-mN5"/>
+                            <constraint firstItem="3iT-8h-G92" firstAttribute="top" secondItem="7ga-oH-u03" secondAttribute="bottom" constant="95" id="UZE-Aa-XJY"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="7ga-oH-u03" secondAttribute="bottom" constant="182" id="axi-sL-kKd"/>
+                            <constraint firstItem="7ga-oH-u03" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="161" id="daL-9j-65n"/>
+                            <constraint firstItem="3iT-8h-G92" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="34" id="hHL-Cs-GfL"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="vpO-kJ-HlX" secondAttribute="bottom" constant="300" id="iCs-wj-q07"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="7ga-oH-u03" secondAttribute="trailing" constant="34" id="s9T-UJ-dqg"/>
+                            <constraint firstAttribute="centerX" secondItem="vpO-kJ-HlX" secondAttribute="centerX" id="zkf-aS-X09"/>
+                        </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="vpO-kJ-HlX"/>
+                                <exclude reference="3iT-8h-G92"/>
+                                <exclude reference="7ga-oH-u03"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="JT4-wo-nLk"/>
+                                <exclude reference="RE9-PC-mN5"/>
+                                <exclude reference="daL-9j-65n"/>
+                                <exclude reference="s9T-UJ-dqg"/>
+                                <exclude reference="3Gn-p3-aUN"/>
+                                <exclude reference="BiY-Uh-tZz"/>
+                                <exclude reference="Fp6-HY-Z68"/>
+                                <exclude reference="zkf-aS-X09"/>
+                                <exclude reference="Dyv-XQ-11R"/>
+                                <exclude reference="UZE-Aa-XJY"/>
+                                <exclude reference="hHL-Cs-GfL"/>
+                                <exclude reference="1Qd-SB-cjo"/>
+                                <exclude reference="axi-sL-kKd"/>
+                                <exclude reference="iCs-wj-q07"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
                                 <include reference="vpO-kJ-HlX"/>
+                                <include reference="3iT-8h-G92"/>
+                                <include reference="7ga-oH-u03"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="JT4-wo-nLk"/>
+                                <include reference="RE9-PC-mN5"/>
+                                <include reference="daL-9j-65n"/>
+                                <include reference="s9T-UJ-dqg"/>
+                                <include reference="3Gn-p3-aUN"/>
+                                <include reference="BiY-Uh-tZz"/>
+                                <include reference="Fp6-HY-Z68"/>
+                                <include reference="zkf-aS-X09"/>
+                                <include reference="Dyv-XQ-11R"/>
+                                <include reference="UZE-Aa-XJY"/>
+                                <include reference="hHL-Cs-GfL"/>
+                                <include reference="1Qd-SB-cjo"/>
+                                <include reference="axi-sL-kKd"/>
+                                <include reference="iCs-wj-q07"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
                         <outlet property="hyveButton" destination="vpO-kJ-HlX" id="F6Y-Fd-93J"/>
+                        <outlet property="hyveLabel" destination="3iT-8h-G92" id="VPn-RN-keD"/>
+                        <outlet property="hyveNetworkDetectionIndicatorImage" destination="7ga-oH-u03" id="EmO-JC-tlm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

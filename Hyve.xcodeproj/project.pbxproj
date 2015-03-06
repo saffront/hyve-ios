@@ -17,6 +17,7 @@
 		3B5772BD1AA714E1009FC171 /* HyveTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5772BC1AA714E1009FC171 /* HyveTests.m */; };
 		3B5772C81AA7E45E009FC171 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5772C71AA7E45E009FC171 /* DashboardViewController.m */; };
 		3B5772CB1AA84361009FC171 /* AvenirLTStd-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3B5772CA1AA8435B009FC171 /* AvenirLTStd-Medium.otf */; };
+		3BA2D3471AA95DAB008CA9E4 /* PeripheralListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA2D3461AA95DAB008CA9E4 /* PeripheralListViewController.m */; };
 		3BFDD94B1AA852E200849EDA /* Hyve.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFDD94A1AA852E200849EDA /* Hyve.m */; };
 		3BFDD94E1AA854D200849EDA /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BFDD94D1AA854D200849EDA /* CoreBluetooth.framework */; };
 /* End PBXBuildFile section */
@@ -50,6 +51,8 @@
 		3B5772C61AA7E45E009FC171 /* DashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashboardViewController.h; sourceTree = "<group>"; };
 		3B5772C71AA7E45E009FC171 /* DashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashboardViewController.m; sourceTree = "<group>"; };
 		3B5772CA1AA8435B009FC171 /* AvenirLTStd-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirLTStd-Medium.otf"; sourceTree = "<group>"; };
+		3BA2D3451AA95DAB008CA9E4 /* PeripheralListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeripheralListViewController.h; sourceTree = "<group>"; };
+		3BA2D3461AA95DAB008CA9E4 /* PeripheralListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeripheralListViewController.m; sourceTree = "<group>"; };
 		3BFDD9491AA852E200849EDA /* Hyve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hyve.h; sourceTree = "<group>"; };
 		3BFDD94A1AA852E200849EDA /* Hyve.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Hyve.m; sourceTree = "<group>"; };
 		3BFDD94D1AA854D200849EDA /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
@@ -113,6 +116,8 @@
 				3B5772A71AA714E1009FC171 /* ViewController.h */,
 				3B5772A81AA714E1009FC171 /* ViewController.m */,
 				3B5772AA1AA714E1009FC171 /* Main.storyboard */,
+				3BA2D3451AA95DAB008CA9E4 /* PeripheralListViewController.h */,
+				3BA2D3461AA95DAB008CA9E4 /* PeripheralListViewController.m */,
 				3B5772C61AA7E45E009FC171 /* DashboardViewController.h */,
 				3B5772C71AA7E45E009FC171 /* DashboardViewController.m */,
 				3BFDD94C1AA852EA00849EDA /* Model */,
@@ -316,6 +321,7 @@
 				3B5772A91AA714E1009FC171 /* ViewController.m in Sources */,
 				3B5772A61AA714E1009FC171 /* AppDelegate.m in Sources */,
 				3B5772A31AA714E1009FC171 /* main.m in Sources */,
+				3BA2D3471AA95DAB008CA9E4 /* PeripheralListViewController.m in Sources */,
 				3B5772C81AA7E45E009FC171 /* DashboardViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

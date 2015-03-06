@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface Hyve : NSObject
-@property (strong, nonatomic) NSString *peripheralUUID;
+@property (strong, nonatomic) NSUUID *peripheralUUID;
 @property (strong, nonatomic) NSString *peripheralRSSI;
 @property (strong, nonatomic) NSString *peripheralName;
 

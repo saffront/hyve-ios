@@ -7,9 +7,11 @@
 //
 
 #import "DashboardViewController.h"
+#import "PeripheralListViewController.h"
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "Hyve.h"
 #import <POP.h>
+
 // 5F10970D-4751-8EAE-0E80-FCA227055CB5 --- name=rpts , kCBAdvDataServiceUUIDs = FFF0,
 /*
  Central has found Peripheral. Peripheral : <CBPeripheral: 0x17e5f8c0, identifier = 5F10970D-4751-8EAE-0E80-FCA227055CB5, name = rpts, state = disconnected>, RSSI: 127, advertisementData: {
@@ -23,6 +25,13 @@
  }
 */
 
+/*
+ Central has found Peripheral. Peripheral : <CBPeripheral: 0x1757a1f0, identifier = 1147F29D-876F-B2E4-565E-CEE139E445E7, name = VLT’s MacBook Pro, state = disconnected>, RSSI: -53, advertisementData: {
+ kCBAdvDataIsConnectable = 1;
+ }
+ 
+*/
+
 @interface DashboardViewController () <CBCentralManagerDelegate, CBPeripheralDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *hyveLabel;
@@ -33,6 +42,7 @@
 @property (strong, nonatomic) CBCentralManager *centralManager;
 @property (strong, nonatomic) Hyve *hyve;
 @property (strong, nonatomic) CBPeripheral *peripheral;
+@property (strong, nonatomic) NSMutableArray *peripheralMutableArray;
 @end
 
 
@@ -41,6 +51,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.peripheralMutableArray = [NSMutableArray new];
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     self.centralManager.delegate = self;
     
@@ -114,21 +125,29 @@
     [self.hyveNetworkDetectionIndicatorImage startAnimating];
     
     [self stylingDetectingHyveLabel];
-//    self.hyveNetworkDetectionIndicatorImage.alpha = 1;
-//    self.hyveNetworkDetectionIndicatorImage.image = [UIImage imageNamed:@"jlaw"];
-//    
-//    CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
-//    fadeAnimation.duration = 1.3;
-//    fadeAnimation.repeatCount = 1e1000f;
-//    fadeAnimation.autoreverses = YES;
-//    fadeAnimation.fromValue = [NSNumber numberWithFloat:1.0];
-//    fadeAnimation.toValue = [NSNumber numberWithFloat:0.1];
-//    
-//    [self.hyveNetworkDetectionIndicatorImage.layer addAnimation:fadeAnimation forKey:@"animateOpacity"];
+    
+    [self.centralManager scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@NO}];
+    
+    [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(timeoutScanningForHyve) userInfo:nil repeats:NO];
+}
+
+-(void)timeoutHyveDiscovery
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"We sense a great disturbance in the force..would you like to continue searching?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [NSTimer timerWithTimeInterval:60 target:self selector:@selector(timeoutHyveDiscovery) userInfo:nil repeats:NO];
+    }];
+    UIAlertAction *noAction = [UIAlertAction actionWithTitle:@"NO" style:UIAlertActionStyleCancel handler:nil];
+    
+    [alertController addAction:yesAction];
+    [alertController addAction:noAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - Core Bluetooth
 
+//check to see if Bluetooth is on
 -(void)centralManagerDidUpdateState:(CBCentralManager *)central
 {
     switch (central.state) {
@@ -155,45 +174,68 @@
     }
 }
 
+
 -(void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
 {
     NSLog(@"Central has found Peripheral. Peripheral : %@, RSSI: %@, advertisementData: %@", peripheral, RSSI, advertisementData);
 
-//    if ([peripheral.name isEqualToString:self.hyve.peripheralName])
+    self.peripheral = peripheral;
+    if (![self.peripheralMutableArray containsObject:self.peripheral])
+    {
+        [self.peripheralMutableArray addObject:self.peripheral];
+    }
+
+    
+    NSLog(@"self.peripheralMutableArray.count %i", self.peripheralMutableArray.count);
+
+//    if ([peripheral.name isEqualToString:@"VLT’s MacBook Pro"])
 //    {
 //        self.peripheral = peripheral;
 //        [self.centralManager stopScan];
+//        [self performSegueWithIdentifier:@"ShowPeripheralsList" sender:nil];
 //    }
-
 }
 
--(void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
+-(void)timeoutScanningForHyve
 {
-    NSLog(@"Central has connected to peripheral: %@ with UUID: %@",peripheral,peripheral.identifier);
-    peripheral.delegate = self;
+    [self.centralManager stopScan];
+    [self performSegueWithIdentifier:@"ShowPeripheralsList" sender:nil];
 }
 
--(void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if (error)
-    {
-        NSLog(@"didFailToConnectPeripheral : %@", error);
-    }
-    else
-    {
-        NSLog(@"connectedToPeripheral : peripheral ==> %@ self.pheripheral ~~> %@", peripheral, self.peripheral);
-    }
+    PeripheralListViewController *plvc = segue.destinationViewController;
+    plvc.peripheral = self.peripheral;
+    plvc.peripheralMutableArray = self.peripheralMutableArray;
 }
 
--(void)centralManager:(CBCentralManager *)central didRetrievePeripherals:(NSArray *)peripherals
-{
-    NSLog(@"didReceivePeripherals");
-    
-    for (CBPeripheral *peripheral in peripherals)
-    {
-        NSLog(@"Peripherals Array has %@  == >peripheral %@ %@",peripherals, peripheral, peripheral.identifier);
-    }
-}
+//-(void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
+//{
+//    NSLog(@"Central has connected to peripheral: %@ with UUID: %@",peripheral,peripheral.identifier);
+//    peripheral.delegate = self;
+//}
+//
+//-(void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
+//{
+//    if (error)
+//    {
+//        NSLog(@"didFailToConnectPeripheral : %@", error);
+//    }
+//    else
+//    {
+//        NSLog(@"connectedToPeripheral : peripheral ==> %@ self.pheripheral ~~> %@", peripheral, self.peripheral);
+//    }
+//}
+//
+//-(void)centralManager:(CBCentralManager *)central didRetrievePeripherals:(NSArray *)peripherals
+//{
+//    NSLog(@"didReceivePeripherals");
+//    
+//    for (CBPeripheral *peripheral in peripherals)
+//    {
+//        NSLog(@"Peripherals Array has %@  == >peripheral %@ %@",peripherals, peripheral, peripheral.identifier);
+//    }
+//}
 
 
 

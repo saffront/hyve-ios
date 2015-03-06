@@ -21,7 +21,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    NSLog(@"selected hyve %@", self.hyveDevicesMutableArray);
+    [self stylingNavigationBar];
+}
+
+#pragma mark - styling navigation bar
+-(void)stylingNavigationBar
+{
+    self.title = @"Hyve";
     [self.navigationItem setHidesBackButton:YES];
 }
 

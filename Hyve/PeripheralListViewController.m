@@ -7,11 +7,13 @@
 //
 
 #import "PeripheralListViewController.h"
+#import "HyveListViewController.h"
 #import "Hyve.h"
 
 @interface PeripheralListViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *peripheralListTableView;
 @property (strong, nonatomic) NSMutableArray *selectedDeviceMutableArray;
+@property (weak, nonatomic) IBOutlet UIButton *pairButton;
 
 @end
 
@@ -20,6 +22,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self.pairButton setUserInteractionEnabled:NO];
+    
+    [self promptingUserToPairDevice];
     self.selectedDeviceMutableArray = [NSMutableArray new];
     [self stylingNavigationBar];
     self.peripheralListTableView.allowsMultipleSelection = YES;
@@ -28,6 +33,15 @@
 -(void)stylingNavigationBar
 {
     self.title = @"Devices";
+}
+
+#pragma mark - prompting user to pair device
+-(void)promptingUserToPairDevice
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"We have found these devices around you. Please pair up your Hyve(s)" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - table view delegate
@@ -69,6 +83,8 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self.pairButton setUserInteractionEnabled:YES];
+    
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
     if (cell.accessoryType == UITableViewCellAccessoryNone)
@@ -77,8 +93,6 @@
         
         CBPeripheral *peripheral = [self.peripheralMutableArray objectAtIndex:indexPath.row];
         [self.selectedDeviceMutableArray addObject:peripheral];
-        
-//        self.selectedDeviceMutableArray = [self.peripheralMutableArray objectAtIndex:indexPath.row];
         
         NSLog(@"self.selectedDeviceMutableArray didSelectRowAtIndexPath :%@", self.selectedDeviceMutableArray);
     }
@@ -107,5 +121,23 @@
     }
 }
 
+- (IBAction)onPairButtonPressed:(id)sender
+{
+    if (self.selectedDeviceMutableArray.count > 0)
+    {
+        [self performSegueWithIdentifier:@"ShowHyveListVC" sender:nil];
+    }
+    else
+    {
+        [self.pairButton setUserInteractionEnabled:NO];
+    }
+}
+
+#pragma mark - segue
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    HyveListViewController *hlvc = segue.destinationViewController;
+    hlvc.hyveDevicesMutableArray = self.selectedDeviceMutableArray;
+}
 
 @end

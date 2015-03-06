@@ -200,46 +200,146 @@
                                     <outlet property="delegate" destination="Akx-ne-8Rz" id="NFS-SM-nfu"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fNp-7X-qgy">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="PqX-le-dvJ"/>
+                                    <constraint firstAttribute="width" constant="400" id="ntv-3X-Jfl"/>
+                                </constraints>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="PqX-le-dvJ"/>
+                                        <exclude reference="ntv-3X-Jfl"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="PqX-le-dvJ"/>
+                                        <include reference="ntv-3X-Jfl"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="onPairButtonPressed:" destination="Akx-ne-8Rz" eventType="touchUpInside" id="mLd-6s-BDc"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="mhS-qd-jNt" firstAttribute="top" secondItem="Is9-c8-eyo" secondAttribute="topMargin" id="QDO-d8-Gpi">
-                                <variation key="heightClass=regular-widthClass=compact" constant="64"/>
-                            </constraint>
-                            <constraint firstAttribute="trailingMargin" secondItem="mhS-qd-jNt" secondAttribute="trailing" constant="-16" id="QpR-ab-QuV"/>
-                            <constraint firstItem="mhS-qd-jNt" firstAttribute="leading" secondItem="Is9-c8-eyo" secondAttribute="leadingMargin" constant="-16" id="fcq-F7-U1P"/>
-                            <constraint firstItem="f39-8U-lqF" firstAttribute="top" secondItem="mhS-qd-jNt" secondAttribute="bottom" id="iIS-nK-R6e"/>
+                            <constraint firstItem="mhS-qd-jNt" firstAttribute="top" secondItem="csf-hD-uiQ" secondAttribute="bottom" id="7MF-m9-ccp"/>
+                            <constraint firstItem="fNp-7X-qgy" firstAttribute="leading" secondItem="Is9-c8-eyo" secondAttribute="leadingMargin" constant="-16" id="cKx-rO-Z56"/>
+                            <constraint firstItem="f39-8U-lqF" firstAttribute="top" secondItem="fNp-7X-qgy" secondAttribute="bottom" id="hFP-Q3-qWL"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="mhS-qd-jNt" secondAttribute="trailing" constant="-16" id="kk5-uE-AgQ"/>
+                            <constraint firstItem="mhS-qd-jNt" firstAttribute="leading" secondItem="Is9-c8-eyo" secondAttribute="leadingMargin" constant="-16" id="mu1-Gj-7Mc"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="fNp-7X-qgy" secondAttribute="trailing" constant="-16" id="oKS-5c-FIn"/>
+                            <constraint firstItem="fNp-7X-qgy" firstAttribute="top" secondItem="mhS-qd-jNt" secondAttribute="bottom" id="wea-PY-xbI"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="mhS-qd-jNt"/>
+                                <exclude reference="fNp-7X-qgy"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="QDO-d8-Gpi"/>
-                                <exclude reference="QpR-ab-QuV"/>
-                                <exclude reference="fcq-F7-U1P"/>
-                                <exclude reference="iIS-nK-R6e"/>
+                                <exclude reference="7MF-m9-ccp"/>
+                                <exclude reference="kk5-uE-AgQ"/>
+                                <exclude reference="mu1-Gj-7Mc"/>
+                                <exclude reference="cKx-rO-Z56"/>
+                                <exclude reference="oKS-5c-FIn"/>
+                                <exclude reference="wea-PY-xbI"/>
+                                <exclude reference="hFP-Q3-qWL"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
                                 <include reference="mhS-qd-jNt"/>
+                                <include reference="fNp-7X-qgy"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="QDO-d8-Gpi"/>
-                                <include reference="QpR-ab-QuV"/>
-                                <include reference="fcq-F7-U1P"/>
-                                <include reference="iIS-nK-R6e"/>
+                                <include reference="7MF-m9-ccp"/>
+                                <include reference="kk5-uE-AgQ"/>
+                                <include reference="mu1-Gj-7Mc"/>
+                                <include reference="cKx-rO-Z56"/>
+                                <include reference="oKS-5c-FIn"/>
+                                <include reference="wea-PY-xbI"/>
+                                <include reference="hFP-Q3-qWL"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="pairButton" destination="fNp-7X-qgy" id="N4E-WU-5Oc"/>
                         <outlet property="peripheralListTableView" destination="mhS-qd-jNt" id="3DH-6X-tnK"/>
+                        <segue destination="qtE-yT-x4I" kind="show" identifier="ShowHyveListVC" id="RGZ-m9-ruM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PY3-Yy-XA4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2260.5" y="228.75"/>
+        </scene>
+        <!--Hyve List View Controller-->
+        <scene sceneID="Viw-nu-7I9">
+            <objects>
+                <viewController id="qtE-yT-x4I" customClass="HyveListViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8x1-IX-DaQ"/>
+                        <viewControllerLayoutGuide type="bottom" id="pxV-kL-DgI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="iVX-pF-caR">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="FpN-PI-F8l">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HyveCellListVC" id="cvA-MI-KaE">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cvA-MI-KaE" id="4kF-JH-v88">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="qtE-yT-x4I" id="y9i-6X-7Gi"/>
+                                    <outlet property="delegate" destination="qtE-yT-x4I" id="e3y-qY-NxU"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="FpN-PI-F8l" secondAttribute="trailing" constant="-16" id="1JD-uJ-eyV"/>
+                            <constraint firstItem="FpN-PI-F8l" firstAttribute="top" secondItem="8x1-IX-DaQ" secondAttribute="bottom" id="iMS-4e-yU6"/>
+                            <constraint firstItem="pxV-kL-DgI" firstAttribute="top" secondItem="FpN-PI-F8l" secondAttribute="bottom" id="khh-U7-dAQ"/>
+                            <constraint firstItem="FpN-PI-F8l" firstAttribute="leading" secondItem="iVX-pF-caR" secondAttribute="leadingMargin" constant="-16" id="s6p-yM-Dk8"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="FpN-PI-F8l"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="1JD-uJ-eyV"/>
+                                <exclude reference="iMS-4e-yU6"/>
+                                <exclude reference="s6p-yM-Dk8"/>
+                                <exclude reference="khh-U7-dAQ"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="FpN-PI-F8l"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="1JD-uJ-eyV"/>
+                                <include reference="iMS-4e-yU6"/>
+                                <include reference="s6p-yM-Dk8"/>
+                                <include reference="khh-U7-dAQ"/>
+                            </mask>
+                        </variation>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pIy-fo-a3J" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3046.5" y="228.75"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="9hJ-b3-kpi">

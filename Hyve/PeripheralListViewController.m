@@ -75,6 +75,12 @@
     {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         
+        CBPeripheral *peripheral = [self.peripheralMutableArray objectAtIndex:indexPath.row];
+        [self.selectedDeviceMutableArray addObject:peripheral];
+        
+//        self.selectedDeviceMutableArray = [self.peripheralMutableArray objectAtIndex:indexPath.row];
+        
+        NSLog(@"self.selectedDeviceMutableArray didSelectRowAtIndexPath :%@", self.selectedDeviceMutableArray);
     }
     else
     {
@@ -89,6 +95,11 @@
     if (cell.accessoryType == UITableViewCellAccessoryCheckmark)
     {
         cell.accessoryType = UITableViewCellAccessoryNone;
+        
+        CBPeripheral *peripheral = [self.peripheralMutableArray objectAtIndex:indexPath.row];
+        [self.selectedDeviceMutableArray removeObject:peripheral];
+        
+        NSLog(@"self.selectedDeviceMutableArray didDeselectRowAtIndexPath :%@", self.selectedDeviceMutableArray);
     }
     else
     {

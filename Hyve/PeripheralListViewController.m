@@ -10,6 +10,8 @@
 #import "Hyve.h"
 
 @interface PeripheralListViewController () <UITableViewDataSource, UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UITableView *peripheralListTableView;
+@property (strong, nonatomic) NSMutableArray *selectedDeviceMutableArray;
 
 @end
 
@@ -18,9 +20,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSLog(@"peripheral scanned by dashboard %@", self.peripheral);
+    self.selectedDeviceMutableArray = [NSMutableArray new];
+    [self stylingNavigationBar];
+    self.peripheralListTableView.allowsMultipleSelection = YES;
 }
 
+-(void)stylingNavigationBar
+{
+    self.title = @"Devices";
+}
+
+#pragma mark - table view delegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (self.peripheralMutableArray.count > 0)
@@ -35,36 +45,56 @@
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    CBPeripheral *peripheral = [self.peripheralMutableArray objectAtIndex:indexPath.row];
     Hyve *hyve = [Hyve new];
-    hyve.peripheralName = peripheral.name;
-    hyve.peripheralUUID = peripheral.identifier;
+    if (self.peripheralMutableArray.count > 0)
+    {
+        CBPeripheral *peripheral = [self.peripheralMutableArray objectAtIndex:indexPath.row];
+        hyve.peripheralName = peripheral.name;
+        hyve.peripheralUUID = peripheral.identifier;
+    }
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PeripheralCellID"];
     
     if ([hyve.peripheralName isEqualToString:@""] || hyve.peripheralName == nil)
     {
         cell.textLabel.text = @"Unknown device";
+        cell.textLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
     }
     else
     {
         cell.textLabel.text = hyve.peripheralName;
-    }
-
-    if (hyve.peripheralUUID == nil)
-    {
-        cell.detailTextLabel.text = @"Unknown UUID device";
-    }
-    else
-    {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", hyve.peripheralUUID];
-    }
-    
+    }    
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    if (cell.accessoryType == UITableViewCellAccessoryNone)
+    {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        
+    }
+    else
+    {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+}
 
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    if (cell.accessoryType == UITableViewCellAccessoryCheckmark)
+    {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    else
+    {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+}
 
 
 @end

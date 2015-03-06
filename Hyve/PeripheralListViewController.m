@@ -21,9 +21,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self.pairButton setUserInteractionEnabled:NO];
-    
+
+    [self pairButtonConfiguration];
     [self promptingUserToPairDevice];
     self.selectedDeviceMutableArray = [NSMutableArray new];
     [self stylingNavigationBar];
@@ -33,6 +32,14 @@
 -(void)stylingNavigationBar
 {
     self.title = @"Devices";
+}
+
+#pragma mark - pair button configuration
+-(void)pairButtonConfiguration
+{
+    [self.pairButton setUserInteractionEnabled:NO];
+    self.pairButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+    [self.pairButton setTitle:@"Pair up" forState:UIControlStateNormal];
 }
 
 #pragma mark - prompting user to pair device
@@ -125,11 +132,21 @@
 {
     if (self.selectedDeviceMutableArray.count > 0)
     {
-        [self performSegueWithIdentifier:@"ShowHyveListVC" sender:nil];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Do you want to pair up with the selected devices?" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self performSegueWithIdentifier:@"ShowHyveListVC" sender:nil];
+        }];
+        UIAlertAction *noAction = [UIAlertAction actionWithTitle:@"NO" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:noAction];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
     }
     else
     {
-        [self.pairButton setUserInteractionEnabled:NO];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Please select your Hyve devices to pair with." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
     }
 }
 

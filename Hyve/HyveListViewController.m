@@ -22,6 +22,7 @@
     [super viewDidLoad];
 
     NSLog(@"selected hyve %@", self.hyveDevicesMutableArray);
+    [self.navigationItem setHidesBackButton:YES];
 }
 
 #pragma mark - table

@@ -37,15 +37,16 @@
 #pragma mark - pair button configuration
 -(void)pairButtonConfiguration
 {
-    [self.pairButton setUserInteractionEnabled:NO];
+    [self.pairButton setUserInteractionEnabled:YES];
     self.pairButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
     [self.pairButton setTitle:@"Pair up" forState:UIControlStateNormal];
+    
 }
 
 #pragma mark - prompting user to pair device
 -(void)promptingUserToPairDevice
 {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"We have found these devices around you. Please pair up your Hyve(s)" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"We have found these devices around you. Some may not be your Hyve. Please pair up your Hyve(s)" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
     [alertController addAction:okAction];
     [self presentViewController:alertController animated:YES completion:nil];

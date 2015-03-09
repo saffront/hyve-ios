@@ -61,8 +61,10 @@
     self.firstTimeRunning = YES;
     self.hyveNetworkDetectionIndicatorImage.alpha = 0;
     [self stylingHyveLabel];
+    [self stylingNavigationBar];
 }
 
+#pragma mark - viewWillAppear
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -94,11 +96,21 @@
     }
 }
 
+#pragma mark - viewWillDisappear
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     
     self.firstTimeRunning = NO;
+}
+
+#pragma mark - styling navigation bar
+-(void)stylingNavigationBar
+{
+    self.title = @"Hyve";
+    
+    self.navigationController.navigationBar.topItem.backBarButtonItem = [[UIBarButtonItem alloc]
+                                                                         initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
 #pragma mark - styling Hyve label
@@ -125,7 +137,7 @@
 {
     if (self.isHyveButtonPressed == NO)
     {
-        self.detectingHyveLabel.alpha = 1;
+
         [UIView animateWithDuration:2.0 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             
             CABasicAnimation *slideDownAnimation = [CABasicAnimation animationWithKeyPath:@"position"];
@@ -139,6 +151,7 @@
             slideDownAnimation.removedOnCompletion = NO;
             slideDownAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
             [self.hyveButton.layer addAnimation:slideDownAnimation forKey:@"moveY"];
+            self.detectingHyveLabel.alpha = 1;
             
         } completion:^(BOOL finished) {
             

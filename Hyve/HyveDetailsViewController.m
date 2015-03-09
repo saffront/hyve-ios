@@ -285,6 +285,7 @@
 #pragma mark - connect button
 - (IBAction)onConnectButtonPressed:(id)sender
 {
+    NSLog(@"Connect app to hyve");
 }
 
 

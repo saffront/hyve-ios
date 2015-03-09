@@ -8,8 +8,12 @@
 
 #import "HyveDetailsViewController.h"
 
-@interface HyveDetailsViewController ()
+@interface HyveDetailsViewController () <UIImagePickerControllerDelegate>
+
+@property (strong, nonatomic) UIImagePickerController *imagePickerController;
+@property (weak, nonatomic) IBOutlet UIButton *hyveCamera;
 @property (weak, nonatomic) IBOutlet UITextField *hyveNameTextField;
+@property (strong, nonatomic) UIImage *resizedImage;
 
 @end
 
@@ -20,9 +24,10 @@
     
     self.hyveNameTextField.text = self.peripheral.name;
     
+    [self addingSaveButtonToNavigationBar];
     [self addToolbarToKeyboard];
     [self stylingTextField];
-    [self addingSaveButtonToNavigationBar];
+    [self stylingHyveCameraButton];
     
     NSString *uuid = [self.peripheral.identifier UUIDString];
     NSLog(@"self.peripheral %@", uuid);
@@ -68,6 +73,58 @@
 {
     [self.hyveNameTextField resignFirstResponder];
 }
+
+#pragma mark - styling hyve camera button
+-(void)stylingHyveCameraButton
+{
+    [self.hyveCamera setTitle:@"Camera" forState:UIControlStateNormal];
+    
+}
+
+#pragma mark - image picker controller
+- (IBAction)onHyveCameraButtonPressed:(id)sender
+{
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
+        self.imagePickerController = [UIImagePickerController new];
+        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+        self.imagePickerController.delegate = (id)self;
+        
+        self.imagePickerController.modalPresentationStyle = UIModalPresentationFullScreen;
+        self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+        [self presentViewController:self.imagePickerController animated:YES completion:nil];
+    }
+    else
+    {
+        NSLog(@"no camera found");
+    }
+}
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        UIImage *imageTakenByUser = [info valueForKey:UIImagePickerControllerOriginalImage];
+        CGRect rect = CGRectMake(0, 0, 700, 800);
+        
+        UIGraphicsBeginImageContext(rect.size);
+        [imageTakenByUser drawInRect:rect];
+        UIImage *resizedImageTakenByUser = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.resizedImage = resizedImageTakenByUser;
+        });
+    });
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    NSLog(@"Cancel image picker was called");
+    [self.imagePickerController dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 #pragma mark - send details to backend
 -(void)saveHyveDetailsToBackend

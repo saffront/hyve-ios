@@ -368,20 +368,35 @@
                                     <rect key="frame" x="0.0" y="64" width="400" height="60"/>
                                 </variation>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L9P-sa-5aU">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="85" y="326" width="150" height="150"/>
+                                </variation>
+                                <connections>
+                                    <action selector="onHyveCameraButtonPressed:" destination="kwJ-Pq-6R5" eventType="touchUpInside" id="Quj-8M-J3I"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="9jo-sT-J8S"/>
+                                <exclude reference="L9P-sa-5aU"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
                                 <include reference="9jo-sT-J8S"/>
+                                <include reference="L9P-sa-5aU"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="hyveCamera" destination="L9P-sa-5aU" id="P3Z-JF-o4D"/>
                         <outlet property="hyveNameTextField" destination="9jo-sT-J8S" id="tG7-zh-13r"/>
                     </connections>
                 </viewController>

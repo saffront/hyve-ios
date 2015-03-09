@@ -31,6 +31,7 @@
 {
     self.title = @"Hyve";
     [self.navigationItem setHidesBackButton:YES];
+    
 }
 
 #pragma mark - table

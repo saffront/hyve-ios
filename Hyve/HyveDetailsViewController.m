@@ -14,6 +14,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *hyveCamera;
 @property (weak, nonatomic) IBOutlet UITextField *hyveNameTextField;
 @property (strong, nonatomic) UIImage *resizedImage;
+@property (weak, nonatomic) IBOutlet UISlider *distanceSlider;
+@property (weak, nonatomic) IBOutlet UILabel *distanceSliderLabel;
+@property (strong, nonatomic) NSArray *valuesOfDistanceSlider;
 
 @end
 
@@ -24,10 +27,13 @@
     
     self.hyveNameTextField.text = self.peripheral.name;
     
+    
+    [self stylingDistanceSliderLabel];
     [self addingSaveButtonToNavigationBar];
     [self addToolbarToKeyboard];
     [self stylingTextField];
     [self stylingHyveCameraButton];
+    [self configureAndStyleDistanceSlider];
     
     NSString *uuid = [self.peripheral.identifier UUIDString];
     NSLog(@"self.peripheral %@", uuid);
@@ -125,6 +131,42 @@
     [self.imagePickerController dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark - slider
+- (IBAction)onDistanceSliderDragged:(id)sender
+{
+    //set hyve's distance to amount dragged
+}
+
+-(void)stylingDistanceSliderLabel
+{
+    self.distanceSliderLabel.text = @"Distance";
+    self.distanceSliderLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:15];
+}
+
+-(void)configureAndStyleDistanceSlider
+{
+    /*
+     1m = -40dB, 2m = -46dB, 4m = -52dB, 8m = -58dB, 16m = -64dB
+    */
+    
+   self.valuesOfDistanceSlider = @[@(1), @(2), @(4), @(8), @(16)];
+    NSInteger numberOfDistanceSliderColumns = ((float)[self.valuesOfDistanceSlider count] -1 );
+    
+    self.distanceSlider.minimumValue = 1.0;
+    self.distanceSlider.maximumValue = numberOfDistanceSliderColumns;
+    self.distanceSlider.continuous = YES;
+    [self.distanceSlider addTarget:self action:@selector(valueOfDistanceSliderChanged) forControlEvents:UIControlEventValueChanged];
+    
+}
+
+-(void)valueOfDistanceSliderChanged
+{
+    NSUInteger index = (NSUInteger)(self.distanceSlider.value + 0.5);
+    [self.distanceSlider setValue:index animated:NO];
+    NSNumber *number = self.valuesOfDistanceSlider[index];
+    NSLog(@"sliderIndex: %i", (int)index);
+    NSLog(@"number: %@", number);
+}
 
 #pragma mark - send details to backend
 -(void)saveHyveDetailsToBackend

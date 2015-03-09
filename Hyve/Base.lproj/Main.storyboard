@@ -380,22 +380,46 @@
                                     <action selector="onHyveCameraButtonPressed:" destination="kwJ-Pq-6R5" eventType="touchUpInside" id="Quj-8M-J3I"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Ah-QA-DSi">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="16" y="216" width="67" height="21"/>
+                                </variation>
+                            </label>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="MDT-dO-p7J">
+                                <rect key="frame" x="0.0" y="-15" width="118" height="31"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="116" y="212" width="169" height="31"/>
+                                </variation>
+                                <connections>
+                                    <action selector="onDistanceSliderDragged:" destination="kwJ-Pq-6R5" eventType="valueChanged" id="hBU-Te-sUC"/>
+                                </connections>
+                            </slider>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="9jo-sT-J8S"/>
                                 <exclude reference="L9P-sa-5aU"/>
+                                <exclude reference="1Ah-QA-DSi"/>
+                                <exclude reference="MDT-dO-p7J"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
                                 <include reference="9jo-sT-J8S"/>
                                 <include reference="L9P-sa-5aU"/>
+                                <include reference="1Ah-QA-DSi"/>
+                                <include reference="MDT-dO-p7J"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="distanceSlider" destination="MDT-dO-p7J" id="SKI-a1-dfP"/>
+                        <outlet property="distanceSliderLabel" destination="1Ah-QA-DSi" id="BQg-dX-gpl"/>
                         <outlet property="hyveCamera" destination="L9P-sa-5aU" id="P3Z-JF-o4D"/>
                         <outlet property="hyveNameTextField" destination="9jo-sT-J8S" id="tG7-zh-13r"/>
                     </connections>

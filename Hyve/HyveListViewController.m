@@ -7,11 +7,13 @@
 //
 
 #import "HyveListViewController.h"
+#import "HyveDetailsViewController.h"
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "Hyve.h"
 
 @interface HyveListViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) Hyve *hyve;
+@property (weak, nonatomic) IBOutlet UITableView *hyveListTable;
 
 
 @end
@@ -57,6 +59,20 @@
         cell.textLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
     }
     return cell;
+}
+
+#pragma mark - segue
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"ShowHyveDetailsVC"])
+    {
+        NSIndexPath *indexPath = [self.hyveListTable indexPathForSelectedRow];
+        CBPeripheral *peripheral = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
+        
+        HyveDetailsViewController *hdvc = segue.destinationViewController;
+        hdvc.peripheral = peripheral;
+        
+    }
 }
 
 @end

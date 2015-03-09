@@ -43,6 +43,7 @@
 @property (strong, nonatomic) Hyve *hyve;
 @property (strong, nonatomic) CBPeripheral *peripheral;
 @property (strong, nonatomic) NSMutableArray *peripheralMutableArray;
+@property BOOL firstTimeRunning;
 @end
 
 
@@ -57,8 +58,47 @@
     
     self.view.backgroundColor = [UIColor darkGrayColor];
     self.isHyveButtonPressed = NO;
+    self.firstTimeRunning = YES;
     self.hyveNetworkDetectionIndicatorImage.alpha = 0;
     [self stylingHyveLabel];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    self.isHyveButtonPressed = NO;
+    
+    if (!self.firstTimeRunning)
+    {
+        [self.hyveNetworkDetectionIndicatorImage stopAnimating];
+        self.detectingHyveLabel.alpha = 0;
+        [UIView animateWithDuration:2.0 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            
+            CABasicAnimation *slideDownAnimation = [CABasicAnimation animationWithKeyPath:@"position"];
+            [slideDownAnimation setDelegate:self];
+            slideDownAnimation.toValue = [NSValue valueWithCGRect:CGRectMake(self.view.frame.size.width / 2, self.hyveButton.frame.origin.y + 100, self.hyveButton.frame.size.width, self.hyveButton.frame.size.height)];
+            slideDownAnimation.fromValue = [NSValue valueWithCGPoint:self.hyveButton.layer.position];
+            slideDownAnimation.autoreverses = NO;
+            slideDownAnimation.repeatCount = 0;
+            slideDownAnimation.duration = 0;
+            slideDownAnimation.fillMode = kCAFillModeForwards;
+            slideDownAnimation.removedOnCompletion = NO;
+            slideDownAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+            [self.hyveButton.layer addAnimation:slideDownAnimation forKey:@"moveY"];
+            
+        } completion:^(BOOL finished) {
+            
+            NSLog(@"It's finished");
+        }];
+    }
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    self.firstTimeRunning = NO;
 }
 
 #pragma mark - styling Hyve label
@@ -80,17 +120,17 @@
     
 }
 
-
 #pragma mark - pressing on Hyve button
 - (IBAction)onHyveButtonPressed:(id)sender
 {
     if (self.isHyveButtonPressed == NO)
     {
+        self.detectingHyveLabel.alpha = 1;
         [UIView animateWithDuration:2.0 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             
             CABasicAnimation *slideDownAnimation = [CABasicAnimation animationWithKeyPath:@"position"];
             [slideDownAnimation setDelegate:self];
-            slideDownAnimation.toValue = [NSValue valueWithCGRect:CGRectMake(self.view.frame.size.width / 2, self.hyveButton.frame.origin.y + 400, self.hyveButton.frame.size.width, self.hyveButton.frame.size.height)];
+            slideDownAnimation.toValue = [NSValue valueWithCGRect:CGRectMake(self.view.frame.size.width / 2, self.hyveButton.frame.origin.y + 350, self.hyveButton.frame.size.width, self.hyveButton.frame.size.height)];
             slideDownAnimation.fromValue = [NSValue valueWithCGPoint:self.hyveButton.layer.position];
             slideDownAnimation.autoreverses = NO;
             slideDownAnimation.repeatCount = 0;
@@ -173,7 +213,6 @@
             break;
     }
 }
-
 
 -(void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
 {

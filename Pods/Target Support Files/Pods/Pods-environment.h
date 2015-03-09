@@ -6,6 +6,12 @@
 // project.
 
 
+// CNPGridMenu
+#define COCOAPODS_POD_AVAILABLE_CNPGridMenu
+#define COCOAPODS_VERSION_MAJOR_CNPGridMenu 0
+#define COCOAPODS_VERSION_MINOR_CNPGridMenu 2
+#define COCOAPODS_VERSION_PATCH_CNPGridMenu 1
+
 // pop
 #define COCOAPODS_POD_AVAILABLE_pop
 #define COCOAPODS_VERSION_MAJOR_pop 1

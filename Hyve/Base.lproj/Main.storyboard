@@ -374,21 +374,12 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="85" y="326" width="150" height="150"/>
+                                    <rect key="frame" x="31" y="261" width="150" height="150"/>
                                 </variation>
                                 <connections>
                                     <action selector="onHyveCameraButtonPressed:" destination="kwJ-Pq-6R5" eventType="touchUpInside" id="Quj-8M-J3I"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Ah-QA-DSi">
-                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="16" y="216" width="67" height="21"/>
-                                </variation>
-                            </label>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="MDT-dO-p7J">
                                 <rect key="frame" x="0.0" y="-15" width="118" height="31"/>
                                 <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
@@ -398,30 +389,69 @@
                                     <action selector="onDistanceSliderDragged:" destination="kwJ-Pq-6R5" eventType="valueChanged" id="hBU-Te-sUC"/>
                                 </connections>
                             </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Ah-QA-DSi">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="16" y="216" width="67" height="21"/>
+                                </variation>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LFw-zw-zMo">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="0.0" y="750" width="400" height="50"/>
+                                </variation>
+                                <connections>
+                                    <action selector="onConnectButtonPressed:" destination="kwJ-Pq-6R5" eventType="touchUpInside" id="qVd-3E-b7f"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QtB-1Z-ztJ">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="Grid">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="31" y="460" width="150" height="150"/>
+                                </variation>
+                                <connections>
+                                    <action selector="onSetIconButtonPressed:" destination="kwJ-Pq-6R5" eventType="touchUpInside" id="nRj-eg-BOf"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="9jo-sT-J8S"/>
                                 <exclude reference="L9P-sa-5aU"/>
-                                <exclude reference="1Ah-QA-DSi"/>
                                 <exclude reference="MDT-dO-p7J"/>
+                                <exclude reference="1Ah-QA-DSi"/>
+                                <exclude reference="LFw-zw-zMo"/>
+                                <exclude reference="QtB-1Z-ztJ"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
                                 <include reference="9jo-sT-J8S"/>
                                 <include reference="L9P-sa-5aU"/>
-                                <include reference="1Ah-QA-DSi"/>
                                 <include reference="MDT-dO-p7J"/>
+                                <include reference="1Ah-QA-DSi"/>
+                                <include reference="LFw-zw-zMo"/>
+                                <include reference="QtB-1Z-ztJ"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="connectButton" destination="LFw-zw-zMo" id="id2-kJ-n9q"/>
                         <outlet property="distanceSlider" destination="MDT-dO-p7J" id="SKI-a1-dfP"/>
                         <outlet property="distanceSliderLabel" destination="1Ah-QA-DSi" id="BQg-dX-gpl"/>
                         <outlet property="hyveCamera" destination="L9P-sa-5aU" id="P3Z-JF-o4D"/>
                         <outlet property="hyveNameTextField" destination="9jo-sT-J8S" id="tG7-zh-13r"/>
+                        <outlet property="setIconButton" destination="QtB-1Z-ztJ" id="oec-J8-908"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jy0-Cz-idu" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -7,8 +7,9 @@
 //
 
 #import "HyveDetailsViewController.h"
+#import <CNPGridMenu.h>
 
-@interface HyveDetailsViewController () <UIImagePickerControllerDelegate>
+@interface HyveDetailsViewController () <UIImagePickerControllerDelegate, CNPGridMenuDelegate>
 
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
 @property (weak, nonatomic) IBOutlet UIButton *hyveCamera;
@@ -17,6 +18,9 @@
 @property (weak, nonatomic) IBOutlet UISlider *distanceSlider;
 @property (weak, nonatomic) IBOutlet UILabel *distanceSliderLabel;
 @property (strong, nonatomic) NSArray *valuesOfDistanceSlider;
+@property (weak, nonatomic) IBOutlet UIButton *connectButton;
+@property (weak, nonatomic) IBOutlet UIButton *setIconButton;
+@property (strong, nonatomic) CNPGridMenu *gridMenu;
 
 @end
 
@@ -26,7 +30,6 @@
     [super viewDidLoad];
     
     self.hyveNameTextField.text = self.peripheral.name;
-    
     
     [self stylingDistanceSliderLabel];
     [self addingSaveButtonToNavigationBar];
@@ -131,6 +134,111 @@
     [self.imagePickerController dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark - icon menu
+- (IBAction)onSetIconButtonPressed:(id)sender
+{
+    //backpack, laptop, house key, car key, bag, briefcase, tablet, mobile phone, wallet, remote control,
+    
+    CNPGridMenuItem *backpack = [CNPGridMenuItem new];
+    backpack.icon = [UIImage imageNamed:@""];
+    backpack.title = @"Backpack";
+    
+    CNPGridMenuItem *laptop = [CNPGridMenuItem new];
+    laptop.icon = [UIImage imageNamed:@""];
+    laptop.title = @"Laptop";
+    
+    CNPGridMenuItem *houseKey = [CNPGridMenuItem new];
+    houseKey.icon = [UIImage imageNamed:@""];
+    houseKey.title = @"House Key";
+    
+    CNPGridMenuItem *carKey = [CNPGridMenuItem new];
+    carKey.icon = [UIImage imageNamed:@""];
+    carKey.title = @"Car Key";
+    
+    CNPGridMenuItem *bag = [CNPGridMenuItem new];
+    bag.icon = [UIImage imageNamed:@""];
+    bag.title = @"Bag";
+    
+    CNPGridMenuItem *briefcase = [CNPGridMenuItem new];
+    briefcase.icon = [UIImage imageNamed:@""];
+    briefcase.title = @"Briefcase";
+    
+    CNPGridMenuItem *tablet = [CNPGridMenuItem new];
+    tablet.icon = [UIImage imageNamed:@""];
+    tablet.title = @"Backpack";
+    
+    CNPGridMenuItem *phone = [CNPGridMenuItem new];
+    phone.icon = [UIImage imageNamed:@""];
+    phone.title = @"Phone";
+    
+    CNPGridMenuItem *wallet = [CNPGridMenuItem new];
+    wallet.icon = [UIImage imageNamed:@""];
+    wallet.title = @"Wallet";
+    
+    CNPGridMenuItem *remoteControl = [CNPGridMenuItem new];
+    remoteControl.icon = [UIImage imageNamed:@""];
+    remoteControl.title = @"Remote Control";
+    
+    self.gridMenu = [[CNPGridMenu alloc] initWithMenuItems:@[backpack, laptop, houseKey,carKey, bag, briefcase, tablet, phone, wallet, remoteControl]];
+    self.gridMenu.delegate = self;
+    self.gridMenu.blurEffectStyle = UIBlurEffectStyleDark;
+    [self presentGridMenu:self.gridMenu animated:YES completion:^{
+        NSLog(@"display grid menu");
+    }];
+}
+
+-(void)gridMenu:(CNPGridMenu *)menu didTapOnItem:(CNPGridMenuItem *)item
+{
+    //backpack, laptop, house key, car key, bag, briefcase, tablet, mobile phone, wallet, remote control,
+    
+    if ([item.title isEqualToString:@"Backpack"])
+    {
+        NSLog(@"backpack");
+    }
+    else if ([item.title isEqualToString:@"Laptop"])
+    {
+        
+    }
+    else if ([item.title isEqualToString:@"House Key"])
+    {
+        
+    }
+    else if ([item.title isEqualToString:@"Car Key"])
+    {
+        
+    }
+    else if ([item.title isEqualToString:@"Bag"])
+    {
+        
+    }
+    else if ([item.title isEqualToString:@"Briefcase"])
+    {
+        
+    }
+    else if ([item.title isEqualToString:@"Backpack"])
+    {
+        
+    }
+    else if ([item.title isEqualToString:@"Phone"])
+    {
+        
+    }
+    else if ([item.title isEqualToString:@"Wallet"])
+    {
+        
+    }
+    else if ([item.title isEqualToString:@"Remote Control"])
+    {
+        
+    }
+}
+
+-(void)gridMenuDidTapOnBackground:(CNPGridMenu *)menu
+{
+    [self dismissGridMenuAnimated:YES completion:nil];
+}
+
+
 #pragma mark - slider
 - (IBAction)onDistanceSliderDragged:(id)sender
 {
@@ -156,7 +264,6 @@
     self.distanceSlider.maximumValue = numberOfDistanceSliderColumns;
     self.distanceSlider.continuous = YES;
     [self.distanceSlider addTarget:self action:@selector(valueOfDistanceSliderChanged) forControlEvents:UIControlEventValueChanged];
-    
 }
 
 -(void)valueOfDistanceSliderChanged
@@ -174,6 +281,12 @@
     //send the hyve's name, uuid, RSSI, image
     NSLog(@"save to Hyve");
 }
+
+#pragma mark - connect button
+- (IBAction)onConnectButtonPressed:(id)sender
+{
+}
+
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {

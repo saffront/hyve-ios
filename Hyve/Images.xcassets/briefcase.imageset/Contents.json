@@ -3,17 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "wallet.png"
+      "filename" : "briefcase.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "wallet-1.png"
+      "filename" : "briefcase-1.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "wallet-2.png"
+      "filename" : "briefcase-2.png"
     }
   ],
   "info" : {

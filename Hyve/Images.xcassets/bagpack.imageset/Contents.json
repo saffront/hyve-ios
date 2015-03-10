@@ -3,17 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "size test 2-01.png"
+      "filename" : "bagpack.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "size test 2-01-1.png"
+      "filename" : "bagpack-1.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "size test 2-01-2.png"
+      "filename" : "bagpack-2.png"
     }
   ],
   "info" : {

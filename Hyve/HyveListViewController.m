@@ -8,7 +8,7 @@
 
 #import "HyveListViewController.h"
 #import "HyveDetailsViewController.h"
-#import <CoreBluetooth/CoreBluetooth.h>
+
 #import "Hyve.h"
 
 @interface HyveListViewController () <UITableViewDelegate, UITableViewDataSource>
@@ -72,7 +72,7 @@
         
         HyveDetailsViewController *hdvc = segue.destinationViewController;
         hdvc.peripheral = peripheral;
-        
+        hdvc.centralManager = self.centralManager;
     }
 }
 

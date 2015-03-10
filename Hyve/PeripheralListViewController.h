@@ -12,6 +12,7 @@
 @interface PeripheralListViewController : UIViewController
 @property (strong, nonatomic) CBPeripheral *peripheral;
 @property (strong, nonatomic) NSMutableArray *peripheralMutableArray;
+@property (strong, nonatomic) CBCentralManager *centralManager;
 
 
 @end

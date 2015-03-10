@@ -406,9 +406,6 @@
                             </button>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="MDT-dO-p7J">
                                 <rect key="frame" x="0.0" y="-15" width="118" height="31"/>
-                                <connections>
-                                    <action selector="onDistanceSliderDragged:" destination="kwJ-Pq-6R5" eventType="valueChanged" id="hBU-Te-sUC"/>
-                                </connections>
                             </slider>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LFw-zw-zMo">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>

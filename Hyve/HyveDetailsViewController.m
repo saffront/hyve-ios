@@ -8,11 +8,10 @@
 
 #import "HyveDetailsViewController.h"
 #import <CNPGridMenu.h>
+//32A9DD44-9B1C-BAA5-8587-8A2D36E0623E  - hive
 
+@interface HyveDetailsViewController () <UIImagePickerControllerDelegate, CNPGridMenuDelegate, CBPeripheralDelegate, CBCentralManagerDelegate>
 
-@interface HyveDetailsViewController () <UIImagePickerControllerDelegate, CNPGridMenuDelegate, CBPeripheralDelegate>
-
-@property (strong, nonatomic) CBCentralManager *centralManager;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
 @property (weak, nonatomic) IBOutlet UIButton *hyveCamera;
 @property (weak, nonatomic) IBOutlet UITextField *hyveNameTextField;
@@ -30,7 +29,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.centralManager.delegate = self;
     self.hyveNameTextField.text = self.peripheral.name;
     
     [self stylingDistanceSliderLabel];
@@ -44,6 +43,7 @@
     
     NSString *uuid = [self.peripheral.identifier UUIDString];
     NSLog(@"self.peripheral %@", uuid);
+
 }
 
 #pragma mark - adding save bar button item
@@ -153,35 +153,35 @@
     //backpack, laptop, house key, car key, bag, briefcase, tablet, mobile phone, wallet, remote control,
     
     CNPGridMenuItem *backpack = [CNPGridMenuItem new];
-    backpack.icon = [UIImage imageNamed:@"wallet"];
+    backpack.icon = [UIImage imageNamed:@"bagpack"];
     backpack.title = @"Backpack";
     
     CNPGridMenuItem *laptop = [CNPGridMenuItem new];
-    laptop.icon = [UIImage imageNamed:@"wallet"];
+    laptop.icon = [UIImage imageNamed:@"macbook"];
     laptop.title = @"Laptop";
     
     CNPGridMenuItem *houseKey = [CNPGridMenuItem new];
-    houseKey.icon = [UIImage imageNamed:@"wallet"];
+    houseKey.icon = [UIImage imageNamed:@"houseKeys"];
     houseKey.title = @"House Key";
     
     CNPGridMenuItem *carKey = [CNPGridMenuItem new];
-    carKey.icon = [UIImage imageNamed:@"key"];
+    carKey.icon = [UIImage imageNamed:@"carKeys"];
     carKey.title = @"Car Key";
     
     CNPGridMenuItem *bag = [CNPGridMenuItem new];
-    bag.icon = [UIImage imageNamed:@"key"];
+    bag.icon = [UIImage imageNamed:@"handbag"];
     bag.title = @"Bag";
     
     CNPGridMenuItem *briefcase = [CNPGridMenuItem new];
-    briefcase.icon = [UIImage imageNamed:@"key"];
+    briefcase.icon = [UIImage imageNamed:@"briefcase"];
     briefcase.title = @"Briefcase";
     
     CNPGridMenuItem *tablet = [CNPGridMenuItem new];
-    tablet.icon = [UIImage imageNamed:@"jlaw"];
+    tablet.icon = [UIImage imageNamed:@"tablet"];
     tablet.title = @"Backpack";
     
     CNPGridMenuItem *phone = [CNPGridMenuItem new];
-    phone.icon = [UIImage imageNamed:@"jlaw2"];
+    phone.icon = [UIImage imageNamed:@"phone"];
     phone.title = @"Phone";
     
     CNPGridMenuItem *wallet = [CNPGridMenuItem new];
@@ -189,7 +189,7 @@
     wallet.title = @"Wallet";
     
     CNPGridMenuItem *remoteControl = [CNPGridMenuItem new];
-    remoteControl.icon = [UIImage imageNamed:@"jlaw2"];
+    remoteControl.icon = [UIImage imageNamed:@"remote"];
     remoteControl.title = @"Remote Control";
     
     self.gridMenu = [[CNPGridMenu alloc] initWithMenuItems:@[backpack, laptop, houseKey,carKey, bag, briefcase, tablet, phone, wallet, remoteControl]];
@@ -253,11 +253,6 @@
 
 
 #pragma mark - slider
-- (IBAction)onDistanceSliderDragged:(id)sender
-{
-    //set hyve's distance to amount dragged
-}
-
 -(void)stylingDistanceSliderLabel
 {
     self.distanceSliderLabel.text = @"Maximum proximity of Hyve";
@@ -318,7 +313,7 @@
     [self.view endEditing:YES];
 }
 
-
+#pragma mark - central manager delegate
 -(void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
     NSLog(@"Central has connected to peripheral: %@ with UUID: %@",peripheral,peripheral.identifier);
@@ -337,15 +332,29 @@
     }
 }
 
--(void)centralManager:(CBCentralManager *)central didRetrievePeripherals:(NSArray *)peripherals
+-(void)centralManagerDidUpdateState:(CBCentralManager *)central
 {
-    NSLog(@"didReceivePeripherals");
-
-    for (CBPeripheral *peripheral in peripherals)
-    {
-        NSLog(@"Peripherals Array has %@  == >peripheral %@ %@",peripherals, peripheral, peripheral.identifier);
+    switch (central.state) {
+        case CBCentralManagerStatePoweredOff:
+            NSLog(@"The central is off. Turn it on");
+            break;
+        case CBCentralManagerStatePoweredOn:
+            NSLog(@"Central is on and ready to use");
+            break;
+        case CBCentralManagerStateResetting:
+            NSLog(@"Central is resetting");
+            break;
+        case CBCentralManagerStateUnauthorized:
+            NSLog(@"Central state is unautorized");
+            break;
+        case CBCentralManagerStateUnknown:
+            NSLog(@"Central is state is unkown.");
+            break;
+        case CBCentralManagerStateUnsupported:
+            NSLog(@"Device does not have CoreBluetooth BLE");
+            break;
+        default:
+            break;
     }
 }
-
-
 @end

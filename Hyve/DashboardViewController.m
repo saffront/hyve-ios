@@ -156,6 +156,10 @@
         } completion:^(BOOL finished) {
             
             [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(displayBluetoothNetworkDetectionIndicator) userInfo:nil repeats:NO];
+            
+//            NSArray *uuidArray = @[@"32A9DD44-9B1C-BAA5-8587-8A2D36E0623E"];
+//            [self.centralManager retrievePeripheralsWithIdentifiers:uuidArray];
+            
             [self.centralManager scanForPeripheralsWithServices:nil options:nil];
         }];
     }
@@ -237,7 +241,7 @@
         [self.peripheralMutableArray addObject:self.peripheral];
     }
 
-    
+
     NSLog(@"self.peripheralMutableArray.count %i", self.peripheralMutableArray.count);
 
 //    if ([peripheral.name isEqualToString:@"VLT’s MacBook Pro"])
@@ -258,6 +262,7 @@
 {
     PeripheralListViewController *plvc = segue.destinationViewController;
     plvc.peripheral = self.peripheral;
+    plvc.centralManager = self.centralManager;
     plvc.peripheralMutableArray = self.peripheralMutableArray;
 }
 

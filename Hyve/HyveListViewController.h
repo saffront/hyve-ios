@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreBluetooth/CoreBluetooth.h>
 
 @interface HyveListViewController : UIViewController
 @property (strong, nonatomic) NSMutableArray *hyveDevicesMutableArray;
+@property (strong, nonatomic) CBCentralManager *centralManager;
 
 @end

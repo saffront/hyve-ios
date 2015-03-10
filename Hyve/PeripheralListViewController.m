@@ -15,6 +15,7 @@
 @property (strong, nonatomic) NSMutableArray *selectedDeviceMutableArray;
 @property (weak, nonatomic) IBOutlet UIButton *pairButton;
 
+
 @end
 
 @implementation PeripheralListViewController
@@ -70,9 +71,9 @@
     Hyve *hyve = [Hyve new];
     if (self.peripheralMutableArray.count > 0)
     {
-        CBPeripheral *peripheral = [self.peripheralMutableArray objectAtIndex:indexPath.row];
-        hyve.peripheralName = peripheral.name;
-        hyve.peripheralUUID = peripheral.identifier;
+        self.peripheral = [self.peripheralMutableArray objectAtIndex:indexPath.row];
+        hyve.peripheralName = self.peripheral.name;
+        hyve.peripheralUUID = self.peripheral.identifier;
     }
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PeripheralCellID"];
@@ -99,8 +100,8 @@
     {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         
-        CBPeripheral *peripheral = [self.peripheralMutableArray objectAtIndex:indexPath.row];
-        [self.selectedDeviceMutableArray addObject:peripheral];
+        self.peripheral = [self.peripheralMutableArray objectAtIndex:indexPath.row];
+        [self.selectedDeviceMutableArray addObject:self.peripheral];
         
         NSLog(@"self.selectedDeviceMutableArray didSelectRowAtIndexPath :%@", self.selectedDeviceMutableArray);
     }
@@ -118,8 +119,8 @@
     {
         cell.accessoryType = UITableViewCellAccessoryNone;
         
-        CBPeripheral *peripheral = [self.peripheralMutableArray objectAtIndex:indexPath.row];
-        [self.selectedDeviceMutableArray removeObject:peripheral];
+        self.peripheral = [self.peripheralMutableArray objectAtIndex:indexPath.row];
+        [self.selectedDeviceMutableArray removeObject:self.peripheral];
         
         NSLog(@"self.selectedDeviceMutableArray didDeselectRowAtIndexPath :%@", self.selectedDeviceMutableArray);
     }
@@ -156,6 +157,7 @@
 {
     HyveListViewController *hlvc = segue.destinationViewController;
     hlvc.hyveDevicesMutableArray = self.selectedDeviceMutableArray;
+    hlvc.centralManager = self.centralManager;
 }
 
 @end

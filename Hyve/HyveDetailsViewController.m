@@ -37,6 +37,8 @@
     [self stylingTextField];
     [self stylingHyveCameraButton];
     [self configureAndStyleDistanceSlider];
+    [self stylingIconButton];
+    [self stylingConnectButton];
     
     NSString *uuid = [self.peripheral.identifier UUIDString];
     NSLog(@"self.peripheral %@", uuid);
@@ -87,7 +89,7 @@
 -(void)stylingHyveCameraButton
 {
     [self.hyveCamera setTitle:@"Camera" forState:UIControlStateNormal];
-    
+    self.hyveCamera.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:15];
 }
 
 #pragma mark - image picker controller
@@ -135,48 +137,55 @@
 }
 
 #pragma mark - icon menu
+-(void)stylingIconButton
+{
+    self.setIconButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:15];
+    [self.setIconButton setTitle:@"Select Icon" forState:UIControlStateNormal];
+    self.setIconButton.titleLabel.numberOfLines = 0;
+}
+
 - (IBAction)onSetIconButtonPressed:(id)sender
 {
     //backpack, laptop, house key, car key, bag, briefcase, tablet, mobile phone, wallet, remote control,
     
     CNPGridMenuItem *backpack = [CNPGridMenuItem new];
-    backpack.icon = [UIImage imageNamed:@""];
+    backpack.icon = [UIImage imageNamed:@"jlaw"];
     backpack.title = @"Backpack";
     
     CNPGridMenuItem *laptop = [CNPGridMenuItem new];
-    laptop.icon = [UIImage imageNamed:@""];
+    laptop.icon = [UIImage imageNamed:@"jlaw2"];
     laptop.title = @"Laptop";
     
     CNPGridMenuItem *houseKey = [CNPGridMenuItem new];
-    houseKey.icon = [UIImage imageNamed:@""];
+    houseKey.icon = [UIImage imageNamed:@"jlaw"];
     houseKey.title = @"House Key";
     
     CNPGridMenuItem *carKey = [CNPGridMenuItem new];
-    carKey.icon = [UIImage imageNamed:@""];
+    carKey.icon = [UIImage imageNamed:@"jlaw2"];
     carKey.title = @"Car Key";
     
     CNPGridMenuItem *bag = [CNPGridMenuItem new];
-    bag.icon = [UIImage imageNamed:@""];
+    bag.icon = [UIImage imageNamed:@"jlaw"];
     bag.title = @"Bag";
     
     CNPGridMenuItem *briefcase = [CNPGridMenuItem new];
-    briefcase.icon = [UIImage imageNamed:@""];
+    briefcase.icon = [UIImage imageNamed:@"jlaw2"];
     briefcase.title = @"Briefcase";
     
     CNPGridMenuItem *tablet = [CNPGridMenuItem new];
-    tablet.icon = [UIImage imageNamed:@""];
+    tablet.icon = [UIImage imageNamed:@"jlaw"];
     tablet.title = @"Backpack";
     
     CNPGridMenuItem *phone = [CNPGridMenuItem new];
-    phone.icon = [UIImage imageNamed:@""];
+    phone.icon = [UIImage imageNamed:@"jlaw2"];
     phone.title = @"Phone";
     
     CNPGridMenuItem *wallet = [CNPGridMenuItem new];
-    wallet.icon = [UIImage imageNamed:@""];
+    wallet.icon = [UIImage imageNamed:@"jlaw"];
     wallet.title = @"Wallet";
     
     CNPGridMenuItem *remoteControl = [CNPGridMenuItem new];
-    remoteControl.icon = [UIImage imageNamed:@""];
+    remoteControl.icon = [UIImage imageNamed:@"jlaw2"];
     remoteControl.title = @"Remote Control";
     
     self.gridMenu = [[CNPGridMenu alloc] initWithMenuItems:@[backpack, laptop, houseKey,carKey, bag, briefcase, tablet, phone, wallet, remoteControl]];
@@ -247,7 +256,7 @@
 
 -(void)stylingDistanceSliderLabel
 {
-    self.distanceSliderLabel.text = @"Distance";
+    self.distanceSliderLabel.text = @"Maximum proximity of Hyve";
     self.distanceSliderLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:15];
 }
 
@@ -264,6 +273,7 @@
     self.distanceSlider.maximumValue = numberOfDistanceSliderColumns;
     self.distanceSlider.continuous = YES;
     [self.distanceSlider addTarget:self action:@selector(valueOfDistanceSliderChanged) forControlEvents:UIControlEventValueChanged];
+
 }
 
 -(void)valueOfDistanceSliderChanged
@@ -271,6 +281,9 @@
     NSUInteger index = (NSUInteger)(self.distanceSlider.value + 0.5);
     [self.distanceSlider setValue:index animated:NO];
     NSNumber *number = self.valuesOfDistanceSlider[index];
+    
+    self.distanceSliderLabel.text = [NSString stringWithFormat:@"Maximum proximity of Hyve is %@ m", number];
+    self.distanceSliderLabel.numberOfLines = 0;
     NSLog(@"sliderIndex: %i", (int)index);
     NSLog(@"number: %@", number);
 }
@@ -288,6 +301,12 @@
     NSLog(@"Connect app to hyve");
 }
 
+#pragma mark - styling connect button
+-(void)stylingConnectButton
+{
+    [self.connectButton setTitle:@"Connect" forState:UIControlStateNormal];
+    self.connectButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:15];
+}
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {

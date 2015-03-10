@@ -379,7 +379,7 @@
                                     </mask>
                                 </variation>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L9P-sa-5aU">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L9P-sa-5aU">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="130" id="6sz-vl-Zri"/>
@@ -410,31 +410,30 @@
                                     <action selector="onDistanceSliderDragged:" destination="kwJ-Pq-6R5" eventType="valueChanged" id="hBU-Te-sUC"/>
                                 </connections>
                             </slider>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Maximum proximity of Hyve" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Ah-QA-DSi">
-                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LFw-zw-zMo">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="RoY-sC-Iw1">
-                                        <variation key="heightClass=regular-widthClass=compact" constant="50"/>
-                                    </constraint>
-                                    <constraint firstAttribute="width" constant="368" id="nsp-0y-wSp"/>
+                                    <constraint firstAttribute="height" constant="50" id="TIG-U9-944"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="RoY-sC-Iw1"/>
-                                        <exclude reference="nsp-0y-wSp"/>
+                                        <exclude reference="TIG-U9-944"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="constraints">
-                                        <include reference="RoY-sC-Iw1"/>
-                                        <include reference="nsp-0y-wSp"/>
+                                        <include reference="TIG-U9-944"/>
                                     </mask>
                                 </variation>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QtB-1Z-ztJ">
+                                <connections>
+                                    <action selector="onConnectButtonPressed:" destination="kwJ-Pq-6R5" eventType="touchUpInside" id="qVd-3E-b7f"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QtB-1Z-ztJ">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="130" id="WzK-Nx-mC2"/>
@@ -463,7 +462,9 @@
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="36" id="Akk-wx-dey"/>
-                                    <constraint firstAttribute="height" constant="35" id="XR5-QS-iwV"/>
+                                    <constraint firstAttribute="height" constant="35" id="XR5-QS-iwV">
+                                        <variation key="heightClass=regular-widthClass=compact" constant="130"/>
+                                    </constraint>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -481,33 +482,35 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LFw-zw-zMo">
-                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Maximum proximity of Hyve" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Ah-QA-DSi">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="TIG-U9-944"/>
+                                    <constraint firstAttribute="height" constant="40" id="RoY-sC-Iw1">
+                                        <variation key="heightClass=regular-widthClass=compact" constant="50"/>
+                                    </constraint>
+                                    <constraint firstAttribute="width" constant="368" id="nsp-0y-wSp"/>
                                 </constraints>
-                                <state key="normal" title="Button">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="TIG-U9-944"/>
+                                        <exclude reference="RoY-sC-Iw1"/>
+                                        <exclude reference="nsp-0y-wSp"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="constraints">
-                                        <include reference="TIG-U9-944"/>
+                                        <include reference="RoY-sC-Iw1"/>
+                                        <include reference="nsp-0y-wSp"/>
                                     </mask>
                                 </variation>
-                                <connections>
-                                    <action selector="onConnectButtonPressed:" destination="kwJ-Pq-6R5" eventType="touchUpInside" id="qVd-3E-b7f"/>
-                                </connections>
-                            </button>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="QtB-1Z-ztJ" firstAttribute="top" secondItem="MDT-dO-p7J" secondAttribute="bottom" constant="103" id="1dd-15-cS3">
-                                <variation key="heightClass=regular-widthClass=compact" constant="63"/>
+                                <variation key="heightClass=regular-widthClass=compact" constant="78"/>
                             </constraint>
                             <constraint firstItem="MDT-dO-p7J" firstAttribute="trailing" secondItem="Shc-Dl-Asg" secondAttribute="trailingMargin" id="5rW-n0-nAV"/>
                             <constraint firstAttribute="trailing" secondItem="LFw-zw-zMo" secondAttribute="trailing" id="7fb-Xv-QFW"/>
@@ -517,16 +520,17 @@
                             </constraint>
                             <constraint firstItem="LFw-zw-zMo" firstAttribute="leading" secondItem="Shc-Dl-Asg" secondAttribute="leading" id="Dsg-7i-7OL"/>
                             <constraint firstItem="L9P-sa-5aU" firstAttribute="leading" secondItem="Shc-Dl-Asg" secondAttribute="leadingMargin" constant="7" id="FqJ-ok-8ar"/>
+                            <constraint firstItem="LFw-zw-zMo" firstAttribute="leading" secondItem="Shc-Dl-Asg" secondAttribute="leading" id="GdO-4M-ee8"/>
                             <constraint firstItem="L9P-sa-5aU" firstAttribute="top" secondItem="MDT-dO-p7J" secondAttribute="bottom" constant="103" id="GtB-LS-HPt">
-                                <variation key="heightClass=regular-widthClass=compact" constant="63"/>
+                                <variation key="heightClass=regular-widthClass=compact" constant="78"/>
                             </constraint>
                             <constraint firstItem="QtB-1Z-ztJ" firstAttribute="leading" secondItem="wip-f2-tjc" secondAttribute="trailing" constant="29" id="JlN-aR-fyg"/>
                             <constraint firstItem="1Ah-QA-DSi" firstAttribute="top" secondItem="9jo-sT-J8S" secondAttribute="bottom" constant="59" id="KDN-IQ-wVd">
-                                <variation key="heightClass=regular-widthClass=compact" constant="79"/>
+                                <variation key="heightClass=regular-widthClass=compact" constant="54"/>
                             </constraint>
                             <constraint firstItem="1Ah-QA-DSi" firstAttribute="trailing" secondItem="Shc-Dl-Asg" secondAttribute="trailingMargin" id="Lpw-zw-qXl"/>
                             <constraint firstItem="wip-f2-tjc" firstAttribute="top" secondItem="MDT-dO-p7J" secondAttribute="bottom" constant="150" id="SUE-Kr-O0T">
-                                <variation key="heightClass=regular-widthClass=compact" constant="110"/>
+                                <variation key="heightClass=regular-widthClass=compact" constant="78"/>
                             </constraint>
                             <constraint firstItem="ajl-an-ccH" firstAttribute="top" secondItem="LFw-zw-zMo" secondAttribute="bottom" id="Vlx-Hl-fgu">
                                 <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
@@ -537,6 +541,7 @@
                             <constraint firstItem="wip-f2-tjc" firstAttribute="leading" secondItem="L9P-sa-5aU" secondAttribute="trailing" constant="29" id="gza-K6-qIA"/>
                             <constraint firstItem="9jo-sT-J8S" firstAttribute="top" secondItem="rV6-KP-vN8" secondAttribute="bottom" id="huM-ke-S68"/>
                             <constraint firstAttribute="trailingMargin" secondItem="QtB-1Z-ztJ" secondAttribute="trailing" constant="7" id="kuW-nS-D84"/>
+                            <constraint firstAttribute="trailing" secondItem="LFw-zw-zMo" secondAttribute="trailing" id="qRN-zx-7Gq"/>
                             <constraint firstItem="MDT-dO-p7J" firstAttribute="leading" secondItem="Shc-Dl-Asg" secondAttribute="leadingMargin" id="rbf-PR-eeu"/>
                             <constraint firstItem="wip-f2-tjc" firstAttribute="leading" secondItem="L9P-sa-5aU" secondAttribute="trailing" constant="29" id="tbS-iD-HGM"/>
                         </constraints>
@@ -545,10 +550,10 @@
                                 <exclude reference="9jo-sT-J8S"/>
                                 <exclude reference="L9P-sa-5aU"/>
                                 <exclude reference="MDT-dO-p7J"/>
-                                <exclude reference="1Ah-QA-DSi"/>
+                                <exclude reference="LFw-zw-zMo"/>
                                 <exclude reference="QtB-1Z-ztJ"/>
                                 <exclude reference="wip-f2-tjc"/>
-                                <exclude reference="LFw-zw-zMo"/>
+                                <exclude reference="1Ah-QA-DSi"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="BEo-cS-811"/>
@@ -562,15 +567,17 @@
                                 <exclude reference="rbf-PR-eeu"/>
                                 <exclude reference="FqJ-ok-8ar"/>
                                 <exclude reference="GtB-LS-HPt"/>
-                                <exclude reference="1dd-15-cS3"/>
-                                <exclude reference="JlN-aR-fyg"/>
-                                <exclude reference="kuW-nS-D84"/>
                                 <exclude reference="SUE-Kr-O0T"/>
                                 <exclude reference="Wy1-I4-jbm"/>
                                 <exclude reference="gza-K6-qIA"/>
                                 <exclude reference="tbS-iD-HGM"/>
+                                <exclude reference="1dd-15-cS3"/>
+                                <exclude reference="JlN-aR-fyg"/>
+                                <exclude reference="kuW-nS-D84"/>
                                 <exclude reference="7fb-Xv-QFW"/>
                                 <exclude reference="Dsg-7i-7OL"/>
+                                <exclude reference="GdO-4M-ee8"/>
+                                <exclude reference="qRN-zx-7Gq"/>
                                 <exclude reference="Vlx-Hl-fgu"/>
                             </mask>
                         </variation>
@@ -579,10 +586,10 @@
                                 <include reference="9jo-sT-J8S"/>
                                 <include reference="L9P-sa-5aU"/>
                                 <include reference="MDT-dO-p7J"/>
-                                <include reference="1Ah-QA-DSi"/>
+                                <include reference="LFw-zw-zMo"/>
                                 <include reference="QtB-1Z-ztJ"/>
                                 <include reference="wip-f2-tjc"/>
-                                <include reference="LFw-zw-zMo"/>
+                                <include reference="1Ah-QA-DSi"/>
                             </mask>
                             <mask key="constraints">
                                 <include reference="BEo-cS-811"/>
@@ -596,15 +603,17 @@
                                 <include reference="rbf-PR-eeu"/>
                                 <include reference="FqJ-ok-8ar"/>
                                 <include reference="GtB-LS-HPt"/>
-                                <include reference="1dd-15-cS3"/>
-                                <include reference="JlN-aR-fyg"/>
-                                <include reference="kuW-nS-D84"/>
                                 <include reference="SUE-Kr-O0T"/>
                                 <include reference="Wy1-I4-jbm"/>
                                 <include reference="gza-K6-qIA"/>
                                 <include reference="tbS-iD-HGM"/>
+                                <include reference="1dd-15-cS3"/>
+                                <include reference="JlN-aR-fyg"/>
+                                <include reference="kuW-nS-D84"/>
                                 <include reference="7fb-Xv-QFW"/>
                                 <include reference="Dsg-7i-7OL"/>
+                                <include reference="GdO-4M-ee8"/>
+                                <include reference="qRN-zx-7Gq"/>
                                 <include reference="Vlx-Hl-fgu"/>
                             </mask>
                         </variation>

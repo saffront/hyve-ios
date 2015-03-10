@@ -9,8 +9,10 @@
 #import "HyveDetailsViewController.h"
 #import <CNPGridMenu.h>
 
-@interface HyveDetailsViewController () <UIImagePickerControllerDelegate, CNPGridMenuDelegate>
 
+@interface HyveDetailsViewController () <UIImagePickerControllerDelegate, CNPGridMenuDelegate, CBPeripheralDelegate>
+
+@property (strong, nonatomic) CBCentralManager *centralManager;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
 @property (weak, nonatomic) IBOutlet UIButton *hyveCamera;
 @property (weak, nonatomic) IBOutlet UITextField *hyveNameTextField;
@@ -90,6 +92,7 @@
 {
     [self.hyveCamera setTitle:@"Camera" forState:UIControlStateNormal];
     self.hyveCamera.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:15];
+    [self.hyveCamera setImage:[UIImage imageNamed:@"jlaw2"] forState:UIControlStateNormal];
 }
 
 #pragma mark - image picker controller
@@ -142,6 +145,7 @@
     self.setIconButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:15];
     [self.setIconButton setTitle:@"Select Icon" forState:UIControlStateNormal];
     self.setIconButton.titleLabel.numberOfLines = 0;
+    [self.setIconButton setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
 }
 
 - (IBAction)onSetIconButtonPressed:(id)sender
@@ -149,27 +153,27 @@
     //backpack, laptop, house key, car key, bag, briefcase, tablet, mobile phone, wallet, remote control,
     
     CNPGridMenuItem *backpack = [CNPGridMenuItem new];
-    backpack.icon = [UIImage imageNamed:@"jlaw"];
+    backpack.icon = [UIImage imageNamed:@"wallet"];
     backpack.title = @"Backpack";
     
     CNPGridMenuItem *laptop = [CNPGridMenuItem new];
-    laptop.icon = [UIImage imageNamed:@"jlaw2"];
+    laptop.icon = [UIImage imageNamed:@"wallet"];
     laptop.title = @"Laptop";
     
     CNPGridMenuItem *houseKey = [CNPGridMenuItem new];
-    houseKey.icon = [UIImage imageNamed:@"jlaw"];
+    houseKey.icon = [UIImage imageNamed:@"wallet"];
     houseKey.title = @"House Key";
     
     CNPGridMenuItem *carKey = [CNPGridMenuItem new];
-    carKey.icon = [UIImage imageNamed:@"jlaw2"];
+    carKey.icon = [UIImage imageNamed:@"key"];
     carKey.title = @"Car Key";
     
     CNPGridMenuItem *bag = [CNPGridMenuItem new];
-    bag.icon = [UIImage imageNamed:@"jlaw"];
+    bag.icon = [UIImage imageNamed:@"key"];
     bag.title = @"Bag";
     
     CNPGridMenuItem *briefcase = [CNPGridMenuItem new];
-    briefcase.icon = [UIImage imageNamed:@"jlaw2"];
+    briefcase.icon = [UIImage imageNamed:@"key"];
     briefcase.title = @"Briefcase";
     
     CNPGridMenuItem *tablet = [CNPGridMenuItem new];
@@ -181,7 +185,7 @@
     phone.title = @"Phone";
     
     CNPGridMenuItem *wallet = [CNPGridMenuItem new];
-    wallet.icon = [UIImage imageNamed:@"jlaw"];
+    wallet.icon = [UIImage imageNamed:@"wallet"];
     wallet.title = @"Wallet";
     
     CNPGridMenuItem *remoteControl = [CNPGridMenuItem new];
@@ -299,6 +303,7 @@
 - (IBAction)onConnectButtonPressed:(id)sender
 {
     NSLog(@"Connect app to hyve");
+    [self.centralManager connectPeripheral:self.peripheral options:nil];
 }
 
 #pragma mark - styling connect button
@@ -313,6 +318,34 @@
     [self.view endEditing:YES];
 }
 
+
+-(void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
+{
+    NSLog(@"Central has connected to peripheral: %@ with UUID: %@",peripheral,peripheral.identifier);
+    peripheral.delegate = self;
+}
+
+-(void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
+{
+    if (error)
+    {
+        NSLog(@"didFailToConnectPeripheral : %@", error);
+    }
+    else
+    {
+        NSLog(@"connectedToPeripheral : peripheral ==> %@ self.pheripheral ~~> %@", peripheral, self.peripheral);
+    }
+}
+
+-(void)centralManager:(CBCentralManager *)central didRetrievePeripherals:(NSArray *)peripherals
+{
+    NSLog(@"didReceivePeripherals");
+
+    for (CBPeripheral *peripheral in peripherals)
+    {
+        NSLog(@"Peripherals Array has %@  == >peripheral %@ %@",peripherals, peripheral, peripheral.identifier);
+    }
+}
 
 
 @end

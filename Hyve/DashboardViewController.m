@@ -261,33 +261,6 @@
     plvc.peripheralMutableArray = self.peripheralMutableArray;
 }
 
-//-(void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
-//{
-//    NSLog(@"Central has connected to peripheral: %@ with UUID: %@",peripheral,peripheral.identifier);
-//    peripheral.delegate = self;
-//}
-//
-//-(void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
-//{
-//    if (error)
-//    {
-//        NSLog(@"didFailToConnectPeripheral : %@", error);
-//    }
-//    else
-//    {
-//        NSLog(@"connectedToPeripheral : peripheral ==> %@ self.pheripheral ~~> %@", peripheral, self.peripheral);
-//    }
-//}
-//
-//-(void)centralManager:(CBCentralManager *)central didRetrievePeripherals:(NSArray *)peripherals
-//{
-//    NSLog(@"didReceivePeripherals");
-//    
-//    for (CBPeripheral *peripheral in peripherals)
-//    {
-//        NSLog(@"Peripherals Array has %@  == >peripheral %@ %@",peripherals, peripheral, peripheral.identifier);
-//    }
-//}
 
 
 

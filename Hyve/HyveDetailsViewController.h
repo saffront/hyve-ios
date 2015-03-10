@@ -12,6 +12,7 @@
 
 @interface HyveDetailsViewController : UIViewController
 @property (strong, nonatomic) CBPeripheral *peripheral;
+
 @property (strong, nonatomic) Hyve *hyve;
 
 @end

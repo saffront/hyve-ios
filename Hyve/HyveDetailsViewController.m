@@ -31,6 +31,7 @@
     [super viewDidLoad];
     self.centralManager.delegate = self;
     self.hyveNameTextField.text = self.peripheral.name;
+
     
     [self stylingDistanceSliderLabel];
     [self addingSaveButtonToNavigationBar];
@@ -314,10 +315,17 @@
 }
 
 #pragma mark - central manager delegate
+
 -(void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
     NSLog(@"Central has connected to peripheral: %@ with UUID: %@",peripheral,peripheral.identifier);
     peripheral.delegate = self;
+    [peripheral discoverServices:nil];
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:[NSString stringWithFormat:@"Successfully connected to %@", peripheral.name] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 -(void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
@@ -357,4 +365,64 @@
             break;
     }
 }
+
+#pragma mark - peripheral delegate
+-(void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
+{
+    for (CBService *service in peripheral.services)
+    {
+        NSLog(@"Discovered service %@ CBUUID= %@", service, service.UUID);
+        [peripheral discoverCharacteristics:nil forService:service];
+    }
+}
+
+-(void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error
+{
+    for (CBCharacteristic *characteristic in service.characteristics)
+    {
+        NSLog(@"Characteristic of services : %@", characteristic);
+        
+        CBUUID *characteristicUUID = characteristic.UUID;
+        CBUUID *characteristicUUIDString = [CBUUID UUIDWithString:@"FFF6"];
+        
+        if ([characteristicUUID isEqual:characteristicUUIDString])
+        {
+            [peripheral readValueForCharacteristic:characteristic];
+            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+        }
+    }
+}
+
+//to read characteristic value
+-(void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
+{
+    if (error)
+    {
+        NSLog(@"We have an error reading data from FFF6");
+    }
+    else
+    {
+        NSData *peripheralValue = characteristic.value;
+        NSString *peripheralValueString = [NSString stringWithUTF8String:[peripheralValue bytes]];
+        NSLog(@"peripheralValue of FFF6 is %@", peripheralValueString);
+    }
+}
+
+-(void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
+{
+    if (error)
+    {
+        NSLog(@"Error reading characteristic %@", [error localizedDescription]);
+    }
+    else
+    {
+        if (characteristic.value != nil)
+        {
+            NSLog(@"didUpdateNotificationStateForCharacteristic %@", characteristic.value);
+        }
+    }
+}
+
+
+
 @end

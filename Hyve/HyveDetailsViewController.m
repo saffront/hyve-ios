@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *connectButton;
 @property (weak, nonatomic) IBOutlet UIButton *setIconButton;
 @property (strong, nonatomic) CNPGridMenu *gridMenu;
+@property (strong, nonatomic) NSString *distanceNumber;
 
 @end
 
@@ -181,9 +182,9 @@
     tablet.icon = [UIImage imageNamed:@"tablet"];
     tablet.title = @"Backpack";
     
-    CNPGridMenuItem *phone = [CNPGridMenuItem new];
-    phone.icon = [UIImage imageNamed:@"phone"];
-    phone.title = @"Phone";
+//    CNPGridMenuItem *phone = [CNPGridMenuItem new];
+//    phone.icon = [UIImage imageNamed:@"phone"];
+//    phone.title = @"Phone";
     
     CNPGridMenuItem *wallet = [CNPGridMenuItem new];
     wallet.icon = [UIImage imageNamed:@"wallet"];
@@ -193,7 +194,7 @@
     remoteControl.icon = [UIImage imageNamed:@"remote"];
     remoteControl.title = @"Remote Control";
     
-    self.gridMenu = [[CNPGridMenu alloc] initWithMenuItems:@[backpack, laptop, houseKey,carKey, bag, briefcase, tablet, phone, wallet, remoteControl]];
+    self.gridMenu = [[CNPGridMenu alloc] initWithMenuItems:@[backpack, laptop, houseKey,carKey, bag, briefcase, tablet, wallet, remoteControl]];
     self.gridMenu.delegate = self;
     self.gridMenu.blurEffectStyle = UIBlurEffectStyleDark;
     [self presentGridMenu:self.gridMenu animated:YES completion:^{
@@ -281,6 +282,32 @@
     NSUInteger index = (NSUInteger)(self.distanceSlider.value + 0.5);
     [self.distanceSlider setValue:index animated:NO];
     NSNumber *number = self.valuesOfDistanceSlider[index];
+
+    int theInt = [number intValue];
+    
+    switch (theInt) {
+        case 1:
+            NSLog(@"1");
+            self.distanceNumber = [NSString stringWithFormat:@"<S40>"];
+            break;
+        case 2:
+            NSLog(@"2");
+            self.distanceNumber = [NSString stringWithFormat:@"<S46>"];
+            break;
+        case 4:
+            NSLog(@"4");
+            self.distanceNumber = [NSString stringWithFormat:@"<S52>"];
+            break;
+        case 8:
+            NSLog(@"8");
+            self.distanceNumber = [NSString stringWithFormat:@"<S58>"];
+            break;
+        case 16:
+            NSLog(@"16");
+            self.distanceNumber = [NSString stringWithFormat:@"<S64>"];
+        default:
+            break;
+    }
     
     self.distanceSliderLabel.text = [NSString stringWithFormat:@"Maximum proximity of Hyve is %@ m", number];
     self.distanceSliderLabel.numberOfLines = 0;
@@ -387,8 +414,12 @@
         
         if ([characteristicUUID isEqual:characteristicUUIDString])
         {
+            NSData *distanceStringData = [self.distanceNumber dataUsingEncoding:NSASCIIStringEncoding];
+            NSLog(@"distanceStringData %@ %i", distanceStringData, [distanceStringData length]);
+            
             [peripheral readValueForCharacteristic:characteristic];
             [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+            [peripheral writeValue:distanceStringData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
         }
     }
 }
@@ -398,13 +429,14 @@
 {
     if (error)
     {
-        NSLog(@"We have an error reading data from FFF6");
+        NSLog(@"We have an error reading data from characteristic %@ %@", error,error.localizedDescription);
     }
     else
     {
         NSData *peripheralValue = characteristic.value;
-        NSString *peripheralValueString = [NSString stringWithUTF8String:[peripheralValue bytes]];
-        NSLog(@"peripheralValue of FFF6 is %@", peripheralValueString);
+        //reading the nsdata --> nsdata to nsstring --> not working, not nill, but can't via bytes in string
+//        NSString *peripheralValueString = [NSString stringWithUTF8String:[peripheralValue bytes]];
+        NSLog(@"peripheralValue of FFF6 is %@", peripheralValue);
     }
 }
 
@@ -420,6 +452,20 @@
         {
             NSLog(@"didUpdateNotificationStateForCharacteristic %@", characteristic.value);
         }
+    }
+}
+
+//writing response to hyve
+-(void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
+{
+    if (error)
+    {
+        NSLog(@"error writing characteristic value : %@ %@", error,[error localizedDescription]);
+        NSLog(@"didWriteValueForCharacteristic %@ %@", characteristic, characteristic.value);
+    }
+    else
+    {
+        NSLog(@"didWriteValueForCharacteristic : %@", characteristic);
     }
 }
 

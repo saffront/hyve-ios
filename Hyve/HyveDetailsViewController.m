@@ -10,7 +10,7 @@
 #import <CNPGridMenu.h>
 //32A9DD44-9B1C-BAA5-8587-8A2D36E0623E  - hive
 
-@interface HyveDetailsViewController () <UIImagePickerControllerDelegate, CNPGridMenuDelegate, CBPeripheralDelegate, CBCentralManagerDelegate>
+@interface HyveDetailsViewController () <UIImagePickerControllerDelegate, CNPGridMenuDelegate, CBPeripheralDelegate, CBCentralManagerDelegate, CBPeripheralManagerDelegate>
 
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
 @property (weak, nonatomic) IBOutlet UIButton *hyveCamera;
@@ -234,10 +234,6 @@
     {
         
     }
-    else if ([item.title isEqualToString:@"Phone"])
-    {
-        
-    }
     else if ([item.title isEqualToString:@"Wallet"])
     {
         
@@ -288,31 +284,34 @@
     switch (theInt) {
         case 1:
             NSLog(@"1");
-            self.distanceNumber = [NSString stringWithFormat:@"<S40>"];
+//            self.distanceNumber = [NSString stringWithFormat:@"<S40>"];
+            self.distanceNumber = @"40";
             break;
         case 2:
             NSLog(@"2");
-            self.distanceNumber = [NSString stringWithFormat:@"<S46>"];
+//            self.distanceNumber = [NSString stringWithFormat:@"<S46>"];
+            self.distanceNumber = @"46";
             break;
         case 4:
             NSLog(@"4");
-            self.distanceNumber = [NSString stringWithFormat:@"<S52>"];
+//            self.distanceNumber = [NSString stringWithFormat:@"<S52>"];
+            self.distanceNumber = @"52";
             break;
         case 8:
             NSLog(@"8");
-            self.distanceNumber = [NSString stringWithFormat:@"<S58>"];
+//            self.distanceNumber = [NSString stringWithFormat:@"<S58>"];
+            self.distanceNumber = @"58";
             break;
         case 16:
             NSLog(@"16");
-            self.distanceNumber = [NSString stringWithFormat:@"<S64>"];
+//            self.distanceNumber = [NSString stringWithFormat:@"<S64>"];
+            self.distanceNumber = @"64";
         default:
             break;
     }
     
     self.distanceSliderLabel.text = [NSString stringWithFormat:@"Maximum proximity of Hyve is %@ m", number];
     self.distanceSliderLabel.numberOfLines = 0;
-    NSLog(@"sliderIndex: %i", (int)index);
-    NSLog(@"number: %@", number);
 }
 
 #pragma mark - send details to backend
@@ -399,12 +398,98 @@
     for (CBService *service in peripheral.services)
     {
         NSLog(@"Discovered service %@ CBUUID= %@", service, service.UUID);
+//        [peripheral discoverCharacteristics:nil forService:service];
+        
+//        CBUUID *FFF6 = [CBUUID UUIDWithString:@"FFF6"];
+//        NSArray *FFF6Array = [[NSArray alloc] initWithObjects:FFF6, nil];
+//        [peripheral discoverCharacteristics:FFF6Array forService:service];
+        
+        [peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:@"FFF6"]] forService:service];
         [peripheral discoverCharacteristics:nil forService:service];
     }
 }
 
 -(void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error
 {
+    for (CBCharacteristic *characteristic in service.characteristics)
+    {
+            CBUUID *characteristicUUID = characteristic.UUID;
+            CBUUID *characteristicUUIDString = [CBUUID UUIDWithString:@"FFF6"];
+    
+            if ([characteristicUUID isEqual:characteristicUUIDString])
+            {
+                [peripheral readValueForCharacteristic:characteristic];
+    
+//                NSUInteger bytes = [self.distanceNumber lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+//                NSLog(@"bytes of self.distanceNumber is %i", bytes);
+//    
+//                NSData *distanceString = [self stringToBytes:self.distanceNumber];
+//                NSLog(@"distanceString of data is %@", distanceString);
+//                [peripheral writeValue:distanceString forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+                
+                
+                int8_t distanceNumberIntValue = [self.distanceNumber integerValue];
+                int16_t distanceNumberAtSixteen = [self.distanceNumber integerValue];
+                int16_t distanceNumber = CFSwapInt16HostToLittle(distanceNumberAtSixteen);
+                NSData *distanceNumberData = [NSData dataWithBytes:&distanceNumber length:sizeof(distanceNumberIntValue)];
+                [peripheral writeValue:distanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+                
+
+            }
+        
+//        NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
+//        if (characteristic.properties == 0x01)
+//        {
+//            NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
+//        }
+//        else if (characteristic.properties == 0x02)
+//        {
+//            NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
+//        }
+//        else if (characteristic.properties == 0x04)
+//        {
+//            NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
+//        }
+//        else if (characteristic.properties == 0x08)
+//        {
+//            NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
+//        }
+//        else if (characteristic.properties == 0x10)
+//        {
+//            NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
+//        }
+//        else if (characteristic.properties == 0x20)
+//        {
+//            NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
+//        }
+//        else if (characteristic.properties == 0x40)
+//        {
+//            NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
+//        }
+//        else if (characteristic.properties == 0x80)
+//        {
+//            NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
+//        }
+//        else if (characteristic.properties == 0x100)
+//        {
+//            NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
+//        }
+//        else if (characteristic.properties == 0x200)
+//        {
+//            NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
+//        }
+//        else if (characteristic.properties == 0x02 && characteristic.properties == 0x08)
+//        {
+//            NSLog(@"FFF6 is here!");
+//        }
+//        else
+//        {
+//            NSLog(@"it's something else");
+//        }
+    }
+    
+
+/*
     for (CBCharacteristic *characteristic in service.characteristics)
     {
         NSLog(@"Characteristic of services : %@", characteristic);
@@ -415,13 +500,58 @@
         if ([characteristicUUID isEqual:characteristicUUIDString])
         {
             NSData *distanceStringData = [self.distanceNumber dataUsingEncoding:NSASCIIStringEncoding];
-            NSLog(@"distanceStringData %@ %i", distanceStringData, [distanceStringData length]);
+//            NSLog(@"distanceStringData %@ %i", distanceStringData, [distanceStringData length]);
             
-            [peripheral readValueForCharacteristic:characteristic];
-            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
-            [peripheral writeValue:distanceStringData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+//            NSLog(@"characteristic.properties %u", characteristic.properties);
+//            
+//            if (characteristic.properties == 8) //write
+//            {
+//                int i = 1;
+//                [peripheral writeValue:[NSData dataWithBytes:&i length:sizeof(i)] forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+//            }
+//            else if (characteristic.properties == 02) //read
+//            {
+//                
+                [peripheral readValueForCharacteristic:characteristic];
+                [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+//            }
+//            else if (characteristic.properties == 10) //notify
+//            {
+//                NSLog(@"this characteristic is notify");
+//            }
+            
+//            NSString *characteristicUUIDString1 = [NSString stringWithFormat:@"%@",characteristic.UUID];
+//            CBUUID *theCharacteristicUUID = [CBUUID UUIDWithString:characteristicUUIDString1];
+//            const uint8_t *distanceNumberUint8 = (const uint8_t*)[self.distanceNumber cStringUsingEncoding:NSUTF8StringEncoding];
+//            NSData *distanceData = [NSData dataWithBytes:distanceNumberUint8 length:self.distanceNumber.length];
+            
+            const uint8_t *distanceNumberUint8 = (const uint8_t*)[self.distanceNumber cStringUsingEncoding:NSASCIIStringEncoding];
+            NSData *theDistanceStringData = [NSData dataWithBytes:distanceNumberUint8 length:[distanceStringData length]];
+            [peripheral writeValue:theDistanceStringData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+            
+            
         }
     }
+*/
+}
+
+-(NSData*) stringToBytes:(NSString*)distanceString
+{
+    NSUInteger size = [distanceString length];
+    NSMutableData *bytes = [NSMutableData dataWithLength:size/2];
+    //getting a pointer to the actual array of bytes
+    
+    uint8_t *bytePointer = [bytes mutableBytes];
+    NSUInteger i =0;
+    
+    for (NSUInteger j = 0; j < size / 2; ++j)
+    {
+        bytePointer[j] = (([distanceString characterAtIndex: i] & 0xf) << 4)
+        | ([distanceString characterAtIndex: i + 1] & 0xf);
+        i += 2;
+    }
+    
+    return bytes;
 }
 
 //to read characteristic value
@@ -434,8 +564,12 @@
     else
     {
         NSData *peripheralValue = characteristic.value;
+        
         //reading the nsdata --> nsdata to nsstring --> not working, not nill, but can't via bytes in string
 //        NSString *peripheralValueString = [NSString stringWithUTF8String:[peripheralValue bytes]];
+
+        
+        
         NSLog(@"peripheralValue of FFF6 is %@", peripheralValue);
     }
 }
@@ -461,12 +595,26 @@
     if (error)
     {
         NSLog(@"error writing characteristic value : %@ %@", error,[error localizedDescription]);
-        NSLog(@"didWriteValueForCharacteristic %@ %@", characteristic, characteristic.value);
+        NSLog(@"didWriteValueForCharacteristic %@ %@, characteristic property %u", characteristic, characteristic.value, characteristic.properties);
     }
     else
     {
         NSLog(@"didWriteValueForCharacteristic : %@", characteristic);
     }
+}
+
+-(void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral
+{
+    
+}
+
+-(void)peripheralManager:(CBPeripheralManager *)peripheral didReceiveWriteRequests:(NSArray *)requests
+{
+    CBATTRequest *aRequest  = requests[0];
+    NSData *aData = aRequest.value;
+    NSDictionary *aResponse = [NSJSONSerialization JSONObjectWithData:aData options:NSJSONReadingMutableContainers error:nil];
+    NSLog(@"received data aResoponse : %@", aResponse);
+    
 }
 
 

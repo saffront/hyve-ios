@@ -405,7 +405,7 @@
 //        [peripheral discoverCharacteristics:FFF6Array forService:service];
         
         [peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:@"FFF6"]] forService:service];
-        [peripheral discoverCharacteristics:nil forService:service];
+//        [peripheral discoverCharacteristics:nil forService:service];
     }
 }
 
@@ -434,59 +434,11 @@
                 NSData *distanceNumberData = [NSData dataWithBytes:&distanceNumber length:sizeof(distanceNumberIntValue)];
                 [peripheral writeValue:distanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
                 
-
+//                NSData *distanceNumberDataLittleEndian = [self.distanceNumber dataUsingEncoding:NSUTF16LittleEndianStringEncoding];
+//                [peripheral writeValue:distanceNumberDataLittleEndian forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+//                NSLog(@"distanceNumberDataLittleEndian %@", distanceNumberDataLittleEndian);
             }
-        
-//        NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
-//        if (characteristic.properties == 0x01)
-//        {
-//            NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
-//        }
-//        else if (characteristic.properties == 0x02)
-//        {
-//            NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
-//        }
-//        else if (characteristic.properties == 0x04)
-//        {
-//            NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
-//        }
-//        else if (characteristic.properties == 0x08)
-//        {
-//            NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
-//        }
-//        else if (characteristic.properties == 0x10)
-//        {
-//            NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
-//        }
-//        else if (characteristic.properties == 0x20)
-//        {
-//            NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
-//        }
-//        else if (characteristic.properties == 0x40)
-//        {
-//            NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
-//        }
-//        else if (characteristic.properties == 0x80)
-//        {
-//            NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
-//        }
-//        else if (characteristic.properties == 0x100)
-//        {
-//            NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
-//        }
-//        else if (characteristic.properties == 0x200)
-//        {
-//            NSLog(@"characteristic: %@ characteristicUUID: %@ characteristic.properties: %u", characteristic, characteristic.UUID, characteristic.properties);
-//        }
-//        else if (characteristic.properties == 0x02 && characteristic.properties == 0x08)
-//        {
-//            NSLog(@"FFF6 is here!");
-//        }
-//        else
-//        {
-//            NSLog(@"it's something else");
-//        }
-    }
+        }
     
 
 /*
@@ -564,11 +516,13 @@
     else
     {
         NSData *peripheralValue = characteristic.value;
-        
+        NSData *decipherPeripheralValueData = [NSData dataWithBytes:[peripheralValue bytes] length:[peripheralValue length]];
+        const uint8_t *bytes = [decipherPeripheralValueData bytes];
+        int value = bytes[0];
+        NSLog(@"value of bytes : %i", value);
         //reading the nsdata --> nsdata to nsstring --> not working, not nill, but can't via bytes in string
 //        NSString *peripheralValueString = [NSString stringWithUTF8String:[peripheralValue bytes]];
 
-        
         
         NSLog(@"peripheralValue of FFF6 is %@", peripheralValue);
     }

@@ -24,6 +24,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.92 alpha:1];
+    
     [self pairButtonConfiguration];
     [self promptingUserToPairDevice];
     [self stylingInstructionLabel];
@@ -32,6 +34,8 @@
     self.selectedDeviceMutableArray = [NSMutableArray new];
     self.peripheralListTableView.allowsMultipleSelection = YES;
     self.peripheralListTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self.peripheralListTableView setBackgroundColor:[UIColor clearColor]];
+    
 }
 
 -(void)stylingNavigationBar
@@ -98,6 +102,7 @@
     }
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PeripheralCellID"];
+    cell.backgroundColor = [UIColor clearColor];
     
     if ([hyve.peripheralName isEqualToString:@""] || hyve.peripheralName == nil)
     {

@@ -111,6 +111,10 @@
     
     self.navigationController.navigationBar.topItem.backBarButtonItem = [[UIBarButtonItem alloc]
                                                                          initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
+    UIFont *font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    self.navigationController.navigationBar.titleTextAttributes = @{NSFontAttributeName: font, NSForegroundColorAttributeName: [UIColor whiteColor]};
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:0.89 green:0.39 blue:0.16 alpha:1]];
 }
 
 #pragma mark - styling Hyve label
@@ -125,8 +129,8 @@
 #pragma mark - styling detection hyve label
 -(void)stylingDetectingHyveLabel
 {
-    self.detectingHyveLabel.text = [NSString stringWithFormat:@"Searching for Hyve"];
-    self.detectingHyveLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+    self.detectingHyveLabel.text = [NSString stringWithFormat:@"Searching for Hyve \r\r This process will take 60 seconds"];
+    self.detectingHyveLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:17];
     self.detectingHyveLabel.textColor = [UIColor whiteColor];
     self.detectingHyveLabel.numberOfLines = 0;
     
@@ -185,7 +189,7 @@
     
     [self.centralManager scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@NO}];
     
-    [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(timeoutScanningForHyve) userInfo:nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(timeoutScanningForHyve) userInfo:nil repeats:NO];
 }
 
 -(void)timeoutHyveDiscovery

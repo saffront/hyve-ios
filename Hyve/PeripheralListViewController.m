@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *peripheralListTableView;
 @property (strong, nonatomic) NSMutableArray *selectedDeviceMutableArray;
 @property (weak, nonatomic) IBOutlet UIButton *pairButton;
+@property (weak, nonatomic) IBOutlet UILabel *instructionLabel;
 
 
 @end
@@ -25,14 +26,32 @@
 
     [self pairButtonConfiguration];
     [self promptingUserToPairDevice];
-    self.selectedDeviceMutableArray = [NSMutableArray new];
+    [self stylingInstructionLabel];
     [self stylingNavigationBar];
+    
+    self.selectedDeviceMutableArray = [NSMutableArray new];
     self.peripheralListTableView.allowsMultipleSelection = YES;
+    self.peripheralListTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 -(void)stylingNavigationBar
 {
     self.title = @"Devices";
+    
+    UIFont *font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    self.navigationController.navigationBar.titleTextAttributes = @{NSFontAttributeName: font, NSForegroundColorAttributeName: [UIColor whiteColor]};
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:0.89 green:0.39 blue:0.16 alpha:1]];
+    
+}
+
+#pragma mark - styling instruction label
+-(void)stylingInstructionLabel
+{
+    self.instructionLabel.text = @"Please select which Hyve(s) you want to pair with";
+    self.instructionLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:17];
+    self.instructionLabel.numberOfLines = 0;
+    
 }
 
 #pragma mark - pair button configuration
@@ -40,7 +59,9 @@
 {
     [self.pairButton setUserInteractionEnabled:YES];
     self.pairButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
-    [self.pairButton setTitle:@"Pair up" forState:UIControlStateNormal];
+    [self.pairButton setTitle:@"Pair" forState:UIControlStateNormal];
+    [self.pairButton setBackgroundColor:[UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1]];
+    [self.pairButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
 }
 

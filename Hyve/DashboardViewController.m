@@ -242,7 +242,7 @@
     }
 
 
-    NSLog(@"self.peripheralMutableArray.count %i", self.peripheralMutableArray.count);
+    NSLog(@"self.peripheralMutableArray.count %lu", (unsigned long)self.peripheralMutableArray.count);
 
 //    if ([peripheral.name isEqualToString:@"VLT’s MacBook Pro"])
 //    {

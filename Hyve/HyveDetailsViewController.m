@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *setIconButton;
 @property (strong, nonatomic) CNPGridMenu *gridMenu;
 @property (strong, nonatomic) NSString *distanceNumber;
+@property (strong, nonatomic) NSData *distanceNumberData;
 
 @end
 
@@ -280,32 +281,73 @@
     NSNumber *number = self.valuesOfDistanceSlider[index];
 
     int theInt = [number intValue];
+//    uint8_t byte[5];
     
     switch (theInt) {
         case 1:
             NSLog(@"1");
 //            self.distanceNumber = [NSString stringWithFormat:@"<S40>"];
             self.distanceNumber = @"40";
+
+//            byte[0] = '<';
+//            byte[1] = 'S';
+//            byte[2] = '4';
+//            byte[3] = '0';
+//            byte[4] = '>';
+//            self.distanceNumberData = [NSData dataWithBytes:byte length:1];
+
             break;
         case 2:
             NSLog(@"2");
 //            self.distanceNumber = [NSString stringWithFormat:@"<S46>"];
             self.distanceNumber = @"46";
+            
+//            byte[0] = '<';
+//            byte[1] = 'S';
+//            byte[2] = '4';
+//            byte[3] = '6';
+//            byte[4] = '>';
+//            self.distanceNumberData = [NSData dataWithBytes:byte length:1];
+            
             break;
         case 4:
             NSLog(@"4");
 //            self.distanceNumber = [NSString stringWithFormat:@"<S52>"];
             self.distanceNumber = @"52";
+            
+//            byte[0] = '<';
+//            byte[1] = 'S';
+//            byte[2] = '5';
+//            byte[3] = '2';
+//            byte[4] = '>';
+//            self.distanceNumberData = [NSData dataWithBytes:byte length:1];
+            
             break;
         case 8:
             NSLog(@"8");
 //            self.distanceNumber = [NSString stringWithFormat:@"<S58>"];
             self.distanceNumber = @"58";
+            
+//            byte[0] = '<';
+//            byte[1] = 'S';
+//            byte[2] = '5';
+//            byte[3] = '8';
+//            byte[4] = '>';
+//            self.distanceNumberData = [NSData dataWithBytes:byte length:1];
+            
             break;
         case 16:
             NSLog(@"16");
 //            self.distanceNumber = [NSString stringWithFormat:@"<S64>"];
             self.distanceNumber = @"64";
+            
+//            byte[0] = '<';
+//            byte[1] = 'S';
+//            byte[2] = '6';
+//            byte[3] = '4';
+//            byte[4] = '>';
+//            self.distanceNumberData = [NSData dataWithBytes:byte length:1];
+            
         default:
             break;
     }
@@ -431,8 +473,10 @@
                 int8_t distanceNumberIntValue = [self.distanceNumber integerValue];
                 int16_t distanceNumberAtSixteen = [self.distanceNumber integerValue];
                 int16_t distanceNumber = CFSwapInt16HostToLittle(distanceNumberAtSixteen);
-                NSData *distanceNumberData = [NSData dataWithBytes:&distanceNumber length:sizeof(distanceNumberIntValue)];
-                [peripheral writeValue:distanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+                NSData *theDistanceNumberData = [NSData dataWithBytes:&distanceNumber length:sizeof(distanceNumberIntValue)];
+                
+                NSLog(@"self.distanceNumberData is %@", theDistanceNumberData);
+                [peripheral writeValue:theDistanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
                 
 //                NSData *distanceNumberDataLittleEndian = [self.distanceNumber dataUsingEncoding:NSUTF16LittleEndianStringEncoding];
 //                [peripheral writeValue:distanceNumberDataLittleEndian forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
@@ -555,20 +599,6 @@
     {
         NSLog(@"didWriteValueForCharacteristic : %@", characteristic);
     }
-}
-
--(void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral
-{
-    
-}
-
--(void)peripheralManager:(CBPeripheralManager *)peripheral didReceiveWriteRequests:(NSArray *)requests
-{
-    CBATTRequest *aRequest  = requests[0];
-    NSData *aData = aRequest.value;
-    NSDictionary *aResponse = [NSJSONSerialization JSONObjectWithData:aData options:NSJSONReadingMutableContainers error:nil];
-    NSLog(@"received data aResoponse : %@", aResponse);
-    
 }
 
 

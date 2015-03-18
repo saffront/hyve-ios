@@ -6,11 +6,13 @@
 //  Copyright (c) 2015 Jay Ang. All rights reserved.
 //
 
+#import <DKCircleButton.h>
 #import "HyveListViewController.h"
 #import "HyveDetailsViewController.h"
 #import "Hyve.h"
+#import <QuartzCore/QuartzCore.h>
 
-@interface HyveListViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface HyveListViewController () <UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate>
 
 @property (strong, nonatomic) Hyve *hyve;
 @property (weak, nonatomic) IBOutlet UITableView *hyveListTable;
@@ -19,7 +21,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (strong, nonatomic) IBOutlet UIView *profileTableHeader;
-
+@property (strong, nonatomic) IBOutlet DKCircleButton *profileImageButton;
+@property (strong, nonatomic) UIImagePickerController *imagePickerController;
 
 @end
 
@@ -46,8 +49,12 @@
 {
     self.usernameLabel.text = @"Jay Ang";
     self.usernameLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+    self.usernameLabel.textColor = [UIColor whiteColor];
     
-    self.profileImage.image = [UIImage imageNamed:@"jlaw"];
+    [self.profileImageButton setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
+    [self.profileImageButton setTitle:@"" forState:UIControlStateNormal];
+    self.profileImageButton.borderColor = [UIColor whiteColor];
+    self.profileImageButton.borderSize = 2.0f;
     
     self.hyveListTable.tableHeaderView.backgroundColor = [UIColor clearColor];
     self.hyveListTable.backgroundColor = [UIColor clearColor];
@@ -82,21 +89,46 @@
     return cell;
 }
 
-//-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-//{
-//    self.usernameLabel.text = @"Jay Ang";
-//    self.usernameLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:17];
-//    self.usernameLabel.numberOfLines = 0;
-//    
-//    self.profileImage.image = [UIImage imageNamed:@"jlaw"];
-//    
-//    [self.profileTableHeader addSubview:self.usernameLabel];
-//    [self.profileTableHeader addSubview:self.profileImage];
-//
-//    return self.profileTableHeader;
-//}
+#pragma mark - profile image settings
+- (IBAction)onProfileImageButtonPressed:(id)sender
+{
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
+        self.imagePickerController = [UIImagePickerController new];
+        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+        self.imagePickerController.delegate = (id)self;
+        
+        self.imagePickerController.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self presentViewController:self.imagePickerController animated:YES completion:nil];
+    }
+    else
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Sorry, your device does not seem to have a camera" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+}
 
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    UIImage *imageTakenByUser = [info valueForKey:UIImagePickerControllerOriginalImage];
+    CGRect rect = CGRectMake(0, 0, 912, 980);
+    
+    UIGraphicsBeginImageContext(rect.size);
+    [imageTakenByUser drawInRect:rect];
+    UIImage *resizedImageTakenByUser = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    [self.profileImageButton setImage:resizedImageTakenByUser forState:UIControlStateNormal];
+}
 
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [self.imagePickerController dismissViewControllerAnimated:YES completion:nil];
+}
 
 #pragma mark - segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

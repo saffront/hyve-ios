@@ -107,6 +107,8 @@
 #pragma mark - profile image settings
 - (IBAction)onProfileImageButtonPressed:(id)sender
 {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
     POPSpringAnimation *springAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
     springAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
     springAnimation.springBounciness = 20.0f;
@@ -117,12 +119,13 @@
         {
             if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
             {
-                self.imagePickerController = [UIImagePickerController new];
-                self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-                self.imagePickerController.delegate = (id)self;
-                
-                self.imagePickerController.modalPresentationStyle = UIModalPresentationFullScreen;
-                [self presentViewController:self.imagePickerController animated:YES completion:nil];
+                    self.imagePickerController = [UIImagePickerController new];
+                    self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+                    self.imagePickerController.delegate = (id)self;
+                    self.imagePickerController.modalPresentationStyle = UIModalPresentationFullScreen;
+                    [self presentViewController:self.imagePickerController animated:YES completion:^{
+                        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+                    }];
             }
             else
             {

@@ -30,11 +30,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.92 alpha:1];
+    
     [self stylingNavigationBar];
     [self settingAndStylingUserProfile];
-    
-    self.hyveListTable.tableHeaderView.frame = CGRectMake(0, 0, self.view.frame.size.width, 300);
-    self.hyveListTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self stylingHyveListTableView];
 }
 
 #pragma mark - styling navigation bar
@@ -42,6 +42,16 @@
 {
     self.title = @"Hyve";
     [self.navigationItem setHidesBackButton:YES];
+}
+
+#pragma mark - styling hyve list table view
+-(void)stylingHyveListTableView
+{
+    self.hyveListTable.tableHeaderView.frame = CGRectMake(0, 0, self.view.frame.size.width, 300);
+    self.hyveListTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.hyveListTable.backgroundColor = [UIColor clearColor];
+    self.hyveListTable.layoutMargins = UIEdgeInsetsZero;
+    [self.hyveListTable setSeparatorInset:UIEdgeInsetsZero];
 }
 
 #pragma mark - user
@@ -69,12 +79,16 @@
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    
     CBPeripheral *peripheral = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
     Hyve *hyve = [Hyve new];
     hyve.peripheralName = peripheral.name;
     hyve.peripheralUUID = peripheral.identifier;
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HyveCellListVC"];
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+    cell.backgroundColor = [UIColor clearColor];
     
     if ([hyve.peripheralName isEqualToString:@""] || hyve.peripheralName == nil)
     {

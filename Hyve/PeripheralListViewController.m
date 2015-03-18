@@ -25,19 +25,19 @@
     [super viewDidLoad];
 
     self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.92 alpha:1];
+    self.selectedDeviceMutableArray = [NSMutableArray new];
     
     [self pairButtonConfiguration];
     [self promptingUserToPairDevice];
     [self stylingInstructionLabel];
     [self stylingNavigationBar];
+    [self stylingPeripheralListTableView];
     
-    self.selectedDeviceMutableArray = [NSMutableArray new];
-    self.peripheralListTableView.allowsMultipleSelection = YES;
-    self.peripheralListTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    [self.peripheralListTableView setBackgroundColor:[UIColor clearColor]];
+
     
 }
 
+#pragma mark - styling nav bar
 -(void)stylingNavigationBar
 {
     self.title = @"Devices";
@@ -56,6 +56,16 @@
     self.instructionLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:17];
     self.instructionLabel.numberOfLines = 0;
     
+}
+
+#pragma mark - styling peripheral list table view
+-(void)stylingPeripheralListTableView
+{
+    self.peripheralListTableView.allowsMultipleSelection = YES;
+    self.peripheralListTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self.peripheralListTableView setBackgroundColor:[UIColor clearColor]];
+    self.peripheralListTableView.layoutMargins = UIEdgeInsetsZero;
+    [self.peripheralListTableView setSeparatorInset:UIEdgeInsetsZero];
 }
 
 #pragma mark - pair button configuration

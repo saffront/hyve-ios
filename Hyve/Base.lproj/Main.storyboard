@@ -324,7 +324,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="izj-MW-hVs">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="izj-MW-hVs">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="Wjo-lK-cnh">
@@ -393,11 +393,11 @@
                                         <constraint firstItem="hsE-KI-p9Z" firstAttribute="leading" secondItem="Wjo-lK-cnh" secondAttribute="leading" id="IOC-Fc-jTf"/>
                                         <constraint firstAttribute="trailing" secondItem="JXH-t8-Yhk" secondAttribute="trailing" constant="16" id="NsC-2V-xCz"/>
                                         <constraint firstAttribute="bottom" secondItem="JXH-t8-Yhk" secondAttribute="bottom" constant="17" id="Obx-GL-PHB">
-                                            <variation key="heightClass=regular-widthClass=compact" constant="8"/>
+                                            <variation key="heightClass=regular-widthClass=compact" constant="13"/>
                                         </constraint>
                                         <constraint firstItem="JXH-t8-Yhk" firstAttribute="leading" secondItem="Wjo-lK-cnh" secondAttribute="leading" constant="16" id="Z7h-IT-TNK"/>
                                         <constraint firstItem="JXH-t8-Yhk" firstAttribute="top" secondItem="tEx-6n-1KO" secondAttribute="bottom" constant="9" id="c4e-yl-UAB">
-                                            <variation key="heightClass=regular-widthClass=compact" constant="31"/>
+                                            <variation key="heightClass=regular-widthClass=compact" constant="26"/>
                                         </constraint>
                                         <constraint firstAttribute="centerX" secondItem="JXH-t8-Yhk" secondAttribute="centerX" id="pCC-bM-VfH"/>
                                     </constraints>
@@ -441,12 +441,15 @@
                                     </variation>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HyveCellListVC" id="qsw-08-Vf6">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="HyveCellListVC" rowHeight="70" id="qsw-08-Vf6">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qsw-08-Vf6" id="0Qi-V8-UA6">
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="kwJ-Pq-6R5" kind="show" identifier="ShowHyveDetailsVC" id="YAY-Dv-0cI"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>

@@ -56,7 +56,7 @@
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     self.centralManager.delegate = self;
     
-    self.view.backgroundColor = [UIColor darkGrayColor];
+    self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.92 alpha:1];
     self.isHyveButtonPressed = NO;
     self.firstTimeRunning = YES;
     self.hyveNetworkDetectionIndicatorImage.alpha = 0;
@@ -131,7 +131,7 @@
 {
     self.detectingHyveLabel.text = [NSString stringWithFormat:@"Searching for Hyve \r\r This process will take 60 seconds"];
     self.detectingHyveLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:17];
-    self.detectingHyveLabel.textColor = [UIColor whiteColor];
+    self.detectingHyveLabel.textColor = [UIColor blackColor];
     self.detectingHyveLabel.numberOfLines = 0;
     
 }

@@ -52,7 +52,7 @@
 #pragma mark - styling instruction label
 -(void)stylingInstructionLabel
 {
-    self.instructionLabel.text = @"Please select which Hyve(s) you want to pair with";
+    self.instructionLabel.text = @"Please select which Hyve(s) you want to pair with:";
     self.instructionLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:17];
     self.instructionLabel.numberOfLines = 0;
     
@@ -62,7 +62,7 @@
 -(void)pairButtonConfiguration
 {
     [self.pairButton setUserInteractionEnabled:YES];
-    self.pairButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+    self.pairButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:22];
     [self.pairButton setTitle:@"Pair" forState:UIControlStateNormal];
     [self.pairButton setBackgroundColor:[UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1]];
     [self.pairButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

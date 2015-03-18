@@ -8,12 +8,17 @@
 
 #import "HyveListViewController.h"
 #import "HyveDetailsViewController.h"
-
 #import "Hyve.h"
 
 @interface HyveListViewController () <UITableViewDelegate, UITableViewDataSource>
+
 @property (strong, nonatomic) Hyve *hyve;
 @property (weak, nonatomic) IBOutlet UITableView *hyveListTable;
+@property float defaultY;
+@property (weak, nonatomic) IBOutlet UIImageView *profileImageBackground;
+@property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *profileImage;
+@property (strong, nonatomic) IBOutlet UIView *profileTableHeader;
 
 
 @end
@@ -22,8 +27,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
     [self stylingNavigationBar];
+    [self settingAndStylingUserProfile];
+    
+    self.hyveListTable.tableHeaderView.frame = CGRectMake(0, 0, self.view.frame.size.width, 300);
+    self.hyveListTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 #pragma mark - styling navigation bar
@@ -31,6 +39,18 @@
 {
     self.title = @"Hyve";
     [self.navigationItem setHidesBackButton:YES];
+}
+
+#pragma mark - user
+-(void)settingAndStylingUserProfile
+{
+    self.usernameLabel.text = @"Jay Ang";
+    self.usernameLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+    
+    self.profileImage.image = [UIImage imageNamed:@"jlaw"];
+    
+    self.hyveListTable.tableHeaderView.backgroundColor = [UIColor clearColor];
+    self.hyveListTable.backgroundColor = [UIColor clearColor];
     
 }
 
@@ -61,6 +81,22 @@
     }
     return cell;
 }
+
+//-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    self.usernameLabel.text = @"Jay Ang";
+//    self.usernameLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:17];
+//    self.usernameLabel.numberOfLines = 0;
+//    
+//    self.profileImage.image = [UIImage imageNamed:@"jlaw"];
+//    
+//    [self.profileTableHeader addSubview:self.usernameLabel];
+//    [self.profileTableHeader addSubview:self.profileImage];
+//
+//    return self.profileTableHeader;
+//}
+
+
 
 #pragma mark - segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

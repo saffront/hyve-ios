@@ -133,7 +133,6 @@
     self.detectingHyveLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:17];
     self.detectingHyveLabel.textColor = [UIColor blackColor];
     self.detectingHyveLabel.numberOfLines = 0;
-    
 }
 
 #pragma mark - pressing on Hyve button

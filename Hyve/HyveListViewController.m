@@ -11,6 +11,7 @@
 #import "HyveDetailsViewController.h"
 #import "Hyve.h"
 #import <QuartzCore/QuartzCore.h>
+#import <POP.h>
 
 @interface HyveListViewController () <UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate>
 
@@ -47,7 +48,7 @@
 #pragma mark - styling hyve list table view
 -(void)stylingHyveListTableView
 {
-    self.hyveListTable.tableHeaderView.frame = CGRectMake(0, 0, self.view.frame.size.width, 300);
+    self.hyveListTable.tableHeaderView.frame = CGRectMake(0, 0, self.view.frame.size.width, 320);
     self.hyveListTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.hyveListTable.backgroundColor = [UIColor clearColor];
     self.hyveListTable.layoutMargins = UIEdgeInsetsZero;
@@ -106,37 +107,52 @@
 #pragma mark - profile image settings
 - (IBAction)onProfileImageButtonPressed:(id)sender
 {
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-    {
-        self.imagePickerController = [UIImagePickerController new];
-        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-        self.imagePickerController.delegate = (id)self;
+    POPSpringAnimation *springAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+    springAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
+    springAnimation.springBounciness = 20.0f;
+    [self.profileImageButton pop_addAnimation:springAnimation forKey:@"sendAnimation"];
+    springAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
         
-        self.imagePickerController.modalPresentationStyle = UIModalPresentationFullScreen;
-        [self presentViewController:self.imagePickerController animated:YES completion:nil];
-    }
-    else
-    {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Sorry, your device does not seem to have a camera" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-        [alertController addAction:okAction];
-        [self presentViewController:alertController animated:YES completion:nil];
-    }
+        if (finished)
+        {
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+            {
+                self.imagePickerController = [UIImagePickerController new];
+                self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+                self.imagePickerController.delegate = (id)self;
+                
+                self.imagePickerController.modalPresentationStyle = UIModalPresentationFullScreen;
+                [self presentViewController:self.imagePickerController animated:YES completion:nil];
+            }
+            else
+            {
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Sorry, your device does not seem to have a camera" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                [alertController addAction:okAction];
+                [self presentViewController:alertController animated:YES completion:nil];
+            }
+
+        }
+    };
 }
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     [self dismissViewControllerAnimated:YES completion:nil];
     
-    UIImage *imageTakenByUser = [info valueForKey:UIImagePickerControllerOriginalImage];
-    CGRect rect = CGRectMake(0, 0, 912, 980);
-    
-    UIGraphicsBeginImageContext(rect.size);
-    [imageTakenByUser drawInRect:rect];
-    UIImage *resizedImageTakenByUser = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    [self.profileImageButton setImage:resizedImageTakenByUser forState:UIControlStateNormal];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        UIImage *imageTakenByUser = [info valueForKey:UIImagePickerControllerOriginalImage];
+        CGRect rect = CGRectMake(0, 0, 912, 980);
+        
+        UIGraphicsBeginImageContext(rect.size);
+        [imageTakenByUser drawInRect:rect];
+        UIImage *resizedImageTakenByUser = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.profileImageButton setImage:resizedImageTakenByUser forState:UIControlStateNormal];
+        });
+    });
 }
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker

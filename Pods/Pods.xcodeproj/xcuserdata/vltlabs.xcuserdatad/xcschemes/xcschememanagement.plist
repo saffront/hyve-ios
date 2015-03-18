@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-DKCircleButton.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-pop.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -22,17 +27,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0A93FF357B615146FF6F69F6</key>
+		<key>11A8330A385B098F7801F284</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2F782575FF9F562A42BA704F</key>
+		<key>94BC376F8B246EE6D240EB67</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>95E3FB14577D91974D81F945</key>
+		<key>9FAA133A6DE6E1EB944F5EFC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B59A9D6BB7A8F539C167698E</key>
 		<dict>
 			<key>primary</key>
 			<true/>

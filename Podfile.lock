@@ -1,13 +1,16 @@
 PODS:
   - CNPGridMenu (0.2.1)
+  - DKCircleButton (1.1)
   - pop (1.0.7)
 
 DEPENDENCIES:
   - CNPGridMenu
+  - DKCircleButton
   - pop
 
 SPEC CHECKSUMS:
   CNPGridMenu: 0a8f8303cc0e141ad483d8b9bc8fdf48bfa577b6
+  DKCircleButton: 4c259074ec4e153a2c0a37c4d80e111147ef6c8f
   pop: 2f14a1ea61339767af9e66741b418c831b3844df
 
 COCOAPODS: 0.35.0

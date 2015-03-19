@@ -1,16 +1,36 @@
 PODS:
+  - CMDQueryStringSerialization (0.3.2):
+    - ISO8601
   - CNPGridMenu (0.2.1)
   - DKCircleButton (1.1)
+  - ISO8601 (0.1.2)
   - pop (1.0.7)
+  - ReactiveCocoa (2.4.7):
+    - ReactiveCocoa/UI (= 2.4.7)
+  - ReactiveCocoa/Core (2.4.7):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.4.7)
+  - ReactiveCocoa/UI (2.4.7):
+    - ReactiveCocoa/Core
+  - SimpleAuth/Core (0.3.6):
+    - CMDQueryStringSerialization
+    - ReactiveCocoa
+  - SimpleAuth/Facebook (0.3.6):
+    - SimpleAuth/Core
 
 DEPENDENCIES:
   - CNPGridMenu
   - DKCircleButton
   - pop
+  - SimpleAuth/Facebook
 
 SPEC CHECKSUMS:
+  CMDQueryStringSerialization: bc824b96c08a3277d00c71504e13c9fa18c6b451
   CNPGridMenu: 0a8f8303cc0e141ad483d8b9bc8fdf48bfa577b6
   DKCircleButton: 4c259074ec4e153a2c0a37c4d80e111147ef6c8f
+  ISO8601: 92c818ffadac96b0bee76a7ee69dfb617acea197
   pop: 2f14a1ea61339767af9e66741b418c831b3844df
+  ReactiveCocoa: 313fc53cc9aeb2bbbc3f5f13c7eac16478d9af8f
+  SimpleAuth: 0664e22bff27c7f5b169254b421b1c761d002f65
 
 COCOAPODS: 0.35.0

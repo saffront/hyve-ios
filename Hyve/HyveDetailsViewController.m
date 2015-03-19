@@ -19,11 +19,11 @@
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
 @property (weak, nonatomic) IBOutlet UITextField *hyveNameTextField;
 @property (strong, nonatomic) UIImage *resizedImage;
-@property (weak, nonatomic) IBOutlet UISlider *distanceSlider;
-@property (weak, nonatomic) IBOutlet UILabel *distanceSliderLabel;
+//@property (weak, nonatomic) IBOutlet UISlider *distanceSlider;
+//@property (weak, nonatomic) IBOutlet UILabel *distanceSliderLabel;
 @property (strong, nonatomic) NSArray *valuesOfDistanceSlider;
 @property (weak, nonatomic) IBOutlet UIButton *connectButton;
-@property (weak, nonatomic) IBOutlet UIButton *setIconButton;
+//@property (weak, nonatomic) IBOutlet UIButton *setIconButton;
 @property (strong, nonatomic) CNPGridMenu *gridMenu;
 @property (strong, nonatomic) NSString *distanceNumber;
 @property (strong, nonatomic) NSData *distanceNumberData;
@@ -378,31 +378,6 @@
 }
 
 #pragma mark - central manager delegate
-
--(void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
-{
-    NSLog(@"Central has connected to peripheral: %@ with UUID: %@",peripheral,peripheral.identifier);
-    peripheral.delegate = self;
-    [peripheral discoverServices:nil];
-    
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:[NSString stringWithFormat:@"Successfully connected to %@", peripheral.name] preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-    [alertController addAction:okAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-
--(void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
-{
-    if (error)
-    {
-        NSLog(@"didFailToConnectPeripheral : %@", error);
-    }
-    else
-    {
-        NSLog(@"connectedToPeripheral : peripheral ==> %@ self.pheripheral ~~> %@", peripheral, self.peripheral);
-    }
-}
-
 -(void)centralManagerDidUpdateState:(CBCentralManager *)central
 {
     switch (central.state) {
@@ -429,6 +404,30 @@
     }
 }
 
+-(void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
+{
+    NSLog(@"Central has connected to peripheral: %@ with UUID: %@",peripheral,peripheral.identifier);
+    peripheral.delegate = self;
+    [peripheral discoverServices:nil];
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:[NSString stringWithFormat:@"Successfully connected to %@", peripheral.name] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+-(void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
+{
+    if (error)
+    {
+        NSLog(@"didFailToConnectPeripheral : %@", error);
+    }
+    else
+    {
+        NSLog(@"connectedToPeripheral : peripheral ==> %@ self.pheripheral ~~> %@", peripheral, self.peripheral);
+    }
+}
+
 #pragma mark - peripheral delegate
 -(void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
 {
@@ -436,8 +435,9 @@
     {
         NSLog(@"Discovered service %@ CBUUID= %@", service, service.UUID);
         
+
         [peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:@"FFF6"]] forService:service];
-//        [peripheral discoverCharacteristics:nil forService:service];
+//       [peripheral discoverCharacteristics:nil forService:service];
     }
 }
 

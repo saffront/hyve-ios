@@ -35,6 +35,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.92 alpha:1];
     self.centralManager.delegate = self;
     self.hyveNameTextField.text = self.peripheral.name;
     self.hyveNameTextField.delegate = self;
@@ -43,7 +44,7 @@
     [self addingSaveButtonToNavigationBar];
     [self addToolbarToKeyboard];
     [self stylingTextField];
-
+    [self stylingHyveDistanceButton];
     [self configureAndStyleDistanceSlider];
     [self stylingConnectButton];
     [self stylingHyveImageButton];
@@ -67,8 +68,8 @@
     self.hyveNameTextField.layer.borderColor = [UIColor colorWithRed:0.90 green:0.90 blue:0.90 alpha:1].CGColor;
     self.hyveNameTextField.layer.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1].CGColor;
     self.hyveNameTextField.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0);
-    self.hyveNameTextField.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:15];
-    self.hyveNameTextField.textAlignment = NSTextAlignmentCenter;
+    self.hyveNameTextField.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
+    self.hyveNameTextField.textAlignment = NSTextAlignmentNatural;
 }
 
 #pragma mark - styling hyve image button
@@ -214,6 +215,19 @@
 }
 
 #pragma mark - hyve distance
+-(void)stylingHyveDistanceButton
+{
+    self.hyveDistanceButton.layer.borderWidth = 0.5;
+    self.hyveDistanceButton.layer.borderColor = [UIColor colorWithRed:0.90 green:0.90 blue:0.90 alpha:1].CGColor;
+    self.hyveDistanceButton.layer.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1].CGColor;
+    self.hyveDistanceButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
+    self.hyveDistanceButton.tintColor = [UIColor blackColor];
+    self.hyveDistanceButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [self.hyveDistanceButton setContentEdgeInsets:UIEdgeInsetsMake(0, 20, 0, 0)];
+    [self.hyveDistanceButton setTitle:@"Distance from Hyve" forState:UIControlStateNormal];
+
+}
+
 - (IBAction)onHyveDistanceButtonPressed:(id)sender
 {
     POPSpringAnimation *shakeHyveDistanceButton = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];

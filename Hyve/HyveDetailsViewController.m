@@ -8,12 +8,15 @@
 
 #import "HyveDetailsViewController.h"
 #import <CNPGridMenu.h>
+#import <DKCircleButton.h>
+#import <POP.h>
+
 //32A9DD44-9B1C-BAA5-8587-8A2D36E0623E  - hive
 
-@interface HyveDetailsViewController () <UIImagePickerControllerDelegate, CNPGridMenuDelegate, CBPeripheralDelegate, CBCentralManagerDelegate, CBPeripheralManagerDelegate>
+@interface HyveDetailsViewController () <UIImagePickerControllerDelegate, CNPGridMenuDelegate, CBPeripheralDelegate, CBCentralManagerDelegate, UITextFieldDelegate>
 
+@property (strong, nonatomic) IBOutlet DKCircleButton *hyveImageButton;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
-@property (weak, nonatomic) IBOutlet UIButton *hyveCamera;
 @property (weak, nonatomic) IBOutlet UITextField *hyveNameTextField;
 @property (strong, nonatomic) UIImage *resizedImage;
 @property (weak, nonatomic) IBOutlet UISlider *distanceSlider;
@@ -24,6 +27,7 @@
 @property (strong, nonatomic) CNPGridMenu *gridMenu;
 @property (strong, nonatomic) NSString *distanceNumber;
 @property (strong, nonatomic) NSData *distanceNumberData;
+@property (strong, nonatomic) IBOutlet UIButton *hyveDistanceButton;
 
 @end
 
@@ -33,16 +37,16 @@
     [super viewDidLoad];
     self.centralManager.delegate = self;
     self.hyveNameTextField.text = self.peripheral.name;
-
+    self.hyveNameTextField.delegate = self;
     
     [self stylingDistanceSliderLabel];
     [self addingSaveButtonToNavigationBar];
     [self addToolbarToKeyboard];
     [self stylingTextField];
-    [self stylingHyveCameraButton];
+
     [self configureAndStyleDistanceSlider];
-    [self stylingIconButton];
     [self stylingConnectButton];
+    [self stylingHyveImageButton];
     
     NSString *uuid = [self.peripheral.identifier UUIDString];
     NSLog(@"self.peripheral %@", uuid);
@@ -64,42 +68,52 @@
     self.hyveNameTextField.layer.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1].CGColor;
     self.hyveNameTextField.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0);
     self.hyveNameTextField.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:15];
+    self.hyveNameTextField.textAlignment = NSTextAlignmentCenter;
 }
 
-#pragma mark - adding toolbar to keyboard
--(void)addToolbarToKeyboard
+#pragma mark - styling hyve image button
+-(void)stylingHyveImageButton
 {
-    UIToolbar *keyboardToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
-    keyboardToolbar.barStyle = UIBarStyleDefault;
-    keyboardToolbar.items = @[[[UIBarButtonItem alloc] initWithTitle:@"Clear" style:UIBarButtonItemStylePlain target:self action:@selector(clearButtonPressed)],
-                              [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil],
-                              [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneButtonPressed)]
-                              ];
-    
-    [keyboardToolbar sizeToFit];
-    self.hyveNameTextField.inputAccessoryView = keyboardToolbar;
+    self.hyveImageButton.borderColor = [UIColor whiteColor];
+    self.hyveImageButton.borderSize = 2.0f;
+    [self.hyveImageButton setImage:[UIImage imageNamed:@"jlaw2"] forState:UIControlStateNormal];
+    [self.hyveImageButton setTitle:@"" forState:UIControlStateNormal];
 }
 
--(void)clearButtonPressed
+#pragma mark - hyve image button
+- (IBAction)onHyveImageButtonPressed:(id)sender
 {
-    self.hyveNameTextField.text = @"";
+    POPSpringAnimation *springAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+    springAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
+    springAnimation.springBounciness = 20.0f;
+    [self.hyveImageButton pop_addAnimation:springAnimation forKey:@"sendAnimation"];
+    springAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+        
+        if (finished)
+        {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Choose methods below to attach image to your Hyve" preferredStyle:UIAlertControllerStyleActionSheet];
+            
+            UIAlertAction *takePicture = [UIAlertAction actionWithTitle:@"Take a picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [self takeAPictureForHyveImage];
+            }];
+            
+            UIAlertAction *usePresetIcon = [UIAlertAction actionWithTitle:@"Use preset icon" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [self usePresetIconForHyveImage];
+            }];
+            
+            UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }];
+            
+            [alertController addAction:takePicture];
+            [alertController addAction:usePresetIcon];
+            [alertController addAction:cancel];
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
+    };
 }
 
--(void)doneButtonPressed
-{
-    [self.hyveNameTextField resignFirstResponder];
-}
-
-#pragma mark - styling hyve camera button
--(void)stylingHyveCameraButton
-{
-    [self.hyveCamera setTitle:@"Camera" forState:UIControlStateNormal];
-    self.hyveCamera.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:15];
-    [self.hyveCamera setImage:[UIImage imageNamed:@"jlaw2"] forState:UIControlStateNormal];
-}
-
-#pragma mark - image picker controller
-- (IBAction)onHyveCameraButtonPressed:(id)sender
+-(void)takeAPictureForHyveImage
 {
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
@@ -108,7 +122,6 @@
         self.imagePickerController.delegate = (id)self;
         
         self.imagePickerController.modalPresentationStyle = UIModalPresentationFullScreen;
-        self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
         [self presentViewController:self.imagePickerController animated:YES completion:nil];
     }
     else
@@ -117,41 +130,7 @@
     }
 }
 
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        UIImage *imageTakenByUser = [info valueForKey:UIImagePickerControllerOriginalImage];
-        CGRect rect = CGRectMake(0, 0, 700, 800);
-        
-        UIGraphicsBeginImageContext(rect.size);
-        [imageTakenByUser drawInRect:rect];
-        UIImage *resizedImageTakenByUser = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.resizedImage = resizedImageTakenByUser;
-        });
-    });
-}
-
--(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    NSLog(@"Cancel image picker was called");
-    [self.imagePickerController dismissViewControllerAnimated:YES completion:nil];
-}
-
-#pragma mark - icon menu
--(void)stylingIconButton
-{
-    self.setIconButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:15];
-    [self.setIconButton setTitle:@"Select Icon" forState:UIControlStateNormal];
-    self.setIconButton.titleLabel.numberOfLines = 0;
-    [self.setIconButton setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
-}
-
-- (IBAction)onSetIconButtonPressed:(id)sender
+-(void)usePresetIconForHyveImage
 {
     //backpack, laptop, house key, car key, bag, briefcase, tablet, mobile phone, wallet, remote control,
     
@@ -183,10 +162,6 @@
     tablet.icon = [UIImage imageNamed:@"tablet"];
     tablet.title = @"Backpack";
     
-//    CNPGridMenuItem *phone = [CNPGridMenuItem new];
-//    phone.icon = [UIImage imageNamed:@"phone"];
-//    phone.title = @"Phone";
-    
     CNPGridMenuItem *wallet = [CNPGridMenuItem new];
     wallet.icon = [UIImage imageNamed:@"wallet"];
     wallet.title = @"Wallet";
@@ -203,6 +178,81 @@
     }];
 }
 
+#pragma mark - camera for take a picture
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        UIImage *imageTakenByUser = [info valueForKey:UIImagePickerControllerOriginalImage];
+        CGRect rect = CGRectMake(0, 0, 700, 800);
+        
+        UIGraphicsBeginImageContext(rect.size);
+        [imageTakenByUser drawInRect:rect];
+        UIImage *resizedImageTakenByUser = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.resizedImage = resizedImageTakenByUser;
+            POPBasicAnimation *fadeAnimation = [POPBasicAnimation animation];
+            fadeAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewAlpha];
+            fadeAnimation.fromValue = @(0);
+            fadeAnimation.toValue = @(1);
+            fadeAnimation.duration = 1.5;
+            fadeAnimation.name = @"fade-in";
+            [self.hyveImageButton setImage:self.resizedImage animated:NO];
+            [self.hyveImageButton pop_addAnimation:fadeAnimation forKey:fadeAnimation.name];
+            
+        });
+    });
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    NSLog(@"Cancel image picker was called");
+    [self.imagePickerController dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - hyve distance
+- (IBAction)onHyveDistanceButtonPressed:(id)sender
+{
+    POPSpringAnimation *shakeHyveDistanceButton = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+    shakeHyveDistanceButton.springBounciness = 20;
+    shakeHyveDistanceButton.velocity = @(3000);
+    shakeHyveDistanceButton.name = @"shakeHyveDistanceButton";
+    [self.hyveDistanceButton pop_addAnimation:shakeHyveDistanceButton forKey:shakeHyveDistanceButton.name];
+    
+    CNPGridMenuItem *one = [CNPGridMenuItem new];
+    one.title = @"One meter";
+    one.icon = [UIImage imageNamed:@"briefcase"];
+    
+    CNPGridMenuItem *two = [CNPGridMenuItem new];
+    two.icon = [UIImage imageNamed:@"remote"];
+    two.title = @"Two meters";
+    
+    CNPGridMenuItem *four = [CNPGridMenuItem new];
+    four.title = @"Four meters";
+    four.icon = [UIImage imageNamed:@"wallet"];
+    
+    CNPGridMenuItem *eight = [CNPGridMenuItem new];
+    eight.title = @"Eight meters";
+    eight.icon = [UIImage imageNamed:@"tablet"];
+  
+    CNPGridMenuItem *sixteen = [CNPGridMenuItem new];
+    sixteen.title = @"Sixteen meters";
+    sixteen.icon = [UIImage imageNamed:@"bag"];
+    
+    shakeHyveDistanceButton.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+        self.gridMenu = [[CNPGridMenu alloc] initWithMenuItems:@[one,two,four,eight,sixteen]];
+        self.gridMenu.delegate = self;
+        self.gridMenu.blurEffectStyle = UIBlurEffectStyleDark;
+        [self presentGridMenu:self.gridMenu animated:YES completion:^{
+            NSLog(@"display grid menu");
+        }];
+    };
+}
+
+#pragma mark - grid menu preset icons and distance
 -(void)gridMenu:(CNPGridMenu *)menu didTapOnItem:(CNPGridMenuItem *)item
 {
     //backpack, laptop, house key, car key, bag, briefcase, tablet, mobile phone, wallet, remote control,
@@ -243,13 +293,33 @@
     {
         
     }
+    else if ([item.title isEqualToString:@"One meter"])
+    {
+        NSLog(@"one meter selected");
+    }
+    else if ([item.title isEqualToString:@"Two meters"])
+    {
+        
+    }
+    else if ([item.title isEqualToString:@"Four meters"])
+    {
+        
+    }
+    else if ([item.title isEqualToString:@"Eight meters"])
+    {
+        
+    }
+    else if ([item.title isEqualToString:@"Sixteen meters"])
+    {
+        
+    }
+    
 }
 
 -(void)gridMenuDidTapOnBackground:(CNPGridMenu *)menu
 {
     [self dismissGridMenuAnimated:YES completion:nil];
 }
-
 
 #pragma mark - slider
 -(void)stylingDistanceSliderLabel
@@ -377,11 +447,6 @@
     self.connectButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:15];
 }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [self.view endEditing:YES];
-}
-
 #pragma mark - central manager delegate
 
 -(void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
@@ -440,11 +505,6 @@
     for (CBService *service in peripheral.services)
     {
         NSLog(@"Discovered service %@ CBUUID= %@", service, service.UUID);
-//        [peripheral discoverCharacteristics:nil forService:service];
-        
-//        CBUUID *FFF6 = [CBUUID UUIDWithString:@"FFF6"];
-//        NSArray *FFF6Array = [[NSArray alloc] initWithObjects:FFF6, nil];
-//        [peripheral discoverCharacteristics:FFF6Array forService:service];
         
         [peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:@"FFF6"]] forService:service];
 //        [peripheral discoverCharacteristics:nil forService:service];
@@ -601,6 +661,57 @@
     }
 }
 
+#pragma mark - touches began
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
+
+#pragma mark - adding toolbar to keyboard
+-(void)addToolbarToKeyboard
+{
+    UIToolbar *keyboardToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+    keyboardToolbar.barStyle = UIBarStyleDefault;
+    keyboardToolbar.items = @[[[UIBarButtonItem alloc] initWithTitle:@"Clear" style:UIBarButtonItemStylePlain target:self action:@selector(clearButtonPressed)],
+                              [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil],
+                              [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneButtonPressed)]
+                              ];
+    
+    [keyboardToolbar sizeToFit];
+    self.hyveNameTextField.inputAccessoryView = keyboardToolbar;
+}
+
+-(void)clearButtonPressed
+{
+    self.hyveNameTextField.text = @"";
+}
+
+-(void)doneButtonPressed
+{
+    [self.hyveNameTextField resignFirstResponder];
+}
+
+
+#pragma mark - text field delegate
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDuration:0.3];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [self.view setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y - 120, self.view.frame.size.width, self.view.frame.size.height)];
+    [UIView commitAnimations];
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDuration:0.3];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [self.view setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + 120, self.view.frame.size.width, self.view.frame.size.height)];
+    [UIView commitAnimations];
+}
 
 
 @end

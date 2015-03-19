@@ -44,7 +44,7 @@
 
 -(void)loginWithFacebook
 {
-    [SimpleAuth authorize:@"facebook" completion:^(id responseObject, NSError *error) { 
+    [SimpleAuth authorize:@"facebook" completion:^(id responseObject, NSError *error) {
         if (!error)
         {
             [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
@@ -64,7 +64,6 @@
     {
         UINavigationController *navController = segue.destinationViewController;
         DashboardViewController *dvc = (DashboardViewController*)[navController topViewController];
-        
     }
 }
 

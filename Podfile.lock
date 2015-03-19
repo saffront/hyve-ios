@@ -5,6 +5,7 @@ PODS:
   - DKCircleButton (1.1)
   - ISO8601 (0.1.2)
   - pop (1.0.7)
+  - Reachability (3.2)
   - ReactiveCocoa (2.4.7):
     - ReactiveCocoa/UI (= 2.4.7)
   - ReactiveCocoa/Core (2.4.7):
@@ -22,6 +23,7 @@ DEPENDENCIES:
   - CNPGridMenu
   - DKCircleButton
   - pop
+  - Reachability
   - SimpleAuth/Facebook
 
 SPEC CHECKSUMS:
@@ -30,6 +32,7 @@ SPEC CHECKSUMS:
   DKCircleButton: 4c259074ec4e153a2c0a37c4d80e111147ef6c8f
   ISO8601: 92c818ffadac96b0bee76a7ee69dfb617acea197
   pop: 2f14a1ea61339767af9e66741b418c831b3844df
+  Reachability: 1ef8adf5c4e3d362f96515d4278f68dad3c26930
   ReactiveCocoa: 313fc53cc9aeb2bbbc3f5f13c7eac16478d9af8f
   SimpleAuth: 0664e22bff27c7f5b169254b421b1c761d002f65
 

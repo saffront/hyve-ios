@@ -1,11 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="s7g-nT-25p">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="chw-8F-jWs">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
+        <!--Login View Controller-->
+        <scene sceneID="yxI-ch-4SL">
+            <objects>
+                <viewController id="sC8-fn-D1e" customClass="LoginViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="g45-DY-T4n"/>
+                        <viewControllerLayoutGuide type="bottom" id="Qzp-HT-qvQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="c5r-Ge-Hha">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mky-aM-DGz">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="Login with Facebook">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onLoginWithFacebookButtonPressed:" destination="sC8-fn-D1e" eventType="touchUpInside" id="TPC-2H-3wu"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerY" secondItem="Mky-aM-DGz" secondAttribute="centerY" id="2aq-0C-RQd"/>
+                            <constraint firstAttribute="centerX" secondItem="Mky-aM-DGz" secondAttribute="centerX" id="Scj-ba-rpJ"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="Mky-aM-DGz"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="2aq-0C-RQd"/>
+                                <exclude reference="Scj-ba-rpJ"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="Mky-aM-DGz"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="2aq-0C-RQd"/>
+                                <include reference="Scj-ba-rpJ"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <navigationItem key="navigationItem" id="fRT-0u-tUv"/>
+                    <connections>
+                        <outlet property="loginFacebookButton" destination="Mky-aM-DGz" id="tvB-P7-434"/>
+                        <segue destination="Hpw-VC-FOY" kind="showDetail" identifier="ShowDashboardVC" id="9sE-72-1MT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ltn-6k-FRY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1162.5" y="228.75"/>
+        </scene>
         <!--Dashboard View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
@@ -172,7 +227,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1480.5" y="228.75"/>
+            <point key="canvasLocation" x="2932.5" y="228.75"/>
         </scene>
         <!--Peripheral List View Controller-->
         <scene sceneID="pBd-t5-JyH">
@@ -310,7 +365,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PY3-Yy-XA4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2260.5" y="228.75"/>
+            <point key="canvasLocation" x="3970.5" y="228.75"/>
         </scene>
         <!--Hyve List View Controller-->
         <scene sceneID="Viw-nu-7I9">
@@ -498,7 +553,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pIy-fo-a3J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3046.5" y="228.75"/>
+            <point key="canvasLocation" x="4882.5" y="228.75"/>
         </scene>
         <!--Hyve Details View Controller-->
         <scene sceneID="fBL-iD-GHn">
@@ -690,25 +745,43 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jy0-Cz-idu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3753" y="228.75"/>
+            <point key="canvasLocation" x="5589" y="228.75"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="9hJ-b3-kpi">
+        <scene sceneID="S0i-Oa-tP2">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="s7g-nT-25p" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="chw-8F-jWs" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="xnw-s6-stL">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Lot-Nk-9ZR">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="Y03-Xn-UaK"/>
+                        <segue destination="sC8-fn-D1e" kind="relationship" relationship="rootViewController" id="AQ9-6q-Aei"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JFY-64-Ldn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TCb-I0-Y2l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="652.5" y="235.5"/>
+            <point key="canvasLocation" x="394.5" y="228.75"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="S6p-Hz-VHG">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Hpw-VC-FOY" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DcR-sL-zwT">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="HYm-Ns-51y"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RMH-3T-xLY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2014.5" y="228.75"/>
         </scene>
     </scenes>
     <resources>

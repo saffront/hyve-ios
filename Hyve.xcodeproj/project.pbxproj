@@ -17,6 +17,7 @@
 		3B5772BD1AA714E1009FC171 /* HyveTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5772BC1AA714E1009FC171 /* HyveTests.m */; };
 		3B5772C81AA7E45E009FC171 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5772C71AA7E45E009FC171 /* DashboardViewController.m */; };
 		3B5772CB1AA84361009FC171 /* AvenirLTStd-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3B5772CA1AA8435B009FC171 /* AvenirLTStd-Medium.otf */; };
+		3B6FA1E91ABAD26F007517B4 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6FA1E81ABAD26F007517B4 /* LoginViewController.m */; };
 		3B74B6B81AAD547900A0B50F /* HyveDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B74B6B71AAD547900A0B50F /* HyveDetailsViewController.m */; };
 		3BA2D3471AA95DAB008CA9E4 /* PeripheralListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA2D3461AA95DAB008CA9E4 /* PeripheralListViewController.m */; };
 		3BA2D34A1AA9A9C9008CA9E4 /* HyveListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA2D3491AA9A9C9008CA9E4 /* HyveListViewController.m */; };
@@ -54,6 +55,8 @@
 		3B5772C61AA7E45E009FC171 /* DashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashboardViewController.h; sourceTree = "<group>"; };
 		3B5772C71AA7E45E009FC171 /* DashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashboardViewController.m; sourceTree = "<group>"; };
 		3B5772CA1AA8435B009FC171 /* AvenirLTStd-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirLTStd-Medium.otf"; sourceTree = "<group>"; };
+		3B6FA1E71ABAD26F007517B4 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		3B6FA1E81ABAD26F007517B4 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		3B74B6B61AAD547900A0B50F /* HyveDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyveDetailsViewController.h; sourceTree = "<group>"; };
 		3B74B6B71AAD547900A0B50F /* HyveDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyveDetailsViewController.m; sourceTree = "<group>"; };
 		3BA2D3451AA95DAB008CA9E4 /* PeripheralListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeripheralListViewController.h; sourceTree = "<group>"; };
@@ -172,6 +175,8 @@
 		3BA2D34B1AA9B668008CA9E4 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				3B6FA1E71ABAD26F007517B4 /* LoginViewController.h */,
+				3B6FA1E81ABAD26F007517B4 /* LoginViewController.m */,
 				3B74B6B61AAD547900A0B50F /* HyveDetailsViewController.h */,
 				3B74B6B71AAD547900A0B50F /* HyveDetailsViewController.m */,
 				3BA2D3481AA9A9C9008CA9E4 /* HyveListViewController.h */,
@@ -344,6 +349,7 @@
 				3B5772A91AA714E1009FC171 /* ViewController.m in Sources */,
 				3B5772A61AA714E1009FC171 /* AppDelegate.m in Sources */,
 				3B5772A31AA714E1009FC171 /* main.m in Sources */,
+				3B6FA1E91ABAD26F007517B4 /* LoginViewController.m in Sources */,
 				3BA2D3471AA95DAB008CA9E4 /* PeripheralListViewController.m in Sources */,
 				3B5772C81AA7E45E009FC171 /* DashboardViewController.m in Sources */,
 				3B74B6B81AAD547900A0B50F /* HyveDetailsViewController.m in Sources */,

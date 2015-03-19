@@ -270,64 +270,77 @@
 -(void)gridMenu:(CNPGridMenu *)menu didTapOnItem:(CNPGridMenuItem *)item
 {
     //backpack, laptop, house key, car key, bag, briefcase, tablet, mobile phone, wallet, remote control,
-    
     if ([item.title isEqualToString:@"Backpack"])
     {
         NSLog(@"backpack");
+        [self.hyveImageButton setImage:[UIImage imageNamed:@"bagpack"] forState:UIControlStateNormal];
+        [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Laptop"])
     {
-        
+        [self.hyveImageButton setImage:[UIImage imageNamed:@"macbook"] forState:UIControlStateNormal];
+        [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"House Key"])
     {
-        
+        [self.hyveImageButton setImage:[UIImage imageNamed:@"houseKeys"] forState:UIControlStateNormal];
+        [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Car Key"])
     {
-        
+        [self.hyveImageButton setImage:[UIImage imageNamed:@"carKeys"] forState:UIControlStateNormal];
+        [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Bag"])
     {
-        
+        [self.hyveImageButton setImage:[UIImage imageNamed:@"handbag"] forState:UIControlStateNormal];
+        [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Briefcase"])
     {
-        
+        [self.hyveImageButton setImage:[UIImage imageNamed:@"briefcase"] forState:UIControlStateNormal];
+        [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Backpack"])
     {
-        
+        [self.hyveImageButton setImage:[UIImage imageNamed:@"bagpack"] forState:UIControlStateNormal];
+        [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Wallet"])
     {
-        
+        [self.hyveImageButton setImage:[UIImage imageNamed:@"wallet"] forState:UIControlStateNormal];
+        [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Remote Control"])
     {
-        
+        [self.hyveImageButton setImage:[UIImage imageNamed:@"remote"] forState:UIControlStateNormal];
+        [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"One meter"])
     {
-        NSLog(@"one meter selected");
+        [self.hyveDistanceButton setTitle:@"Distance from Hyve: 1 meter" forState:UIControlStateNormal];
+        [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Two meters"])
     {
-        
+        [self.hyveDistanceButton setTitle:@"Distance from Hyve: 2 meters" forState:UIControlStateNormal];
+        [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Four meters"])
     {
-        
+        [self.hyveDistanceButton setTitle:@"Distance from Hyve: 4 meters" forState:UIControlStateNormal];
+        [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Eight meters"])
     {
-        
+        [self.hyveDistanceButton setTitle:@"Distance from Hyve: 8 meters" forState:UIControlStateNormal];
+        [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Sixteen meters"])
     {
-        
+        [self.hyveDistanceButton setTitle:@"Distance from Hyve: 16 meters" forState:UIControlStateNormal];
+        [self dismissGridMenuAnimated:YES completion:nil];
     }
-    
 }
 
 -(void)gridMenuDidTapOnBackground:(CNPGridMenu *)menu

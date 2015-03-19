@@ -8,10 +8,13 @@
 
 #import "LoginViewController.h"
 #import "DashboardViewController.h"
+#import  <Reachability.h>
 #import <SimpleAuth/SimpleAuth.h>
+
 
 @interface LoginViewController ()
 @property (strong, nonatomic) IBOutlet UIButton *loginFacebookButton;
+@property (strong, nonatomic) Reachability *reachability;
 
 @end
 
@@ -39,7 +42,19 @@
 #pragma mark - login with facebook
 - (IBAction)onLoginWithFacebookButtonPressed:(id)sender
 {
-    [self loginWithFacebook];
+    Reachability *reachability = [Reachability reachabilityWithHostName:@"www.google.com"];
+    
+    if (reachability.isReachable)
+    {
+        [self loginWithFacebook];
+    }
+    else
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Internet connectivity unnavailable" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
 }
 
 -(void)loginWithFacebook

@@ -223,7 +223,8 @@
                                     <rect key="frame" x="73" y="54" width="73" height="64"/>
                                 </variation>
                                 <connections>
-                                    <segue destination="Hpw-VC-FOY" kind="show" id="yJy-8H-dCD"/>
+                                    <action selector="onEnterHyveAppButtonPressed:" destination="UX1-03-WkS" eventType="touchUpInside" id="k3i-sF-862"/>
+                                    <segue destination="Hpw-VC-FOY" kind="show" identifier="ToDashboardVC" id="yJy-8H-dCD"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -241,6 +242,9 @@
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="enterHyveAppButton" destination="MK0-Ok-TCC" id="dvT-nv-BnI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lue-2i-hx7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -994,6 +998,6 @@
         <image name="blur" width="1198" height="794"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="yJy-8H-dCD"/>
+        <segue reference="9sE-72-1MT"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -66,7 +66,7 @@
     [SimpleAuth authorize:@"facebook" completion:^(id responseObject, NSError *error) {
         if (!error)
         {
-            [self performSegueWithIdentifier:@"ShowWalkthrough" sender:nil];
+            [self checkingForFirstTimeUsers];
             NSLog(@"responseObject from FB: \r%@", responseObject);
         }
         else
@@ -132,21 +132,37 @@
             {
                 
                 NSLog(@"person display name: %@ \r person.aboutMe %@ \r birthday %@ \r gender: %@ \r familyName: %@ \r givenName %@ \r identifier %@", person.displayName, person.aboutMe, person.birthday, person.gender, person.name.familyName, person.name.givenName, person.identifier);
-                [self performSegueWithIdentifier:@"ShowWalkthrough" sender:nil];
+                
+                [self checkingForFirstTimeUsers];
             }
         }];
+    }
+}
+
+#pragma mark - first time check
+-(void)checkingForFirstTimeUsers
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *checkingForFirstTime = [userDefaults objectForKey:@"firstTimeEnterApp"];
+    if (checkingForFirstTime == nil)
+    {
+        [self performSegueWithIdentifier:@"ShowWalkthrough" sender:nil];
+    }
+    else
+    {
+        [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
     }
 }
 
 #pragma mark - segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-//    if ([segue.identifier isEqualToString:@"ShowWalkthrough"])
-//    {
-//        UINavigationController *navController = segue.destinationViewController;
-//        DashboardViewController *dvc = (DashboardViewController*)[navController topViewController];
-//    }
-    if ([segue.identifier isEqualToString:@"ShowWalkthrough"])
+    if ([segue.identifier isEqualToString:@"ShowDashboardVC"])
+    {
+        UINavigationController *navController = segue.destinationViewController;
+        DashboardViewController *dvc = (DashboardViewController*)[navController topViewController];
+    }
+    else if ([segue.identifier isEqualToString:@"ShowWalkthrough"])
     {
         WalkthroughViewController *wvc = segue.destinationViewController;
     }

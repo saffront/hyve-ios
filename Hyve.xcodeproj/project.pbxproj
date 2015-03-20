@@ -17,6 +17,19 @@
 		3B5772BD1AA714E1009FC171 /* HyveTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5772BC1AA714E1009FC171 /* HyveTests.m */; };
 		3B5772C81AA7E45E009FC171 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5772C71AA7E45E009FC171 /* DashboardViewController.m */; };
 		3B5772CB1AA84361009FC171 /* AvenirLTStd-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3B5772CA1AA8435B009FC171 /* AvenirLTStd-Medium.otf */; };
+		3B6C72211ABBBF61006ECC0C /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6C72201ABBBF61006ECC0C /* AddressBook.framework */; };
+		3B6C72231ABBBF68006ECC0C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6C72221ABBBF68006ECC0C /* AssetsLibrary.framework */; };
+		3B6C72251ABBBF72006ECC0C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6C72241ABBBF72006ECC0C /* Foundation.framework */; };
+		3B6C72271ABBBF77006ECC0C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6C72261ABBBF77006ECC0C /* CoreLocation.framework */; };
+		3B6C72291ABBBF7E006ECC0C /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6C72281ABBBF7E006ECC0C /* CoreMotion.framework */; };
+		3B6C722B1ABBBF84006ECC0C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6C722A1ABBBF84006ECC0C /* CoreGraphics.framework */; };
+		3B6C722D1ABBBF8A006ECC0C /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6C722C1ABBBF8A006ECC0C /* CoreText.framework */; };
+		3B6C722F1ABBBF96006ECC0C /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6C722E1ABBBF96006ECC0C /* MediaPlayer.framework */; };
+		3B6C72311ABBBF9C006ECC0C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6C72301ABBBF9C006ECC0C /* Security.framework */; };
+		3B6C72331ABBBFA4006ECC0C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6C72321ABBBFA4006ECC0C /* SystemConfiguration.framework */; };
+		3B6C72351ABBBFAC006ECC0C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6C72341ABBBFAC006ECC0C /* UIKit.framework */; };
+		3B6C72381ABBBFCF006ECC0C /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6C72361ABBBFCF006ECC0C /* GoogleOpenSource.framework */; };
+		3B6C72391ABBBFCF006ECC0C /* GooglePlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6C72371ABBBFCF006ECC0C /* GooglePlus.framework */; };
 		3B6FA1E91ABAD26F007517B4 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6FA1E81ABAD26F007517B4 /* LoginViewController.m */; };
 		3B74B6B81AAD547900A0B50F /* HyveDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B74B6B71AAD547900A0B50F /* HyveDetailsViewController.m */; };
 		3BA2D3471AA95DAB008CA9E4 /* PeripheralListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA2D3461AA95DAB008CA9E4 /* PeripheralListViewController.m */; };
@@ -55,6 +68,19 @@
 		3B5772C61AA7E45E009FC171 /* DashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashboardViewController.h; sourceTree = "<group>"; };
 		3B5772C71AA7E45E009FC171 /* DashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashboardViewController.m; sourceTree = "<group>"; };
 		3B5772CA1AA8435B009FC171 /* AvenirLTStd-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirLTStd-Medium.otf"; sourceTree = "<group>"; };
+		3B6C72201ABBBF61006ECC0C /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		3B6C72221ABBBF68006ECC0C /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		3B6C72241ABBBF72006ECC0C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		3B6C72261ABBBF77006ECC0C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		3B6C72281ABBBF7E006ECC0C /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		3B6C722A1ABBBF84006ECC0C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		3B6C722C1ABBBF8A006ECC0C /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		3B6C722E1ABBBF96006ECC0C /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		3B6C72301ABBBF9C006ECC0C /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		3B6C72321ABBBFA4006ECC0C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		3B6C72341ABBBFAC006ECC0C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		3B6C72361ABBBFCF006ECC0C /* GoogleOpenSource.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleOpenSource.framework; path = "../../Downloads/google-plus-ios-sdk-1.7.1/GoogleOpenSource.framework"; sourceTree = "<group>"; };
+		3B6C72371ABBBFCF006ECC0C /* GooglePlus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GooglePlus.framework; path = "../../Downloads/google-plus-ios-sdk-1.7.1/GooglePlus.framework"; sourceTree = "<group>"; };
 		3B6FA1E71ABAD26F007517B4 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		3B6FA1E81ABAD26F007517B4 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		3B74B6B61AAD547900A0B50F /* HyveDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyveDetailsViewController.h; sourceTree = "<group>"; };
@@ -75,6 +101,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B6C72351ABBBFAC006ECC0C /* UIKit.framework in Frameworks */,
+				3B6C72381ABBBFCF006ECC0C /* GoogleOpenSource.framework in Frameworks */,
+				3B6C72391ABBBFCF006ECC0C /* GooglePlus.framework in Frameworks */,
+				3B6C72331ABBBFA4006ECC0C /* SystemConfiguration.framework in Frameworks */,
+				3B6C72311ABBBF9C006ECC0C /* Security.framework in Frameworks */,
+				3B6C722F1ABBBF96006ECC0C /* MediaPlayer.framework in Frameworks */,
+				3B6C722D1ABBBF8A006ECC0C /* CoreText.framework in Frameworks */,
+				3B6C722B1ABBBF84006ECC0C /* CoreGraphics.framework in Frameworks */,
+				3B6C72291ABBBF7E006ECC0C /* CoreMotion.framework in Frameworks */,
+				3B6C72271ABBBF77006ECC0C /* CoreLocation.framework in Frameworks */,
+				3B6C72251ABBBF72006ECC0C /* Foundation.framework in Frameworks */,
+				3B6C72231ABBBF68006ECC0C /* AssetsLibrary.framework in Frameworks */,
+				3B6C72211ABBBF61006ECC0C /* AddressBook.framework in Frameworks */,
 				3BBC2F791AB96D4C001A4390 /* QuartzCore.framework in Frameworks */,
 				3BFDD94E1AA854D200849EDA /* CoreBluetooth.framework in Frameworks */,
 				2538EA530330605DE533ADA8 /* libPods.a in Frameworks */,
@@ -201,6 +240,19 @@
 		565EC602E325AFAD2F08862D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3B6C72361ABBBFCF006ECC0C /* GoogleOpenSource.framework */,
+				3B6C72371ABBBFCF006ECC0C /* GooglePlus.framework */,
+				3B6C72341ABBBFAC006ECC0C /* UIKit.framework */,
+				3B6C72321ABBBFA4006ECC0C /* SystemConfiguration.framework */,
+				3B6C72301ABBBF9C006ECC0C /* Security.framework */,
+				3B6C722E1ABBBF96006ECC0C /* MediaPlayer.framework */,
+				3B6C722C1ABBBF8A006ECC0C /* CoreText.framework */,
+				3B6C722A1ABBBF84006ECC0C /* CoreGraphics.framework */,
+				3B6C72281ABBBF7E006ECC0C /* CoreMotion.framework */,
+				3B6C72261ABBBF77006ECC0C /* CoreLocation.framework */,
+				3B6C72241ABBBF72006ECC0C /* Foundation.framework */,
+				3B6C72221ABBBF68006ECC0C /* AssetsLibrary.framework */,
+				3B6C72201ABBBF61006ECC0C /* AddressBook.framework */,
 				3BBC2F781AB96D4C001A4390 /* QuartzCore.framework */,
 				3BFDD94D1AA854D200849EDA /* CoreBluetooth.framework */,
 				066CD1A226374AD31A58ED36 /* libPods.a */,
@@ -475,6 +527,10 @@
 			baseConfigurationReference = 1428B76772D908D549699802 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/vltlabs/Downloads/google-plus-ios-sdk-1.7.1",
+				);
 				INFOPLIST_FILE = Hyve/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -486,6 +542,10 @@
 			baseConfigurationReference = 5AF139C90BAC94F5EF0C7945 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/vltlabs/Downloads/google-plus-ios-sdk-1.7.1",
+				);
 				INFOPLIST_FILE = Hyve/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -10,9 +10,11 @@
 #import "DashboardViewController.h"
 #import  <Reachability.h>
 #import <SimpleAuth/SimpleAuth.h>
+#import <GooglePlus/GooglePlus.h>
+#import <GoogleOpenSource/GoogleOpenSource.h>
 
+@interface LoginViewController () <GPPSignInDelegate>
 
-@interface LoginViewController ()
 @property (strong, nonatomic) IBOutlet UIButton *loginFacebookButton;
 @property (strong, nonatomic) Reachability *reachability;
 
@@ -22,8 +24,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
 }
+
 
 #pragma mark - viewWillAppear
 -(void)viewWillAppear:(BOOL)animated
@@ -71,6 +74,70 @@
         }
     }];
 }
+
+#pragma mark - google sign in
+- (IBAction)onLoginWithGooglePlusButtonPressed:(id)sender
+{
+    Reachability *reachability = [Reachability reachabilityWithHostName:@"www.google.com"];
+    
+    if (reachability.isReachable)
+    {
+        [self loginWithGooglePlus];
+    }
+    else
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Internet connectivity unnavailable" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+}
+
+-(void)loginWithGooglePlus
+{
+    GPPSignIn *signIn = [GPPSignIn sharedInstance];
+    signIn.shouldFetchGooglePlusUser = YES;
+    signIn.shouldFetchGoogleUserEmail = YES;
+    signIn.clientID = @"488151226427-0mj2pg9jipcv26djbgmp4gi8pmfjc866.apps.googleusercontent.com";
+    signIn.scopes = @[@"profile"];
+    signIn.delegate = self;
+    [signIn authenticate];
+}
+
+-(void)finishedWithAuth:(GTMOAuth2Authentication *)auth error:(NSError *)error
+{
+    if (error)
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:[NSString stringWithFormat:@"Unable to login via Google Plus. %@", [error localizedDescription]] preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+    else
+    {
+
+        GTLServicePlus *plusService = [GTLServicePlus new];
+        plusService.retryEnabled = YES;
+        [plusService setAuthorizer:[GPPSignIn sharedInstance].authentication];
+        GTLQueryPlus *query = [GTLQueryPlus queryForPeopleGetWithUserId:@"me"];
+
+        [plusService executeQuery:query completionHandler:^(GTLServiceTicket *ticket, GTLPlusPerson *person, NSError *error)
+        {
+            if (error)
+            {
+                NSLog(@"Error: %@", error);
+            }
+            else
+            {
+                
+                NSLog(@"person display name: %@ \r person.aboutMe %@ \r birthday %@ \r gender: %@ \r familyName: %@ \r givenName %@ \r identifier %@", person.displayName, person.aboutMe, person.birthday, person.gender, person.name.familyName, person.name.givenName, person.identifier);
+            }
+        }];
+        
+        [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
+    }
+}
+
 
 #pragma mark - segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

@@ -73,11 +73,195 @@
                     <connections>
                         <outlet property="loginFacebookButton" destination="Mky-aM-DGz" id="tvB-P7-434"/>
                         <segue destination="Hpw-VC-FOY" kind="showDetail" identifier="ShowDashboardVC" id="9sE-72-1MT"/>
+                        <segue destination="eKG-Kj-OOR" kind="showDetail" identifier="ShowWalkthrough" id="bf1-LG-A3j"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ltn-6k-FRY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1162.5" y="228.75"/>
+        </scene>
+        <!--First Walkthrough View Controller-->
+        <scene sceneID="xKk-Tt-Ma7">
+            <objects>
+                <viewController storyboardIdentifier="FirstWalkthroughViewController" id="lQC-NC-hhD" customClass="FirstWalkthroughViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="POa-QR-XBJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="kZg-PY-FV7"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="MvN-4v-H5s">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="One" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4J7-06-xl3">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="137" y="264" width="59" height="21"/>
+                                </variation>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="4J7-06-xl3"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="4J7-06-xl3"/>
+                            </mask>
+                        </variation>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ruB-RN-Rgg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="670.5" y="1637.25"/>
+        </scene>
+        <!--Second Walkthrough View Controller-->
+        <scene sceneID="wJz-Rn-wot">
+            <objects>
+                <viewController storyboardIdentifier="SecondWalkthroughViewController" id="tRL-kS-lLT" customClass="SecondWalkthroughViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HYO-ut-sDh"/>
+                        <viewControllerLayoutGuide type="bottom" id="Eut-6Q-k8f"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Y9k-jc-vhl">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Two" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dad-JL-LN8">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="98" y="243" width="31" height="42"/>
+                                </variation>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="Dad-JL-LN8"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="Dad-JL-LN8"/>
+                            </mask>
+                        </variation>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9e6-qz-xvt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1357.5" y="1550.25"/>
+        </scene>
+        <!--Third Walkthrough View Controller-->
+        <scene sceneID="3Mb-eh-9fe">
+            <objects>
+                <viewController storyboardIdentifier="ThirdWalkthroughViewController" id="2ng-2b-4Kd" customClass="ThirdWalkthroughViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Hqd-3D-2Na"/>
+                        <viewControllerLayoutGuide type="bottom" id="dmw-zE-kgi"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hhy-zG-06J">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Three" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wvv-nn-58T">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="92" y="243" width="44" height="21"/>
+                                </variation>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="Wvv-nn-58T"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="Wvv-nn-58T"/>
+                            </mask>
+                        </variation>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="q87-6v-Aca" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2014.5" y="1454.25"/>
+        </scene>
+        <!--Fourth Walkthrough View Controller-->
+        <scene sceneID="3ak-re-fs7">
+            <objects>
+                <viewController storyboardIdentifier="FourthWalkthroughViewController" id="UX1-03-WkS" customClass="FourthWalkthroughViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qKi-PA-fNg"/>
+                        <viewControllerLayoutGuide type="bottom" id="Qwm-S9-klh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="L0p-Ok-vK5">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fourth" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snp-uQ-36I">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="159" y="129" width="50" height="21"/>
+                                </variation>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MK0-Ok-TCC">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="Go">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="73" y="54" width="73" height="64"/>
+                                </variation>
+                                <connections>
+                                    <segue destination="Hpw-VC-FOY" kind="show" id="yJy-8H-dCD"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="snp-uQ-36I"/>
+                                <exclude reference="MK0-Ok-TCC"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="snp-uQ-36I"/>
+                                <include reference="MK0-Ok-TCC"/>
+                            </mask>
+                        </variation>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lue-2i-hx7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2674.5" y="966.75"/>
+        </scene>
+        <!--Walkthrough View Controller-->
+        <scene sceneID="o7x-qR-CaW">
+            <objects>
+                <viewController id="eKG-Kj-OOR" customClass="WalkthroughViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6KO-qB-Mfe"/>
+                        <viewControllerLayoutGuide type="bottom" id="lAz-b9-r7s"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7dy-39-2uK">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wFb-aE-ilr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="654" y="966.75"/>
         </scene>
         <!--Dashboard View Controller-->
         <scene sceneID="ufC-wZ-h7g">
@@ -809,4 +993,7 @@
     <resources>
         <image name="blur" width="1198" height="794"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="yJy-8H-dCD"/>
+    </inferredMetricsTieBreakers>
 </document>

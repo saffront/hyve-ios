@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 #import "DashboardViewController.h"
+#import "WalkthroughViewController.h"
 #import  <Reachability.h>
 #import <SimpleAuth/SimpleAuth.h>
 #import <GooglePlus/GooglePlus.h>
@@ -65,7 +66,7 @@
     [SimpleAuth authorize:@"facebook" completion:^(id responseObject, NSError *error) {
         if (!error)
         {
-            [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
+            [self performSegueWithIdentifier:@"ShowWalkthrough" sender:nil];
             NSLog(@"responseObject from FB: \r%@", responseObject);
         }
         else
@@ -131,21 +132,23 @@
             {
                 
                 NSLog(@"person display name: %@ \r person.aboutMe %@ \r birthday %@ \r gender: %@ \r familyName: %@ \r givenName %@ \r identifier %@", person.displayName, person.aboutMe, person.birthday, person.gender, person.name.familyName, person.name.givenName, person.identifier);
+                [self performSegueWithIdentifier:@"ShowWalkthrough" sender:nil];
             }
         }];
-        
-        [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
     }
 }
-
 
 #pragma mark - segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"ShowDashboardVC"])
+//    if ([segue.identifier isEqualToString:@"ShowWalkthrough"])
+//    {
+//        UINavigationController *navController = segue.destinationViewController;
+//        DashboardViewController *dvc = (DashboardViewController*)[navController topViewController];
+//    }
+    if ([segue.identifier isEqualToString:@"ShowWalkthrough"])
     {
-        UINavigationController *navController = segue.destinationViewController;
-        DashboardViewController *dvc = (DashboardViewController*)[navController topViewController];
+        WalkthroughViewController *wvc = segue.destinationViewController;
     }
 }
 

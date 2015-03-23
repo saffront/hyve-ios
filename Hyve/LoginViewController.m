@@ -208,7 +208,7 @@
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
         WalkthroughViewController *wvc = [storyboard instantiateViewControllerWithIdentifier:@"WalkthroughViewController"];
-        [self.navigationController pushViewController:wvc animated:YES];
+        [self.navigationController presentViewController:wvc animated:YES completion:nil];
     }
     else
     {

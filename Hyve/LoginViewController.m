@@ -6,7 +6,9 @@
 //  Copyright (c) 2015 Jay Ang. All rights reserved.
 //
 
+
 #import "LoginViewController.h"
+#import "SignUpViewController.h"
 #import "DashboardViewController.h"
 #import "WalkthroughViewController.h"
 #import  <Reachability.h>
@@ -16,10 +18,10 @@
 
 @interface LoginViewController () <GPPSignInDelegate>
 
-@property (strong, nonatomic) IBOutlet UISegmentedControl *optionsSegmentedControl;
 @property (strong, nonatomic) IBOutlet UIButton *loginFacebookButton;
 @property (strong, nonatomic) Reachability *reachability;
-@property (strong, nonatomic) IBOutlet UIView *containerView;
+@property (strong, nonatomic) IBOutlet UIButton *emailButton;
+@property (strong, nonatomic) IBOutlet UIButton *googlePlusButton;
 
 @end
 
@@ -29,7 +31,6 @@
     [super viewDidLoad];
     
 }
-
 
 #pragma mark - viewWillAppear
 -(void)viewWillAppear:(BOOL)animated
@@ -44,7 +45,6 @@
     [super viewWillDisappear:animated];
     self.navigationController.navigationBarHidden = NO;
 }
-
 
 
 #pragma mark - login with facebook
@@ -141,6 +141,13 @@
             }
         }];
     }
+}
+
+#pragma mark - email login
+- (IBAction)onEmailButtonPressed:(id)sender
+{
+    NSLog(@"email pressed");
+    [self performSegueWithIdentifier:@"ShowSignUpVC" sender:nil];
 }
 
 #pragma mark - first time check

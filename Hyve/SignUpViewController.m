@@ -24,10 +24,27 @@
     [super viewDidLoad];
     self.title = @"Register";
     
+    [self assigningStyleToTextFields];
+    [self stylingBackgroundView];
+}
+
+#pragma mark - styling background view
+-(void)stylingBackgroundView
+{
+    UIImageView *backgroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    backgroundImage.image = [UIImage imageNamed:@"loginBg"];
+    [self.view addSubview:backgroundImage];
+}
+
+#pragma mark - assigning styling to text field
+-(void)assigningStyleToTextFields
+{
     [self stylingTextField:self.emailTextField];
     [self stylingTextField:self.lastNameTextField];
     [self stylingTextField:self.firstNameTextField];
     [self stylingTextField:self.passwordTextField];
+    
+
 }
 
 #pragma mark - styling text field
@@ -46,18 +63,6 @@
     
     [keyboardToolbar sizeToFit];
     registrationTextField.inputAccessoryView = keyboardToolbar;
-    
-//    for (UIView *textFieldInView in self.view.subviews)
-//    {
-//        if ([textFieldInView isKindOfClass:[UITextField class]])
-//        {
-//            UITextField *registrationTextFields = (UITextField*)textFieldInView;
-//            
-//            registrationTextFields.borderStyle = UITextBorderStyleNone;
-//            registrationTextFields.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1];
-//            registrationTextFields.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0);
-//        }
-//    }
 }
 
 -(void)clearButtonPressed

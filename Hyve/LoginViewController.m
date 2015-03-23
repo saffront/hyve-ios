@@ -22,6 +22,8 @@
 @property (strong, nonatomic) Reachability *reachability;
 @property (strong, nonatomic) IBOutlet UIButton *emailButton;
 @property (strong, nonatomic) IBOutlet UIButton *googlePlusButton;
+@property (strong, nonatomic) IBOutlet UILabel *loginLabelDescription;
+@property (strong, nonatomic) IBOutlet UIImageView *hyveLogoImageView;
 
 @end
 
@@ -30,7 +32,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self stylingBackgroundView];
+    [self stylingLoginButtons];
+    [self stylingLabelDescription];
+    [self stylingHyveLogoImageView];
 }
+
 
 #pragma mark - viewWillAppear
 -(void)viewWillAppear:(BOOL)animated
@@ -46,6 +53,47 @@
     self.navigationController.navigationBarHidden = NO;
 }
 
+#pragma mark - styling login buttons
+-(void)stylingLoginButtons
+{
+    [self.emailButton setImage:[UIImage imageNamed:@"hyve"] forState:UIControlStateNormal];
+    [self.googlePlusButton setImage:[UIImage imageNamed:@"g+"] forState:UIControlStateNormal];
+    [self.loginFacebookButton setImage:[UIImage imageNamed:@"fb"] forState:UIControlStateNormal];
+}
+
+#pragma mark - styling background view
+-(void)stylingBackgroundView
+{
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    backgroundImageView.image = [UIImage imageNamed:@"loginBg"];
+    [self.view addSubview:backgroundImageView];
+}
+
+#pragma mark - styling label description
+-(void)stylingLabelDescription
+{
+    self.loginLabelDescription.text = @"Log into HYVE";
+    self.loginLabelDescription.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:22];
+    self.loginLabelDescription.textColor = [UIColor whiteColor];
+    self.loginLabelDescription.numberOfLines = 0;
+}
+
+#pragma mark - styling hyve logo imageview
+-(void)stylingHyveLogoImageView
+{
+    self.hyveLogoImageView.image = [UIImage imageNamed:@"hyveLogo"];
+    
+    UIInterpolatingMotionEffect *interpolationHorizontal = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x" type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+    interpolationHorizontal.minimumRelativeValue = @-40;
+    interpolationHorizontal.maximumRelativeValue = @40;
+    
+    UIInterpolatingMotionEffect *interpolationVertical= [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y" type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+    interpolationVertical.minimumRelativeValue = @-40;
+    interpolationVertical.maximumRelativeValue = @40;
+    
+    [self.hyveLogoImageView addMotionEffect:interpolationHorizontal];
+    [self.hyveLogoImageView addMotionEffect:interpolationVertical];
+}
 
 #pragma mark - login with facebook
 - (IBAction)onLoginWithFacebookButtonPressed:(id)sender

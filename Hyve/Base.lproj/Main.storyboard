@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="jlaw" translatesAutoresizingMaskIntoConstraints="NO" id="gFD-oA-Y7v">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gFD-oA-Y7v">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="260" id="1c1-GB-afg"/>
@@ -59,14 +59,13 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="csI-eS-GD1">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="csI-eS-GD1">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <color key="backgroundColor" red="0.66666666669999997" green="0.17757629959999999" blue="0.28409453229999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="JfD-bF-wRt"/>
                                     <constraint firstAttribute="height" constant="100" id="tTm-fr-T5a"/>
                                 </constraints>
-                                <state key="normal" title="FB">
+                                <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="default">
@@ -85,14 +84,13 @@
                                     <action selector="onLoginWithFacebookButtonPressed:" destination="sC8-fn-D1e" eventType="touchUpInside" id="OU6-Jk-9la"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A62-FR-zEy">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A62-FR-zEy">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <color key="backgroundColor" red="0.40285343969999998" green="0.67080016649999996" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="A3D-xB-NGz"/>
                                     <constraint firstAttribute="height" constant="100" id="E81-Br-x3Y"/>
                                 </constraints>
-                                <state key="normal" title="Email">
+                                <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="default">
@@ -111,14 +109,13 @@
                                     <action selector="onEmailButtonPressed:" destination="sC8-fn-D1e" eventType="touchUpInside" id="Ytb-kK-1TI"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QSo-L1-x5t">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QSo-L1-x5t">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <color key="backgroundColor" red="0.83142690399999997" green="1" blue="0.380375091" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="7Yu-tI-JAz"/>
                                     <constraint firstAttribute="height" constant="100" id="e1O-5g-Gh6"/>
                                 </constraints>
-                                <state key="normal" title="Google+">
+                                <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="default">
@@ -142,16 +139,24 @@
                         <constraints>
                             <constraint firstItem="csI-eS-GD1" firstAttribute="height" secondItem="QSo-L1-x5t" secondAttribute="height" id="1bL-gA-qCl"/>
                             <constraint firstItem="hD5-XF-yvG" firstAttribute="trailing" secondItem="c5r-Ge-Hha" secondAttribute="trailingMargin" id="6uf-q5-Yrc"/>
-                            <constraint firstItem="A62-FR-zEy" firstAttribute="top" secondItem="hD5-XF-yvG" secondAttribute="bottom" constant="36" id="DlC-yq-sRb"/>
+                            <constraint firstItem="A62-FR-zEy" firstAttribute="top" secondItem="hD5-XF-yvG" secondAttribute="bottom" constant="36" id="DlC-yq-sRb">
+                                <variation key="heightClass=regular-widthClass=compact" constant="26"/>
+                            </constraint>
                             <constraint firstItem="csI-eS-GD1" firstAttribute="leading" secondItem="c5r-Ge-Hha" secondAttribute="leadingMargin" id="GkV-Cn-Azq"/>
                             <constraint firstItem="csI-eS-GD1" firstAttribute="width" secondItem="QSo-L1-x5t" secondAttribute="width" id="IpK-2L-sv9"/>
-                            <constraint firstItem="hD5-XF-yvG" firstAttribute="top" secondItem="gFD-oA-Y7v" secondAttribute="bottom" constant="41" id="Jzd-h3-l0F"/>
+                            <constraint firstItem="hD5-XF-yvG" firstAttribute="top" secondItem="gFD-oA-Y7v" secondAttribute="bottom" constant="41" id="Jzd-h3-l0F">
+                                <variation key="heightClass=regular-widthClass=compact" constant="12"/>
+                            </constraint>
                             <constraint firstItem="hD5-XF-yvG" firstAttribute="leading" secondItem="c5r-Ge-Hha" secondAttribute="leadingMargin" id="Kr7-6S-BME"/>
                             <constraint firstItem="csI-eS-GD1" firstAttribute="width" secondItem="A62-FR-zEy" secondAttribute="width" id="Tza-XR-nzr"/>
-                            <constraint firstItem="QSo-L1-x5t" firstAttribute="top" secondItem="hD5-XF-yvG" secondAttribute="bottom" constant="36" id="V04-eY-hsG"/>
+                            <constraint firstItem="QSo-L1-x5t" firstAttribute="top" secondItem="hD5-XF-yvG" secondAttribute="bottom" constant="36" id="V04-eY-hsG">
+                                <variation key="heightClass=regular-widthClass=compact" constant="26"/>
+                            </constraint>
                             <constraint firstItem="gFD-oA-Y7v" firstAttribute="leading" secondItem="c5r-Ge-Hha" secondAttribute="leading" constant="70" id="W4K-fZ-wph"/>
                             <constraint firstItem="QSo-L1-x5t" firstAttribute="leading" secondItem="csI-eS-GD1" secondAttribute="trailing" constant="34" id="efW-2O-Fn2"/>
-                            <constraint firstItem="csI-eS-GD1" firstAttribute="top" secondItem="hD5-XF-yvG" secondAttribute="bottom" constant="36" id="goY-YT-4y5"/>
+                            <constraint firstItem="csI-eS-GD1" firstAttribute="top" secondItem="hD5-XF-yvG" secondAttribute="bottom" constant="36" id="goY-YT-4y5">
+                                <variation key="heightClass=regular-widthClass=compact" constant="26"/>
+                            </constraint>
                             <constraint firstItem="A62-FR-zEy" firstAttribute="leading" secondItem="QSo-L1-x5t" secondAttribute="trailing" constant="34" id="sCr-EJ-l3O"/>
                             <constraint firstAttribute="trailing" secondItem="gFD-oA-Y7v" secondAttribute="trailing" constant="70" id="tRr-wd-Bge"/>
                             <constraint firstItem="csI-eS-GD1" firstAttribute="height" secondItem="A62-FR-zEy" secondAttribute="height" id="wO3-es-mVa"/>
@@ -219,7 +224,9 @@
                     <connections>
                         <outlet property="emailButton" destination="A62-FR-zEy" id="z1W-Kq-xqe"/>
                         <outlet property="googlePlusButton" destination="QSo-L1-x5t" id="uUs-Tp-1am"/>
+                        <outlet property="hyveLogoImageView" destination="gFD-oA-Y7v" id="vGw-U6-HAj"/>
                         <outlet property="loginFacebookButton" destination="csI-eS-GD1" id="U6l-3t-gDv"/>
+                        <outlet property="loginLabelDescription" destination="hD5-XF-yvG" id="JLw-3r-oDF"/>
                         <segue destination="Hpw-VC-FOY" kind="showDetail" identifier="ShowDashboardVC" id="9sE-72-1MT"/>
                         <segue destination="eKG-Kj-OOR" kind="showDetail" identifier="ShowWalkthrough" id="bf1-LG-A3j"/>
                         <segue destination="Hwu-YR-Yf9" kind="show" identifier="ShowSignUpVC" id="ObQ-NT-1SY"/>
@@ -241,24 +248,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XBD-Yn-eko">
-                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <state key="normal" title="Register">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="16" y="317" width="368" height="50"/>
-                                </variation>
-                                <connections>
-                                    <action selector="onRegisterButtonPressed:" destination="Hwu-YR-Yf9" eventType="touchUpInside" id="kVR-9A-FEt"/>
-                                </connections>
-                            </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fNN-aJ-yi9">
                                 <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="16" y="93" width="368" height="30"/>
+                                    <rect key="frame" x="0.0" y="64" width="400" height="50"/>
                                 </variation>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="first name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="A1A-nL-5JH">
@@ -266,7 +261,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="16" y="143" width="368" height="30"/>
+                                    <rect key="frame" x="0.0" y="122" width="400" height="50"/>
                                 </variation>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="last name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MUd-vn-JDl">
@@ -274,7 +269,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="16" y="192" width="368" height="30"/>
+                                    <rect key="frame" x="0.0" y="180" width="400" height="50"/>
                                 </variation>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XWT-GR-RL7">
@@ -282,27 +277,39 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="16" y="244" width="368" height="30"/>
+                                    <rect key="frame" x="0.0" y="238" width="400" height="50"/>
                                 </variation>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XBD-Yn-eko">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="Register">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="16" y="313" width="368" height="50"/>
+                                </variation>
+                                <connections>
+                                    <action selector="onRegisterButtonPressed:" destination="Hwu-YR-Yf9" eventType="touchUpInside" id="kVR-9A-FEt"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <variation key="default">
                             <mask key="subviews">
-                                <exclude reference="XBD-Yn-eko"/>
                                 <exclude reference="fNN-aJ-yi9"/>
                                 <exclude reference="A1A-nL-5JH"/>
                                 <exclude reference="MUd-vn-JDl"/>
                                 <exclude reference="XWT-GR-RL7"/>
+                                <exclude reference="XBD-Yn-eko"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
-                                <include reference="XBD-Yn-eko"/>
                                 <include reference="fNN-aJ-yi9"/>
                                 <include reference="A1A-nL-5JH"/>
                                 <include reference="MUd-vn-JDl"/>
                                 <include reference="XWT-GR-RL7"/>
+                                <include reference="XBD-Yn-eko"/>
                             </mask>
                         </variation>
                     </view>
@@ -355,7 +362,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ruB-RN-Rgg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="343.5" y="1799.25"/>
+            <point key="canvasLocation" x="19.5" y="1626.75"/>
         </scene>
         <!--Second Walkthrough View Controller-->
         <scene sceneID="wJz-Rn-wot">
@@ -394,7 +401,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9e6-qz-xvt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1048.5" y="1790.25"/>
+            <point key="canvasLocation" x="802.5" y="1632.75"/>
         </scene>
         <!--Third Walkthrough View Controller-->
         <scene sceneID="3Mb-eh-9fe">
@@ -433,7 +440,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q87-6v-Aca" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1738.5" y="1734.75"/>
+            <point key="canvasLocation" x="1585.5" y="1644.75"/>
         </scene>
         <!--Fourth Walkthrough View Controller-->
         <scene sceneID="3ak-re-fs7">
@@ -490,7 +497,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lue-2i-hx7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2398.5" y="1151.25"/>
+            <point key="canvasLocation" x="1618.5" y="1170.75"/>
         </scene>
         <!--Walkthrough View Controller-->
         <scene sceneID="o7x-qR-CaW">
@@ -508,7 +515,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wFb-aE-ilr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="741" y="1226"/>
+            <point key="canvasLocation" x="741" y="994.5"/>
         </scene>
         <!--Dashboard View Controller-->
         <scene sceneID="ufC-wZ-h7g">
@@ -676,7 +683,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2932.5" y="228.75"/>
+            <point key="canvasLocation" x="2920.5" y="228.75"/>
         </scene>
         <!--Peripheral List View Controller-->
         <scene sceneID="pBd-t5-JyH">
@@ -1230,12 +1237,11 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RMH-3T-xLY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2374.5" y="222.75"/>
+            <point key="canvasLocation" x="1936.5" y="228"/>
         </scene>
     </scenes>
     <resources>
         <image name="blur" width="1198" height="794"/>
-        <image name="jlaw" width="912" height="980"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="9sE-72-1MT"/>

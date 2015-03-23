@@ -15,6 +15,9 @@
 @property (strong, nonatomic) IBOutlet UITextField *lastNameTextField;
 @property (strong, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (strong, nonatomic) IBOutlet UIButton *registerButton;
+@property (strong, nonatomic) IBOutlet UILabel *registrationOptionLabel;
+@property (strong, nonatomic) IBOutlet UIButton *facebookButton;
+@property (strong, nonatomic) IBOutlet UIButton *googlePlusButton;
 
 @end
 
@@ -26,6 +29,28 @@
     
     [self assigningStyleToTextFields];
     [self stylingBackgroundView];
+    [self stylingRegisterButton];
+    [self stylingRegistrationOptionLabel];
+    [self stylingFacebookButton];
+    [self stylingGooglePlusButton];
+}
+
+#pragma mark - styling registration option label
+-(void)stylingRegistrationOptionLabel
+{
+    self.registrationOptionLabel.text = @"Or Register Via";
+    self.registrationOptionLabel.textColor = [UIColor whiteColor];
+    self.registrationOptionLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+    self.registrationOptionLabel.numberOfLines = 0;
+}
+
+#pragma mark - styling register button
+-(void)stylingRegisterButton
+{
+    self.registerButton.backgroundColor = [UIColor colorWithRed:0.96 green:0.46 blue:0.15 alpha:1];
+    [self.registerButton setTitle:@"Register" forState:UIControlStateNormal];
+    [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.registerButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
 }
 
 #pragma mark - styling background view
@@ -44,15 +69,20 @@
     [self stylingTextField:self.firstNameTextField];
     [self stylingTextField:self.passwordTextField];
     
-
+    [self settingPlaceholderTextFieldColor:self.emailTextField setPlaceholderText:@"Email"];
+    [self settingPlaceholderTextFieldColor:self.lastNameTextField setPlaceholderText:@"Last Name"];
+    [self settingPlaceholderTextFieldColor:self.firstNameTextField setPlaceholderText:@"First Name"];
+    [self settingPlaceholderTextFieldColor:self.passwordTextField setPlaceholderText:@"Password"];
 }
 
 #pragma mark - styling text field
 -(void)stylingTextField:(UITextField*)registrationTextField
 {
     registrationTextField.borderStyle = UITextBorderStyleNone;
-    registrationTextField.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1];
+    registrationTextField.backgroundColor = [UIColor colorWithRed:0.77 green:0.77 blue:0.77 alpha:1];
     registrationTextField.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0);
+    registrationTextField.textColor = [UIColor blackColor];
+    registrationTextField.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:17];
     
     UIToolbar *keyboardToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
     keyboardToolbar.barStyle = UIBarStyleDefault;
@@ -63,6 +93,14 @@
     
     [keyboardToolbar sizeToFit];
     registrationTextField.inputAccessoryView = keyboardToolbar;
+
+}
+
+-(void)settingPlaceholderTextFieldColor:(UITextField*)registrationTextField setPlaceholderText:(NSString*)placeholderText
+{
+    NSAttributedString *placeholder = [[NSAttributedString alloc] initWithString:placeholderText attributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    registrationTextField.attributedPlaceholder = placeholder;
+
 }
 
 -(void)clearButtonPressed
@@ -72,8 +110,11 @@
         if ([textFields isKindOfClass:[UITextField class]])
         {
             UITextField *textField = (UITextField*)textFields;
-            
-            textField.text = @"";
+
+            if (textField.isEditing)
+            {
+                textField.text = @"";
+            }
         }
     }
 }
@@ -115,8 +156,27 @@
             }
         }
     }
-    
-    
+}
+
+#pragma mark - social media button
+- (IBAction)onFacebookButtonPressed:(id)sender
+{
+    NSLog(@"facebook button is pressed");
+}
+
+-(void)stylingFacebookButton
+{
+    [self.facebookButton setImage:[UIImage imageNamed:@"fb"] forState:UIControlStateNormal];
+}
+
+- (IBAction)onGooglePlusButtonPressed:(id)sender
+{
+    NSLog(@"g+ button is pressed");
+}
+
+-(void)stylingGooglePlusButton
+{
+    [self.googlePlusButton setImage:[UIImage imageNamed:@"g+"] forState:UIControlStateNormal];
 }
 
 #pragma mark - dismiss keyboard upon touch

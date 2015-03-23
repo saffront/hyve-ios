@@ -3,6 +3,7 @@ PODS:
     - ISO8601
   - CNPGridMenu (0.2.1)
   - DKCircleButton (1.1)
+  - HMSegmentedControl (1.5)
   - ISO8601 (0.1.2)
   - pop (1.0.7)
   - Reachability (3.2)
@@ -22,6 +23,7 @@ PODS:
 DEPENDENCIES:
   - CNPGridMenu
   - DKCircleButton
+  - HMSegmentedControl
   - pop
   - Reachability
   - SimpleAuth/Facebook
@@ -30,6 +32,7 @@ SPEC CHECKSUMS:
   CMDQueryStringSerialization: bc824b96c08a3277d00c71504e13c9fa18c6b451
   CNPGridMenu: 0a8f8303cc0e141ad483d8b9bc8fdf48bfa577b6
   DKCircleButton: 4c259074ec4e153a2c0a37c4d80e111147ef6c8f
+  HMSegmentedControl: 5bb76002ce529ad83855a06cbdb5c6e48732141b
   ISO8601: 92c818ffadac96b0bee76a7ee69dfb617acea197
   pop: 2f14a1ea61339767af9e66741b418c831b3844df
   Reachability: 1ef8adf5c4e3d362f96515d4278f68dad3c26930

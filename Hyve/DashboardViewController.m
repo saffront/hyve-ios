@@ -129,7 +129,7 @@
 #pragma mark - styling detection hyve label
 -(void)stylingDetectingHyveLabel
 {
-    self.detectingHyveLabel.text = [NSString stringWithFormat:@"Searching for Hyve \r\r This process will take 60 seconds"];
+    self.detectingHyveLabel.text = [NSString stringWithFormat:@"Searching for Hyve \r\r This process will take 30 seconds"];
     self.detectingHyveLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:17];
     self.detectingHyveLabel.textColor = [UIColor blackColor];
     self.detectingHyveLabel.numberOfLines = 0;
@@ -195,7 +195,7 @@
 {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"We sense a great disturbance in the force..would you like to continue searching?" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [NSTimer timerWithTimeInterval:60 target:self selector:@selector(timeoutHyveDiscovery) userInfo:nil repeats:NO];
+        [NSTimer timerWithTimeInterval:30 target:self selector:@selector(timeoutHyveDiscovery) userInfo:nil repeats:NO];
     }];
     UIAlertAction *noAction = [UIAlertAction actionWithTitle:@"NO" style:UIAlertActionStyleCancel handler:nil];
     

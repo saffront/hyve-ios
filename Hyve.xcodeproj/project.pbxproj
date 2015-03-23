@@ -35,6 +35,7 @@
 		3B6C72421ABBFA42006ECC0C /* SecondWalkthroughViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6C72411ABBFA42006ECC0C /* SecondWalkthroughViewController.m */; };
 		3B6C72451ABBFA4E006ECC0C /* ThirdWalkthroughViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6C72441ABBFA4E006ECC0C /* ThirdWalkthroughViewController.m */; };
 		3B6C72481ABBFA62006ECC0C /* FourthWalkthroughViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6C72471ABBFA62006ECC0C /* FourthWalkthroughViewController.m */; };
+		3B6DC72D1ABFAA7C0018C0AA /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6DC72C1ABFAA7C0018C0AA /* SignUpViewController.m */; };
 		3B6FA1E91ABAD26F007517B4 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6FA1E81ABAD26F007517B4 /* LoginViewController.m */; };
 		3B74B6B81AAD547900A0B50F /* HyveDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B74B6B71AAD547900A0B50F /* HyveDetailsViewController.m */; };
 		3BA2D3471AA95DAB008CA9E4 /* PeripheralListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA2D3461AA95DAB008CA9E4 /* PeripheralListViewController.m */; };
@@ -96,6 +97,8 @@
 		3B6C72441ABBFA4E006ECC0C /* ThirdWalkthroughViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdWalkthroughViewController.m; sourceTree = "<group>"; };
 		3B6C72461ABBFA62006ECC0C /* FourthWalkthroughViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FourthWalkthroughViewController.h; sourceTree = "<group>"; };
 		3B6C72471ABBFA62006ECC0C /* FourthWalkthroughViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FourthWalkthroughViewController.m; sourceTree = "<group>"; };
+		3B6DC72B1ABFAA7C0018C0AA /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
+		3B6DC72C1ABFAA7C0018C0AA /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		3B6FA1E71ABAD26F007517B4 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		3B6FA1E81ABAD26F007517B4 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		3B74B6B61AAD547900A0B50F /* HyveDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyveDetailsViewController.h; sourceTree = "<group>"; };
@@ -231,6 +234,8 @@
 			children = (
 				3B6FA1E71ABAD26F007517B4 /* LoginViewController.h */,
 				3B6FA1E81ABAD26F007517B4 /* LoginViewController.m */,
+				3B6DC72B1ABFAA7C0018C0AA /* SignUpViewController.h */,
+				3B6DC72C1ABFAA7C0018C0AA /* SignUpViewController.m */,
 				3B6C723A1ABBF6D5006ECC0C /* WalkthroughViewController.h */,
 				3B6C723B1ABBF6D5006ECC0C /* WalkthroughViewController.m */,
 				3B6C723D1ABBFA36006ECC0C /* FirstWalkthroughViewController.h */,
@@ -432,6 +437,7 @@
 				3B6FA1E91ABAD26F007517B4 /* LoginViewController.m in Sources */,
 				3B6C723F1ABBFA36006ECC0C /* FirstWalkthroughViewController.m in Sources */,
 				3BA2D3471AA95DAB008CA9E4 /* PeripheralListViewController.m in Sources */,
+				3B6DC72D1ABFAA7C0018C0AA /* SignUpViewController.m in Sources */,
 				3B6C72421ABBFA42006ECC0C /* SecondWalkthroughViewController.m in Sources */,
 				3B5772C81AA7E45E009FC171 /* DashboardViewController.m in Sources */,
 				3B74B6B81AAD547900A0B50F /* HyveDetailsViewController.m in Sources */,

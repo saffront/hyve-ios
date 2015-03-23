@@ -16,8 +16,10 @@
 
 @interface LoginViewController () <GPPSignInDelegate>
 
+@property (strong, nonatomic) IBOutlet UISegmentedControl *optionsSegmentedControl;
 @property (strong, nonatomic) IBOutlet UIButton *loginFacebookButton;
 @property (strong, nonatomic) Reachability *reachability;
+@property (strong, nonatomic) IBOutlet UIView *containerView;
 
 @end
 
@@ -42,6 +44,8 @@
     [super viewWillDisappear:animated];
     self.navigationController.navigationBarHidden = NO;
 }
+
+
 
 #pragma mark - login with facebook
 - (IBAction)onLoginWithFacebookButtonPressed:(id)sender

@@ -36,6 +36,7 @@
     [self stylingLoginButtons];
     [self stylingLabelDescription];
     [self stylingHyveLogoImageView];
+    [self checkingForFirstTimeUsers];
 }
 
 
@@ -205,11 +206,15 @@
     NSString *checkingForFirstTime = [userDefaults objectForKey:@"firstTimeEnterApp"];
     if (checkingForFirstTime == nil)
     {
-        [self performSegueWithIdentifier:@"ShowWalkthrough" sender:nil];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+        WalkthroughViewController *wvc = [storyboard instantiateViewControllerWithIdentifier:@"WalkthroughViewController"];
+        [self.navigationController pushViewController:wvc animated:YES];
     }
     else
     {
         [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
+        
+
     }
 }
 

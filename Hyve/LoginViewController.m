@@ -127,9 +127,14 @@
             NSString *provider = [responseObject valueForKeyPath:@"provider"];
             NSString *first_name = [responseObject valueForKeyPath:@"info.first_name"];
             NSString *last_name = [responseObject valueForKeyPath:@"extra.raw_info.last_name"];
-            NSString *image = [responseObject valueForKeyPath:@"info.image"];
+//            NSString *image = [responseObject valueForKeyPath:@"info.image"];
+            NSString *username = [NSString stringWithFormat:@"%@ %@", first_name, last_name];
             
-            NSLog(@"email %@ \r uid %@ \r provider %@ \r first_name %@ \r last_name %@ \r image %@", email, uid, provider, first_name, last_name, image);
+            NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",uid,@"uid",provider,@"provider",first_name,@"first_name",last_name,@"last_name",username,@"username", nil];
+            NSData *userInfoDictionaryJSON = [NSJSONSerialization dataWithJSONObject:userInfoDictionary options:NSJSONWritingPrettyPrinted error:nil];
+            [self registerUserToHyve:userInfoDictionaryJSON];
+            
+//            NSLog(@"email %@ \r uid %@ \r provider %@ \r first_name %@ \r last_name %@ \r image %@", email, uid, provider, first_name, last_name, image);
         }
         else
         {
@@ -138,19 +143,64 @@
     }];
 }
 
--(void)registerUserToHyve
+-(void)registerUserToHyve:(NSData*)userInfoDictionaryJSON
 {
     NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/user_sessions"];
+    NSMutableURLRequest *hyveURLRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:hyveURLString]];
+    [hyveURLRequest setHTTPMethod:@"POST"];
+    [hyveURLRequest setHTTPBody:userInfoDictionaryJSON];
+    [hyveURLRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [hyveURLRequest setValue:@"application/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+    
+    [NSURLConnection sendAsynchronousRequest:hyveURLRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+       
+        if (connectionError)
+        {
+            NSLog(@"connectionError %@", connectionError);
+        }
+        else
+        {
+            NSLog(@"response %@",response);
+        }
+    }];
+    
+//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+//    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+//    [manager.requestSerializer setValue:@"application/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+//    
+//    [manager POST:hyveURLString parameters:userInfoDictionaryJSON success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        NSLog(@"responseObject %@", responseObject);
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        NSLog(@"error %@ \r \r error localized:%@", error, [error localizedDescription]);
+//    }];
+    
+//    NSString *pathURL = @"api/v1/user_sessions";
+//    
+//    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:hyveURLString]];
+//    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+//    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+//
+//    
+//    [manager POST:pathURL parameters:userInfoDictionaryJSON success:^(NSURLSessionDataTask *task, id responseObject) {
+//        NSLog(@"responseObject : %@", responseObject);
+//    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+//        NSLog(@"error %@ \r\r error localized: %@", error, [error localizedDescription]);
+//    }];
+    
 //    NSURL *hyveURL = [NSURL URLWithString:hyveURLString];
 //    NSURLRequest *hyveURLRequest = [NSURLRequest requestWithURL:hyveURL];
     
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+//    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+//    [manager.requestSerializer setValue:@"application/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
     
-    [manager POST:hyveURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"responseObject %@", responseObject);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"error: %@", [error localizedDescription]);
-    }];
+//    [manager POST:hyveURLString parameters:userInfoDictionaryJSON success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        NSLog(@"responseObject %@", responseObject);
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        NSLog(@"error: %@ %@", [error localizedDescription], error);
+//    }];
 }
 
 #pragma mark - google sign in

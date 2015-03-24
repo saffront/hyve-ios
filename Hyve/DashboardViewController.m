@@ -58,6 +58,7 @@
     
     self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.92 alpha:1];
     self.isHyveButtonPressed = NO;
+    [self.hyveButton setImage:[UIImage imageNamed:@"hyveLogo"] forState:UIControlStateNormal];
     self.firstTimeRunning = YES;
     self.hyveNetworkDetectionIndicatorImage.alpha = 0;
     [self stylingHyveLabel];

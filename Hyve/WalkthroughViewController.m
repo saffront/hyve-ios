@@ -22,6 +22,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    UIImageView *backgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    backgroundView.image = [UIImage imageNamed:@"walkthroughBg2"];
+    [self.view addSubview:backgroundView];
+    
     self.currentIndex = 0;
     
     [self stylingPageViewControllerIndicator];
@@ -58,7 +62,8 @@
     UIPageControl *pageControl = [UIPageControl appearanceWhenContainedIn:[UIPageViewController class], nil];
     pageControl.pageIndicatorTintColor = [UIColor darkGrayColor];
     pageControl.currentPageIndicatorTintColor = [UIColor yellowColor];
-    pageControl.backgroundColor = [UIColor blackColor];
+    
+//    pageControl.backgroundColor = [UIColor clearColor];
 }
 
 #pragma mark - tracking index

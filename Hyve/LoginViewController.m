@@ -11,6 +11,7 @@
 #import "SignUpViewController.h"
 #import "DashboardViewController.h"
 #import "WalkthroughViewController.h"
+#import <AFNetworking/AFNetworking.h>
 #import  <Reachability.h>
 #import <SimpleAuth/SimpleAuth.h>
 #import <GooglePlus/GooglePlus.h>
@@ -120,11 +121,35 @@
         {
             [self checkingForFirstTimeUsers];
             NSLog(@"responseObject from FB: \r%@", responseObject);
+            
+            NSString *email = [responseObject valueForKeyPath:@"info.email"];
+            NSString *uid = [responseObject valueForKeyPath:@"uid"];
+            NSString *provider = [responseObject valueForKeyPath:@"provider"];
+            NSString *first_name = [responseObject valueForKeyPath:@"info.first_name"];
+            NSString *last_name = [responseObject valueForKeyPath:@"extra.raw_info.last_name"];
+            NSString *image = [responseObject valueForKeyPath:@"info.image"];
+            
+            NSLog(@"email %@ \r uid %@ \r provider %@ \r first_name %@ \r last_name %@ \r image %@", email, uid, provider, first_name, last_name, image);
         }
         else
         {
             NSLog(@"error with login %@", [error localizedDescription]);
         }
+    }];
+}
+
+-(void)registerUserToHyve
+{
+    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/user_sessions"];
+//    NSURL *hyveURL = [NSURL URLWithString:hyveURLString];
+//    NSURLRequest *hyveURLRequest = [NSURLRequest requestWithURL:hyveURL];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    [manager POST:hyveURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"responseObject %@", responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"error: %@", [error localizedDescription]);
     }];
 }
 
@@ -212,7 +237,6 @@
     else
     {
         [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
-    
     }
 }
 

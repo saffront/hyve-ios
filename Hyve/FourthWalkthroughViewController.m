@@ -29,7 +29,7 @@
 -(void)stylingBackgroundView
 {
     UIImageView *backgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    backgroundView.image = [UIImage imageNamed:@"jlaw"];
+    backgroundView.image = [UIImage imageNamed:@"walkthroughBg2"];
     [self.view addSubview:backgroundView];
 }
 
@@ -37,11 +37,10 @@
 -(void)stylingTitleLabel
 {
     self.titleLabel.text = @"";
-    self.titleLabel.textColor = [UIColor whiteColor];
+    self.titleLabel.textColor = [UIColor colorWithRed:0.28 green:0.35 blue:0.40 alpha:1];
     self.titleLabel.numberOfLines = 0;
     self.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:30];
 }
-
 
 #pragma mark - transition into app
 - (IBAction)onEnterHyveAppButtonPressed:(id)sender

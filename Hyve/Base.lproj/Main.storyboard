@@ -569,7 +569,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TrB-Oo-abu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1125" y="-432"/>
+            <point key="canvasLocation" x="1407" y="-439.5"/>
         </scene>
         <!--First Walkthrough View Controller-->
         <scene sceneID="xKk-Tt-Ma7">
@@ -965,7 +965,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lue-2i-hx7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1585.5" y="994.5"/>
+            <point key="canvasLocation" x="1585.5" y="975"/>
         </scene>
         <!--Walkthrough View Controller-->
         <scene sceneID="o7x-qR-CaW">
@@ -988,7 +988,7 @@
         <!--Dashboard View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="DashboardViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DashboardViewController" id="vXZ-lx-hvc" customClass="DashboardViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -1311,9 +1311,6 @@
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blur" translatesAutoresizingMaskIntoConstraints="NO" id="hsE-KI-p9Z">
                                             <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                            <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                <rect key="frame" x="0.0" y="-250" width="320" height="818"/>
-                                            </variation>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JXH-t8-Yhk">
                                             <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
@@ -1353,7 +1350,7 @@
                                                 </mask>
                                             </variation>
                                             <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                <rect key="frame" x="80" y="339" width="160" height="160"/>
+                                                <rect key="frame" x="120" y="338" width="160" height="160"/>
                                                 <mask key="constraints">
                                                     <include reference="P7L-I0-eOt"/>
                                                     <include reference="aDL-OS-HMG"/>
@@ -1480,7 +1477,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pIy-fo-a3J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4882" y="228"/>
+            <point key="canvasLocation" x="4881" y="228"/>
         </scene>
         <!--Hyve Details View Controller-->
         <scene sceneID="fBL-iD-GHn">
@@ -1715,6 +1712,6 @@
         <image name="blur" width="1198" height="794"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="yJy-8H-dCD"/>
+        <segue reference="9sE-72-1MT"/>
     </inferredMetricsTieBreakers>
 </document>

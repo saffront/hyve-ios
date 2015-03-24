@@ -9,6 +9,8 @@
 #import "FirstWalkthroughViewController.h"
 
 @interface FirstWalkthroughViewController ()
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *descriptionLabel;
 
 @end
 
@@ -17,22 +19,35 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor redColor];
+    [self stylingBackgroundView];
+    [self stylingTitleLabel];
+    [self stylingDescriptionLabel];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - styling background view
+-(void)stylingBackgroundView
+{
+    UIImageView *backgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    backgroundView.image = [UIImage imageNamed:@"jlaw"];
+    [self.view addSubview:backgroundView];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - styling title label
+-(void)stylingTitleLabel
+{
+    self.titleLabel.text = @"1. Scan";
+    self.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:30];
+    self.titleLabel.numberOfLines = 0;
+    self.titleLabel.textColor = [UIColor whiteColor];
 }
-*/
+
+#pragma mark - styling description label
+-(void)stylingDescriptionLabel
+{
+    self.descriptionLabel.text = @"Within 30 seconds of scanning, HYVE will populate the list of bluetooth devices.";
+    self.descriptionLabel.numberOfLines = 0;
+    self.descriptionLabel.textColor = [UIColor whiteColor];
+    self.descriptionLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:22];
+}
 
 @end

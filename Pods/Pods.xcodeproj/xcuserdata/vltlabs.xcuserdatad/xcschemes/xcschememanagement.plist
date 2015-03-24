@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Pods-AFNetworking.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-CMDQueryStringSerialization.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -15,11 +20,6 @@
 			<false/>
 		</dict>
 		<key>Pods-DKCircleButton.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>Pods-HMSegmentedControl.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -57,52 +57,52 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>150BB6F3BA1A2513A67C0CD5</key>
+		<key>20121A3DD579E6E473C4458E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>1B91BBB33573E1179F0C5ECB</key>
+		<key>23E40BD2CD450CDAAD165D16</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>222DE88330890438961155E2</key>
+		<key>4C28092CC7FE2A463D183E29</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>65A4016012C56EF473A8A229</key>
+		<key>53FE2A90888C4189A4F49C35</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>69C315FB2CBBA3DF86C4E716</key>
+		<key>6AA7D4F7CC3BA3CDD0B643C5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8E1B5546845E282A729473F7</key>
+		<key>6FA93100F60D20B536702E84</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9344DF3EE43D953C2AFBE59F</key>
+		<key>7A21778AB80207B87252C85F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B063ABA6DCB0896F8F402841</key>
+		<key>AA58C65F5976D3EC437114D7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EFA1A88FAB10656D74C5E3B4</key>
+		<key>DCD8D67A99666A9C49AED74F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FCC759FB977AAC12223B2F7E</key>
+		<key>FFEB8D437555C59A5602D607</key>
 		<dict>
 			<key>primary</key>
 			<true/>

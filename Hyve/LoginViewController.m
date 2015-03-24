@@ -36,7 +36,6 @@
     [self stylingLoginButtons];
     [self stylingLabelDescription];
     [self stylingHyveLogoImageView];
-    [self checkingForFirstTimeUsers];
 }
 
 
@@ -213,8 +212,7 @@
     else
     {
         [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
-        
-
+    
     }
 }
 

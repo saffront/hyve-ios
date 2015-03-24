@@ -11,6 +11,7 @@
 
 @interface FourthWalkthroughViewController ()
 @property (strong, nonatomic) IBOutlet UIButton *enterHyveAppButton;
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
 
 @end
 
@@ -19,9 +20,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor orangeColor];
-
+    [self stylingBackgroundView];
+    [self stylingEnterHyveAppButton];
+    [self stylingTitleLabel];
 }
+
+#pragma mark - styling background view
+-(void)stylingBackgroundView
+{
+    UIImageView *backgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    backgroundView.image = [UIImage imageNamed:@"jlaw"];
+    [self.view addSubview:backgroundView];
+}
+
+#pragma mark - styling title label
+-(void)stylingTitleLabel
+{
+    self.titleLabel.text = @"";
+    self.titleLabel.textColor = [UIColor whiteColor];
+    self.titleLabel.numberOfLines = 0;
+    self.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:30];
+}
+
 
 #pragma mark - transition into app
 - (IBAction)onEnterHyveAppButtonPressed:(id)sender
@@ -37,6 +57,14 @@
     {
         [self performSegueWithIdentifier:@"ToDashboardVC" sender:nil];
     }
+}
+
+#pragma mark - styling hyve button
+-(void)stylingEnterHyveAppButton
+{
+    [self.enterHyveAppButton setTitle:@"Enter HYVE" forState:UIControlStateNormal];
+    self.enterHyveAppButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:22];
+    
 }
 
 #pragma mark - segue

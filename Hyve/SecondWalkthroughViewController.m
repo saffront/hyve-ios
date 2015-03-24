@@ -9,6 +9,8 @@
 #import "SecondWalkthroughViewController.h"
 
 @interface SecondWalkthroughViewController ()
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *descriptionLabel;
 
 @end
 
@@ -17,23 +19,37 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor blueColor];
-
+    [self stylingBackgroundView];
+    [self stylingTitleLabel];
+    [self stylingDescriptionLabel];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - styling background view
+-(void)stylingBackgroundView
+{
+    UIImageView *backgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    backgroundView.image = [UIImage imageNamed:@"jlaw"];
+    [self.view addSubview:backgroundView];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - styling title label
+-(void)stylingTitleLabel
+{
+    self.titleLabel.text = @"2. Pair";
+    self.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:30];
+    self.titleLabel.numberOfLines = 0;
+    self.titleLabel.textColor = [UIColor whiteColor];
 }
-*/
+
+#pragma mark - styling description label
+-(void)stylingDescriptionLabel
+{
+    self.descriptionLabel.text = @"By pairing, HYVE will be able to identify your ownership to the device";
+    self.descriptionLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:22];
+    self.descriptionLabel.numberOfLines = 0;
+    self.descriptionLabel.textColor = [UIColor whiteColor];
+}
+
+
 
 @end

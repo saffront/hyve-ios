@@ -214,9 +214,11 @@
     switch (central.state) {
         case CBCentralManagerStatePoweredOff:
             NSLog(@"The central is off. Turn it on");
+            self.hyveButton.enabled = NO;
             break;
         case CBCentralManagerStatePoweredOn:
             NSLog(@"Central is on and ready to use");
+            self.hyveButton.enabled = YES;
             break;
         case CBCentralManagerStateResetting:
             NSLog(@"Central is resetting");

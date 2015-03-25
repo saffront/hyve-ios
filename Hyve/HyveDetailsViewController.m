@@ -35,13 +35,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.92 alpha:1];
+//    self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.92 alpha:1];
     self.centralManager.delegate = self;
     self.hyveNameTextField.text = self.peripheral.name;
     self.hyveNameTextField.delegate = self;
     self.title = self.peripheral.name;
     
 //    [self stylingDistanceSliderLabel];
+    [self stylingBackgroundView];
     [self addingSaveButtonToNavigationBar];
     [self addToolbarToKeyboard];
     [self stylingTextField];
@@ -52,6 +53,11 @@
     
     NSString *uuid = [self.peripheral.identifier UUIDString];
     NSLog(@"self.peripheral %@", uuid);
+    
+    if (self.peripheral.name == nil)
+    {
+        self.hyveNameTextField.placeholder = @"Unkown Device";
+    }
 
 }
 
@@ -62,15 +68,25 @@
     self.navigationItem.rightBarButtonItem = saveRightButton;
 }
 
+
+#pragma mark - styling background view
+-(void)stylingBackgroundView
+{
+    UIImageView *backgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    backgroundView.image = [UIImage imageNamed:@"appBg"];
+    [self.view addSubview:backgroundView];
+}
+
 #pragma mark - styling text field
 -(void)stylingTextField
 {
     self.hyveNameTextField.layer.borderWidth = 0.5;
     self.hyveNameTextField.layer.borderColor = [UIColor colorWithRed:0.90 green:0.90 blue:0.90 alpha:1].CGColor;
-    self.hyveNameTextField.layer.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1].CGColor;
+    self.hyveNameTextField.layer.backgroundColor = [UIColor clearColor].CGColor;
     self.hyveNameTextField.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0);
     self.hyveNameTextField.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
     self.hyveNameTextField.textAlignment = NSTextAlignmentNatural;
+
 }
 
 #pragma mark - styling hyve image button
@@ -220,7 +236,7 @@
 {
     self.hyveDistanceButton.layer.borderWidth = 0.5;
     self.hyveDistanceButton.layer.borderColor = [UIColor colorWithRed:0.90 green:0.90 blue:0.90 alpha:1].CGColor;
-    self.hyveDistanceButton.layer.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1].CGColor;
+    self.hyveDistanceButton.layer.backgroundColor = [UIColor clearColor].CGColor;
     self.hyveDistanceButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
     self.hyveDistanceButton.tintColor = [UIColor blackColor];
     self.hyveDistanceButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;

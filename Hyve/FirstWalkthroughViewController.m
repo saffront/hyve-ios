@@ -7,6 +7,7 @@
 //
 
 #import "FirstWalkthroughViewController.h"
+#import <POP.h>
 
 @interface FirstWalkthroughViewController ()
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
@@ -35,19 +36,21 @@
 #pragma mark - styling title label
 -(void)stylingTitleLabel
 {
-    self.titleLabel.text = @"1. Scan";
+    self.titleLabel.text = @"Find";
     self.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:30];
     self.titleLabel.numberOfLines = 0;
     self.titleLabel.textColor = [UIColor colorWithRed:0.28 green:0.35 blue:0.40 alpha:1];
+
 }
 
 #pragma mark - styling description label
 -(void)stylingDescriptionLabel
 {
-    self.descriptionLabel.text = @"Within 30 seconds of scanning, HYVE will populate the list of bluetooth devices.";
+    self.descriptionLabel.text = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor";
     self.descriptionLabel.numberOfLines = 0;
     self.descriptionLabel.textColor = [UIColor colorWithRed:0.28 green:0.35 blue:0.40 alpha:1];
     self.descriptionLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:22];
+    
 }
 
 @end

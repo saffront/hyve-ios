@@ -24,17 +24,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.92 alpha:1];
+//    self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.92 alpha:1];
     self.selectedDeviceMutableArray = [NSMutableArray new];
     
+    [self stylingBackgroundView];
     [self pairButtonConfiguration];
     [self promptingUserToPairDevice];
     [self stylingInstructionLabel];
     [self stylingNavigationBar];
     [self stylingPeripheralListTableView];
     
+}
 
-    
+#pragma mark - styling background view
+-(void)stylingBackgroundView
+{
+    UIImageView *backgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    backgroundView.image = [UIImage imageNamed:@"appBg"];
+    [self.view addSubview:backgroundView];
 }
 
 #pragma mark - styling nav bar

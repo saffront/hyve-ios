@@ -910,55 +910,140 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fourth" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snp-uQ-36I">
-                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="175" y="271" width="50" height="21"/>
-                                </variation>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fae-r5-SKT">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="19d-QH-oXQ"/>
+                                    <constraint firstAttribute="width" constant="368" id="8D6-mx-APB"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="16" y="372" width="368" height="100"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="19d-QH-oXQ"/>
+                                        <exclude reference="8D6-mx-APB"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="19d-QH-oXQ"/>
+                                        <include reference="8D6-mx-APB"/>
+                                    </mask>
                                 </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MK0-Ok-TCC">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="265" id="Aqz-fd-W2T">
+                                        <variation key="heightClass=regular-widthClass=compact" constant="368"/>
+                                    </constraint>
+                                    <constraint firstAttribute="height" constant="65" id="Ock-S8-6gl"/>
+                                </constraints>
                                 <state key="normal" title="Enter HYVE">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="24" y="129" width="352" height="64"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Aqz-fd-W2T"/>
+                                        <exclude reference="Ock-S8-6gl"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="Aqz-fd-W2T"/>
+                                        <include reference="Ock-S8-6gl"/>
+                                    </mask>
                                 </variation>
                                 <connections>
                                     <action selector="onEnterHyveAppButtonPressed:" destination="UX1-03-WkS" eventType="touchUpInside" id="k3i-sF-862"/>
                                     <segue destination="Hpw-VC-FOY" kind="show" identifier="ToDashboardVC" id="yJy-8H-dCD"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fourth" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snp-uQ-36I">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="368" id="7Eo-eN-4GF"/>
+                                    <constraint firstAttribute="height" constant="50" id="bgI-UP-VdX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="7Eo-eN-4GF"/>
+                                        <exclude reference="bgI-UP-VdX"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="7Eo-eN-4GF"/>
+                                        <include reference="bgI-UP-VdX"/>
+                                    </mask>
+                                </variation>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="snp-uQ-36I" firstAttribute="leading" secondItem="L0p-Ok-vK5" secondAttribute="leadingMargin" id="7eu-9f-S3E"/>
+                            <constraint firstAttribute="trailing" secondItem="MK0-Ok-TCC" secondAttribute="trailing" constant="67" id="7j4-y4-shS">
+                                <variation key="heightClass=regular-widthClass=compact" constant="16"/>
+                            </constraint>
+                            <constraint firstItem="MK0-Ok-TCC" firstAttribute="top" secondItem="Fae-r5-SKT" secondAttribute="bottom" constant="8" id="AvP-Io-Dd2">
+                                <variation key="heightClass=regular-widthClass=compact" constant="25"/>
+                            </constraint>
+                            <constraint firstItem="MK0-Ok-TCC" firstAttribute="leading" secondItem="L0p-Ok-vK5" secondAttribute="leading" constant="68" id="Oik-Xy-oAV">
+                                <variation key="heightClass=regular-widthClass=compact" constant="16"/>
+                            </constraint>
+                            <constraint firstAttribute="trailing" secondItem="Fae-r5-SKT" secondAttribute="trailing" constant="16" id="ggp-AS-o0T"/>
+                            <constraint firstItem="Fae-r5-SKT" firstAttribute="top" secondItem="snp-uQ-36I" secondAttribute="bottom" constant="32" id="jSf-1n-k5S">
+                                <variation key="heightClass=regular-widthClass=compact" constant="15"/>
+                            </constraint>
+                            <constraint firstItem="snp-uQ-36I" firstAttribute="trailing" secondItem="L0p-Ok-vK5" secondAttribute="trailingMargin" id="kdh-5w-g8l"/>
+                            <constraint firstItem="Fae-r5-SKT" firstAttribute="leading" secondItem="L0p-Ok-vK5" secondAttribute="leading" constant="16" id="urj-fq-1MM"/>
+                            <constraint firstItem="snp-uQ-36I" firstAttribute="top" secondItem="qKi-PA-fNg" secondAttribute="bottom" constant="232" id="yYM-It-bRC">
+                                <variation key="heightClass=regular-widthClass=compact" constant="197"/>
+                            </constraint>
+                        </constraints>
                         <variation key="default">
                             <mask key="subviews">
-                                <exclude reference="snp-uQ-36I"/>
                                 <exclude reference="Fae-r5-SKT"/>
                                 <exclude reference="MK0-Ok-TCC"/>
+                                <exclude reference="snp-uQ-36I"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="7eu-9f-S3E"/>
+                                <exclude reference="kdh-5w-g8l"/>
+                                <exclude reference="yYM-It-bRC"/>
+                                <exclude reference="ggp-AS-o0T"/>
+                                <exclude reference="jSf-1n-k5S"/>
+                                <exclude reference="urj-fq-1MM"/>
+                                <exclude reference="7j4-y4-shS"/>
+                                <exclude reference="AvP-Io-Dd2"/>
+                                <exclude reference="Oik-Xy-oAV"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
-                                <include reference="snp-uQ-36I"/>
                                 <include reference="Fae-r5-SKT"/>
                                 <include reference="MK0-Ok-TCC"/>
+                                <include reference="snp-uQ-36I"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="7eu-9f-S3E"/>
+                                <include reference="kdh-5w-g8l"/>
+                                <include reference="yYM-It-bRC"/>
+                                <include reference="ggp-AS-o0T"/>
+                                <include reference="jSf-1n-k5S"/>
+                                <include reference="urj-fq-1MM"/>
+                                <include reference="7j4-y4-shS"/>
+                                <include reference="AvP-Io-Dd2"/>
+                                <include reference="Oik-Xy-oAV"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="descriptionLabel" destination="Fae-r5-SKT" id="RcV-qr-Qgk"/>
                         <outlet property="enterHyveAppButton" destination="MK0-Ok-TCC" id="dvT-nv-BnI"/>
                         <outlet property="titleLabel" destination="snp-uQ-36I" id="wcA-VE-zNr"/>
                     </connections>
@@ -997,7 +1082,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3iT-8h-G92">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3iT-8h-G92">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="Cv2-cj-L2O"/>
@@ -1349,8 +1434,7 @@
                                                     <exclude reference="aDL-OS-HMG"/>
                                                 </mask>
                                             </variation>
-                                            <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                <rect key="frame" x="120" y="338" width="160" height="160"/>
+                                            <variation key="heightClass=regular-widthClass=compact">
                                                 <mask key="constraints">
                                                     <include reference="P7L-I0-eOt"/>
                                                     <include reference="aDL-OS-HMG"/>
@@ -1712,6 +1796,6 @@
         <image name="blur" width="1198" height="794"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9sE-72-1MT"/>
+        <segue reference="yJy-8H-dCD"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -31,11 +31,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.92 alpha:1];
+//    self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.92 alpha:1];
     
+    [self stylingBackgroundView];
     [self stylingNavigationBar];
     [self settingAndStylingUserProfile];
     [self stylingHyveListTableView];
+
 }
 
 #pragma mark - styling navigation bar
@@ -43,6 +45,14 @@
 {
     self.title = @"Hyve";
     [self.navigationItem setHidesBackButton:YES];
+}
+
+#pragma mark - styling background view
+-(void)stylingBackgroundView
+{
+    UIImageView *backgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    backgroundView.image = [UIImage imageNamed:@"appBg"];
+    [self.view addSubview:backgroundView];
 }
 
 #pragma mark - styling hyve list table view

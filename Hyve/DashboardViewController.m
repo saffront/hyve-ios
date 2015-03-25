@@ -56,13 +56,22 @@
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     self.centralManager.delegate = self;
     
-    self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.92 alpha:1];
+//    self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.92 alpha:1];
     self.isHyveButtonPressed = NO;
     [self.hyveButton setImage:[UIImage imageNamed:@"hyveLogo"] forState:UIControlStateNormal];
     self.firstTimeRunning = YES;
     self.hyveNetworkDetectionIndicatorImage.alpha = 0;
-    [self stylingHyveLabel];
+//    [self stylingHyveLabel];
     [self stylingNavigationBar];
+    [self stylingBackgroundView];
+}
+
+#pragma mark - styling background view
+-(void)stylingBackgroundView
+{
+    UIImageView *backgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    backgroundView.image = [UIImage imageNamed:@"appBg"];
+    [self.view addSubview:backgroundView];
 }
 
 #pragma mark - viewWillAppear

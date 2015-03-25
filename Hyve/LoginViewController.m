@@ -235,9 +235,17 @@
             else
             {
                 
-                NSLog(@"person display name: %@ \r person.aboutMe %@ \r birthday %@ \r gender: %@ \r familyName: %@ \r givenName %@ \r identifier %@", person.displayName, person.aboutMe, person.birthday, person.gender, person.name.familyName, person.name.givenName, person.identifier);
+//                NSLog(@"person display name: %@ \r person.aboutMe %@ \r birthday %@ \r gender: %@ \r familyName: %@ \r givenName %@ \r identifier %@ \r emails: %@", person.displayName, person.aboutMe, person.birthday, person.gender, person.name.familyName, person.name.givenName, person.identifier, [GPPSignIn sharedInstance].authentication.userEmail);
                 
-                [self checkingForFirstTimeUsers];
+                NSString *email = [GPPSignIn sharedInstance].authentication.userEmail;
+                NSString *uid = person.identifier;
+                NSString *first_name = person.name.givenName;
+                NSString *last_name = person.name.familyName;
+                NSString *usernameWithoutWhiteSpace = [[NSString stringWithFormat:@"%@%@",first_name,last_name] lowercaseString];
+                NSString *provider = @"google";
+                
+                NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",uid,@"uid",provider,@"provider",first_name,@"first_name",last_name,@"last_name",usernameWithoutWhiteSpace ,@"username", nil];
+                [self registerUserToHyve:userInfoDictionary];
             }
         }];
     }
@@ -247,7 +255,18 @@
 - (IBAction)onEmailButtonPressed:(id)sender
 {
     NSLog(@"email pressed");
-    [self performSegueWithIdentifier:@"ShowSignUpVC" sender:nil];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *successLoginViaEmail = [userDefaults objectForKey:@"successLoginViaEmail"];
+    
+    if (successLoginViaEmail != nil)
+    {
+        [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
+    }
+    else
+    {
+        [self performSegueWithIdentifier:@"ShowSignUpVC" sender:nil];
+    }
+
 }
 
 #pragma mark - first time check

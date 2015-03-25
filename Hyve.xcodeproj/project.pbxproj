@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2538EA530330605DE533ADA8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 066CD1A226374AD31A58ED36 /* libPods.a */; };
+		3B1FD75C1AC2CB7E0079A0C0 /* HyveListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1FD75B1AC2CB7E0079A0C0 /* HyveListTableViewCell.m */; };
 		3B5772A31AA714E1009FC171 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5772A21AA714E1009FC171 /* main.m */; };
 		3B5772A61AA714E1009FC171 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5772A51AA714E1009FC171 /* AppDelegate.m */; };
 		3B5772A91AA714E1009FC171 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5772A81AA714E1009FC171 /* ViewController.m */; };
@@ -58,6 +59,8 @@
 /* Begin PBXFileReference section */
 		066CD1A226374AD31A58ED36 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1428B76772D908D549699802 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		3B1FD75A1AC2CB7E0079A0C0 /* HyveListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyveListTableViewCell.h; sourceTree = "<group>"; };
+		3B1FD75B1AC2CB7E0079A0C0 /* HyveListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyveListTableViewCell.m; sourceTree = "<group>"; };
 		3B57729D1AA714E1009FC171 /* Hyve.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hyve.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B5772A11AA714E1009FC171 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B5772A21AA714E1009FC171 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -157,6 +160,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		3B1FD75D1AC2CB8A0079A0C0 /* Custom tableview cell */ = {
+			isa = PBXGroup;
+			children = (
+				3B1FD75A1AC2CB7E0079A0C0 /* HyveListTableViewCell.h */,
+				3B1FD75B1AC2CB7E0079A0C0 /* HyveListTableViewCell.m */,
+			);
+			name = "Custom tableview cell";
+			sourceTree = "<group>";
+		};
 		3B5772941AA714E1009FC171 = {
 			isa = PBXGroup;
 			children = (
@@ -185,6 +197,7 @@
 				3B5772A71AA714E1009FC171 /* ViewController.h */,
 				3B5772A81AA714E1009FC171 /* ViewController.m */,
 				3B5772AA1AA714E1009FC171 /* Main.storyboard */,
+				3B1FD75D1AC2CB8A0079A0C0 /* Custom tableview cell */,
 				3BA2D34B1AA9B668008CA9E4 /* ViewController */,
 				3BFDD94C1AA852EA00849EDA /* Model */,
 				3B5772C91AA8433B009FC171 /* Font */,
@@ -439,6 +452,7 @@
 				3BA2D3471AA95DAB008CA9E4 /* PeripheralListViewController.m in Sources */,
 				3B6DC72D1ABFAA7C0018C0AA /* SignUpViewController.m in Sources */,
 				3B6C72421ABBFA42006ECC0C /* SecondWalkthroughViewController.m in Sources */,
+				3B1FD75C1AC2CB7E0079A0C0 /* HyveListTableViewCell.m in Sources */,
 				3B5772C81AA7E45E009FC171 /* DashboardViewController.m in Sources */,
 				3B74B6B81AAD547900A0B50F /* HyveDetailsViewController.m in Sources */,
 			);

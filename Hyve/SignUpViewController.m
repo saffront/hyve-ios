@@ -7,9 +7,15 @@
 //
 
 #import "SignUpViewController.h"
+#import "WalkthroughViewController.h"
 #import <POP.h>
+#import <AFNetworking.h>
+#import <SimpleAuth/SimpleAuth.h>
+#import <Reachability.h>
+#import <GooglePlus/GooglePlus.h>
+#import <GoogleOpenSource/GoogleOpenSource.h>
 
-@interface SignUpViewController ()
+@interface SignUpViewController () <GPPSignInDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *emailTextField;
 @property (strong, nonatomic) IBOutlet UITextField *firstNameTextField;
 @property (strong, nonatomic) IBOutlet UITextField *lastNameTextField;
@@ -18,6 +24,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *registrationOptionLabel;
 @property (strong, nonatomic) IBOutlet UIButton *facebookButton;
 @property (strong, nonatomic) IBOutlet UIButton *googlePlusButton;
+@property (strong, nonatomic) IBOutlet UITextField *passwordConfirmationTextField;
 
 @end
 
@@ -68,11 +75,13 @@
     [self stylingTextField:self.lastNameTextField];
     [self stylingTextField:self.firstNameTextField];
     [self stylingTextField:self.passwordTextField];
+    [self stylingTextField:self.passwordConfirmationTextField];
     
     [self settingPlaceholderTextFieldColor:self.emailTextField setPlaceholderText:@"Email"];
     [self settingPlaceholderTextFieldColor:self.lastNameTextField setPlaceholderText:@"Last Name"];
     [self settingPlaceholderTextFieldColor:self.firstNameTextField setPlaceholderText:@"First Name"];
     [self settingPlaceholderTextFieldColor:self.passwordTextField setPlaceholderText:@"Password"];
+    [self settingPlaceholderTextFieldColor:self.passwordConfirmationTextField setPlaceholderText:@"Password confirmation"];
 }
 
 #pragma mark - styling text field
@@ -145,23 +154,104 @@
             {
                 POPSpringAnimation *shakeEmptyTextField = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
                 shakeEmptyTextField.springBounciness = 20;
-                shakeEmptyTextField.velocity = @(3000);
+                shakeEmptyTextField.velocity = @(2000);
                 shakeEmptyTextField.name = @"shake";
                 
                 [textField.layer pop_addAnimation:shakeEmptyTextField forKey:shakeEmptyTextField.name];
             }
             else
             {
-                NSString *username = [NSString stringWithFormat:@"%@ %@", self.lastNameTextField.text, self.firstNameTextField.text];
+                Reachability *reachability = [Reachability reachabilityWithHostname:@"www.google.com"];
+                
+                if (reachability.isReachable)
+                {
+                    [self assigningEmailLoginInfo];
+                }
+                else
+                {
+                    [self alertMessageToUser:@"Trouble with Internet connectivity"];
+                }
             }
         }
     }
 }
 
-#pragma mark - social media button
+#pragma mark - assigning email login 
+-(void)assigningEmailLoginInfo
+{
+    NSString *last_name = [self.lastNameTextField.text lowercaseString];
+    NSString *first_name = [self.firstNameTextField.text lowercaseString];
+    NSString *usernameWithoutWhiteSpace = [[NSString stringWithFormat:@"%@%@", self.lastNameTextField.text, self.firstNameTextField.text] stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString *provider = @"email";
+    NSString *email = self.emailTextField.text;
+    NSString *password = self.passwordTextField.text;
+    NSUInteger passwordCharacterCount = [password length];
+    NSString *passwordConfirmation = self.passwordConfirmationTextField.text;
+    
+    if ([last_name isEqualToString:@""] ||
+        [first_name isEqualToString:@""] ||
+        [email isEqualToString:@""] ||
+        [password isEqualToString:@""] ||
+        [passwordConfirmation isEqualToString:@""] ||
+        passwordCharacterCount < 8)
+    {
+        [self alertMessageToUser:@"Please ensure all fields are entered"];
+    }
+    else
+    {
+                NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",
+                                              provider,@"provider",
+                                              first_name,@"first_name",
+                                              last_name,@"last_name",
+                                              usernameWithoutWhiteSpace,@"username",
+                                              password,@"password",
+                                              passwordConfirmation, @"password_confirmation",
+                                                           nil];
+        [self registerUserToHyve:userInfoDictionary];
+    }
+
+}
+
+#pragma mark - facebook
 - (IBAction)onFacebookButtonPressed:(id)sender
 {
-    NSLog(@"facebook button is pressed");
+    Reachability *reachability = [Reachability reachabilityWithHostName:@"www.google.com"];
+    
+    if (reachability.isReachable)
+    {
+        [self loginWithFacebook];
+    }
+    else
+    {
+        [self alertMessageToUser:@"Trouble with Internet connectivity"];
+    }
+}
+
+-(void)loginWithFacebook
+{
+    [SimpleAuth authorize:@"facebook" completion:^(id responseObject, NSError *error) {
+        if (!error)
+        {
+            NSLog(@"responseObject from FB: \r%@", responseObject);
+            
+            NSString *email = [responseObject valueForKeyPath:@"info.email"];
+            NSString *uid = [responseObject valueForKeyPath:@"uid"];
+            NSString *provider = [responseObject valueForKeyPath:@"provider"];
+            NSString *first_name = [responseObject valueForKeyPath:@"info.first_name"];
+            NSString *last_name = [responseObject valueForKeyPath:@"extra.raw_info.last_name"];
+            NSString *username = [NSString stringWithFormat:@"%@ %@", first_name, last_name];
+            NSString *usernameWithoutWhiteSpace = [[username stringByReplacingOccurrencesOfString:@" " withString:@""]lowercaseString];
+            
+            NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",uid,@"uid",provider,@"provider",first_name,@"first_name",last_name,@"last_name",usernameWithoutWhiteSpace ,@"username", nil];
+            
+            [self registerUserToHyve:userInfoDictionary];
+            
+        }
+        else
+        {
+            NSLog(@"error with login %@", [error localizedDescription]);
+        }
+    }];
 }
 
 -(void)stylingFacebookButton
@@ -169,14 +259,131 @@
     [self.facebookButton setImage:[UIImage imageNamed:@"fb"] forState:UIControlStateNormal];
 }
 
+#pragma mark - google
 - (IBAction)onGooglePlusButtonPressed:(id)sender
 {
-    NSLog(@"g+ button is pressed");
+    Reachability *reachability = [Reachability reachabilityWithHostName:@"www.google.com"];
+    
+    if (reachability.isReachable)
+    {
+        [self loginWithGooglePlus];
+    }
+    else
+    {
+        [self alertMessageToUser:@"Trouble with Internet connectivity"];
+    }
 }
+
+-(void)loginWithGooglePlus
+{
+    GPPSignIn *signIn = [GPPSignIn sharedInstance];
+    signIn.shouldFetchGooglePlusUser = YES;
+    signIn.shouldFetchGoogleUserEmail = YES;
+    signIn.clientID = @"488151226427-0mj2pg9jipcv26djbgmp4gi8pmfjc866.apps.googleusercontent.com";
+    signIn.scopes = @[@"profile"];
+    signIn.delegate = self;
+    [signIn authenticate];
+}
+
+-(void)finishedWithAuth:(GTMOAuth2Authentication *)auth error:(NSError *)error
+{
+    if (error)
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:[NSString stringWithFormat:@"Unable to login via Google Plus. %@", [error localizedDescription]] preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+    else
+    {
+        
+        GTLServicePlus *plusService = [GTLServicePlus new];
+        plusService.retryEnabled = YES;
+        [plusService setAuthorizer:[GPPSignIn sharedInstance].authentication];
+        GTLQueryPlus *query = [GTLQueryPlus queryForPeopleGetWithUserId:@"me"];
+        
+        [plusService executeQuery:query completionHandler:^(GTLServiceTicket *ticket, GTLPlusPerson *person, NSError *error)
+         {
+             if (error)
+             {
+                 NSLog(@"Error: %@", error);
+             }
+             else
+             {
+                 
+                 //                NSLog(@"person display name: %@ \r person.aboutMe %@ \r birthday %@ \r gender: %@ \r familyName: %@ \r givenName %@ \r identifier %@ \r emails: %@", person.displayName, person.aboutMe, person.birthday, person.gender, person.name.familyName, person.name.givenName, person.identifier, [GPPSignIn sharedInstance].authentication.userEmail);
+                 
+                 NSString *email = [GPPSignIn sharedInstance].authentication.userEmail;
+                 NSString *uid = person.identifier;
+                 NSString *first_name = person.name.givenName;
+                 NSString *last_name = person.name.familyName;
+                 NSString *usernameWithoutWhiteSpace = [[NSString stringWithFormat:@"%@%@",first_name,last_name] lowercaseString];
+                 NSString *provider = @"google";
+                 
+                 NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",uid,@"uid",provider,@"provider",first_name,@"first_name",last_name,@"last_name",usernameWithoutWhiteSpace ,@"username", nil];
+                 [self registerUserToHyve:userInfoDictionary];
+             }
+         }];
+    }
+}
+
 
 -(void)stylingGooglePlusButton
 {
     [self.googlePlusButton setImage:[UIImage imageNamed:@"g+"] forState:UIControlStateNormal];
+}
+
+
+#pragma mark - register user to hyve
+-(void)registerUserToHyve:(NSMutableDictionary*)userInfoDictionaryJSON
+{
+    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/user_sessions"];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [manager.requestSerializer setValue:@"application/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+    
+    [manager POST:hyveURLString parameters:userInfoDictionaryJSON success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSString *api_token = [responseObject valueForKeyPath:@"api_token"];
+        NSString *successLoginViaEmail = @"successLoginViaEmail";
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:api_token forKey:@"api_token"];
+        [userDefaults setObject:successLoginViaEmail forKey:@"successLoginViaEmail"];
+        [userDefaults synchronize];
+        [self checkingForFirstTimeUsers];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"error %@ \r \r error localized:%@", error, [error localizedDescription]);
+    }];
+}
+
+#pragma mark - first time check
+-(void)checkingForFirstTimeUsers
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *checkingForFirstTime = [userDefaults objectForKey:@"firstTimeEnterApp"];
+    if (checkingForFirstTime == nil)
+    {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+        WalkthroughViewController *wvc = [storyboard instantiateViewControllerWithIdentifier:@"WalkthroughViewController"];
+        [self.navigationController presentViewController:wvc animated:YES completion:nil];
+    }
+    else
+    {
+        [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
+    }
+}
+
+#pragma mark - alert 
+-(void)alertMessageToUser:(NSString*)alertMessage
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:alertMessage preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - dismiss keyboard upon touch

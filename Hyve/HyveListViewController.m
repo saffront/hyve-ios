@@ -7,6 +7,7 @@
 //
 
 #import <DKCircleButton.h>
+#import "UserAccountViewController.h"
 #import "HyveListTableViewCell.h"
 #import "HyveListViewController.h"
 #import "HyveDetailsViewController.h"
@@ -17,6 +18,7 @@
 @interface HyveListViewController () <UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate>
 
 @property (strong, nonatomic) Hyve *hyve;
+@property (strong, nonatomic) DKCircleButton *userProfileImageButton;
 @property (weak, nonatomic) IBOutlet UITableView *hyveListTable;
 @property float defaultY;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageBackground;
@@ -125,18 +127,24 @@
 -(void)settingHeaderForHyveListTable
 {
     UIView *userProfileHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.hyveListTable.frame.size.width, 250)];
-    
+    [userProfileHeader setUserInteractionEnabled:YES];
+
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, userProfileHeader.frame.size.width, userProfileHeader.frame.size.height)];
     backgroundImageView.image = [UIImage imageNamed:@"userProfileHeader"];
 
-    DKCircleButton *userProfileImageButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(backgroundImageView.frame.size.width / 2, 130, 100, 100)];
-    [userProfileImageButton setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
-    [userProfileImageButton setTitle:@"" forState:UIControlStateNormal];
-    [userProfileImageButton setCenter:CGPointMake(CGRectGetMidX(backgroundImageView.bounds), CGRectGetMidY(backgroundImageView.bounds))];
+    self.userProfileImageButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(backgroundImageView.frame.size.width / 2, 130, 100, 100)];
+    [self.userProfileImageButton setUserInteractionEnabled:YES];
+    [self.userProfileImageButton setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
+    [self.userProfileImageButton setTitle:@"" forState:UIControlStateNormal];
+    [self.userProfileImageButton setCenter:CGPointMake(CGRectGetMidX(backgroundImageView.bounds), CGRectGetMidY(backgroundImageView.bounds))];
     
-    [backgroundImageView addSubview:userProfileImageButton];
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserAccountVC:)];
+    [self.userProfileImageButton addGestureRecognizer:tapGestureRecognizer];
+    [userProfileHeader addGestureRecognizer:tapGestureRecognizer];
     
-    float positionOfUsernameCoordinateY = userProfileImageButton.frame.origin.y + userProfileImageButton.frame.size.height + 40;
+    [backgroundImageView addSubview:self.userProfileImageButton];
+    
+    float positionOfUsernameCoordinateY = self.userProfileImageButton.frame.origin.y + self.userProfileImageButton.frame.size.height + 40;
     
     UILabel *username = [[UILabel alloc] initWithFrame:CGRectMake(backgroundImageView.frame.size.width/2, positionOfUsernameCoordinateY, 250, 40)];
     username.text = @"Jennifer Lawrence";
@@ -152,6 +160,7 @@
     
     self.hyveListTable.tableHeaderView = userProfileHeader;
 }
+
 
 #pragma mark - profile image settings
 - (IBAction)onProfileImageButtonPressed:(id)sender
@@ -223,6 +232,21 @@
         HyveDetailsViewController *hdvc = segue.destinationViewController;
         hdvc.peripheral = peripheral;
         hdvc.centralManager = self.centralManager;
+    }
+    else if ([segue.identifier isEqualToString:@"ShowUserAccountVC"])
+    {
+        UserAccountViewController *uavc = segue.destinationViewController;
+    }
+}
+
+//from user profile image
+-(void)showUserAccountVC:(UITapGestureRecognizer*)tapGestureRecognizer
+{
+    if (tapGestureRecognizer.view.tag == 123)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self performSegueWithIdentifier:@"ShowUserAccountVC" sender:nil];
+        });
     }
 }
 

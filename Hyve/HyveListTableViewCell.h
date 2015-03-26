@@ -7,8 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <DKCircleButton/DKCircleButton.h>
 
 @interface HyveListTableViewCell : UITableViewCell
+@property (strong, nonatomic) IBOutlet UIView *hyveContentView;
+@property (strong, nonatomic) IBOutlet DKCircleButton *hyveImage;
+@property (strong, nonatomic) IBOutlet UILabel *hyveName;
+@property (strong, nonatomic) IBOutlet UILabel *hyveBattery;
+@property (strong, nonatomic) IBOutlet UILabel *hyveProximity;
 
 
 @end

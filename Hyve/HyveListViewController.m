@@ -7,6 +7,7 @@
 //
 
 #import <DKCircleButton.h>
+#import "HyveListTableViewCell.h"
 #import "HyveListViewController.h"
 #import "HyveDetailsViewController.h"
 #import "Hyve.h"
@@ -20,7 +21,6 @@
 @property float defaultY;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageBackground;
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (strong, nonatomic) IBOutlet UIView *profileTableHeader;
 @property (strong, nonatomic) IBOutlet DKCircleButton *profileImageButton;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
@@ -32,11 +32,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.92 alpha:1];
+//    [self addingProfileTableHeaderViewToTableHeader];
     
     [self stylingBackgroundView];
     [self stylingNavigationBar];
-    [self settingAndStylingUserProfile];
+//    [self settingAndStylingUserProfile];
     [self stylingHyveListTableView];
+    [self settingHeaderForHyveListTable];
 
 }
 
@@ -62,6 +64,7 @@
     self.hyveListTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.hyveListTable.backgroundColor = [UIColor clearColor];
     self.hyveListTable.layoutMargins = UIEdgeInsetsZero;
+    self.hyveListTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.hyveListTable setSeparatorInset:UIEdgeInsetsZero];
 }
 
@@ -72,6 +75,7 @@
     self.usernameLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
     self.usernameLabel.textColor = [UIColor whiteColor];
     
+    [[self.profileImageButton imageView] setContentMode:UIViewContentModeScaleAspectFill];
     [self.profileImageButton setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
     [self.profileImageButton setTitle:@"" forState:UIControlStateNormal];
     self.profileImageButton.borderColor = [UIColor whiteColor];
@@ -97,21 +101,85 @@
     hyve.peripheralName = peripheral.name;
     hyve.peripheralUUID = peripheral.identifier;
 
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HyveCellListVC"];
-    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+    HyveListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HyveCellListVC"];
     cell.backgroundColor = [UIColor clearColor];
+    cell.hyveContentView.backgroundColor = [UIColor colorWithRed:0.61 green:0.71 blue:0.71 alpha:0.4];
     
     if ([hyve.peripheralName isEqualToString:@""] || hyve.peripheralName == nil)
     {
-        cell.textLabel.text = @"Unknown device";
-        cell.textLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+        cell.hyveName.text = @"Unkown devices";
+        cell.hyveName.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+        cell.hyveName.textColor = [UIColor whiteColor];
+        [cell.hyveImage setImage:[UIImage imageNamed:@"houseKeys"] forState:UIControlStateNormal];
+        cell.hyveBattery.alpha = 0;
+        cell.hyveProximity.alpha = 0;
     }
     else
     {
-        cell.textLabel.text = hyve.peripheralName;
-        cell.textLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+        cell.hyveName.text = hyve.peripheralName;
+        cell.hyveName.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+        cell.hyveName.textColor = [UIColor whiteColor];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [cell.hyveImage setImage:[UIImage imageNamed:@"houseKeys"] forState:UIControlStateNormal];
+            cell.hyveImage.borderColor = [UIColor whiteColor];
+            cell.hyveImage.borderSize = 3.0f;
+        });
+
+        cell.hyveBattery.text = @"Super strong";
+        cell.hyveBattery.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:16];
+        cell.hyveBattery.textColor = [UIColor whiteColor];
+        cell.hyveBattery.numberOfLines = 0;
+        
+        cell.hyveProximity.text = @"Super far";
+        cell.hyveProximity.textColor = [UIColor whiteColor];
+        cell.hyveProximity.numberOfLines = 0;
+        cell.hyveProximity.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:16];
+        
     }
     return cell;
+}
+
+-(void)settingHeaderForHyveListTable
+{
+    UIView *userProfileHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.hyveListTable.frame.size.width, 250)];
+    
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, userProfileHeader.frame.size.width, userProfileHeader.frame.size.height)];
+    backgroundImageView.image = [UIImage imageNamed:@"userProfileHeader"];
+
+    DKCircleButton *userProfileImageButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(backgroundImageView.frame.size.width / 2, 130, 100, 100)];
+    [userProfileImageButton setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
+    [userProfileImageButton setTitle:@"" forState:UIControlStateNormal];
+    [userProfileImageButton setCenter:CGPointMake(CGRectGetMidX(backgroundImageView.bounds), CGRectGetMidY(backgroundImageView.bounds))];
+    
+    [backgroundImageView addSubview:userProfileImageButton];
+    
+    float positionOfUsernameCoordinateY = userProfileImageButton.frame.origin.y + userProfileImageButton.frame.size.height + 40;
+    
+    UILabel *username = [[UILabel alloc] initWithFrame:CGRectMake(backgroundImageView.frame.size.width/2, positionOfUsernameCoordinateY, 250, 40)];
+    username.text = @"Jennifer Lawrence";
+    username.textAlignment = NSTextAlignmentCenter;
+    username.numberOfLines = 0;
+    username.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+    username.textColor = [UIColor whiteColor];
+    [username setCenter:CGPointMake(CGRectGetMidX(backgroundImageView.bounds), positionOfUsernameCoordinateY)];
+    
+    [backgroundImageView addSubview:username];
+    
+    [userProfileHeader addSubview:backgroundImageView];
+    
+    self.hyveListTable.tableHeaderView = userProfileHeader;
+}
+
+#pragma mark - add profile table header to table
+-(void)addingProfileTableHeaderViewToTableHeader
+{
+    self.profileTableHeader.frame = CGRectMake(0, 0, self.view.frame.size.width, 170);
+    self.profileImageBackground.frame = self.profileTableHeader.frame;
+    [self.profileTableHeader addSubview:self.profileImageBackground];
+    
+    self.hyveListTable.tableHeaderView.frame = self.profileTableHeader.frame;
+    [self.hyveListTable addSubview:self.profileTableHeader];
 }
 
 #pragma mark - profile image settings

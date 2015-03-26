@@ -19,15 +19,14 @@
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
 @property (weak, nonatomic) IBOutlet UITextField *hyveNameTextField;
 @property (strong, nonatomic) UIImage *resizedImage;
-//@property (weak, nonatomic) IBOutlet UISlider *distanceSlider;
-//@property (weak, nonatomic) IBOutlet UILabel *distanceSliderLabel;
 @property (strong, nonatomic) NSArray *valuesOfDistanceSlider;
 @property (weak, nonatomic) IBOutlet UIButton *connectButton;
-//@property (weak, nonatomic) IBOutlet UIButton *setIconButton;
 @property (strong, nonatomic) CNPGridMenu *gridMenu;
 @property (strong, nonatomic) NSString *distanceNumber;
 @property (strong, nonatomic) NSData *distanceNumberData;
 @property (strong, nonatomic) IBOutlet UIButton *hyveDistanceButton;
+@property (strong, nonatomic) IBOutlet UIButton *settingHyveImageButton;
+
 
 @end
 
@@ -35,21 +34,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.92 alpha:1];
+
     self.centralManager.delegate = self;
     self.hyveNameTextField.text = self.peripheral.name;
     self.hyveNameTextField.delegate = self;
     self.title = self.peripheral.name;
     
-//    [self stylingDistanceSliderLabel];
     [self stylingBackgroundView];
     [self addingSaveButtonToNavigationBar];
     [self addToolbarToKeyboard];
     [self stylingTextField];
     [self stylingHyveDistanceButton];
-//    [self configureAndStyleDistanceSlider];
     [self stylingConnectButton];
     [self stylingHyveImageButton];
+    [self stylingSettingHyveImageButton];
     
     NSString *uuid = [self.peripheral.identifier UUIDString];
     NSLog(@"self.peripheral %@", uuid);
@@ -80,9 +78,9 @@
 #pragma mark - styling text field
 -(void)stylingTextField
 {
-    self.hyveNameTextField.layer.borderWidth = 0.5;
-    self.hyveNameTextField.layer.borderColor = [UIColor colorWithRed:0.90 green:0.90 blue:0.90 alpha:1].CGColor;
-    self.hyveNameTextField.layer.backgroundColor = [UIColor clearColor].CGColor;
+//    self.hyveNameTextField.layer.borderWidth = 0.5;
+//    self.hyveNameTextField.layer.borderColor = [UIColor colorWithRed:0.90 green:0.90 blue:0.90 alpha:1].CGColor;
+    self.hyveNameTextField.backgroundColor = [UIColor colorWithRed:0.80 green:0.80 blue:0.80 alpha:0.8];
     self.hyveNameTextField.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0);
     self.hyveNameTextField.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
     self.hyveNameTextField.textAlignment = NSTextAlignmentNatural;
@@ -101,34 +99,34 @@
 #pragma mark - hyve image button
 - (IBAction)onHyveImageButtonPressed:(id)sender
 {
-    POPSpringAnimation *springAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
-    springAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
-    springAnimation.springBounciness = 20.0f;
-    [self.hyveImageButton pop_addAnimation:springAnimation forKey:@"sendAnimation"];
-    springAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
-        
-        if (finished)
-        {
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Choose methods below to attach image to your Hyve" preferredStyle:UIAlertControllerStyleActionSheet];
-            
-            UIAlertAction *takePicture = [UIAlertAction actionWithTitle:@"Take a picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                [self takeAPictureForHyveImage];
-            }];
-            
-            UIAlertAction *usePresetIcon = [UIAlertAction actionWithTitle:@"Use preset icon" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                [self usePresetIconForHyveImage];
-            }];
-            
-            UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                [self dismissViewControllerAnimated:YES completion:nil];
-            }];
-            
-            [alertController addAction:takePicture];
-            [alertController addAction:usePresetIcon];
-            [alertController addAction:cancel];
-            [self presentViewController:alertController animated:YES completion:nil];
-        }
-    };
+//    POPSpringAnimation *springAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+//    springAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
+//    springAnimation.springBounciness = 20.0f;
+//    [self.hyveImageButton pop_addAnimation:springAnimation forKey:@"sendAnimation"];
+//    springAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+//        
+//        if (finished)
+//        {
+//            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Choose methods below to attach image to your Hyve" preferredStyle:UIAlertControllerStyleActionSheet];
+//            
+//            UIAlertAction *takePicture = [UIAlertAction actionWithTitle:@"Take a picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//                [self takeAPictureForHyveImage];
+//            }];
+//            
+//            UIAlertAction *usePresetIcon = [UIAlertAction actionWithTitle:@"Use preset icon" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//                [self usePresetIconForHyveImage];
+//            }];
+//            
+//            UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//                [self dismissViewControllerAnimated:YES completion:nil];
+//            }];
+//            
+//            [alertController addAction:takePicture];
+//            [alertController addAction:usePresetIcon];
+//            [alertController addAction:cancel];
+//            [self presentViewController:alertController animated:YES completion:nil];
+//        }
+//    };
 }
 
 -(void)takeAPictureForHyveImage
@@ -212,14 +210,20 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             self.resizedImage = resizedImageTakenByUser;
-            POPBasicAnimation *fadeAnimation = [POPBasicAnimation animation];
-            fadeAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewAlpha];
-            fadeAnimation.fromValue = @(0);
-            fadeAnimation.toValue = @(1);
-            fadeAnimation.duration = 1.5;
-            fadeAnimation.name = @"fade-in";
-            [self.hyveImageButton setImage:self.resizedImage animated:NO];
-            [self.hyveImageButton pop_addAnimation:fadeAnimation forKey:fadeAnimation.name];
+//            POPBasicAnimation *fadeAnimation = [POPBasicAnimation animation];
+//            fadeAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewAlpha];
+//            fadeAnimation.fromValue = @(0);
+//            fadeAnimation.toValue = @(1);
+//            fadeAnimation.duration = 1.5;
+//            fadeAnimation.name = @"fade-in";
+//            [self.hyveImageButton pop_addAnimation:fadeAnimation forKey:fadeAnimation.name];
+            
+            POPSpringAnimation *springAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+            springAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
+            springAnimation.springBounciness = 20.0f;
+            [self.hyveImageButton pop_addAnimation:springAnimation forKey:@"sendAnimation"];
+            
+            [self.hyveImageButton setImage:self.resizedImage forState:UIControlStateNormal];
             
         });
     });
@@ -234,24 +238,22 @@
 #pragma mark - hyve distance
 -(void)stylingHyveDistanceButton
 {
-    self.hyveDistanceButton.layer.borderWidth = 0.5;
-    self.hyveDistanceButton.layer.borderColor = [UIColor colorWithRed:0.90 green:0.90 blue:0.90 alpha:1].CGColor;
-    self.hyveDistanceButton.layer.backgroundColor = [UIColor clearColor].CGColor;
+    self.hyveDistanceButton.backgroundColor = [UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1];
     self.hyveDistanceButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
-    self.hyveDistanceButton.tintColor = [UIColor blackColor];
-    self.hyveDistanceButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    self.hyveDistanceButton.tintColor = [UIColor whiteColor];
+    self.hyveDistanceButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     [self.hyveDistanceButton setContentEdgeInsets:UIEdgeInsetsMake(0, 20, 0, 0)];
-    [self.hyveDistanceButton setTitle:@"Distance from Hyve" forState:UIControlStateNormal];
+    [self.hyveDistanceButton setTitle:@"Set Proximity" forState:UIControlStateNormal];
 
 }
 
 - (IBAction)onHyveDistanceButtonPressed:(id)sender
 {
-    POPSpringAnimation *shakeHyveDistanceButton = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
-    shakeHyveDistanceButton.springBounciness = 20;
-    shakeHyveDistanceButton.velocity = @(3000);
-    shakeHyveDistanceButton.name = @"shakeHyveDistanceButton";
-    [self.hyveDistanceButton pop_addAnimation:shakeHyveDistanceButton forKey:shakeHyveDistanceButton.name];
+//    POPSpringAnimation *shakeHyveDistanceButton = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+//    shakeHyveDistanceButton.springBounciness = 20;
+//    shakeHyveDistanceButton.velocity = @(3000);
+//    shakeHyveDistanceButton.name = @"shakeHyveDistanceButton";
+//    [self.hyveDistanceButton pop_addAnimation:shakeHyveDistanceButton forKey:shakeHyveDistanceButton.name];
     
     CNPGridMenuItem *one = [CNPGridMenuItem new];
     one.title = @"One meter";
@@ -273,15 +275,63 @@
     sixteen.title = @"Sixteen meters";
     sixteen.icon = [UIImage imageNamed:@"bagpack"];
     
-    shakeHyveDistanceButton.completionBlock = ^(POPAnimation *anim, BOOL finished) {
-        self.gridMenu = [[CNPGridMenu alloc] initWithMenuItems:@[one,two,four,eight,sixteen]];
-        self.gridMenu.delegate = self;
-        self.gridMenu.blurEffectStyle = UIBlurEffectStyleDark;
-        [self presentGridMenu:self.gridMenu animated:YES completion:^{
-            NSLog(@"display grid menu");
-        }];
-    };
+    self.gridMenu = [[CNPGridMenu alloc] initWithMenuItems:@[one,two,four,eight,sixteen]];
+    self.gridMenu.delegate = self;
+    self.gridMenu.blurEffectStyle = UIBlurEffectStyleDark;
+    [self presentGridMenu:self.gridMenu animated:YES completion:^{
+        NSLog(@"display grid menu");
+    }];
+    
+//    shakeHyveDistanceButton.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+//        self.gridMenu = [[CNPGridMenu alloc] initWithMenuItems:@[one,two,four,eight,sixteen]];
+//        self.gridMenu.delegate = self;
+//        self.gridMenu.blurEffectStyle = UIBlurEffectStyleDark;
+//        [self presentGridMenu:self.gridMenu animated:YES completion:^{
+//            NSLog(@"display grid menu");
+//        }];
+//    };
 }
+
+#pragma mark - setting hyve image button
+-(void)stylingSettingHyveImageButton
+{
+    self.settingHyveImageButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
+    self.settingHyveImageButton.backgroundColor = [UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1];
+    self.settingHyveImageButton.tintColor = [UIColor whiteColor];
+    self.settingHyveImageButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    [self.settingHyveImageButton setContentEdgeInsets:UIEdgeInsetsMake(0, 20, 0, 0)];
+    [self.settingHyveImageButton setTitle:@"Set Hyve image" forState:UIControlStateNormal];
+}
+
+-(void)settingHyveImageButtonAnimation
+{
+    POPSpringAnimation *springAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+    springAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
+    springAnimation.springBounciness = 20.0f;
+    [self.hyveImageButton pop_addAnimation:springAnimation forKey:@"sendAnimation"];
+}
+
+- (IBAction)onSettingHyveImageButtonPressed:(id)sender
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Choose methods below to attach image to your Hyve" preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *takePicture = [UIAlertAction actionWithTitle:@"Take a picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self takeAPictureForHyveImage];
+    }];
+    
+    UIAlertAction *usePresetIcon = [UIAlertAction actionWithTitle:@"Use preset icon" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self usePresetIconForHyveImage];
+    }];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    
+    [alertController addAction:takePicture];
+    [alertController addAction:usePresetIcon];
+    [alertController addAction:cancel];
+    [self presentViewController:alertController animated:YES completion:nil];
+
+}
+
 
 #pragma mark - grid menu preset icons and distance
 -(void)gridMenu:(CNPGridMenu *)menu didTapOnItem:(CNPGridMenuItem *)item
@@ -290,76 +340,85 @@
     if ([item.title isEqualToString:@"Backpack"])
     {
         NSLog(@"backpack");
+        [self settingHyveImageButtonAnimation];
         [self.hyveImageButton setImage:[UIImage imageNamed:@"bagpack"] forState:UIControlStateNormal];
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Laptop"])
     {
+        [self settingHyveImageButtonAnimation];
         [self.hyveImageButton setImage:[UIImage imageNamed:@"macbook"] forState:UIControlStateNormal];
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"House Key"])
     {
+        [self settingHyveImageButtonAnimation];
         [self.hyveImageButton setImage:[UIImage imageNamed:@"houseKeys"] forState:UIControlStateNormal];
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Car Key"])
     {
+        [self settingHyveImageButtonAnimation];
         [self.hyveImageButton setImage:[UIImage imageNamed:@"carKeys"] forState:UIControlStateNormal];
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Bag"])
     {
+        [self settingHyveImageButtonAnimation];
         [self.hyveImageButton setImage:[UIImage imageNamed:@"handbag"] forState:UIControlStateNormal];
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Briefcase"])
     {
+        [self settingHyveImageButtonAnimation];
         [self.hyveImageButton setImage:[UIImage imageNamed:@"briefcase"] forState:UIControlStateNormal];
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Backpack"])
     {
+        [self settingHyveImageButtonAnimation];
         [self.hyveImageButton setImage:[UIImage imageNamed:@"bagpack"] forState:UIControlStateNormal];
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Wallet"])
     {
+        [self settingHyveImageButtonAnimation];
         [self.hyveImageButton setImage:[UIImage imageNamed:@"wallet"] forState:UIControlStateNormal];
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Remote Control"])
     {
+        [self settingHyveImageButtonAnimation];
         [self.hyveImageButton setImage:[UIImage imageNamed:@"remote"] forState:UIControlStateNormal];
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"One meter"])
     {
-        [self.hyveDistanceButton setTitle:@"Distance from Hyve: 1 meter" forState:UIControlStateNormal];
+        [self.hyveDistanceButton setTitle:@"1 meter" forState:UIControlStateNormal];
         self.distanceNumber = @"40";
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Two meters"])
     {
-        [self.hyveDistanceButton setTitle:@"Distance from Hyve: 2 meters" forState:UIControlStateNormal];
+        [self.hyveDistanceButton setTitle:@"2 meters" forState:UIControlStateNormal];
         self.distanceNumber = @"46";
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Four meters"])
     {
-        [self.hyveDistanceButton setTitle:@"Distance from Hyve: 4 meters" forState:UIControlStateNormal];
+        [self.hyveDistanceButton setTitle:@"4 meters" forState:UIControlStateNormal];
         self.distanceNumber = @"52";
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Eight meters"])
     {
-        [self.hyveDistanceButton setTitle:@"Distance from Hyve: 8 meters" forState:UIControlStateNormal];
+        [self.hyveDistanceButton setTitle:@"8 meters" forState:UIControlStateNormal];
         self.distanceNumber = @"58";
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Sixteen meters"])
     {
-        [self.hyveDistanceButton setTitle:@"Distance from Hyve: 16 meters" forState:UIControlStateNormal];
+        [self.hyveDistanceButton setTitle:@"16 meters" forState:UIControlStateNormal];
         self.distanceNumber = @"64";
         [self dismissGridMenuAnimated:YES completion:nil];
     }
@@ -390,7 +449,7 @@
     [self.connectButton setTitle:@"Connect" forState:UIControlStateNormal];
     self.connectButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
     [self.connectButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.connectButton setBackgroundColor:[UIColor colorWithRed:0.56 green:0.74 blue:0.56 alpha:1]];
+    [self.connectButton setBackgroundColor:[UIColor colorWithRed:0.89 green:0.39 blue:0.16 alpha:1]];
 }
 
 #pragma mark - central manager delegate
@@ -645,7 +704,7 @@
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.3];
     [UIView setAnimationBeginsFromCurrentState:YES];
-    [self.view setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y - 120, self.view.frame.size.width, self.view.frame.size.height)];
+    [self.view setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y - 80, self.view.frame.size.width, self.view.frame.size.height)];
     [UIView commitAnimations];
 }
 
@@ -655,7 +714,7 @@
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.3];
     [UIView setAnimationBeginsFromCurrentState:YES];
-    [self.view setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + 120, self.view.frame.size.width, self.view.frame.size.height)];
+    [self.view setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + 80, self.view.frame.size.width, self.view.frame.size.height)];
     [UIView commitAnimations];
 }
 

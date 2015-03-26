@@ -41,7 +41,6 @@
     self.title = self.peripheral.name;
     
     [self stylingBackgroundView];
-    [self addingSaveButtonToNavigationBar];
     [self addToolbarToKeyboard];
     [self stylingTextField];
     [self stylingHyveDistanceButton];
@@ -59,14 +58,6 @@
 
 }
 
-#pragma mark - adding save bar button item
--(void)addingSaveButtonToNavigationBar
-{
-    UIBarButtonItem *saveRightButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveHyveDetailsToBackend)];
-    self.navigationItem.rightBarButtonItem = saveRightButton;
-}
-
-
 #pragma mark - styling background view
 -(void)stylingBackgroundView
 {
@@ -78,8 +69,6 @@
 #pragma mark - styling text field
 -(void)stylingTextField
 {
-//    self.hyveNameTextField.layer.borderWidth = 0.5;
-//    self.hyveNameTextField.layer.borderColor = [UIColor colorWithRed:0.90 green:0.90 blue:0.90 alpha:1].CGColor;
     self.hyveNameTextField.backgroundColor = [UIColor colorWithRed:0.80 green:0.80 blue:0.80 alpha:0.8];
     self.hyveNameTextField.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0);
     self.hyveNameTextField.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
@@ -94,39 +83,6 @@
     self.hyveImageButton.borderSize = 2.0f;
     [self.hyveImageButton setImage:[UIImage imageNamed:@"jlaw2"] forState:UIControlStateNormal];
     [self.hyveImageButton setTitle:@"" forState:UIControlStateNormal];
-}
-
-#pragma mark - hyve image button
-- (IBAction)onHyveImageButtonPressed:(id)sender
-{
-//    POPSpringAnimation *springAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
-//    springAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
-//    springAnimation.springBounciness = 20.0f;
-//    [self.hyveImageButton pop_addAnimation:springAnimation forKey:@"sendAnimation"];
-//    springAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
-//        
-//        if (finished)
-//        {
-//            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Choose methods below to attach image to your Hyve" preferredStyle:UIAlertControllerStyleActionSheet];
-//            
-//            UIAlertAction *takePicture = [UIAlertAction actionWithTitle:@"Take a picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-//                [self takeAPictureForHyveImage];
-//            }];
-//            
-//            UIAlertAction *usePresetIcon = [UIAlertAction actionWithTitle:@"Use preset icon" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-//                [self usePresetIconForHyveImage];
-//            }];
-//            
-//            UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-//                [self dismissViewControllerAnimated:YES completion:nil];
-//            }];
-//            
-//            [alertController addAction:takePicture];
-//            [alertController addAction:usePresetIcon];
-//            [alertController addAction:cancel];
-//            [self presentViewController:alertController animated:YES completion:nil];
-//        }
-//    };
 }
 
 -(void)takeAPictureForHyveImage
@@ -210,14 +166,6 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             self.resizedImage = resizedImageTakenByUser;
-//            POPBasicAnimation *fadeAnimation = [POPBasicAnimation animation];
-//            fadeAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewAlpha];
-//            fadeAnimation.fromValue = @(0);
-//            fadeAnimation.toValue = @(1);
-//            fadeAnimation.duration = 1.5;
-//            fadeAnimation.name = @"fade-in";
-//            [self.hyveImageButton pop_addAnimation:fadeAnimation forKey:fadeAnimation.name];
-            
             POPSpringAnimation *springAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
             springAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
             springAnimation.springBounciness = 20.0f;
@@ -249,12 +197,6 @@
 
 - (IBAction)onHyveDistanceButtonPressed:(id)sender
 {
-//    POPSpringAnimation *shakeHyveDistanceButton = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
-//    shakeHyveDistanceButton.springBounciness = 20;
-//    shakeHyveDistanceButton.velocity = @(3000);
-//    shakeHyveDistanceButton.name = @"shakeHyveDistanceButton";
-//    [self.hyveDistanceButton pop_addAnimation:shakeHyveDistanceButton forKey:shakeHyveDistanceButton.name];
-    
     CNPGridMenuItem *one = [CNPGridMenuItem new];
     one.title = @"One meter";
     one.icon = [UIImage imageNamed:@"briefcase"];
@@ -281,15 +223,6 @@
     [self presentGridMenu:self.gridMenu animated:YES completion:^{
         NSLog(@"display grid menu");
     }];
-    
-//    shakeHyveDistanceButton.completionBlock = ^(POPAnimation *anim, BOOL finished) {
-//        self.gridMenu = [[CNPGridMenu alloc] initWithMenuItems:@[one,two,four,eight,sixteen]];
-//        self.gridMenu.delegate = self;
-//        self.gridMenu.blurEffectStyle = UIBlurEffectStyleDark;
-//        [self presentGridMenu:self.gridMenu animated:YES completion:^{
-//            NSLog(@"display grid menu");
-//        }];
-//    };
 }
 
 #pragma mark - setting hyve image button
@@ -427,13 +360,6 @@
 -(void)gridMenuDidTapOnBackground:(CNPGridMenu *)menu
 {
     [self dismissGridMenuAnimated:YES completion:nil];
-}
-
-#pragma mark - send details to backend
--(void)saveHyveDetailsToBackend
-{
-    //send the hyve's name, uuid, RSSI, image
-    NSLog(@"save to Hyve");
 }
 
 #pragma mark - connect button

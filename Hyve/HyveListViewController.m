@@ -31,12 +31,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.92 alpha:1];
-//    [self addingProfileTableHeaderViewToTableHeader];
     
     [self stylingBackgroundView];
     [self stylingNavigationBar];
-//    [self settingAndStylingUserProfile];
     [self stylingHyveListTableView];
     [self settingHeaderForHyveListTable];
 
@@ -68,24 +65,6 @@
     [self.hyveListTable setSeparatorInset:UIEdgeInsetsZero];
 }
 
-#pragma mark - user
--(void)settingAndStylingUserProfile
-{
-    self.usernameLabel.text = @"Jay Ang";
-    self.usernameLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
-    self.usernameLabel.textColor = [UIColor whiteColor];
-    
-    [[self.profileImageButton imageView] setContentMode:UIViewContentModeScaleAspectFill];
-    [self.profileImageButton setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
-    [self.profileImageButton setTitle:@"" forState:UIControlStateNormal];
-    self.profileImageButton.borderColor = [UIColor whiteColor];
-    self.profileImageButton.borderSize = 2.0f;
-    
-    self.hyveListTable.tableHeaderView.backgroundColor = [UIColor clearColor];
-    self.hyveListTable.backgroundColor = [UIColor clearColor];
-    
-}
-
 #pragma mark - table
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -104,6 +83,7 @@
     HyveListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HyveCellListVC"];
     cell.backgroundColor = [UIColor clearColor];
     cell.hyveContentView.backgroundColor = [UIColor colorWithRed:0.61 green:0.71 blue:0.71 alpha:0.4];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if ([hyve.peripheralName isEqualToString:@""] || hyve.peripheralName == nil)
     {
@@ -113,12 +93,14 @@
         [cell.hyveImage setImage:[UIImage imageNamed:@"houseKeys"] forState:UIControlStateNormal];
         cell.hyveBattery.alpha = 0;
         cell.hyveProximity.alpha = 0;
+        cell.hyveName.numberOfLines = 0;
     }
     else
     {
         cell.hyveName.text = hyve.peripheralName;
         cell.hyveName.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
         cell.hyveName.textColor = [UIColor whiteColor];
+        cell.hyveName.numberOfLines = 0;
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [cell.hyveImage setImage:[UIImage imageNamed:@"houseKeys"] forState:UIControlStateNormal];
@@ -169,17 +151,6 @@
     [userProfileHeader addSubview:backgroundImageView];
     
     self.hyveListTable.tableHeaderView = userProfileHeader;
-}
-
-#pragma mark - add profile table header to table
--(void)addingProfileTableHeaderViewToTableHeader
-{
-    self.profileTableHeader.frame = CGRectMake(0, 0, self.view.frame.size.width, 170);
-    self.profileImageBackground.frame = self.profileTableHeader.frame;
-    [self.profileTableHeader addSubview:self.profileImageBackground];
-    
-    self.hyveListTable.tableHeaderView.frame = self.profileTableHeader.frame;
-    [self.hyveListTable addSubview:self.profileTableHeader];
 }
 
 #pragma mark - profile image settings

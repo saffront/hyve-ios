@@ -1456,8 +1456,12 @@
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dWi-ag-dUW">
                                                             <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="234" id="hGg-jr-YTc"/>
-                                                                <constraint firstAttribute="height" constant="45" id="mxV-wO-t1w"/>
+                                                                <constraint firstAttribute="width" constant="234" id="hGg-jr-YTc">
+                                                                    <variation key="heightClass=regular-widthClass=compact" constant="251"/>
+                                                                </constraint>
+                                                                <constraint firstAttribute="height" constant="45" id="mxV-wO-t1w">
+                                                                    <variation key="heightClass=regular-widthClass=compact" constant="53"/>
+                                                                </constraint>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -1478,7 +1482,9 @@
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6g7-Zl-dbX">
                                                             <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="234" id="Iyd-vJ-szt"/>
+                                                                <constraint firstAttribute="width" constant="234" id="Iyd-vJ-szt">
+                                                                    <variation key="heightClass=regular-widthClass=compact" constant="251"/>
+                                                                </constraint>
                                                                 <constraint firstAttribute="height" constant="21" id="QSD-PF-tcX"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1500,7 +1506,9 @@
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6P2-wq-CQc">
                                                             <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="234" id="bdh-Qn-QCk"/>
+                                                                <constraint firstAttribute="width" constant="234" id="bdh-Qn-QCk">
+                                                                    <variation key="heightClass=regular-widthClass=compact" constant="251"/>
+                                                                </constraint>
                                                                 <constraint firstAttribute="height" constant="21" id="sPd-Ws-pQy"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1545,18 +1553,18 @@
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="dWi-ag-dUW" firstAttribute="top" secondItem="5Go-Gh-aqb" secondAttribute="top" constant="22" id="0LV-i9-0YO">
-                                                            <variation key="heightClass=regular-widthClass=compact" constant="26"/>
+                                                            <variation key="heightClass=regular-widthClass=compact" constant="18"/>
                                                         </constraint>
                                                         <constraint firstAttribute="bottom" secondItem="6P2-wq-CQc" secondAttribute="bottom" constant="20" id="3jk-vj-ymd"/>
                                                         <constraint firstAttribute="trailing" secondItem="6P2-wq-CQc" secondAttribute="trailing" constant="8" id="4Qe-qs-VWt">
-                                                            <variation key="heightClass=regular-widthClass=compact" constant="25"/>
+                                                            <variation key="heightClass=regular-widthClass=compact" constant="8"/>
                                                         </constraint>
                                                         <constraint firstAttribute="trailing" secondItem="dWi-ag-dUW" secondAttribute="trailing" constant="8" id="G6K-FU-Se2">
-                                                            <variation key="heightClass=regular-widthClass=compact" constant="25"/>
+                                                            <variation key="heightClass=regular-widthClass=compact" constant="8"/>
                                                         </constraint>
                                                         <constraint firstItem="ybL-j9-FUW" firstAttribute="leading" secondItem="5Go-Gh-aqb" secondAttribute="leading" constant="8" id="KuX-EH-ozp"/>
                                                         <constraint firstAttribute="trailing" secondItem="6g7-Zl-dbX" secondAttribute="trailing" constant="8" id="Lac-yF-J8U">
-                                                            <variation key="heightClass=regular-widthClass=compact" constant="25"/>
+                                                            <variation key="heightClass=regular-widthClass=compact" constant="8"/>
                                                         </constraint>
                                                         <constraint firstItem="6g7-Zl-dbX" firstAttribute="leading" secondItem="ybL-j9-FUW" secondAttribute="trailing" constant="17" id="MaV-0t-BFK"/>
                                                         <constraint firstItem="6P2-wq-CQc" firstAttribute="top" secondItem="6g7-Zl-dbX" secondAttribute="bottom" constant="18" id="T15-mW-3FV"/>

@@ -132,17 +132,18 @@
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, userProfileHeader.frame.size.width, userProfileHeader.frame.size.height)];
     backgroundImageView.image = [UIImage imageNamed:@"userProfileHeader"];
 
-    self.userProfileImageButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(backgroundImageView.frame.size.width / 2, 130, 100, 100)];
+    self.userProfileImageButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(userProfileHeader.frame.size.width / 2, 130, 100, 100)];
     [self.userProfileImageButton setUserInteractionEnabled:YES];
     [self.userProfileImageButton setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
     [self.userProfileImageButton setTitle:@"" forState:UIControlStateNormal];
-    [self.userProfileImageButton setCenter:CGPointMake(CGRectGetMidX(backgroundImageView.bounds), CGRectGetMidY(backgroundImageView.bounds))];
+    [self.userProfileImageButton setCenter:CGPointMake(CGRectGetMidX(userProfileHeader.bounds), CGRectGetMidY(userProfileHeader.bounds))];
+    [self.userProfileImageButton addTarget:self action:@selector(userProfileImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserAccountVC:)];
-    [self.userProfileImageButton addGestureRecognizer:tapGestureRecognizer];
-    [userProfileHeader addGestureRecognizer:tapGestureRecognizer];
+//    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserAccountVC:)];
+//    [self.userProfileImageButton addGestureRecognizer:tapGestureRecognizer];
+//    [userProfileHeader addGestureRecognizer:tapGestureRecognizer];
     
-    [backgroundImageView addSubview:self.userProfileImageButton];
+    [userProfileHeader addSubview:self.userProfileImageButton];
     
     float positionOfUsernameCoordinateY = self.userProfileImageButton.frame.origin.y + self.userProfileImageButton.frame.size.height + 40;
     
@@ -157,6 +158,7 @@
     [backgroundImageView addSubview:username];
     
     [userProfileHeader addSubview:backgroundImageView];
+    [userProfileHeader bringSubviewToFront:self.userProfileImageButton];
     
     self.hyveListTable.tableHeaderView = userProfileHeader;
 }
@@ -248,6 +250,14 @@
             [self performSegueWithIdentifier:@"ShowUserAccountVC" sender:nil];
         });
     }
+}
+
+-(void)userProfileImageButtonTapped:(id)sender
+{
+    NSLog(@"userProfileImageButtonTapped");
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self performSegueWithIdentifier:@"ShowUserAccountVC" sender:nil];
+    });
 }
 
 @end

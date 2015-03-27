@@ -237,6 +237,16 @@
     }
 }
 
+-(IBAction)unwindSegue:(UIStoryboardSegue*)segue
+{
+    UserAccountViewController *uavc = segue.sourceViewController;
+    
+    if ([uavc isKindOfClass:[UserAccountViewController class]])
+    {
+        NSLog(@"return back from user account vc");
+    }
+}
+
 -(void)userProfileImageButtonTapped:(id)sender
 {
     dispatch_async(dispatch_get_main_queue(), ^{

@@ -1715,7 +1715,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pIy-fo-a3J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4881" y="228"/>
+            <point key="canvasLocation" x="4999.5" y="330.75"/>
         </scene>
         <!--Hyve Details View Controller-->
         <scene sceneID="fBL-iD-GHn">
@@ -2021,26 +2021,28 @@
                                     </mask>
                                 </variation>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bPA-fV-hHP">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ffx-lZ-iKL">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="9GX-by-EIi"/>
+                                    <constraint firstAttribute="height" constant="50" id="luh-PO-EwL">
+                                        <variation key="heightClass=regular-widthClass=compact" constant="40"/>
+                                    </constraint>
                                 </constraints>
                                 <state key="normal" title="Button">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="9GX-by-EIi"/>
+                                        <exclude reference="luh-PO-EwL"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="constraints">
-                                        <include reference="9GX-by-EIi"/>
+                                        <include reference="luh-PO-EwL"/>
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <action selector="onBackButtonPressed:" destination="Hf0-s7-Zdq" eventType="touchUpInside" id="FX9-pT-jwy"/>
+                                    <action selector="onEditOrSaveProfileButtonPressed:" destination="Hf0-s7-Zdq" eventType="touchUpInside" id="bsw-sY-prz"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DAN-oL-d0K" customClass="DKCircleButton">
@@ -2069,28 +2071,26 @@
                                     <action selector="onUserAvatarButtonPressed:" destination="Hf0-s7-Zdq" eventType="touchUpInside" id="3vF-0R-MwS"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ffx-lZ-iKL">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bPA-fV-hHP">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="luh-PO-EwL">
-                                        <variation key="heightClass=regular-widthClass=compact" constant="40"/>
-                                    </constraint>
+                                    <constraint firstAttribute="height" constant="60" id="9GX-by-EIi"/>
                                 </constraints>
                                 <state key="normal" title="Button">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="luh-PO-EwL"/>
+                                        <exclude reference="9GX-by-EIi"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="constraints">
-                                        <include reference="luh-PO-EwL"/>
+                                        <include reference="9GX-by-EIi"/>
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <action selector="onEditOrSaveProfileButtonPressed:" destination="Hf0-s7-Zdq" eventType="touchUpInside" id="bsw-sY-prz"/>
+                                    <segue destination="lrx-Yr-2gI" kind="unwind" unwindAction="unwindSegue:" id="V5C-Mj-XeL"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -2123,9 +2123,9 @@
                                 <exclude reference="7He-RK-5oH"/>
                                 <exclude reference="yZk-4u-P6d"/>
                                 <exclude reference="zoI-az-tTu"/>
-                                <exclude reference="bPA-fV-hHP"/>
-                                <exclude reference="DAN-oL-d0K"/>
                                 <exclude reference="ffx-lZ-iKL"/>
+                                <exclude reference="DAN-oL-d0K"/>
+                                <exclude reference="bPA-fV-hHP"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="1e1-5M-DDX"/>
@@ -2152,9 +2152,9 @@
                                 <include reference="7He-RK-5oH"/>
                                 <include reference="yZk-4u-P6d"/>
                                 <include reference="zoI-az-tTu"/>
-                                <include reference="bPA-fV-hHP"/>
-                                <include reference="DAN-oL-d0K"/>
                                 <include reference="ffx-lZ-iKL"/>
+                                <include reference="DAN-oL-d0K"/>
+                                <include reference="bPA-fV-hHP"/>
                             </mask>
                             <mask key="constraints">
                                 <include reference="1e1-5M-DDX"/>
@@ -2187,6 +2187,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sdW-Bq-v75" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="lrx-Yr-2gI" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4744.5" y="-444.75"/>
         </scene>

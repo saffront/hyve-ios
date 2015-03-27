@@ -10,7 +10,7 @@
 #import <DKCircleButton.h>
 #import <POP.h>
 
-@interface UserAccountViewController () <UIImagePickerControllerDelegate>
+@interface UserAccountViewController () <UIImagePickerControllerDelegate, UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet DKCircleButton *userAvatar;
 @property (strong, nonatomic) IBOutlet UITextField *username;
 @property (strong, nonatomic) IBOutlet UITextField *email;
@@ -33,6 +33,14 @@
     [self stylingPasswordTextField];
     [self stylingEditOrSaveProfileButton];
     [self stylingBackButton];
+    [self addingToolbarToKeyboard];
+    
+    self.username.userInteractionEnabled = NO;
+    self.password.userInteractionEnabled = NO;
+    self.email.userInteractionEnabled = NO;
+    self.userAvatar.userInteractionEnabled = NO;
+    self.password.delegate = self;
+    self.email.delegate = self;
 }
 
 #pragma mark - styling backgroundview
@@ -95,6 +103,50 @@
     [self.imagePickerController dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark - adding toolbar to keyboard
+-(void)addingToolbarToKeyboard
+{
+    UIToolbar *keyboardToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+    keyboardToolbar.barStyle = UIBarStyleDefault;
+    keyboardToolbar.items = @[[[UIBarButtonItem alloc] initWithTitle:@"Clear" style:UIBarButtonItemStylePlain target:self action:@selector(clearButtonPressed)],
+                              [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil],
+                              [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneButtonPressed)]
+                              ];
+    
+    [keyboardToolbar sizeToFit];
+    self.username.inputAccessoryView = keyboardToolbar;
+    self.password.inputAccessoryView = keyboardToolbar;
+    self.email.inputAccessoryView = keyboardToolbar;
+}
+
+-(void)clearButtonPressed
+{
+    for (UIView *textFields in self.view.subviews)
+    {
+        if ([textFields isKindOfClass:[UITextField class]])
+        {
+            UITextField *textField = (UITextField*)textFields;
+            
+            if (textField.isEditing)
+            {
+                textField.text = @"";
+            }
+        }
+    }
+}
+
+-(void)doneButtonPressed
+{
+    for (UIView *textFields in self.view.subviews)
+    {
+        if ([textFields isKindOfClass:[UITextField class]])
+        {
+            UITextField *textField = (UITextField*)textFields;
+            
+            [textField resignFirstResponder];
+        }
+    }
+}
 
 #pragma mark - styling username text field
 -(void)stylingUsernameTextField
@@ -142,6 +194,10 @@
     {
         [self assignCustomAnimationToUIElements];
         [self.editOrSaveProfileButton setTitle:@"Save" forState:UIControlStateNormal];
+        self.username.userInteractionEnabled = YES;
+        self.password.userInteractionEnabled = YES;
+        self.email.userInteractionEnabled = YES;
+        self.userAvatar.userInteractionEnabled = YES;
     }
     else if ([self.editOrSaveProfileButton.titleLabel.text isEqualToString:@"Save"])
     {
@@ -150,6 +206,10 @@
         [self.username resignFirstResponder];
         [self.email resignFirstResponder];
         [self.password resignFirstResponder];
+        self.username.userInteractionEnabled = NO;
+        self.password.userInteractionEnabled = NO;
+        self.email.userInteractionEnabled = NO;
+        self.userAvatar.userInteractionEnabled = NO;
     }
 }
 
@@ -199,5 +259,25 @@
     [textField.layer pop_addAnimation:shakeEmptyTextField forKey:shakeEmptyTextField.name];
 }
 
+#pragma mark - keyboard animation
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDuration:0.3];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [self.view setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y - 120, self.view.frame.size.width, self.view.frame.size.height)];
+    [UIView commitAnimations];
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDuration:0.3];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [self.view setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + 120, self.view.frame.size.width, self.view.frame.size.height)];
+    [UIView commitAnimations];
+}
 
 @end

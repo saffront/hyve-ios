@@ -139,10 +139,6 @@
     [self.userProfileImageButton setCenter:CGPointMake(CGRectGetMidX(userProfileHeader.bounds), CGRectGetMidY(userProfileHeader.bounds))];
     [self.userProfileImageButton addTarget:self action:@selector(userProfileImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
-//    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showUserAccountVC:)];
-//    [self.userProfileImageButton addGestureRecognizer:tapGestureRecognizer];
-//    [userProfileHeader addGestureRecognizer:tapGestureRecognizer];
-    
     [userProfileHeader addSubview:self.userProfileImageButton];
     
     float positionOfUsernameCoordinateY = self.userProfileImageButton.frame.origin.y + self.userProfileImageButton.frame.size.height + 40;
@@ -241,20 +237,8 @@
     }
 }
 
-//from user profile image
--(void)showUserAccountVC:(UITapGestureRecognizer*)tapGestureRecognizer
-{
-    if (tapGestureRecognizer.view.tag == 123)
-    {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self performSegueWithIdentifier:@"ShowUserAccountVC" sender:nil];
-        });
-    }
-}
-
 -(void)userProfileImageButtonTapped:(id)sender
 {
-    NSLog(@"userProfileImageButtonTapped");
     dispatch_async(dispatch_get_main_queue(), ^{
         [self performSegueWithIdentifier:@"ShowUserAccountVC" sender:nil];
     });

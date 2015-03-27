@@ -133,8 +133,6 @@
     self.editOrSaveProfileButton.backgroundColor = [UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1];
     self.editOrSaveProfileButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
     self.editOrSaveProfileButton.tintColor = [UIColor whiteColor];
-    self.editOrSaveProfileButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    [self.editOrSaveProfileButton setContentEdgeInsets:UIEdgeInsetsMake(0, 20, 0, 0)];
     [self.editOrSaveProfileButton setTitle:@"Edit" forState:UIControlStateNormal];
 }
 

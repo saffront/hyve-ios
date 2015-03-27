@@ -42,6 +42,18 @@
     [self stylingGooglePlusButton];
 }
 
+#pragma mark - viewWillAppear
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.view.backgroundColor = [UIColor clearColor];
+}
+
 #pragma mark - styling registration option label
 -(void)stylingRegistrationOptionLabel
 {
@@ -367,9 +379,10 @@
     NSString *checkingForFirstTime = [userDefaults objectForKey:@"firstTimeEnterApp"];
     if (checkingForFirstTime == nil)
     {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-        WalkthroughViewController *wvc = [storyboard instantiateViewControllerWithIdentifier:@"WalkthroughViewController"];
-        [self.navigationController presentViewController:wvc animated:YES completion:nil];
+//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+//        WalkthroughViewController *wvc = [storyboard instantiateViewControllerWithIdentifier:@"WalkthroughViewController"];
+//        [self.navigationController presentViewController:wvc animated:YES completion:nil];
+        [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
     }
     else
     {

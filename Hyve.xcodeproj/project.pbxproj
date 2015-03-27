@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		2538EA530330605DE533ADA8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 066CD1A226374AD31A58ED36 /* libPods.a */; };
+		3B1A462B1AC564C900A97EC6 /* FirstChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1A462A1AC564C900A97EC6 /* FirstChildViewController.m */; };
+		3B1A462E1AC564EB00A97EC6 /* SecondChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1A462D1AC564EB00A97EC6 /* SecondChildViewController.m */; };
+		3B1A46311AC5650A00A97EC6 /* ThirdChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1A46301AC5650A00A97EC6 /* ThirdChildViewController.m */; };
+		3B1A46341AC5652900A97EC6 /* FourthChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1A46331AC5652900A97EC6 /* FourthChildViewController.m */; };
 		3B1FD75C1AC2CB7E0079A0C0 /* HyveListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1FD75B1AC2CB7E0079A0C0 /* HyveListTableViewCell.m */; };
 		3B1FD7601AC405840079A0C0 /* UserAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1FD75F1AC405840079A0C0 /* UserAccountViewController.m */; };
 		3B5772A31AA714E1009FC171 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5772A21AA714E1009FC171 /* main.m */; };
@@ -34,10 +38,6 @@
 		3B6C72381ABBBFCF006ECC0C /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6C72361ABBBFCF006ECC0C /* GoogleOpenSource.framework */; };
 		3B6C72391ABBBFCF006ECC0C /* GooglePlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6C72371ABBBFCF006ECC0C /* GooglePlus.framework */; };
 		3B6C723C1ABBF6D5006ECC0C /* WalkthroughViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6C723B1ABBF6D5006ECC0C /* WalkthroughViewController.m */; };
-		3B6C723F1ABBFA36006ECC0C /* FirstWalkthroughViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6C723E1ABBFA36006ECC0C /* FirstWalkthroughViewController.m */; };
-		3B6C72421ABBFA42006ECC0C /* SecondWalkthroughViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6C72411ABBFA42006ECC0C /* SecondWalkthroughViewController.m */; };
-		3B6C72451ABBFA4E006ECC0C /* ThirdWalkthroughViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6C72441ABBFA4E006ECC0C /* ThirdWalkthroughViewController.m */; };
-		3B6C72481ABBFA62006ECC0C /* FourthWalkthroughViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6C72471ABBFA62006ECC0C /* FourthWalkthroughViewController.m */; };
 		3B6DC72D1ABFAA7C0018C0AA /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6DC72C1ABFAA7C0018C0AA /* SignUpViewController.m */; };
 		3B6FA1E91ABAD26F007517B4 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6FA1E81ABAD26F007517B4 /* LoginViewController.m */; };
 		3B74B6B81AAD547900A0B50F /* HyveDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B74B6B71AAD547900A0B50F /* HyveDetailsViewController.m */; };
@@ -61,6 +61,14 @@
 /* Begin PBXFileReference section */
 		066CD1A226374AD31A58ED36 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1428B76772D908D549699802 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		3B1A46291AC564C900A97EC6 /* FirstChildViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstChildViewController.h; sourceTree = "<group>"; };
+		3B1A462A1AC564C900A97EC6 /* FirstChildViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstChildViewController.m; sourceTree = "<group>"; };
+		3B1A462C1AC564EB00A97EC6 /* SecondChildViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondChildViewController.h; sourceTree = "<group>"; };
+		3B1A462D1AC564EB00A97EC6 /* SecondChildViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondChildViewController.m; sourceTree = "<group>"; };
+		3B1A462F1AC5650A00A97EC6 /* ThirdChildViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdChildViewController.h; sourceTree = "<group>"; };
+		3B1A46301AC5650A00A97EC6 /* ThirdChildViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdChildViewController.m; sourceTree = "<group>"; };
+		3B1A46321AC5652900A97EC6 /* FourthChildViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FourthChildViewController.h; sourceTree = "<group>"; };
+		3B1A46331AC5652900A97EC6 /* FourthChildViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FourthChildViewController.m; sourceTree = "<group>"; };
 		3B1FD75A1AC2CB7E0079A0C0 /* HyveListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyveListTableViewCell.h; sourceTree = "<group>"; };
 		3B1FD75B1AC2CB7E0079A0C0 /* HyveListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyveListTableViewCell.m; sourceTree = "<group>"; };
 		3B1FD75E1AC405840079A0C0 /* UserAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserAccountViewController.h; sourceTree = "<group>"; };
@@ -98,14 +106,6 @@
 		3B6C72371ABBBFCF006ECC0C /* GooglePlus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GooglePlus.framework; path = "../../Downloads/google-plus-ios-sdk-1.7.1/GooglePlus.framework"; sourceTree = "<group>"; };
 		3B6C723A1ABBF6D5006ECC0C /* WalkthroughViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WalkthroughViewController.h; sourceTree = "<group>"; };
 		3B6C723B1ABBF6D5006ECC0C /* WalkthroughViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WalkthroughViewController.m; sourceTree = "<group>"; };
-		3B6C723D1ABBFA36006ECC0C /* FirstWalkthroughViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstWalkthroughViewController.h; sourceTree = "<group>"; };
-		3B6C723E1ABBFA36006ECC0C /* FirstWalkthroughViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstWalkthroughViewController.m; sourceTree = "<group>"; };
-		3B6C72401ABBFA42006ECC0C /* SecondWalkthroughViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondWalkthroughViewController.h; sourceTree = "<group>"; };
-		3B6C72411ABBFA42006ECC0C /* SecondWalkthroughViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondWalkthroughViewController.m; sourceTree = "<group>"; };
-		3B6C72431ABBFA4E006ECC0C /* ThirdWalkthroughViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdWalkthroughViewController.h; sourceTree = "<group>"; };
-		3B6C72441ABBFA4E006ECC0C /* ThirdWalkthroughViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdWalkthroughViewController.m; sourceTree = "<group>"; };
-		3B6C72461ABBFA62006ECC0C /* FourthWalkthroughViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FourthWalkthroughViewController.h; sourceTree = "<group>"; };
-		3B6C72471ABBFA62006ECC0C /* FourthWalkthroughViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FourthWalkthroughViewController.m; sourceTree = "<group>"; };
 		3B6DC72B1ABFAA7C0018C0AA /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		3B6DC72C1ABFAA7C0018C0AA /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		3B6FA1E71ABAD26F007517B4 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
@@ -164,6 +164,23 @@
 				5AF139C90BAC94F5EF0C7945 /* Pods.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		3B1A46351AC5653800A97EC6 /* Walkthrough */ = {
+			isa = PBXGroup;
+			children = (
+				3B6C723A1ABBF6D5006ECC0C /* WalkthroughViewController.h */,
+				3B6C723B1ABBF6D5006ECC0C /* WalkthroughViewController.m */,
+				3B1A46291AC564C900A97EC6 /* FirstChildViewController.h */,
+				3B1A462A1AC564C900A97EC6 /* FirstChildViewController.m */,
+				3B1A462C1AC564EB00A97EC6 /* SecondChildViewController.h */,
+				3B1A462D1AC564EB00A97EC6 /* SecondChildViewController.m */,
+				3B1A462F1AC5650A00A97EC6 /* ThirdChildViewController.h */,
+				3B1A46301AC5650A00A97EC6 /* ThirdChildViewController.m */,
+				3B1A46321AC5652900A97EC6 /* FourthChildViewController.h */,
+				3B1A46331AC5652900A97EC6 /* FourthChildViewController.m */,
+			);
+			name = Walkthrough;
 			sourceTree = "<group>";
 		};
 		3B1FD75D1AC2CB8A0079A0C0 /* Custom tableview cell */ = {
@@ -265,16 +282,7 @@
 				3B6FA1E81ABAD26F007517B4 /* LoginViewController.m */,
 				3B6DC72B1ABFAA7C0018C0AA /* SignUpViewController.h */,
 				3B6DC72C1ABFAA7C0018C0AA /* SignUpViewController.m */,
-				3B6C723A1ABBF6D5006ECC0C /* WalkthroughViewController.h */,
-				3B6C723B1ABBF6D5006ECC0C /* WalkthroughViewController.m */,
-				3B6C723D1ABBFA36006ECC0C /* FirstWalkthroughViewController.h */,
-				3B6C723E1ABBFA36006ECC0C /* FirstWalkthroughViewController.m */,
-				3B6C72401ABBFA42006ECC0C /* SecondWalkthroughViewController.h */,
-				3B6C72411ABBFA42006ECC0C /* SecondWalkthroughViewController.m */,
-				3B6C72431ABBFA4E006ECC0C /* ThirdWalkthroughViewController.h */,
-				3B6C72441ABBFA4E006ECC0C /* ThirdWalkthroughViewController.m */,
-				3B6C72461ABBFA62006ECC0C /* FourthWalkthroughViewController.h */,
-				3B6C72471ABBFA62006ECC0C /* FourthWalkthroughViewController.m */,
+				3B1A46351AC5653800A97EC6 /* Walkthrough */,
 				3B74B6B61AAD547900A0B50F /* HyveDetailsViewController.h */,
 				3B74B6B71AAD547900A0B50F /* HyveDetailsViewController.m */,
 				3BA2D3481AA9A9C9008CA9E4 /* HyveListViewController.h */,
@@ -458,19 +466,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BA2D34A1AA9A9C9008CA9E4 /* HyveListViewController.m in Sources */,
-				3B6C72481ABBFA62006ECC0C /* FourthWalkthroughViewController.m in Sources */,
 				3BFDD94B1AA852E200849EDA /* Hyve.m in Sources */,
-				3B6C72451ABBFA4E006ECC0C /* ThirdWalkthroughViewController.m in Sources */,
 				3B1FD7601AC405840079A0C0 /* UserAccountViewController.m in Sources */,
 				3B5772A91AA714E1009FC171 /* ViewController.m in Sources */,
 				3B6C723C1ABBF6D5006ECC0C /* WalkthroughViewController.m in Sources */,
+				3B1A462E1AC564EB00A97EC6 /* SecondChildViewController.m in Sources */,
 				3B5772A61AA714E1009FC171 /* AppDelegate.m in Sources */,
+				3B1A462B1AC564C900A97EC6 /* FirstChildViewController.m in Sources */,
 				3B5772A31AA714E1009FC171 /* main.m in Sources */,
 				3B6FA1E91ABAD26F007517B4 /* LoginViewController.m in Sources */,
-				3B6C723F1ABBFA36006ECC0C /* FirstWalkthroughViewController.m in Sources */,
+				3B1A46311AC5650A00A97EC6 /* ThirdChildViewController.m in Sources */,
 				3BA2D3471AA95DAB008CA9E4 /* PeripheralListViewController.m in Sources */,
 				3B6DC72D1ABFAA7C0018C0AA /* SignUpViewController.m in Sources */,
-				3B6C72421ABBFA42006ECC0C /* SecondWalkthroughViewController.m in Sources */,
+				3B1A46341AC5652900A97EC6 /* FourthChildViewController.m in Sources */,
 				3B1FD75C1AC2CB7E0079A0C0 /* HyveListTableViewCell.m in Sources */,
 				3B62D1F71AC5065B001AE69E /* POPSegue.m in Sources */,
 				3B5772C81AA7E45E009FC171 /* DashboardViewController.m in Sources */,

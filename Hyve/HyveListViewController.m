@@ -12,6 +12,8 @@
 #import "HyveListViewController.h"
 #import "HyveDetailsViewController.h"
 #import "Hyve.h"
+#import <AFBlurSegue.h>
+#import <BlurryModalSegue.h>
 #import <QuartzCore/QuartzCore.h>
 #import <POP.h>
 
@@ -233,7 +235,14 @@
     }
     else if ([segue.identifier isEqualToString:@"ShowUserAccountVC"])
     {
-        UserAccountViewController *uavc = segue.destinationViewController;
+        if ([segue isKindOfClass:[BlurryModalSegue class]])
+        {
+            UserAccountViewController *uavc = segue.destinationViewController;
+
+            BlurryModalSegue* bms = (BlurryModalSegue*)segue;
+            bms.backingImageBlurRadius = @(40);
+            bms.backingImageSaturationDeltaFactor = @(.35);
+        }
     }
 }
 

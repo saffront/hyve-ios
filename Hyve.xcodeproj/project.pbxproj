@@ -19,6 +19,7 @@
 		3B5772BD1AA714E1009FC171 /* HyveTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5772BC1AA714E1009FC171 /* HyveTests.m */; };
 		3B5772C81AA7E45E009FC171 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5772C71AA7E45E009FC171 /* DashboardViewController.m */; };
 		3B5772CB1AA84361009FC171 /* AvenirLTStd-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3B5772CA1AA8435B009FC171 /* AvenirLTStd-Medium.otf */; };
+		3B62D1F71AC5065B001AE69E /* POPSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B62D1F61AC5065B001AE69E /* POPSegue.m */; };
 		3B6C72211ABBBF61006ECC0C /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6C72201ABBBF61006ECC0C /* AddressBook.framework */; };
 		3B6C72231ABBBF68006ECC0C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6C72221ABBBF68006ECC0C /* AssetsLibrary.framework */; };
 		3B6C72251ABBBF72006ECC0C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6C72241ABBBF72006ECC0C /* Foundation.framework */; };
@@ -80,6 +81,8 @@
 		3B5772C61AA7E45E009FC171 /* DashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashboardViewController.h; sourceTree = "<group>"; };
 		3B5772C71AA7E45E009FC171 /* DashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashboardViewController.m; sourceTree = "<group>"; };
 		3B5772CA1AA8435B009FC171 /* AvenirLTStd-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirLTStd-Medium.otf"; sourceTree = "<group>"; };
+		3B62D1F51AC5065B001AE69E /* POPSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POPSegue.h; sourceTree = "<group>"; };
+		3B62D1F61AC5065B001AE69E /* POPSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POPSegue.m; sourceTree = "<group>"; };
 		3B6C72201ABBBF61006ECC0C /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		3B6C72221ABBBF68006ECC0C /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		3B6C72241ABBBF72006ECC0C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -200,6 +203,7 @@
 				3B5772A71AA714E1009FC171 /* ViewController.h */,
 				3B5772A81AA714E1009FC171 /* ViewController.m */,
 				3B5772AA1AA714E1009FC171 /* Main.storyboard */,
+				3B62D1F81AC50661001AE69E /* Custom Segue */,
 				3B1FD75D1AC2CB8A0079A0C0 /* Custom tableview cell */,
 				3BA2D34B1AA9B668008CA9E4 /* ViewController */,
 				3BFDD94C1AA852EA00849EDA /* Model */,
@@ -243,6 +247,15 @@
 				3B5772CA1AA8435B009FC171 /* AvenirLTStd-Medium.otf */,
 			);
 			name = Font;
+			sourceTree = "<group>";
+		};
+		3B62D1F81AC50661001AE69E /* Custom Segue */ = {
+			isa = PBXGroup;
+			children = (
+				3B62D1F51AC5065B001AE69E /* POPSegue.h */,
+				3B62D1F61AC5065B001AE69E /* POPSegue.m */,
+			);
+			name = "Custom Segue";
 			sourceTree = "<group>";
 		};
 		3BA2D34B1AA9B668008CA9E4 /* ViewController */ = {
@@ -459,6 +472,7 @@
 				3B6DC72D1ABFAA7C0018C0AA /* SignUpViewController.m in Sources */,
 				3B6C72421ABBFA42006ECC0C /* SecondWalkthroughViewController.m in Sources */,
 				3B1FD75C1AC2CB7E0079A0C0 /* HyveListTableViewCell.m in Sources */,
+				3B62D1F71AC5065B001AE69E /* POPSegue.m in Sources */,
 				3B5772C81AA7E45E009FC171 /* DashboardViewController.m in Sources */,
 				3B74B6B81AAD547900A0B50F /* HyveDetailsViewController.m in Sources */,
 			);

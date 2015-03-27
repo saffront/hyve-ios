@@ -4,7 +4,17 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Pods-AFBlurSegue.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-AFNetworking.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-BlurryModalSegue.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -29,6 +39,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-MZAppearance.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Reachability.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -40,6 +55,11 @@
 			<false/>
 		</dict>
 		<key>Pods-SimpleAuth.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-UIImage+BlurredFrame.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -57,52 +77,72 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>20121A3DD579E6E473C4458E</key>
+		<key>0737DA453817E0FA5944A0F9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>23E40BD2CD450CDAAD165D16</key>
+		<key>0BD29D0C58003DB4DE4A1B91</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4C28092CC7FE2A463D183E29</key>
+		<key>13D72E97DDB15E4F10C707F7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>53FE2A90888C4189A4F49C35</key>
+		<key>16FC9DCDD0242CAB5BA28942</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6AA7D4F7CC3BA3CDD0B643C5</key>
+		<key>4125E29AAF87FBE91FBA41BE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6FA93100F60D20B536702E84</key>
+		<key>4EE9AD8655EEF58766E522B4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7A21778AB80207B87252C85F</key>
+		<key>5B14C5B22C213FE8A5DA58A8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>AA58C65F5976D3EC437114D7</key>
+		<key>69DFEC15DED18A2730A64FE4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DCD8D67A99666A9C49AED74F</key>
+		<key>7ED74C454195908174D33399</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FFEB8D437555C59A5602D607</key>
+		<key>849A58D83FB85589A45665C4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B0DCB2ADE9BEC238199D562F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BB11142644C7B70634A94DBE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CA654B7107436AA2CAD62D43</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E778DE69A8A9301E112D88D3</key>
 		<dict>
 			<key>primary</key>
 			<true/>

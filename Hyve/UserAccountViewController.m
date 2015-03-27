@@ -26,7 +26,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self stylingBackgroundView];
+//    [self stylingBackgroundView];
     [self stylingUserAvatarButton];
     [self stylingUsernameTextField];
     [self stylingEmailTextField];

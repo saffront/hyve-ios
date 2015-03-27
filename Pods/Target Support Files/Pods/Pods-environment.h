@@ -6,6 +6,12 @@
 // project.
 
 
+// AFBlurSegue
+#define COCOAPODS_POD_AVAILABLE_AFBlurSegue
+#define COCOAPODS_VERSION_MAJOR_AFBlurSegue 1
+#define COCOAPODS_VERSION_MINOR_AFBlurSegue 2
+#define COCOAPODS_VERSION_PATCH_AFBlurSegue 0
+
 // AFNetworking
 #define COCOAPODS_POD_AVAILABLE_AFNetworking
 #define COCOAPODS_VERSION_MAJOR_AFNetworking 2
@@ -48,6 +54,12 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 5
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 1
 
+// BlurryModalSegue
+#define COCOAPODS_POD_AVAILABLE_BlurryModalSegue
+#define COCOAPODS_VERSION_MAJOR_BlurryModalSegue 1
+#define COCOAPODS_VERSION_MINOR_BlurryModalSegue 1
+#define COCOAPODS_VERSION_PATCH_BlurryModalSegue 2
+
 // CMDQueryStringSerialization
 #define COCOAPODS_POD_AVAILABLE_CMDQueryStringSerialization
 #define COCOAPODS_VERSION_MAJOR_CMDQueryStringSerialization 0
@@ -71,6 +83,12 @@
 #define COCOAPODS_VERSION_MAJOR_ISO8601 0
 #define COCOAPODS_VERSION_MINOR_ISO8601 1
 #define COCOAPODS_VERSION_PATCH_ISO8601 2
+
+// MZAppearance
+#define COCOAPODS_POD_AVAILABLE_MZAppearance
+#define COCOAPODS_VERSION_MAJOR_MZAppearance 1
+#define COCOAPODS_VERSION_MINOR_MZAppearance 1
+#define COCOAPODS_VERSION_PATCH_MZAppearance 3
 
 // Reachability
 #define COCOAPODS_POD_AVAILABLE_Reachability
@@ -113,6 +131,12 @@
 #define COCOAPODS_VERSION_MAJOR_SimpleAuth_Facebook 0
 #define COCOAPODS_VERSION_MINOR_SimpleAuth_Facebook 3
 #define COCOAPODS_VERSION_PATCH_SimpleAuth_Facebook 6
+
+// UIImage+BlurredFrame
+#define COCOAPODS_POD_AVAILABLE_UIImage_BlurredFrame
+#define COCOAPODS_VERSION_MAJOR_UIImage_BlurredFrame 0
+#define COCOAPODS_VERSION_MINOR_UIImage_BlurredFrame 0
+#define COCOAPODS_VERSION_PATCH_UIImage_BlurredFrame 4
 
 // pop
 #define COCOAPODS_POD_AVAILABLE_pop

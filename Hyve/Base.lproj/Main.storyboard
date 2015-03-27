@@ -1103,7 +1103,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lue-2i-hx7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1585.5" y="975"/>
+            <point key="canvasLocation" x="1618.5" y="927"/>
         </scene>
         <!--Walkthrough View Controller-->
         <scene sceneID="o7x-qR-CaW">
@@ -1121,7 +1121,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wFb-aE-ilr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="741" y="994.5"/>
+            <point key="canvasLocation" x="759" y="927"/>
         </scene>
         <!--Dashboard View Controller-->
         <scene sceneID="ufC-wZ-h7g">
@@ -1710,12 +1710,12 @@
                     </view>
                     <connections>
                         <outlet property="hyveListTable" destination="izj-MW-hVs" id="bfY-v7-XhW"/>
-                        <segue destination="Hf0-s7-Zdq" kind="show" identifier="ShowUserAccountVC" id="j1w-iQ-5jW"/>
+                        <segue destination="Hf0-s7-Zdq" kind="custom" identifier="ShowUserAccountVC" customClass="BlurryModalSegue" id="j1w-iQ-5jW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pIy-fo-a3J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4999.5" y="330.75"/>
+            <point key="canvasLocation" x="4891.5" y="366.75"/>
         </scene>
         <!--Hyve Details View Controller-->
         <scene sceneID="fBL-iD-GHn">
@@ -1953,7 +1953,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jy0-Cz-idu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5589" y="228.75"/>
+            <point key="canvasLocation" x="6009" y="108.75"/>
         </scene>
         <!--User Account View Controller-->
         <scene sceneID="cSH-Y9-JJD">
@@ -1979,7 +1979,8 @@
                                         <exclude reference="Kqz-BK-gUO"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="16" y="244" width="368" height="50"/>
                                     <mask key="constraints">
                                         <include reference="Kqz-BK-gUO"/>
                                     </mask>
@@ -1997,7 +1998,8 @@
                                         <exclude reference="hEY-I2-5WU"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="16" y="312" width="368" height="50"/>
                                     <mask key="constraints">
                                         <include reference="hEY-I2-5WU"/>
                                     </mask>
@@ -2015,7 +2017,8 @@
                                         <exclude reference="6Sq-Se-o7x"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="16" y="380" width="368" height="50"/>
                                     <mask key="constraints">
                                         <include reference="6Sq-Se-o7x"/>
                                     </mask>
@@ -2036,7 +2039,8 @@
                                         <exclude reference="luh-PO-EwL"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="89" y="448" width="222" height="40"/>
                                     <mask key="constraints">
                                         <include reference="luh-PO-EwL"/>
                                     </mask>
@@ -2061,7 +2065,8 @@
                                         <exclude reference="ahH-pt-BOy"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="140" y="91" width="120" height="120"/>
                                     <mask key="constraints">
                                         <include reference="Urq-5Q-0LB"/>
                                         <include reference="ahH-pt-BOy"/>
@@ -2177,6 +2182,7 @@
                             </mask>
                         </variation>
                     </view>
+                    <navigationItem key="navigationItem" id="NgC-Oj-YYx"/>
                     <connections>
                         <outlet property="backButton" destination="bPA-fV-hHP" id="oaH-OC-OLv"/>
                         <outlet property="editOrSaveProfileButton" destination="ffx-lZ-iKL" id="zCV-O8-umk"/>

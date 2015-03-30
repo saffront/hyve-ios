@@ -61,11 +61,26 @@
 {
     self.title = @"Bluetooth Devices";
     
+    UIImage *backButtonImage = [UIImage imageNamed:@"backButton"];
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setFrame:CGRectMake(0, 0, 30, 30)];
+    [backButton setBackgroundImage:backButtonImage forState:UIControlStateNormal];
+    [backButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *backButtonOnBar = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = backButtonOnBar;
+    
+    
     UIFont *font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     self.navigationController.navigationBar.titleTextAttributes = @{NSFontAttributeName: font, NSForegroundColorAttributeName: [UIColor colorWithRed:0.89 green:0.39 blue:0.16 alpha:1]};
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:0.89 green:0.39 blue:0.16 alpha:1]];
     
+}
+
+-(void)goBack
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - styling instruction label

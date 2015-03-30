@@ -65,6 +65,16 @@
     [self stylingBackgroundView];
 }
 
+#pragma mark - detectingHyveLabel at intro
+-(void)detectingHyveLabelAtIntro
+{
+    self.detectingHyveLabel.text = @"Please click on the icon below to start searching for Hyve";
+    self.detectingHyveLabel.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:17];
+    self.detectingHyveLabel.numberOfLines = 0;
+    self.detectingHyveLabel.textColor = [UIColor blackColor];
+}
+
+
 #pragma mark - styling background view
 -(void)stylingBackgroundView
 {
@@ -79,7 +89,7 @@
     [super viewWillAppear:animated];
     
     self.navigationController.navigationBarHidden = YES;
-    
+    [self detectingHyveLabelAtIntro];
     self.isHyveButtonPressed = NO;
     
 }

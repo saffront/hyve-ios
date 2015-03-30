@@ -34,9 +34,7 @@
 
 @interface DashboardViewController () <CBCentralManagerDelegate, CBPeripheralDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *hyveLabel;
 @property (weak, nonatomic) IBOutlet UIButton *hyveButton;
-@property (weak, nonatomic) IBOutlet UIImageView *hyveNetworkDetectionIndicatorImage;
 @property BOOL isHyveButtonPressed;
 @property (weak, nonatomic) IBOutlet UILabel *detectingHyveLabel;
 @property (strong, nonatomic) CBCentralManager *centralManager;
@@ -56,12 +54,13 @@
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     self.centralManager.delegate = self;
     
-//    self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.92 alpha:1];
     self.isHyveButtonPressed = NO;
     [self.hyveButton setImage:[UIImage imageNamed:@"hyveLogo"] forState:UIControlStateNormal];
+    self.hyveButton.contentMode = UIViewContentModeScaleAspectFit;
+    self.hyveButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    self.hyveButton.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    
     self.firstTimeRunning = YES;
-    self.hyveNetworkDetectionIndicatorImage.alpha = 0;
-//    [self stylingHyveLabel];
     [self stylingNavigationBar];
     [self stylingBackgroundView];
 }
@@ -83,29 +82,6 @@
     
     self.isHyveButtonPressed = NO;
     
-    if (!self.firstTimeRunning)
-    {
-        [self.hyveNetworkDetectionIndicatorImage stopAnimating];
-        self.detectingHyveLabel.alpha = 0;
-        [UIView animateWithDuration:2.0 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            
-            CABasicAnimation *slideDownAnimation = [CABasicAnimation animationWithKeyPath:@"position"];
-            [slideDownAnimation setDelegate:self];
-            slideDownAnimation.toValue = [NSValue valueWithCGRect:CGRectMake(self.view.frame.size.width / 2, self.hyveButton.frame.origin.y + 100, self.hyveButton.frame.size.width, self.hyveButton.frame.size.height)];
-            slideDownAnimation.fromValue = [NSValue valueWithCGPoint:self.hyveButton.layer.position];
-            slideDownAnimation.autoreverses = NO;
-            slideDownAnimation.repeatCount = 0;
-            slideDownAnimation.duration = 0;
-            slideDownAnimation.fillMode = kCAFillModeForwards;
-            slideDownAnimation.removedOnCompletion = NO;
-            slideDownAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-            [self.hyveButton.layer addAnimation:slideDownAnimation forKey:@"moveY"];
-            
-        } completion:^(BOOL finished) {
-            
-            NSLog(@"It's finished");
-        }];
-    }
 }
 
 #pragma mark - viewWillDisappear
@@ -120,30 +96,29 @@
 #pragma mark - styling navigation bar
 -(void)stylingNavigationBar
 {
-    self.title = @"Hyve";
     
-    self.navigationController.navigationBar.topItem.backBarButtonItem = [[UIBarButtonItem alloc]
-                                                                         initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
+    UIImage *backButtonImage = [UIImage imageNamed:@"backButton"];
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setFrame:CGRectMake(0, 0, 100, 30)];
+    [backButton setBackgroundImage:backButtonImage forState:UIControlStateNormal];
+    
+    UIBarButtonItem *backButtonOnBar = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = backButtonOnBar;
+    
+//    self.navigationController.navigationBar.topItem.backBarButtonItem = [[UIBarButtonItem alloc]
+//                                                                         initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
     UIFont *font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     self.navigationController.navigationBar.titleTextAttributes = @{NSFontAttributeName: font, NSForegroundColorAttributeName: [UIColor whiteColor]};
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:0.89 green:0.39 blue:0.16 alpha:1]];
 }
 
-#pragma mark - styling Hyve label
--(void)stylingHyveLabel
-{
-    self.hyveLabel.text = @"Hyve";
-    self.hyveLabel.numberOfLines = 0;
-    self.hyveLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:40];
-    self.hyveLabel.textColor = [UIColor lightTextColor];
-}
-
 #pragma mark - styling detection hyve label
 -(void)stylingDetectingHyveLabel
 {
     self.detectingHyveLabel.text = [NSString stringWithFormat:@"Searching for Hyve \r\r This process will take 30 seconds"];
-    self.detectingHyveLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:17];
+    self.detectingHyveLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
     self.detectingHyveLabel.textColor = [UIColor blackColor];
     self.detectingHyveLabel.numberOfLines = 0;
 }
@@ -153,49 +128,25 @@
 {
     if (self.isHyveButtonPressed == NO)
     {
-
-        [UIView animateWithDuration:2.0 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            
-            CABasicAnimation *slideDownAnimation = [CABasicAnimation animationWithKeyPath:@"position"];
-            [slideDownAnimation setDelegate:self];
-            slideDownAnimation.toValue = [NSValue valueWithCGRect:CGRectMake(self.view.frame.size.width / 2, self.hyveButton.frame.origin.y + 350, self.hyveButton.frame.size.width, self.hyveButton.frame.size.height)];
-            slideDownAnimation.fromValue = [NSValue valueWithCGPoint:self.hyveButton.layer.position];
-            slideDownAnimation.autoreverses = NO;
-            slideDownAnimation.repeatCount = 0;
-            slideDownAnimation.duration = 2;
-            slideDownAnimation.fillMode = kCAFillModeForwards;
-            slideDownAnimation.removedOnCompletion = NO;
-            slideDownAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-            [self.hyveButton.layer addAnimation:slideDownAnimation forKey:@"moveY"];
-            self.detectingHyveLabel.alpha = 1;
-            
-        } completion:^(BOOL finished) {
-            
-            [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(displayBluetoothNetworkDetectionIndicator) userInfo:nil repeats:NO];
-            
-//            NSArray *uuidArray = @[@"32A9DD44-9B1C-BAA5-8587-8A2D36E0623E"];
-//            [self.centralManager retrievePeripheralsWithIdentifiers:uuidArray];
-            
-            [self.centralManager scanForPeripheralsWithServices:nil options:nil];
-        }];
+        [self displayBluetoothNetworkDetectionIndicator];
     }
 }
 
 #pragma mark - displaying Bluetooth network detection indicator
 -(void)displayBluetoothNetworkDetectionIndicator
 {
-    self.hyveNetworkDetectionIndicatorImage.alpha = 1;
+    UIImage *animate1 = [UIImage imageNamed:@"animate1"];
+    UIImage *animate2 = [UIImage imageNamed:@"animate2"];
+    UIImage *animate3 = [UIImage imageNamed:@"animate3"];
+    UIImage *animate4 = [UIImage imageNamed:@"animate4"];
+    UIImage *animate5 = [UIImage imageNamed:@"animate6"];
+    UIImage *animate6 = [UIImage imageNamed:@"animate5"];
+
+    NSMutableArray *bluetoothIndicatorImage = [NSMutableArray arrayWithObjects:animate1, animate2, animate3,animate4,animate5, animate6,nil];
     
-    UIImage *bluetooth1 = [UIImage imageNamed:@"bluetooth1"];
-    UIImage *bluetooth2 = [UIImage imageNamed:@"bluetooth2"];
-    UIImage *bluetooth3 = [UIImage imageNamed:@"bluetooth3"];
-    
-    NSMutableArray *bluetoothIndicatorImage = [NSMutableArray arrayWithObjects:bluetooth1, bluetooth2, bluetooth3, nil];
-    
-    self.hyveNetworkDetectionIndicatorImage.animationImages = bluetoothIndicatorImage;
-    self.hyveNetworkDetectionIndicatorImage.animationDuration = 2;
-    self.hyveNetworkDetectionIndicatorImage.backgroundColor = [UIColor clearColor];
-    [self.hyveNetworkDetectionIndicatorImage startAnimating];
+    self.hyveButton.imageView.animationImages = bluetoothIndicatorImage;
+    self.hyveButton.imageView.animationDuration = 3;
+    [self.hyveButton.imageView startAnimating];
     
     [self stylingDetectingHyveLabel];
     
@@ -282,6 +233,7 @@
     plvc.peripheral = self.peripheral;
     plvc.centralManager = self.centralManager;
     plvc.peripheralMutableArray = self.peripheralMutableArray;
+    [self.hyveButton.imageView stopAnimating];
 }
 
 

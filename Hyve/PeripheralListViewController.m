@@ -36,6 +36,18 @@
     
 }
 
+#pragma mark - viewWillAppear
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.view.backgroundColor = [UIColor clearColor];
+}
+
 #pragma mark - styling background view
 -(void)stylingBackgroundView
 {
@@ -47,11 +59,11 @@
 #pragma mark - styling nav bar
 -(void)stylingNavigationBar
 {
-    self.title = @"Devices";
+    self.title = @"Bluetooth Devices";
     
     UIFont *font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
-    self.navigationController.navigationBar.titleTextAttributes = @{NSFontAttributeName: font, NSForegroundColorAttributeName: [UIColor whiteColor]};
+    self.navigationController.navigationBar.titleTextAttributes = @{NSFontAttributeName: font, NSForegroundColorAttributeName: [UIColor colorWithRed:0.89 green:0.39 blue:0.16 alpha:1]};
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:0.89 green:0.39 blue:0.16 alpha:1]];
     
 }

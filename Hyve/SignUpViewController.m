@@ -32,7 +32,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Register";
+    self.title = @"Sign Up";
     
     [self assigningStyleToTextFields];
     [self stylingBackgroundView];

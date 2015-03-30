@@ -27,7 +27,7 @@
 -(void)stylingTitleLabel
 {
     self.titleLabel.text = @"Find";
-    self.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:30];
+    self.titleLabel.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:30];
     self.titleLabel.numberOfLines = 0;
     self.titleLabel.textColor = [UIColor colorWithRed:0.28 green:0.35 blue:0.40 alpha:1];
     
@@ -39,7 +39,7 @@
     self.descriptionLabel.text = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor";
     self.descriptionLabel.numberOfLines = 0;
     self.descriptionLabel.textColor = [UIColor colorWithRed:0.28 green:0.35 blue:0.40 alpha:1];
-    self.descriptionLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
+    self.descriptionLabel.font = [UIFont fontWithName:@"OpenSans" size:18];
     
 }
 

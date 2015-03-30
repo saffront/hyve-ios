@@ -70,7 +70,7 @@
     UIBarButtonItem *backButtonOnBar = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     self.navigationItem.leftBarButtonItem = backButtonOnBar;
     
-    UIFont *font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
+    UIFont *font = [UIFont fontWithName:@"OpenSans-SemiBold" size:18];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     self.navigationController.navigationBar.titleTextAttributes = @{NSFontAttributeName: font, NSForegroundColorAttributeName: [UIColor colorWithRed:0.89 green:0.39 blue:0.16 alpha:1]};
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:0.89 green:0.39 blue:0.16 alpha:1]];
@@ -86,7 +86,7 @@
 -(void)stylingInstructionLabel
 {
     self.instructionLabel.text = @"Please select which Hyve(s) you want to pair with:";
-    self.instructionLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:17];
+    self.instructionLabel.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:17];
     self.instructionLabel.numberOfLines = 0;
     
 }
@@ -105,7 +105,7 @@
 -(void)pairButtonConfiguration
 {
     [self.pairButton setUserInteractionEnabled:YES];
-    self.pairButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:22];
+    self.pairButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:22];
     [self.pairButton setTitle:@"Pair" forState:UIControlStateNormal];
     [self.pairButton setBackgroundColor:[UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1]];
     [self.pairButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -150,7 +150,7 @@
     if ([hyve.peripheralName isEqualToString:@""] || hyve.peripheralName == nil)
     {
         cell.textLabel.text = @"Unknown device";
-        cell.textLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+        cell.textLabel.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:20];
     }
     else
     {

@@ -61,6 +61,11 @@
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor clearColor];
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIFont fontWithName:@"OpenSans-SemiBold" size:17],
+      NSFontAttributeName, nil]];
 }
 
 -(void)goBack
@@ -96,7 +101,7 @@
 -(void)stylingLabelDescription
 {
     self.loginLabelDescription.text = @"Log into HYVE";
-    self.loginLabelDescription.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:22];
+    self.loginLabelDescription.font = [UIFont fontWithName:@"OpenSans" size:22];
     self.loginLabelDescription.textColor = [UIColor whiteColor];
     self.loginLabelDescription.numberOfLines = 0;
 }

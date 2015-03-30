@@ -77,6 +77,11 @@
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor clearColor];
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIFont fontWithName:@"OpenSans-SemiBold" size:21],
+      NSFontAttributeName, nil]];
 }
 
 -(void)goBack
@@ -97,7 +102,7 @@
 {
     self.hyveNameTextField.backgroundColor = [UIColor colorWithRed:0.80 green:0.80 blue:0.80 alpha:0.8];
     self.hyveNameTextField.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0);
-    self.hyveNameTextField.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
+    self.hyveNameTextField.font = [UIFont fontWithName:@"OpenSans" size:18];
     self.hyveNameTextField.textAlignment = NSTextAlignmentNatural;
 
 }
@@ -213,7 +218,7 @@
 -(void)stylingHyveDistanceButton
 {
     self.hyveDistanceButton.backgroundColor = [UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1];
-    self.hyveDistanceButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
+    self.hyveDistanceButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:18];
     self.hyveDistanceButton.tintColor = [UIColor whiteColor];
     self.hyveDistanceButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     [self.hyveDistanceButton setContentEdgeInsets:UIEdgeInsetsMake(0, 20, 0, 0)];
@@ -254,7 +259,7 @@
 #pragma mark - setting hyve image button
 -(void)stylingSettingHyveImageButton
 {
-    self.settingHyveImageButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
+    self.settingHyveImageButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:18];
     self.settingHyveImageButton.backgroundColor = [UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1];
     self.settingHyveImageButton.tintColor = [UIColor whiteColor];
     self.settingHyveImageButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
@@ -399,7 +404,7 @@
 -(void)stylingConnectButton
 {
     [self.connectButton setTitle:@"Connect" forState:UIControlStateNormal];
-    self.connectButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+    self.connectButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
     [self.connectButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.connectButton setBackgroundColor:[UIColor colorWithRed:0.89 green:0.39 blue:0.16 alpha:1]];
 }

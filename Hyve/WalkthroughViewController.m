@@ -92,7 +92,7 @@
 {
     [self.signUp setTitle:@"SIGN UP" forState:UIControlStateNormal];
     [self.signUp setBackgroundColor:[UIColor clearColor]];
-    self.signUp.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+    self.signUp.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
     self.signUp.titleLabel.text = @"SIGN UP";
     self.signUp.layer.borderWidth = 1.0f;
     self.signUp.layer.borderColor = [UIColor colorWithRed:0.55 green:0.55 blue:0.55 alpha:1].CGColor;
@@ -108,7 +108,7 @@
     self.loginButton.layer.borderColor = [UIColor colorWithRed:0.55 green:0.55 blue:0.55 alpha:1].CGColor;
     [self.loginButton setBackgroundColor:[UIColor clearColor]];
     self.loginButton.titleLabel.text = @"LOG IN";
-    self.loginButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+    self.loginButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
     [self.loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.loginButton setBackgroundColor:[UIColor colorWithRed:0.89 green:0.39 blue:0.16 alpha:1]];
 }

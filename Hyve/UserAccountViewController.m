@@ -154,7 +154,7 @@
     self.username.text = @"Jennifer Lawrence";
     self.username.backgroundColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:0.8];
     self.username.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0);
-    self.username.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
+    self.username.font = [UIFont fontWithName:@"OpenSans" size:18];
     self.username.textColor = [UIColor blackColor];
 
 }
@@ -165,7 +165,7 @@
     self.email.text = @"jlaw@gmail.com";
     self.email.backgroundColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:0.8];
     self.email.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0);
-    self.email.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
+    self.email.font = [UIFont fontWithName:@"OpenSans" size:18];
     self.email.textColor = [UIColor blackColor];
 }
 
@@ -176,7 +176,7 @@
     self.password.secureTextEntry = YES;
     self.password.backgroundColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:0.8];
     self.password.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0);
-    self.password.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
+    self.password.font = [UIFont fontWithName:@"OpenSans" size:18];
     self.password.textColor = [UIColor blackColor];
 }
 
@@ -184,7 +184,7 @@
 -(void)stylingEditOrSaveProfileButton
 {
     self.editOrSaveProfileButton.backgroundColor = [UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1];
-    self.editOrSaveProfileButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
+    self.editOrSaveProfileButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:18];
     self.editOrSaveProfileButton.tintColor = [UIColor whiteColor];
     [self.editOrSaveProfileButton setTitle:@"Edit" forState:UIControlStateNormal];
 }
@@ -218,7 +218,7 @@
 -(void)stylingBackButton
 {
     [self.backButton setTitle:@"Back" forState:UIControlStateNormal];
-    self.backButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+    self.backButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
     [self.backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.backButton setBackgroundColor:[UIColor colorWithRed:0.89 green:0.39 blue:0.16 alpha:1]];
 }

@@ -61,6 +61,11 @@
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor clearColor];
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIFont fontWithName:@"OpenSans-SemiBold" size:17],
+      NSFontAttributeName, nil]];
 }
 
 -(void)goBack
@@ -73,7 +78,7 @@
 {
     self.registrationOptionLabel.text = @"Or Register Via";
     self.registrationOptionLabel.textColor = [UIColor whiteColor];
-    self.registrationOptionLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+    self.registrationOptionLabel.font = [UIFont fontWithName:@"OpenSans" size:20];
     self.registrationOptionLabel.numberOfLines = 0;
 }
 
@@ -83,7 +88,7 @@
     self.registerButton.backgroundColor = [UIColor colorWithRed:0.96 green:0.46 blue:0.15 alpha:1];
     [self.registerButton setTitle:@"Register" forState:UIControlStateNormal];
     [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.registerButton.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+    self.registerButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
 }
 
 #pragma mark - styling background view
@@ -117,7 +122,7 @@
     registrationTextField.backgroundColor = [UIColor colorWithRed:0.77 green:0.77 blue:0.77 alpha:1];
     registrationTextField.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0);
     registrationTextField.textColor = [UIColor blackColor];
-    registrationTextField.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:17];
+    registrationTextField.font = [UIFont fontWithName:@"OpenSans" size:17];
     
     UIToolbar *keyboardToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
     keyboardToolbar.barStyle = UIBarStyleDefault;

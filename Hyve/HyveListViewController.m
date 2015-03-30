@@ -102,7 +102,7 @@
     if ([hyve.peripheralName isEqualToString:@""] || hyve.peripheralName == nil)
     {
         cell.hyveName.text = @"Unkown devices";
-        cell.hyveName.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+        cell.hyveName.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
         cell.hyveName.textColor = [UIColor whiteColor];
         [cell.hyveImage setImage:[UIImage imageNamed:@"houseKeys"] forState:UIControlStateNormal];
         cell.hyveBattery.alpha = 0;
@@ -112,7 +112,7 @@
     else
     {
         cell.hyveName.text = hyve.peripheralName;
-        cell.hyveName.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+        cell.hyveName.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
         cell.hyveName.textColor = [UIColor whiteColor];
         cell.hyveName.numberOfLines = 0;
         
@@ -123,14 +123,14 @@
         });
 
         cell.hyveBattery.text = @"Super strong";
-        cell.hyveBattery.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:16];
+        cell.hyveBattery.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
         cell.hyveBattery.textColor = [UIColor whiteColor];
         cell.hyveBattery.numberOfLines = 0;
         
         cell.hyveProximity.text = @"Super far";
         cell.hyveProximity.textColor = [UIColor whiteColor];
         cell.hyveProximity.numberOfLines = 0;
-        cell.hyveProximity.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:16];
+        cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
         
     }
     return cell;
@@ -159,7 +159,7 @@
     username.text = @"Jennifer Lawrence";
     username.textAlignment = NSTextAlignmentCenter;
     username.numberOfLines = 0;
-    username.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:20];
+    username.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:20];
     username.textColor = [UIColor whiteColor];
     [username setCenter:CGPointMake(CGRectGetMidX(backgroundImageView.bounds), positionOfUsernameCoordinateY)];
     

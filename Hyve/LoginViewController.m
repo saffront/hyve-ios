@@ -162,7 +162,9 @@
         [userDefaults setObject:api_token forKey:@"api_token"];
         [userDefaults synchronize];
         
-        [self checkingForFirstTimeUsers];
+//        [self checkingForFirstTimeUsers];
+        
+        [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
@@ -266,18 +268,6 @@
     NSString *checkingForFirstTime = [userDefaults objectForKey:@"firstTimeEnterApp"];
     if (checkingForFirstTime == nil)
     {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-        WalkthroughViewController *wvc = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
-        [self.navigationController presentViewController:wvc animated:YES completion:nil];
-        [self performSegueWithIdentifier:@"ToDashboardVC" sender:nil];
-//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-//        WalkthroughViewController *wvc = [storyboard instantiateViewControllerWithIdentifier:@"WalkthroughViewController"];
-//        [self.navigationController presentViewController:wvc animated:YES completion:nil];
-//        
-//        [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
-    }
-    else
-    {
         [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
     }
 }
@@ -289,10 +279,6 @@
     {
         UINavigationController *navController = segue.destinationViewController;
         DashboardViewController *dvc = (DashboardViewController*)[navController topViewController];
-    }
-    else if ([segue.identifier isEqualToString:@"ShowWalkthrough"])
-    {
-        WalkthroughViewController *wvc = segue.destinationViewController;
     }
 }
 

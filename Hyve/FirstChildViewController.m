@@ -17,7 +17,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.view.backgroundColor = [UIColor clearColor];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults objectForKey:@"api_token"];
+    
+    if (token != nil)
+    {
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        UIVisualEffectView *visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        visualEffectView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
+        [self.view addSubview:visualEffectView];
+    }
+    else
+    {
+        self.view.backgroundColor = [UIColor clearColor];
+    }
     
     [self stylingTitleLabel];
     [self stylingDescriptionLabel];
@@ -30,7 +43,6 @@
     self.titleLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:30];
     self.titleLabel.numberOfLines = 0;
     self.titleLabel.textColor = [UIColor colorWithRed:0.28 green:0.35 blue:0.40 alpha:1];
-    
 }
 
 #pragma mark - styling description label

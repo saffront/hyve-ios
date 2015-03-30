@@ -17,19 +17,21 @@
 @property (strong, nonatomic) UIPageViewController *pageViewController;
 @property (assign, nonatomic) NSInteger currentIndex;
 @property (strong, nonatomic) IBOutlet UIButton *signUp;
+@property (strong, nonatomic) IBOutlet UIView *blurView;
 @property (strong, nonatomic) IBOutlet UIButton *loginButton;
+@property (strong, nonatomic) UIImageView *backgroundView;
 @end
 
 @implementation WalkthroughViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.blurView.alpha = 0;
     [self checkingForToken];
     
-    UIImageView *backgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    backgroundView.image = [UIImage imageNamed:@"walkthroughBg2"];
-    [self.view addSubview:backgroundView];
+    self.backgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.backgroundView.image = [UIImage imageNamed:@"walkthroughBg2"];
+    [self.view addSubview:self.backgroundView];
     [self.view addSubview:self.containerView];
     
     self.currentIndex = 0;
@@ -50,10 +52,17 @@
     
     if (token != nil)
     {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-        WalkthroughViewController *wvc = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
-        [self.navigationController presentViewController:wvc animated:YES completion:nil];
-        [self performSegueWithIdentifier:@"ToDashboardVC" sender:nil];
+        self.blurView.alpha = 1;
+        
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        UIVisualEffectView *visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        visualEffectView.frame = CGRectMake(self.blurView.frame.origin.x, self.blurView.frame.origin.y, self.blurView.frame.size.width, self.blurView.frame.size.height);
+        [self.blurView addSubview:visualEffectView];
+        [self.view addSubview:self.blurView];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self performSegueWithIdentifier:@"ToDashboardVC" sender:nil];
+        });
     }
 }
 
@@ -61,7 +70,6 @@
 -(void)viewDidLayoutSubviews
 {
     self.pageViewController.view.frame = self.containerView.frame;
-    
 }
 
 #pragma mark - viewWillAppear

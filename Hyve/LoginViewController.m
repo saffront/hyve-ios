@@ -33,7 +33,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self checkingForAPIToken];
     [self stylingBackgroundView];
     [self stylingLoginButtons];
     [self stylingLabelDescription];
@@ -59,22 +58,6 @@
 //    [super viewWillDisappear:animated];
 //    self.navigationController.navigationBarHidden = NO;
 //}
-
-
-
-#pragma mark - check for api
--(void)checkingForAPIToken
-{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *api_token = [userDefaults objectForKey:@"api_token"];
-    
-    if (api_token != nil)
-    {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
-        });
-    }
-}
 
 #pragma mark - styling login buttons
 -(void)stylingLoginButtons
@@ -283,11 +266,15 @@
     NSString *checkingForFirstTime = [userDefaults objectForKey:@"firstTimeEnterApp"];
     if (checkingForFirstTime == nil)
     {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+        WalkthroughViewController *wvc = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
+        [self.navigationController presentViewController:wvc animated:YES completion:nil];
+        [self performSegueWithIdentifier:@"ToDashboardVC" sender:nil];
 //        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
 //        WalkthroughViewController *wvc = [storyboard instantiateViewControllerWithIdentifier:@"WalkthroughViewController"];
 //        [self.navigationController presentViewController:wvc animated:YES completion:nil];
-        
-        [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
+//        
+//        [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
     }
     else
     {

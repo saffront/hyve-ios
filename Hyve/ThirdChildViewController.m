@@ -38,7 +38,7 @@
     self.descriptionLabel.text = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor";
     self.descriptionLabel.numberOfLines = 0;
     self.descriptionLabel.textColor = [UIColor colorWithRed:0.28 green:0.35 blue:0.40 alpha:1];
-    self.descriptionLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:22];
+    self.descriptionLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
     
 }
 

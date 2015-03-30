@@ -152,20 +152,21 @@
 -(void)stylingUsernameTextField
 {
     self.username.text = @"Jennifer Lawrence";
-    self.username.backgroundColor = [UIColor colorWithRed:0.80 green:0.80 blue:0.80 alpha:0.8];
+    self.username.backgroundColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:0.8];
     self.username.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0);
     self.username.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
-    self.username.textColor = [UIColor whiteColor];
+    self.username.textColor = [UIColor blackColor];
+
 }
 
 #pragma mark - styling email text field
 -(void)stylingEmailTextField
 {
     self.email.text = @"jlaw@gmail.com";
-    self.email.backgroundColor = [UIColor colorWithRed:0.80 green:0.80 blue:0.80 alpha:0.8];
+    self.email.backgroundColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:0.8];
     self.email.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0);
     self.email.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
-    self.email.textColor = [UIColor whiteColor];
+    self.email.textColor = [UIColor blackColor];
 }
 
 #pragma mark - styling password text field
@@ -173,10 +174,10 @@
 {
     self.password.text = @"Jennifer Lawrence";
     self.password.secureTextEntry = YES;
-    self.password.backgroundColor = [UIColor colorWithRed:0.80 green:0.80 blue:0.80 alpha:0.8];
+    self.password.backgroundColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:0.8];
     self.password.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0);
     self.password.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:18];
-    self.password.textColor = [UIColor whiteColor];
+    self.password.textColor = [UIColor blackColor];
 }
 
 #pragma mark - styling editProfileButton

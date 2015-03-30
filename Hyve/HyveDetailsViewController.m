@@ -63,11 +63,25 @@
 {
     [super viewWillAppear:animated];
     
+    UIImage *backButtonImage = [UIImage imageNamed:@"backButton"];
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setFrame:CGRectMake(0, 0, 30, 30)];
+    [backButton setBackgroundImage:backButtonImage forState:UIControlStateNormal];
+    [backButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *backButtonOnBar = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = backButtonOnBar;
+    
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor clearColor];
+}
+
+-(void)goBack
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - styling background view

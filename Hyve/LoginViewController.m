@@ -161,9 +161,7 @@
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setObject:api_token forKey:@"api_token"];
         [userDefaults synchronize];
-        
-//        [self checkingForFirstTimeUsers];
-        
+    
         [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

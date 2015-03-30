@@ -211,15 +211,19 @@
     }
     else
     {
-                NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",
-                                              provider,@"provider",
-                                              first_name,@"first_name",
-                                              last_name,@"last_name",
-                                              usernameWithoutWhiteSpace,@"username",
-                                              password,@"password",
-                                              passwordConfirmation, @"password_confirmation",
-                                                           nil];
-        [self registerUserToHyve:userInfoDictionary];
+        NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",
+                                      provider,@"provider",
+                                      first_name,@"first_name",
+                                      last_name,@"last_name",
+                                      usernameWithoutWhiteSpace,@"username",
+                                      password,@"password",
+                                      passwordConfirmation, @"password_confirmation",
+                                                   nil];
+        
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            [self registerUserToHyve:userInfoDictionary];
+        });
     }
 
 }
@@ -322,7 +326,6 @@
              }
              else
              {
-                 
                  //                NSLog(@"person display name: %@ \r person.aboutMe %@ \r birthday %@ \r gender: %@ \r familyName: %@ \r givenName %@ \r identifier %@ \r emails: %@", person.displayName, person.aboutMe, person.birthday, person.gender, person.name.familyName, person.name.givenName, person.identifier, [GPPSignIn sharedInstance].authentication.userEmail);
                  
                  NSString *email = [GPPSignIn sharedInstance].authentication.userEmail;
@@ -364,7 +367,10 @@
         [userDefaults setObject:api_token forKey:@"api_token"];
         [userDefaults setObject:successLoginViaEmail forKey:@"successLoginViaEmail"];
         [userDefaults synchronize];
-        [self checkingForFirstTimeUsers];
+        
+        [self performSegueWithIdentifier:@"ToDashboardVCFromSignUp" sender:nil];
+        
+//        [self checkingForFirstTimeUsers];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
@@ -372,23 +378,23 @@
     }];
 }
 
-#pragma mark - first time check
--(void)checkingForFirstTimeUsers
-{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *checkingForFirstTime = [userDefaults objectForKey:@"firstTimeEnterApp"];
-    if (checkingForFirstTime == nil)
-    {
-//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-//        WalkthroughViewController *wvc = [storyboard instantiateViewControllerWithIdentifier:@"WalkthroughViewController"];
-//        [self.navigationController presentViewController:wvc animated:YES completion:nil];
-        [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
-    }
-    else
-    {
-        [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
-    }
-}
+//#pragma mark - first time check
+//-(void)checkingForFirstTimeUsers
+//{
+//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//    NSString *checkingForFirstTime = [userDefaults objectForKey:@"firstTimeEnterApp"];
+//    if (checkingForFirstTime == nil)
+//    {
+////        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+////        WalkthroughViewController *wvc = [storyboard instantiateViewControllerWithIdentifier:@"WalkthroughViewController"];
+////        [self.navigationController presentViewController:wvc animated:YES completion:nil];
+//        [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
+//    }
+//    else
+//    {
+//        [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
+//    }
+//}
 
 #pragma mark - alert 
 -(void)alertMessageToUser:(NSString*)alertMessage

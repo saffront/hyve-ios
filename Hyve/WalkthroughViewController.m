@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Jay Ang. All rights reserved.
 //
 
+#import "DashboardViewController.h"
 #import "WalkthroughViewController.h"
 #import "FirstChildViewController.h"
 #import "SecondChildViewController.h"
@@ -61,7 +62,7 @@
         [self.view addSubview:self.blurView];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self performSegueWithIdentifier:@"ToDashboardVC" sender:nil];
+            [self performSegueWithIdentifier:@"ToDashboardVCFromWalkthrough" sender:nil];
         });
     }
 }
@@ -233,7 +234,15 @@
     return 0;
 }
 
-
+#pragma mark - segue
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"ToDashboardVCFromWalkthrough"])
+    {
+        UINavigationController *navController = segue.destinationViewController;
+        DashboardViewController *dvc = (DashboardViewController*)[navController topViewController];
+    }
+}
 
 
 @end

@@ -618,6 +618,7 @@
                         <outlet property="passwordTextField" destination="XWT-GR-RL7" id="4rd-q4-5ow"/>
                         <outlet property="registerButton" destination="XBD-Yn-eko" id="Lcl-0g-VME"/>
                         <outlet property="registrationOptionLabel" destination="dk7-W9-dgo" id="kdU-rx-Ko5"/>
+                        <segue destination="Hpw-VC-FOY" kind="showDetail" identifier="ToDashboardVCFromSignUp" id="0Ls-Nt-WTq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TrB-Oo-abu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -668,7 +669,7 @@
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
-                                    <segue destination="Hwu-YR-Yf9" kind="show" identifier="ToSignUpVC" id="y7K-hK-Yep"/>
+                                    <segue destination="Hwu-YR-Yf9" kind="show" identifier="ToSignUpVC" id="82u-vr-klP"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="94R-d7-zuC">
@@ -759,7 +760,7 @@
                         <outlet property="containerView" destination="V6t-aM-9H2" id="mlG-qk-Oz2"/>
                         <outlet property="loginButton" destination="UN9-XF-CIE" id="adL-oA-APi"/>
                         <outlet property="signUp" destination="68N-dw-moH" id="TIJ-Za-BNP"/>
-                        <segue destination="vXZ-lx-hvc" kind="show" identifier="ToDashboardVC" id="Wr9-7z-C4X"/>
+                        <segue destination="Hpw-VC-FOY" kind="showDetail" identifier="ToDashboardVCFromWalkthrough" id="ZUn-7y-4ra"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wFb-aE-ilr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1853,7 +1854,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RMH-3T-xLY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1912" y="716"/>
+            <point key="canvasLocation" x="2002.5" y="489.75"/>
         </scene>
         <!--First Child View Controller-->
         <scene sceneID="2lo-Yq-eoP">
@@ -2312,7 +2313,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Wr9-7z-C4X"/>
-        <segue reference="y7K-hK-Yep"/>
+        <segue reference="ZUn-7y-4ra"/>
+        <segue reference="ObQ-NT-1SY"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Jay Ang. All rights reserved.
 //
 
+#import <Reachability.h>
+#import <AFNetworking.h>
 #import "PeripheralListViewController.h"
 #import "HyveListViewController.h"
 #import "Hyve.h"
@@ -142,6 +144,8 @@
         self.peripheral = [self.peripheralMutableArray objectAtIndex:indexPath.row];
         hyve.peripheralName = self.peripheral.name;
         hyve.peripheralUUID = self.peripheral.identifier;
+        
+        
     }
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PeripheralCellID"];
@@ -205,8 +209,26 @@
     {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Do you want to pair up with the selected devices?" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
             [self performSegueWithIdentifier:@"ShowHyveListVC" sender:nil];
+            
+            for (CBPeripheral *pairedHyve in self.selectedDeviceMutableArray)
+            {
+                Hyve *hyve = [Hyve new];
+                hyve.peripheralName = pairedHyve.name;
+                hyve.peripheralUUIDString = pairedHyve.identifier.UUIDString;
+                
+                if (pairedHyve.name == nil)
+                {
+                    hyve.peripheralName = @"Unknown device";
+                }
+                
+                //passing in name and uuid
+                NSMutableDictionary *pairedHyveDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:hyve.peripheralName,@"name",hyve.peripheralUUIDString,@"UUID", nil];
+                [self sendingPairedHyveToBackend:pairedHyveDictionary];
+            }
         }];
+        
         UIAlertAction *noAction = [UIAlertAction actionWithTitle:@"NO" style:UIAlertActionStyleDefault handler:nil];
         [alertController addAction:noAction];
         [alertController addAction:okAction];
@@ -221,12 +243,61 @@
     }
 }
 
+#pragma mark - saving paired devices to Hyve
+-(void)sendingPairedHyveToBackend:(NSMutableDictionary*)hyveletsPairedDictionary
+{
+    Reachability *reachability = [Reachability reachabilityWithHostname:@"www.google.com"];
+    
+    if (reachability.isReachable)
+    {
+        //connect to hyve backend
+        
+        [self connectToHyveBackend:hyveletsPairedDictionary];
+    }
+    else
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:OKAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+}
+
+-(void)connectToHyveBackend:(NSMutableDictionary*)hyveletsDictionary
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *api_token = [userDefaults objectForKey:@"api_token"];
+    
+    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves"];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [manager.requestSerializer setValue:@"application/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+    [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+    
+    [manager POST:hyveURLString parameters:hyveletsDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        //check response object
+        NSLog(@"responseObject from connectToHyveBackend \r \r %@", responseObject);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"error %@ \r \r error localized:%@", error, [error localizedDescription]);
+    }];
+}
+
 #pragma mark - segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     HyveListViewController *hlvc = segue.destinationViewController;
     hlvc.hyveDevicesMutableArray = self.selectedDeviceMutableArray;
     hlvc.centralManager = self.centralManager;
+
+    
 }
+
+
+
 
 @end

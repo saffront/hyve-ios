@@ -287,19 +287,19 @@
 		3BA2D34B1AA9B668008CA9E4 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				3B1A46351AC5653800A97EC6 /* Walkthrough */,
 				3B6FA1E71ABAD26F007517B4 /* LoginViewController.h */,
 				3B6FA1E81ABAD26F007517B4 /* LoginViewController.m */,
 				3B6DC72B1ABFAA7C0018C0AA /* SignUpViewController.h */,
 				3B6DC72C1ABFAA7C0018C0AA /* SignUpViewController.m */,
-				3B1A46351AC5653800A97EC6 /* Walkthrough */,
-				3B74B6B61AAD547900A0B50F /* HyveDetailsViewController.h */,
-				3B74B6B71AAD547900A0B50F /* HyveDetailsViewController.m */,
-				3BA2D3481AA9A9C9008CA9E4 /* HyveListViewController.h */,
-				3BA2D3491AA9A9C9008CA9E4 /* HyveListViewController.m */,
-				3BA2D3451AA95DAB008CA9E4 /* PeripheralListViewController.h */,
-				3BA2D3461AA95DAB008CA9E4 /* PeripheralListViewController.m */,
 				3B5772C61AA7E45E009FC171 /* DashboardViewController.h */,
 				3B5772C71AA7E45E009FC171 /* DashboardViewController.m */,
+				3BA2D3451AA95DAB008CA9E4 /* PeripheralListViewController.h */,
+				3BA2D3461AA95DAB008CA9E4 /* PeripheralListViewController.m */,
+				3BA2D3481AA9A9C9008CA9E4 /* HyveListViewController.h */,
+				3BA2D3491AA9A9C9008CA9E4 /* HyveListViewController.m */,
+				3B74B6B61AAD547900A0B50F /* HyveDetailsViewController.h */,
+				3B74B6B71AAD547900A0B50F /* HyveDetailsViewController.m */,
 				3B1FD75E1AC405840079A0C0 /* UserAccountViewController.h */,
 				3B1FD75F1AC405840079A0C0 /* UserAccountViewController.m */,
 			);

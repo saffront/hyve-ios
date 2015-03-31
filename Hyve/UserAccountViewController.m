@@ -9,6 +9,7 @@
 #import "UserAccountViewController.h"
 #import <DKCircleButton.h>
 #import <POP.h>
+#import "WalkthroughViewController.h"
 
 @interface UserAccountViewController () <UIImagePickerControllerDelegate, UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet DKCircleButton *userAvatar;
@@ -18,6 +19,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *editOrSaveProfileButton;
 @property (strong, nonatomic) IBOutlet UIButton *backButton;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
+@property (strong, nonatomic) IBOutlet UIButton *logoutButton;
 
 
 @end
@@ -34,6 +36,7 @@
     [self stylingEditOrSaveProfileButton];
     [self stylingBackButton];
     [self addingToolbarToKeyboard];
+    [self stylingLogoutButton];
     
     self.username.userInteractionEnabled = NO;
     self.password.userInteractionEnabled = NO;
@@ -180,6 +183,8 @@
     self.password.textColor = [UIColor blackColor];
 }
 
+
+
 #pragma mark - styling editProfileButton
 -(void)stylingEditOrSaveProfileButton
 {
@@ -212,6 +217,32 @@
         self.email.userInteractionEnabled = NO;
         self.userAvatar.userInteractionEnabled = NO;
     }
+}
+
+#pragma mark - logout button
+-(void)stylingLogoutButton
+{
+    self.logoutButton.backgroundColor = [UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1];
+    self.logoutButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:18];
+    self.logoutButton.tintColor = [UIColor whiteColor];
+    [self.logoutButton setTitle:@"Logout" forState:UIControlStateNormal];
+}
+
+- (IBAction)onLogoutButtonPressed:(id)sender
+{
+    [self clearToken];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    WalkthroughViewController *wvc = [storyboard instantiateViewControllerWithIdentifier:@"WalkthroughViewController"];
+    [self presentViewController:wvc animated:YES completion:nil];
+    
+}
+
+-(void)clearToken
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    [userDefaults removeObjectForKey:@"api_token"];
 }
 
 #pragma mark - styling back button

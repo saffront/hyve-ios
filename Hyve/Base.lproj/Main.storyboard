@@ -1730,9 +1730,6 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="7He-RK-5oH" secondAttribute="trailing" constant="16" id="0bo-rZ-h5E"/>
                             <constraint firstItem="ffx-lZ-iKL" firstAttribute="leading" secondItem="544-2u-UZ1" secondAttribute="leading" constant="89" id="1u0-PM-hRR"/>
-                            <constraint firstItem="bPA-fV-hHP" firstAttribute="top" secondItem="XB4-Q1-6VP" secondAttribute="bottom" constant="210" id="4i5-LB-OhB">
-                                <variation key="heightClass=regular-widthClass=compact" constant="237"/>
-                            </constraint>
                             <constraint firstAttribute="trailing" secondItem="yZk-4u-P6d" secondAttribute="trailing" constant="16" id="DKd-aU-Tuf"/>
                             <constraint firstAttribute="trailing" secondItem="bPA-fV-hHP" secondAttribute="trailing" id="HDW-7Y-myv"/>
                             <constraint firstItem="7He-RK-5oH" firstAttribute="top" secondItem="DAN-oL-d0K" secondAttribute="bottom" constant="33" id="HxY-Vk-3j4"/>
@@ -1742,13 +1739,19 @@
                             <constraint firstItem="yZk-4u-P6d" firstAttribute="leading" secondItem="544-2u-UZ1" secondAttribute="leading" constant="16" id="S96-aB-UL5"/>
                             <constraint firstItem="7He-RK-5oH" firstAttribute="leading" secondItem="544-2u-UZ1" secondAttribute="leading" constant="16" id="X58-1H-tma"/>
                             <constraint firstItem="XB4-Q1-6VP" firstAttribute="leading" secondItem="544-2u-UZ1" secondAttribute="leading" constant="89" id="Zyy-Zl-zdu"/>
-                            <constraint firstItem="DAN-oL-d0K" firstAttribute="top" secondItem="544-2u-UZ1" secondAttribute="top" constant="47" id="cpi-Za-sdT"/>
+                            <constraint firstItem="DAN-oL-d0K" firstAttribute="top" secondItem="544-2u-UZ1" secondAttribute="top" constant="47" id="cpi-Za-sdT">
+                                <variation key="heightClass=regular-widthClass=compact" constant="27"/>
+                            </constraint>
                             <constraint firstAttribute="trailing" secondItem="XB4-Q1-6VP" secondAttribute="trailing" constant="89" id="fNO-mY-6H3"/>
-                            <constraint firstItem="XB4-Q1-6VP" firstAttribute="top" secondItem="544-2u-UZ1" secondAttribute="top" constant="463" id="fjo-qy-XTy"/>
+                            <constraint firstItem="XB4-Q1-6VP" firstAttribute="top" secondItem="544-2u-UZ1" secondAttribute="top" constant="463" id="fjo-qy-XTy">
+                                <variation key="heightClass=regular-widthClass=compact" constant="448"/>
+                            </constraint>
                             <constraint firstAttribute="trailing" secondItem="zoI-az-tTu" secondAttribute="trailing" constant="16" id="izX-qZ-Ie8"/>
                             <constraint firstItem="zoI-az-tTu" firstAttribute="leading" secondItem="544-2u-UZ1" secondAttribute="leading" constant="16" id="kEr-is-xkC"/>
                             <constraint firstItem="bPA-fV-hHP" firstAttribute="leading" secondItem="544-2u-UZ1" secondAttribute="leading" id="qR9-xd-KQY"/>
-                            <constraint firstItem="ffx-lZ-iKL" firstAttribute="top" secondItem="zoI-az-tTu" secondAttribute="bottom" constant="18" id="tAJ-rF-2Kj"/>
+                            <constraint firstItem="ffx-lZ-iKL" firstAttribute="top" secondItem="zoI-az-tTu" secondAttribute="bottom" constant="18" id="tAJ-rF-2Kj">
+                                <variation key="heightClass=regular-widthClass=compact" constant="23"/>
+                            </constraint>
                             <constraint firstItem="vPy-xW-3La" firstAttribute="top" secondItem="bPA-fV-hHP" secondAttribute="bottom" id="wE0-Qr-cs2"/>
                             <constraint firstAttribute="trailing" secondItem="ffx-lZ-iKL" secondAttribute="trailing" constant="89" id="yPT-Om-Kwx"/>
                         </constraints>
@@ -1780,7 +1783,6 @@
                                 <exclude reference="Zyy-Zl-zdu"/>
                                 <exclude reference="fNO-mY-6H3"/>
                                 <exclude reference="fjo-qy-XTy"/>
-                                <exclude reference="4i5-LB-OhB"/>
                                 <exclude reference="HDW-7Y-myv"/>
                                 <exclude reference="qR9-xd-KQY"/>
                                 <exclude reference="wE0-Qr-cs2"/>
@@ -1814,7 +1816,6 @@
                                 <include reference="Zyy-Zl-zdu"/>
                                 <include reference="fNO-mY-6H3"/>
                                 <include reference="fjo-qy-XTy"/>
-                                <include reference="4i5-LB-OhB"/>
                                 <include reference="HDW-7Y-myv"/>
                                 <include reference="qR9-xd-KQY"/>
                                 <include reference="wE0-Qr-cs2"/>

@@ -11,6 +11,8 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "Hyve.h"
 #import <POP.h>
+#import <Reachability.h>
+#import <AFNetworking.h>
 
 // 5F10970D-4751-8EAE-0E80-FCA227055CB5 --- name=rpts , kCBAdvDataServiceUUIDs = FFF0,
 /*
@@ -63,6 +65,7 @@
     self.firstTimeRunning = YES;
     [self stylingNavigationBar];
     [self stylingBackgroundView];
+//    [self connectToHyveServerToRetrievePairedHyve];
 }
 
 #pragma mark - detectingHyveLabel at intro
@@ -162,7 +165,7 @@
     
     [self.centralManager scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@NO}];
     
-    [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(timeoutScanningForHyve) userInfo:nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(timeoutScanningForHyve) userInfo:nil repeats:NO];
 }
 
 -(void)timeoutHyveDiscovery
@@ -235,6 +238,89 @@
 {
     [self.centralManager stopScan];
     [self performSegueWithIdentifier:@"ShowPeripheralsList" sender:nil];
+}
+
+
+#pragma mark - retrieve paired Hyve from server
+-(void)connectToHyveServerToRetrievePairedHyve
+{
+    Reachability *reachability = [Reachability reachabilityWithHostName:@"www.google.com"];
+    
+    if (reachability.isReachable)
+    {
+        [self retrievingPairedHyve];
+    }
+    else
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:OKAction];
+        
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+}
+
+-(void)retrievingPairedHyve
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *api_token = [userDefaults objectForKey:@"api_token"];
+    
+    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves"];
+    
+    NSURL *url = [NSURL URLWithString:hyveURLString];
+    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
+    [urlRequest setHTTPMethod:@"GET"];
+    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [urlRequest setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+    
+    [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+       
+        if (connectionError)
+        {
+            NSLog(@"Error found %@ \r localizedDescriptionError %@", connectionError, [connectionError localizedDescription]);
+        }
+        else
+        {
+            NSDictionary *theJSONDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            NSLog(@"theJSONDictionary : \r %@", theJSONDictionary);
+        }
+        
+    }];
+    
+//    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:urlRequest];
+//    operation.responseSerializer = [AFJSONResponseSerializer serializer];
+//    
+//    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        
+//        NSLog(@"responseObject %@", responseObject);
+//        
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//       
+//        NSLog(@"error %@ \r\r localizedError %@", error, [error localizedDescription]);
+//        
+//    }];
+//    [operation start];
+    
+    
+    
+//    NSURL *hyveURL = [NSURL URLWithString:hyveURLString];
+//    NSURLRequest *hyveURLRequest = [NSURLRequest requestWithURL:hyveURL];
+//    
+//    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:hyveURLRequest];
+//    operation.responseSerializer = [AFJSONResponseSerializer serializer];
+//    
+//    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        
+//        NSLog(@"responseObject %@", responseObject);
+//        
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        
+//        NSLog(@"error to GET HYVE PAIRED %@ \r\r %@", error, [error localizedDescription]);
+//        
+//    }];
+//    
+//    [operation start];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

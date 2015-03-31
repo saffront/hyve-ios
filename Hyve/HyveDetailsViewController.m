@@ -229,24 +229,24 @@
 - (IBAction)onHyveDistanceButtonPressed:(id)sender
 {
     CNPGridMenuItem *one = [CNPGridMenuItem new];
-    one.title = @"One meter";
-    one.icon = [UIImage imageNamed:@"briefcase"];
+    one.title = [NSString stringWithFormat:@"One \r meter"];
+    one.icon = [UIImage imageNamed:@"one"];
     
     CNPGridMenuItem *two = [CNPGridMenuItem new];
-    two.icon = [UIImage imageNamed:@"remote"];
-    two.title = @"Two meters";
+    two.icon = [UIImage imageNamed:@"two"];
+    two.title = [NSString stringWithFormat:@"Two \r meters"];
     
     CNPGridMenuItem *four = [CNPGridMenuItem new];
-    four.title = @"Four meters";
-    four.icon = [UIImage imageNamed:@"wallet"];
+    four.title = [NSString stringWithFormat:@"Four \r meters"];
+    four.icon = [UIImage imageNamed:@"four"];
     
     CNPGridMenuItem *eight = [CNPGridMenuItem new];
-    eight.title = @"Eight meters";
-    eight.icon = [UIImage imageNamed:@"tablet"];
+    eight.title = [NSString stringWithFormat:@"Eight \r meters"];
+    eight.icon = [UIImage imageNamed:@"eight"];
   
     CNPGridMenuItem *sixteen = [CNPGridMenuItem new];
-    sixteen.title = @"Sixteen meters";
-    sixteen.icon = [UIImage imageNamed:@"bagpack"];
+    sixteen.title = [NSString stringWithFormat:@"Sixteen \r meters"];
+    sixteen.icon = [UIImage imageNamed:@"sixteen"];
     
     self.gridMenu = [[CNPGridMenu alloc] initWithMenuItems:@[one,two,four,eight,sixteen]];
     self.gridMenu.delegate = self;
@@ -442,10 +442,7 @@
     peripheral.delegate = self;
     [peripheral discoverServices:nil];
     
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:[NSString stringWithFormat:@"Successfully connected to %@", peripheral.name] preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-    [alertController addAction:okAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+
 }
 
 -(void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
@@ -457,6 +454,11 @@
     else
     {
         NSLog(@"connectedToPeripheral : peripheral ==> %@ self.pheripheral ~~> %@", peripheral, self.peripheral);
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:[NSString stringWithFormat:@"Successfully connected to %@", peripheral.name] preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
     }
 }
 
@@ -468,7 +470,7 @@
         NSLog(@"Discovered service %@ CBUUID= %@", service, service.UUID);
         
 
-        [peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:@"FFF6"]] forService:service];
+        [peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:@"FFF4"]] forService:service];
 //       [peripheral discoverCharacteristics:nil forService:service];
     }
 }
@@ -478,7 +480,7 @@
     for (CBCharacteristic *characteristic in service.characteristics)
     {
             CBUUID *characteristicUUID = characteristic.UUID;
-            CBUUID *characteristicUUIDString = [CBUUID UUIDWithString:@"FFF6"];
+            CBUUID *characteristicUUIDString = [CBUUID UUIDWithString:@"FFF4"];
     
             if ([characteristicUUID isEqual:characteristicUUIDString])
             {
@@ -491,7 +493,7 @@
 //                NSLog(@"distanceString of data is %@", distanceString);
 //                [peripheral writeValue:distanceString forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
                 
-                
+/*
                 int8_t distanceNumberIntValue = [self.distanceNumber integerValue];
                 int16_t distanceNumberAtSixteen = [self.distanceNumber integerValue];
                 int16_t distanceNumber = CFSwapInt16HostToLittle(distanceNumberAtSixteen);
@@ -499,6 +501,7 @@
                 
                 NSLog(@"self.distanceNumberData is %@", theDistanceNumberData);
                 [peripheral writeValue:theDistanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+*/
                 
 //                NSData *distanceNumberDataLittleEndian = [self.distanceNumber dataUsingEncoding:NSUTF16LittleEndianStringEncoding];
 //                [peripheral writeValue:distanceNumberDataLittleEndian forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
@@ -581,16 +584,17 @@
     }
     else
     {
+        /*
         NSData *peripheralValue = characteristic.value;
         NSData *decipherPeripheralValueData = [NSData dataWithBytes:[peripheralValue bytes] length:[peripheralValue length]];
         const uint8_t *bytes = [decipherPeripheralValueData bytes];
         int value = bytes[0];
         NSLog(@"value of bytes : %i", value);
+        */
+        
+        
         //reading the nsdata --> nsdata to nsstring --> not working, not nill, but can't via bytes in string
 //        NSString *peripheralValueString = [NSString stringWithUTF8String:[peripheralValue bytes]];
-
-        
-        NSLog(@"peripheralValue of FFF6 is %@", peripheralValue);
     }
 }
 

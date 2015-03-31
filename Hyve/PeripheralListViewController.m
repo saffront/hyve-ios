@@ -218,6 +218,7 @@
                 Hyve *hyve = [Hyve new];
                 hyve.peripheralName = pairedHyve.name;
                 hyve.peripheralUUIDString = pairedHyve.identifier.UUIDString;
+                hyve.peripheralRSSI = @"0"; // distance
                 
                 if (pairedHyve.name == nil)
                 {
@@ -225,7 +226,7 @@
                 }
                 
                 //passing in name and uuid
-                NSMutableDictionary *pairedHyveDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:hyve.peripheralName,@"name",hyve.peripheralUUIDString,@"UUID", nil];
+                NSMutableDictionary *pairedHyveDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:hyve.peripheralName,@"name",hyve.peripheralUUIDString,@"uuid", hyve.peripheralRSSI, @"distance",nil];
                 [self sendingPairedHyveToBackend:pairedHyveDictionary];
             }
         }];

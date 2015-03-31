@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/PeripheralListViewController.m"
-            timestampString = "449462470.036477"
+            timestampString = "449464338.528089"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "283"
-            endingLineNumber = "283"
+            startingLineNumber = "284"
+            endingLineNumber = "284"
             landmarkName = "-connectToHyveBackend:"
             landmarkType = "5">
          </BreakpointContent>
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/PeripheralListViewController.m"
-            timestampString = "449462470.036477"
+            timestampString = "449464338.528089"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "287"
-            endingLineNumber = "287"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
             landmarkName = "-connectToHyveBackend:"
             landmarkType = "5">
          </BreakpointContent>
@@ -266,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/PeripheralListViewController.m"
-            timestampString = "449462470.036477"
+            timestampString = "449464338.528089"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
             landmarkName = "-onPairButtonPressed:"
             landmarkType = "5">
          </BreakpointContent>

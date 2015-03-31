@@ -159,6 +159,7 @@
     else
     {
         cell.textLabel.text = hyve.peripheralName;
+        cell.textLabel.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:20];
     }    
     return cell;
 }

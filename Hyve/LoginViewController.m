@@ -155,7 +155,7 @@
             NSString *last_name = [responseObject valueForKeyPath:@"extra.raw_info.last_name"];
             NSString *username = [NSString stringWithFormat:@"%@ %@", first_name, last_name];
             NSString *usernameWithoutWhiteSpace = [[username stringByReplacingOccurrencesOfString:@" " withString:@""]lowercaseString];
-
+            
             NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",uid,@"uid",provider,@"provider",first_name,@"first_name",last_name,@"last_name",usernameWithoutWhiteSpace ,@"username", nil];
 
             [self registerUserToHyve:userInfoDictionary];
@@ -255,7 +255,7 @@
                 NSString *last_name = person.name.familyName;
                 NSString *usernameWithoutWhiteSpace = [[NSString stringWithFormat:@"%@%@",first_name,last_name] lowercaseString];
                 NSString *provider = @"google";
-                
+            
                 NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",uid,@"uid",provider,@"provider",first_name,@"first_name",last_name,@"last_name",usernameWithoutWhiteSpace ,@"username", nil];
                 [self registerUserToHyve:userInfoDictionary];
             }

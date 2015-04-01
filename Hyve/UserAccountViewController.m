@@ -7,6 +7,8 @@
 //
 
 #import "UserAccountViewController.h"
+#import <Reachability.h>
+#import <AFNetworking.h>
 #import <DKCircleButton.h>
 #import <POP.h>
 #import "WalkthroughViewController.h"
@@ -29,6 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    [self stylingBackgroundView];
+    [self connectToHyve];
     [self stylingUserAvatarButton];
     [self stylingUsernameTextField];
     [self stylingEmailTextField];
@@ -44,6 +47,50 @@
     self.userAvatar.userInteractionEnabled = NO;
     self.password.delegate = self;
     self.email.delegate = self;
+}
+
+#pragma mark - connect to Hyve 
+-(void)connectToHyve
+{
+    Reachability *reachability = [Reachability reachabilityWithHostName:@"www.google.com"];
+    
+    if (reachability.isReachable)
+    {
+        [self retrieveUserAccountInfo];
+    }
+    else
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+}
+
+-(void)retrieveUserAccountInfo
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *api_token = [userDefaults objectForKey:@"api_token"];
+    
+    NSString *hyveUserAccountString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/account"];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+    
+    [manager GET:hyveUserAccountString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"userAccount responseObject \r\r %@", responseObject);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"error %@ \r error localized description %@", error, [error localizedDescription]);
+    }];
+    
+    
 }
 
 #pragma mark - styling backgroundview

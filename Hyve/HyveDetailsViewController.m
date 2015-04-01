@@ -28,6 +28,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *settingHyveImageButton;
 
 
+
 @end
 
 @implementation HyveDetailsViewController
@@ -230,23 +231,23 @@
 {
     CNPGridMenuItem *one = [CNPGridMenuItem new];
     one.title = [NSString stringWithFormat:@"One \r meter"];
-    one.icon = [UIImage imageNamed:@"one"];
+    one.icon = [UIImage imageNamed:@"remote"];
     
     CNPGridMenuItem *two = [CNPGridMenuItem new];
-    two.icon = [UIImage imageNamed:@"two"];
+    two.icon = [UIImage imageNamed:@"remote"];
     two.title = [NSString stringWithFormat:@"Two \r meters"];
     
     CNPGridMenuItem *four = [CNPGridMenuItem new];
     four.title = [NSString stringWithFormat:@"Four \r meters"];
-    four.icon = [UIImage imageNamed:@"four"];
+    four.icon = [UIImage imageNamed:@"remote"];
     
     CNPGridMenuItem *eight = [CNPGridMenuItem new];
     eight.title = [NSString stringWithFormat:@"Eight \r meters"];
-    eight.icon = [UIImage imageNamed:@"eight"];
+    eight.icon = [UIImage imageNamed:@"remote"];
   
     CNPGridMenuItem *sixteen = [CNPGridMenuItem new];
     sixteen.title = [NSString stringWithFormat:@"Sixteen \r meters"];
-    sixteen.icon = [UIImage imageNamed:@"sixteen"];
+    sixteen.icon = [UIImage imageNamed:@"remote"];
     
     self.gridMenu = [[CNPGridMenu alloc] initWithMenuItems:@[one,two,four,eight,sixteen]];
     self.gridMenu.delegate = self;
@@ -356,34 +357,95 @@
         [self.hyveImageButton setImage:[UIImage imageNamed:@"remote"] forState:UIControlStateNormal];
         [self dismissGridMenuAnimated:YES completion:nil];
     }
-    else if ([item.title isEqualToString:@"One meter"])
+    else if ([item.title isEqualToString:@"One \r meter"])
     {
         [self.hyveDistanceButton setTitle:@"1 meter" forState:UIControlStateNormal];
-        self.distanceNumber = @"40";
+//        self.distanceNumber = @"40";
+//        self.distanceNumber = @"<S40>";
+//        self.distanceNumberData = [self.distanceNumber dataUsingEncoding:NSUTF8StringEncoding];
+        uint8_t byte[5];
+        byte[0]='<';
+        byte[1]='S';
+        byte[2]='4';
+        byte[3]='0';
+        byte[4]='>';
+        self.distanceNumberData = [NSData dataWithBytes:byte length:1];
+    
         [self dismissGridMenuAnimated:YES completion:nil];
     }
-    else if ([item.title isEqualToString:@"Two meters"])
+    else if ([item.title isEqualToString:@"Two \r meters"])
     {
         [self.hyveDistanceButton setTitle:@"2 meters" forState:UIControlStateNormal];
-        self.distanceNumber = @"46";
+//        self.distanceNumber = @"46";
+//        self.distanceNumber = @"<S46>";
+//        self.distanceNumberData = [self.distanceNumber dataUsingEncoding:NSUTF8StringEncoding];
+        
+        uint8_t byte[5];
+        byte[0]='<';
+        byte[1]='S';
+        byte[2]='4';
+        byte[3]='6';
+        byte[4]='>';
+        self.distanceNumberData = [NSData dataWithBytes:byte length:1];
+        
         [self dismissGridMenuAnimated:YES completion:nil];
     }
-    else if ([item.title isEqualToString:@"Four meters"])
+    else if ([item.title isEqualToString:@"Four \r meters"])
     {
         [self.hyveDistanceButton setTitle:@"4 meters" forState:UIControlStateNormal];
-        self.distanceNumber = @"52";
+//        self.distanceNumber = @"52";
+//        self.distanceNumber = @"0x3C5335323E";
+//        self.distanceNumberData = [self.distanceNumber dataUsingEncoding:NSUTF8StringEncoding];
+        self.distanceNumber = @"<S52>";
+        
+        uint8_t byte[5];
+        byte[0]='<';
+        byte[1]='S';
+        byte[2]='5';
+        byte[3]='2';
+        byte[4]='>';
+        self.distanceNumberData = [NSData dataWithBytes:byte length:1];
+        
+//        self.distanceNumberData = [self.distanceNumber dataUsingEncoding:NSASCIIStringEncoding];
+        NSData *utf8 = [self.distanceNumber dataUsingEncoding:NSUTF8StringEncoding];
+//        self.distanceNumberData = [self.distanceNumber dataUsingEncoding:NSASCIIStringEncoding];
+        
+        NSLog(@"self.distanceNumberData %@ \r\r utf8 %@", self.distanceNumberData, utf8);
+        
         [self dismissGridMenuAnimated:YES completion:nil];
     }
-    else if ([item.title isEqualToString:@"Eight meters"])
+    else if ([item.title isEqualToString:@"Eight \r meters"])
     {
         [self.hyveDistanceButton setTitle:@"8 meters" forState:UIControlStateNormal];
-        self.distanceNumber = @"58";
+//        self.distanceNumber = @"58";
+//        self.distanceNumber = @"<S58>";
+//        self.distanceNumberData = [self.distanceNumber dataUsingEncoding:NSUTF8StringEncoding];
+        
+        uint8_t byte[5];
+        byte[0]='<';
+        byte[1]='S';
+        byte[2]='5';
+        byte[3]='8';
+        byte[4]='>';
+        self.distanceNumberData = [NSData dataWithBytes:byte length:1];
+        
         [self dismissGridMenuAnimated:YES completion:nil];
     }
-    else if ([item.title isEqualToString:@"Sixteen meters"])
+    else if ([item.title isEqualToString:@"Sixteen \r meters"])
     {
         [self.hyveDistanceButton setTitle:@"16 meters" forState:UIControlStateNormal];
-        self.distanceNumber = @"64";
+//        self.distanceNumber = @"64";
+//        self.distanceNumber = @"<S64>";
+//        self.distanceNumberData = [self.distanceNumber dataUsingEncoding:NSUTF8StringEncoding];
+        
+        uint8_t byte[5];
+        byte[0]='<';
+        byte[1]='S';
+        byte[2]='6';
+        byte[3]='4';
+        byte[4]='>';
+        self.distanceNumberData = [NSData dataWithBytes:byte length:1];
+        
         [self dismissGridMenuAnimated:YES completion:nil];
     }
 }
@@ -441,7 +503,7 @@
     NSLog(@"Central has connected to peripheral: %@ with UUID: %@",peripheral,peripheral.identifier);
     peripheral.delegate = self;
     [peripheral discoverServices:nil];
-    
+
 
 }
 
@@ -465,12 +527,12 @@
 #pragma mark - peripheral delegate
 -(void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
 {
+    self.peripheral = peripheral;
     for (CBService *service in peripheral.services)
     {
         NSLog(@"Discovered service %@ CBUUID= %@", service, service.UUID);
-        
 
-        [peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:@"FFF4"]] forService:service];
+        [self.peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:@"FFF6"]] forService:service];
 //       [peripheral discoverCharacteristics:nil forService:service];
     }
 }
@@ -480,12 +542,21 @@
     for (CBCharacteristic *characteristic in service.characteristics)
     {
             CBUUID *characteristicUUID = characteristic.UUID;
-            CBUUID *characteristicUUIDString = [CBUUID UUIDWithString:@"FFF4"];
+            CBUUID *characteristicUUIDString = [CBUUID UUIDWithString:@"FFF6"];
     
             if ([characteristicUUID isEqual:characteristicUUIDString])
             {
+//                CBMutableCharacteristic *proximity = [[CBMutableCharacteristic alloc] initWithType:characteristic.UUID properties:CBCharacteristicPropertyWrite value:self.distanceNumberData permissions:CBAttributePermissionsWriteable];
+//                [peripheral writeValue:self.distanceNumberData forCharacteristic:proximity type:CBCharacteristicWriteWithResponse];
+                
+//            [self.peripheral writeValue:self.distanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+                
+                
+//                CBMutableCharacteristic *proximity = [[CBMutableCharacteristic alloc] initWithType:characteristic.UUID properties:CBCharacteristicPropertyWrite value:nil permissions:CBAttributePermissionsWriteable];
+//                [self.peripheral setNotifyValue:YES forCharacteristic:characteristic];
+                [self.peripheral writeValue:self.distanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
                 [peripheral readValueForCharacteristic:characteristic];
-    
+                
 //                NSUInteger bytes = [self.distanceNumber lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
 //                NSLog(@"bytes of self.distanceNumber is %i", bytes);
 //    
@@ -584,9 +655,11 @@
     }
     else
     {
+        NSLog(@"didUpdateValueForCharacteristic : %@ \r characteristic.value %@ \r characteristic.descriptors %@ \r characteristic.properties %lu", characteristic, characteristic.value, characteristic.descriptors, characteristic.properties );
+        
         /*
         NSData *peripheralValue = characteristic.value;
-        NSData *decipherPeripheralValueData = [NSData dataWithBytes:[peripheralValue bytes] length:[peripheralValue length]];
+        NSData *decipherPeripheralValueData = [NSData dataWithByte%lu[peripheralValue bytes] length:[peripheralValue length]];
         const uint8_t *bytes = [decipherPeripheralValueData bytes];
         int value = bytes[0];
         NSLog(@"value of bytes : %i", value);
@@ -623,7 +696,7 @@
     }
     else
     {
-        NSLog(@"didWriteValueForCharacteristic : %@", characteristic);
+        NSLog(@"didWriteValueForCharacteristic : %@ \r characteristic.value %@ \r characteristic.descriptors %@ \r characteristic.properties %u", characteristic, characteristic.value, characteristic.descriptors, characteristic.properties );
     }
 }
 
@@ -678,116 +751,5 @@
     [self.view setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + 80, self.view.frame.size.width, self.view.frame.size.height)];
     [UIView commitAnimations];
 }
-
-
-
-//#pragma mark - slider
-//-(void)stylingDistanceSliderLabel
-//{
-//    self.distanceSliderLabel.text = @"Maximum proximity of Hyve";
-//    self.distanceSliderLabel.font = [UIFont fontWithName:@"AvenirLTStd-Medium" size:15];
-//}
-//
-//-(void)configureAndStyleDistanceSlider
-//{
-//    /*
-//     1m = -40dB, 2m = -46dB, 4m = -52dB, 8m = -58dB, 16m = -64dB
-//     */
-//    
-//    self.valuesOfDistanceSlider = @[@(1), @(2), @(4), @(8), @(16)];
-//    NSInteger numberOfDistanceSliderColumns = ((float)[self.valuesOfDistanceSlider count] -1 );
-//    
-//    self.distanceSlider.minimumValue = 1.0;
-//    self.distanceSlider.maximumValue = numberOfDistanceSliderColumns;
-//    self.distanceSlider.continuous = YES;
-//    [self.distanceSlider addTarget:self action:@selector(valueOfDistanceSliderChanged) forControlEvents:UIControlEventValueChanged];
-//    
-//}
-//
-//-(void)valueOfDistanceSliderChanged
-//{
-//    NSUInteger index = (NSUInteger)(self.distanceSlider.value + 0.5);
-//    [self.distanceSlider setValue:index animated:NO];
-//    NSNumber *number = self.valuesOfDistanceSlider[index];
-//    
-//    int theInt = [number intValue];
-//    //    uint8_t byte[5];
-//    
-//    switch (theInt) {
-//        case 1:
-//            NSLog(@"1");
-//            //            self.distanceNumber = [NSString stringWithFormat:@"<S40>"];
-//            self.distanceNumber = @"40";
-//            
-//            //            byte[0] = '<';
-//            //            byte[1] = 'S';
-//            //            byte[2] = '4';
-//            //            byte[3] = '0';
-//            //            byte[4] = '>';
-//            //            self.distanceNumberData = [NSData dataWithBytes:byte length:1];
-//            
-//            break;
-//        case 2:
-//            NSLog(@"2");
-//            //            self.distanceNumber = [NSString stringWithFormat:@"<S46>"];
-//            self.distanceNumber = @"46";
-//            
-//            //            byte[0] = '<';
-//            //            byte[1] = 'S';
-//            //            byte[2] = '4';
-//            //            byte[3] = '6';
-//            //            byte[4] = '>';
-//            //            self.distanceNumberData = [NSData dataWithBytes:byte length:1];
-//            
-//            break;
-//        case 4:
-//            NSLog(@"4");
-//            //            self.distanceNumber = [NSString stringWithFormat:@"<S52>"];
-//            self.distanceNumber = @"52";
-//            
-//            //            byte[0] = '<';
-//            //            byte[1] = 'S';
-//            //            byte[2] = '5';
-//            //            byte[3] = '2';
-//            //            byte[4] = '>';
-//            //            self.distanceNumberData = [NSData dataWithBytes:byte length:1];
-//            
-//            break;
-//        case 8:
-//            NSLog(@"8");
-//            //            self.distanceNumber = [NSString stringWithFormat:@"<S58>"];
-//            self.distanceNumber = @"58";
-//            
-//            //            byte[0] = '<';
-//            //            byte[1] = 'S';
-//            //            byte[2] = '5';
-//            //            byte[3] = '8';
-//            //            byte[4] = '>';
-//            //            self.distanceNumberData = [NSData dataWithBytes:byte length:1];
-//            
-//            break;
-//        case 16:
-//            NSLog(@"16");
-//            //            self.distanceNumber = [NSString stringWithFormat:@"<S64>"];
-//            self.distanceNumber = @"64";
-//            
-//            //            byte[0] = '<';
-//            //            byte[1] = 'S';
-//            //            byte[2] = '6';
-//            //            byte[3] = '4';
-//            //            byte[4] = '>';
-//            //            self.distanceNumberData = [NSData dataWithBytes:byte length:1];
-//            
-//        default:
-//            break;
-//    }
-//    
-//    self.distanceSliderLabel.text = [NSString stringWithFormat:@"Maximum proximity of Hyve is %@ m", number];
-//    self.distanceSliderLabel.numberOfLines = 0;
-//}
-
-
-
-
 
 @end

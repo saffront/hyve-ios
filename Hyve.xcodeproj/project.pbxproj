@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2538EA530330605DE533ADA8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 066CD1A226374AD31A58ED36 /* libPods.a */; };
+		3B1224641ACBF731005EF52F /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1224631ACBF731005EF52F /* User.m */; };
 		3B1A462B1AC564C900A97EC6 /* FirstChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1A462A1AC564C900A97EC6 /* FirstChildViewController.m */; };
 		3B1A462E1AC564EB00A97EC6 /* SecondChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1A462D1AC564EB00A97EC6 /* SecondChildViewController.m */; };
 		3B1A46311AC5650A00A97EC6 /* ThirdChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1A46301AC5650A00A97EC6 /* ThirdChildViewController.m */; };
@@ -64,6 +65,8 @@
 /* Begin PBXFileReference section */
 		066CD1A226374AD31A58ED36 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1428B76772D908D549699802 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		3B1224621ACBF731005EF52F /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		3B1224631ACBF731005EF52F /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		3B1A46291AC564C900A97EC6 /* FirstChildViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstChildViewController.h; sourceTree = "<group>"; };
 		3B1A462A1AC564C900A97EC6 /* FirstChildViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstChildViewController.m; sourceTree = "<group>"; };
 		3B1A462C1AC564EB00A97EC6 /* SecondChildViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondChildViewController.h; sourceTree = "<group>"; };
@@ -309,6 +312,8 @@
 		3BFDD94C1AA852EA00849EDA /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3B1224621ACBF731005EF52F /* User.h */,
+				3B1224631ACBF731005EF52F /* User.m */,
 				3BFDD9491AA852E200849EDA /* Hyve.h */,
 				3BFDD94A1AA852E200849EDA /* Hyve.m */,
 			);
@@ -492,6 +497,7 @@
 				3B6DC72D1ABFAA7C0018C0AA /* SignUpViewController.m in Sources */,
 				3B1A46341AC5652900A97EC6 /* FourthChildViewController.m in Sources */,
 				3B1FD75C1AC2CB7E0079A0C0 /* HyveListTableViewCell.m in Sources */,
+				3B1224641ACBF731005EF52F /* User.m in Sources */,
 				3B62D1F71AC5065B001AE69E /* POPSegue.m in Sources */,
 				3B5772C81AA7E45E009FC171 /* DashboardViewController.m in Sources */,
 				3B74B6B81AAD547900A0B50F /* HyveDetailsViewController.m in Sources */,

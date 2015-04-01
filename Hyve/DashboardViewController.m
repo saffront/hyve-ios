@@ -165,7 +165,7 @@
     
     [self.centralManager scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@NO}];
     
-    [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(timeoutScanningForHyve) userInfo:nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(timeoutScanningForHyve) userInfo:nil repeats:NO];
 }
 
 -(void)timeoutHyveDiscovery

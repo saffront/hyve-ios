@@ -38,6 +38,8 @@
     [self stylingLoginButtons];
     [self stylingLabelDescription];
     [self stylingHyveLogoImageView];
+    
+    
 
 }
 

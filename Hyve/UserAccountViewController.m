@@ -7,6 +7,7 @@
 //
 
 #import "UserAccountViewController.h"
+#import "User.h"
 #import <Reachability.h>
 #import <AFNetworking.h>
 #import <DKCircleButton.h>
@@ -22,6 +23,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *backButton;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
 @property (strong, nonatomic) IBOutlet UIButton *logoutButton;
+@property (strong, nonatomic) User *user;
 
 
 @end
@@ -31,11 +33,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    [self stylingBackgroundView];
-    [self connectToHyve];
+
     [self stylingUserAvatarButton];
-    [self stylingUsernameTextField];
-    [self stylingEmailTextField];
-    [self stylingPasswordTextField];
+
     [self stylingEditOrSaveProfileButton];
     [self stylingBackButton];
     [self addingToolbarToKeyboard];
@@ -46,7 +46,13 @@
     self.email.userInteractionEnabled = NO;
     self.userAvatar.userInteractionEnabled = NO;
     self.password.delegate = self;
-    self.email.delegate = self;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self connectToHyve];
 }
 
 #pragma mark - connect to Hyve 
@@ -84,6 +90,28 @@
     [manager GET:hyveUserAccountString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSLog(@"userAccount responseObject \r\r %@", responseObject);
+        
+        NSDictionary *user = [responseObject valueForKeyPath:@"user"];
+        self.user = [User new];
+        self.user.provider = [[user valueForKeyPath:@"authentications.provider"] objectAtIndex:0];
+        self.user.avatarURL = [user valueForKeyPath:@"avatar.avatar.url"];
+        self.user.email = [user valueForKeyPath:@"email"];
+        self.user.username = [user valueForKeyPath:@"username"];
+        self.user.password = [user valueForKeyPath:@"password"];
+        
+        if ([self.user.provider isEqualToString:@"facebook"] || [self.user.provider isEqualToString:@"google"])
+        {
+            self.password.alpha = 0;
+        }
+        else
+        {
+            [self stylingPasswordTextField:self.user];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self stylingUsernameTextField:self.user];
+            [self stylingEmailTextField:self.user];
+        });
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
@@ -199,9 +227,9 @@
 }
 
 #pragma mark - styling username text field
--(void)stylingUsernameTextField
+-(void)stylingUsernameTextField:(User*)user
 {
-    self.username.text = @"Jennifer Lawrence";
+    self.username.text = user.username;
     self.username.backgroundColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:0.8];
     self.username.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0);
     self.username.font = [UIFont fontWithName:@"OpenSans" size:18];
@@ -210,9 +238,9 @@
 }
 
 #pragma mark - styling email text field
--(void)stylingEmailTextField
+-(void)stylingEmailTextField:(User*)user
 {
-    self.email.text = @"jlaw@gmail.com";
+    self.email.text = user.email;
     self.email.backgroundColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:0.8];
     self.email.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0);
     self.email.font = [UIFont fontWithName:@"OpenSans" size:18];
@@ -220,17 +248,15 @@
 }
 
 #pragma mark - styling password text field
--(void)stylingPasswordTextField
+-(void)stylingPasswordTextField:(User*)user
 {
-    self.password.text = @"Jennifer Lawrence";
+    self.password.text = user.password;
     self.password.secureTextEntry = YES;
     self.password.backgroundColor = [UIColor colorWithRed:0.70 green:0.70 blue:0.70 alpha:0.8];
     self.password.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0);
     self.password.font = [UIFont fontWithName:@"OpenSans" size:18];
     self.password.textColor = [UIColor blackColor];
 }
-
-
 
 #pragma mark - styling editProfileButton
 -(void)stylingEditOrSaveProfileButton
@@ -263,8 +289,52 @@
         self.password.userInteractionEnabled = NO;
         self.email.userInteractionEnabled = NO;
         self.userAvatar.userInteractionEnabled = NO;
+        
+//        NSString *email = [responseObject valueForKeyPath:@"info.email"];
+//        NSString *uid = [responseObject valueForKeyPath:@"uid"];
+//        NSString *provider = [responseObject valueForKeyPath:@"provider"];
+//        NSString *first_name = [responseObject valueForKeyPath:@"info.first_name"];
+//        NSString *last_name = [responseObject valueForKeyPath:@"extra.raw_info.last_name"];
+//        NSString *username = [NSString stringWithFormat:@"%@ %@", first_name, last_name];
+//        NSString *usernameWithoutWhiteSpace = [[username stringByReplacingOccurrencesOfString:@" " withString:@""]lowercaseString];
+//        
+//        NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",uid,@"uid",provider,@"provider",first_name,@"first_name",last_name,@"last_name",usernameWithoutWhiteSpace ,@"username", nil];
+        
+        NSString *email = self.email.text;
+        NSString *username = self.username.text;
+        NSString *password = self.password.text;
+        
+        
+        if ([self.user.provider isEqualToString:@"facebook"] || [self.user.provider isEqualToString:@"google"])
+        {
+            NSString *password = @"hello123";
+            NSString *password_confirmation = @"hello123";
+            
+//            NSDictionary *savedInfoDictionary = [NSDictionary dictionaryWithObjectsAndKeys:email,@"email",
+//                                                        username,@"username",password,@"password",password_confirmation,@"password_confirmation",nil];
+            
+            NSDictionary *savedInfoDictionary = @{@"email": email,
+                                                  @"password":password,
+                                                  @"username": username,
+                                                  @"password_confirmation": password_confirmation};
+            
+            NSDictionary *savedUserProfileInfoDictionary = @{@"user": savedInfoDictionary};
+            NSDictionary *user = [[NSDictionary alloc] initWithDictionary:savedUserProfileInfoDictionary];
+            
+            [self updateProfileToHyve:savedUserProfileInfoDictionary];
+            
+        }
+        else //email login
+        {
+            NSMutableDictionary *savedInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",
+                                                        username,@"username",
+                                                        password,@"password",nil];
+            
+            [self updateProfileToHyve:savedInfoDictionary];
+        }
     }
 }
+
 
 #pragma mark - logout button
 -(void)stylingLogoutButton
@@ -284,6 +354,52 @@
     [self presentViewController:wvc animated:YES completion:nil];
     
 }
+
+
+#pragma mark - update profile to Hyve
+-(void)updateProfileToHyve:(NSDictionary*)savedUserProfileInfo
+{
+    Reachability *reachability = [Reachability reachabilityWithHostname:@"www.google.com"];
+    
+    if (reachability.isReachable)
+    {
+        [self savingUserProfileEditField:savedUserProfileInfo];
+    }
+    else
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+    
+}
+
+-(void)savingUserProfileEditField:(NSDictionary*)savedUserInfo
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *api_token = [userDefaults objectForKey:@"api_token"];
+    
+    NSString *hyveUserAccountString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/account"];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+    
+    [manager PATCH:hyveUserAccountString parameters:savedUserInfo success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"PATCH UserInfo succesful : \r %@", responseObject);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+
+        NSLog(@"error in PATCH: \r %@", error);
+        
+    }];
+}
+
 
 -(void)clearToken
 {

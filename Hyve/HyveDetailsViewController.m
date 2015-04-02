@@ -708,9 +708,9 @@
 //        NSMutableDictionary *pairedHyveDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:hyve.peripheralName,@"name",hyve.peripheralUUIDString,@"uuid", hyve.peripheralRSSI, @"distance",nil];
 //        [self sendingPairedHyveToBackend:pairedHyveDictionary];
         
-        NSDictionary *hyveDictionary = @{hyveName: @"name",
-                                         hyveProximity: @"distance",
-                                         hyveUUIDString: @"uuid"};
+        NSDictionary *hyveDictionary = @{@"name":hyveName,
+                                         @"distance":hyveProximity,
+                                         @"uuid":hyveUUIDString};
         
         [self connectToHyve:hyveDictionary];
     }

@@ -45,6 +45,8 @@
     self.password.userInteractionEnabled = NO;
     self.email.userInteractionEnabled = NO;
     self.userAvatar.userInteractionEnabled = NO;
+    [self.userAvatar setContentMode:UIViewContentModeScaleAspectFill];
+    [self.userAvatar.imageView setContentMode:UIViewContentModeScaleAspectFill];
     self.password.delegate = self;
 }
 
@@ -109,6 +111,8 @@
             [self stylingUsernameTextField:self.user];
             [self stylingEmailTextField:self.user];
             [self.userAvatar setImage:avatarImageFromHyve forState:UIControlStateNormal];
+            
+            NSLog(@"self.userAvatar.imageview.image connectToHyve: %@", self.userAvatar.imageView.image);
         });
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -170,6 +174,7 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.userAvatar setImage:resizedImageTakenByUser forState:UIControlStateNormal];
+            NSLog(@"self.userAvatar.image didFinishPickingMedia %@", self.userAvatar.imageView.image);
             UIImageWriteToSavedPhotosAlbum(imageTakenByUser, nil, nil, nil);
         });
     });
@@ -303,7 +308,11 @@
         NSString *username = self.username.text;
         NSString *password = self.password.text;
         UIImage *avatarImage = self.userAvatar.imageView.image;
+        NSLog(@"avatarImage PATCH %@", self.userAvatar.imageView.image);
+        
         NSString *avatarImageString = [UIImagePNGRepresentation(avatarImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+        NSString *avatarImageStringInSixtyFour = [NSString stringWithFormat:@"data:image/png;base64, (%@)", avatarImageString];
+        
         
         if ([self.user.provider isEqualToString:@"facebook"] || [self.user.provider isEqualToString:@"google"])
         {
@@ -317,7 +326,7 @@
                                                   @"password":password,
                                                   @"username": username,
                                                   @"password_confirmation": password_confirmation,
-                                                  @"avatar": @{@"avatar":@{@"url":avatarImageString}}};
+                                                  @"avatar":avatarImageStringInSixtyFour};
             
             NSDictionary *savedUserProfileInfoDictionary = @{@"user": savedInfoDictionary};
             NSDictionary *user = [[NSDictionary alloc] initWithDictionary:savedUserProfileInfoDictionary];

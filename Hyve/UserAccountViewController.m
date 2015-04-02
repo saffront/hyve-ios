@@ -33,7 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    [self stylingBackgroundView];
-
+    [self connectToHyve];
     [self stylingUserAvatarButton];
 
     [self stylingEditOrSaveProfileButton];
@@ -46,13 +46,6 @@
     self.email.userInteractionEnabled = NO;
     self.userAvatar.userInteractionEnabled = NO;
     self.password.delegate = self;
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    [self connectToHyve];
 }
 
 #pragma mark - connect to Hyve 
@@ -98,6 +91,10 @@
         self.user.email = [user valueForKeyPath:@"email"];
         self.user.username = [user valueForKeyPath:@"username"];
         self.user.password = [user valueForKeyPath:@"password"];
+        self.user.avatarURLString = [user valueForKeyPath:@"avatar.avatar.url"];
+        
+        NSData *userAvatarURLData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.user.avatarURLString]];
+        UIImage *avatarImageFromHyve = [UIImage imageWithData:userAvatarURLData];
         
         if ([self.user.provider isEqualToString:@"facebook"] || [self.user.provider isEqualToString:@"google"])
         {
@@ -111,6 +108,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self stylingUsernameTextField:self.user];
             [self stylingEmailTextField:self.user];
+            [self.userAvatar setImage:avatarImageFromHyve forState:UIControlStateNormal];
         });
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -172,6 +170,7 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.userAvatar setImage:resizedImageTakenByUser forState:UIControlStateNormal];
+            UIImageWriteToSavedPhotosAlbum(imageTakenByUser, nil, nil, nil);
         });
     });
 }
@@ -303,7 +302,8 @@
         NSString *email = self.email.text;
         NSString *username = self.username.text;
         NSString *password = self.password.text;
-        
+        UIImage *avatarImage = self.userAvatar.imageView.image;
+        NSString *avatarImageString = [UIImagePNGRepresentation(avatarImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
         
         if ([self.user.provider isEqualToString:@"facebook"] || [self.user.provider isEqualToString:@"google"])
         {
@@ -316,7 +316,8 @@
             NSDictionary *savedInfoDictionary = @{@"email": email,
                                                   @"password":password,
                                                   @"username": username,
-                                                  @"password_confirmation": password_confirmation};
+                                                  @"password_confirmation": password_confirmation,
+                                                  @"avatar": @{@"avatar":@{@"url":avatarImageString}}};
             
             NSDictionary *savedUserProfileInfoDictionary = @{@"user": savedInfoDictionary};
             NSDictionary *user = [[NSDictionary alloc] initWithDictionary:savedUserProfileInfoDictionary];

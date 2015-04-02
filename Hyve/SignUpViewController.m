@@ -276,8 +276,9 @@
             NSString *last_name = [responseObject valueForKeyPath:@"extra.raw_info.last_name"];
             NSString *username = [NSString stringWithFormat:@"%@ %@", first_name, last_name];
             NSString *usernameWithoutWhiteSpace = [[username stringByReplacingOccurrencesOfString:@" " withString:@""]lowercaseString];
+            NSString *image = [responseObject valueForKeyPath:@"info.image"];
             
-            NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",uid,@"uid",provider,@"provider",first_name,@"first_name",last_name,@"last_name",usernameWithoutWhiteSpace ,@"username", nil];
+            NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",uid,@"uid",provider,@"provider",first_name,@"first_name",last_name,@"last_name",usernameWithoutWhiteSpace ,@"username", image,@"avatar",nil];
             
             [self registerUserToHyve:userInfoDictionary];
             

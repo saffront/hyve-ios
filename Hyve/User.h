@@ -14,5 +14,6 @@
 @property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) NSURL *avatarURL;
 @property (strong, nonatomic) NSString *provider;
+@property (strong, nonatomic) NSString *avatarURLString;
 
 @end

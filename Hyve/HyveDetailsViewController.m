@@ -7,6 +7,8 @@
 //
 
 #import "HyveDetailsViewController.h"
+#import <AFNetworking.h>
+#import <Reachability.h>
 #import <CNPGridMenu.h>
 #import <DKCircleButton.h>
 #import <POP.h>
@@ -697,7 +699,63 @@
     else
     {
         NSLog(@"didWriteValueForCharacteristic : %@ \r characteristic.value %@ \r characteristic.descriptors %@ \r characteristic.properties %u", characteristic, characteristic.value, characteristic.descriptors, characteristic.properties );
+        
+        NSString *hyveName = self.hyveNameTextField.text;
+        NSString *hyveProximity = self.hyveDistanceButton.titleLabel.text;
+        UIImage *hyveImage = self.hyveImageButton.imageView.image;
+        NSString *hyveUUIDString = peripheral.identifier.UUIDString;
+        
+//        NSMutableDictionary *pairedHyveDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:hyve.peripheralName,@"name",hyve.peripheralUUIDString,@"uuid", hyve.peripheralRSSI, @"distance",nil];
+//        [self sendingPairedHyveToBackend:pairedHyveDictionary];
+        
+        NSDictionary *hyveDictionary = @{hyveName: @"name",
+                                         hyveProximity: @"distance",
+                                         hyveUUIDString: @"uuid"};
+        
+        [self connectToHyve:hyveDictionary];
     }
+}
+
+#pragma mark - update hyves details 
+-(void)connectToHyve:(NSDictionary*)hyveDetails
+{
+    Reachability *reachability = [Reachability reachabilityWithHostname:@"www.google.com"];
+    
+    if (reachability.isReachable)
+    {
+        [self updateHyveDetails:hyveDetails];
+    }
+    else
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+}
+
+-(void)updateHyveDetails:(NSDictionary*)hyveDetails
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *api_token = [userDefaults objectForKey:@"api_token"];
+    
+    NSString *hyveUserAccountString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves"];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+    
+    [manager PATCH:hyveUserAccountString parameters:hyveDetails success:^(AFHTTPRequestOperation *operation, id responseObject) {
+       
+        NSLog(@"responseObject: \r %@", responseObject);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"Error: \r %@ \r localized description: %@", error, [error localizedDescription]);
+    }];
 }
 
 #pragma mark - touches began

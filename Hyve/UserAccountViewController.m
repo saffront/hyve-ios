@@ -90,26 +90,34 @@
         self.user.avatarURL = [user valueForKeyPath:@"avatar.avatar.url"];
         self.user.email = [user valueForKeyPath:@"email"];
         self.user.username = [user valueForKeyPath:@"username"];
-        self.user.password = [user valueForKeyPath:@"password"];
+//        self.user.password = [user valueForKeyPath:@"password"];
         self.user.avatarURLString = [user valueForKeyPath:@"avatar.avatar.url"];
         
-        NSData *userAvatarURLData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.user.avatarURLString]];
-        UIImage *avatarImageFromHyve = [UIImage imageWithData:userAvatarURLData];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        self.user.password = [userDefaults objectForKey:@"userPassword"];
         
         if ([self.user.provider isEqualToString:@"facebook"] || [self.user.provider isEqualToString:@"google"])
         {
             self.password.alpha = 0;
+            NSData *userAvatarURLData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.user.avatarURLString]];
+            UIImage *avatarImageFromHyve = [UIImage imageWithData:userAvatarURLData];
+            [self.userAvatar setImage:avatarImageFromHyve forState:UIControlStateNormal];
         }
         else
         {
             [self stylingPasswordTextField:self.user];
+            
+            if (![self.user.avatarURLString isEqualToString:@""])
+            {
+                NSData *userAvatarURLData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.user.avatarURLString]];
+                UIImage *avatarImageFromHyve = [UIImage imageWithData:userAvatarURLData];
+                [self.userAvatar setImage:avatarImageFromHyve forState:UIControlStateNormal];
+            }
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self stylingUsernameTextField:self.user];
             [self stylingEmailTextField:self.user];
-            [self.userAvatar setImage:avatarImageFromHyve forState:UIControlStateNormal];
-            
         });
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -315,16 +323,12 @@
         }
         else //email login
         {
-
-            UIImage *defaultUserImageViaEmailLogin = [UIImage imageNamed:@"jlaw"];
-            NSString *defaultUserImageViaEmailLoginString = [UIImagePNGRepresentation(defaultUserImageViaEmailLogin) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-            NSString *userImageEmailLoginStringInSixtyFour = [NSString stringWithFormat:@"data:image/png;base64, (%@)", defaultUserImageViaEmailLoginString];
             
             NSDictionary *savedInfoDictionaryViaEmailLogin = @{@"email": email,
                                                                @"username": username,
                                                                @"password": password,
                                                                @"password_confirmation": password,
-                                                               @"avatar": userImageEmailLoginStringInSixtyFour};
+                                                               @"avatar": avatarImageStringInSixtyFour};
             
             NSDictionary *savedUserProfileInfoDictionaryViaEmailLogin = @{@"user":savedInfoDictionaryViaEmailLogin};
             

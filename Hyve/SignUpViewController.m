@@ -220,6 +220,13 @@
     NSUInteger passwordCharacterCount = [password length];
     NSString *passwordConfirmation = self.passwordConfirmationTextField.text;
     
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:password forKey:@"userPassword"];
+    
+    UIImage *defaultUserProfileImage = [UIImage imageNamed:@"jlaw"];
+    NSString *avatarImageString = [UIImagePNGRepresentation(defaultUserProfileImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    NSString *avatarImageStringInSixtyFour = [NSString stringWithFormat:@"data:image/png;base64, (%@)", avatarImageString];
+    
     if ([last_name isEqualToString:@""] ||
         [first_name isEqualToString:@""] ||
         [email isEqualToString:@""] ||
@@ -238,7 +245,7 @@
                                       usernameWithoutWhiteSpace,@"username",
                                       password,@"password",
                                       passwordConfirmation, @"password_confirmation",
-                                                   nil];
+                                      nil];
         
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{

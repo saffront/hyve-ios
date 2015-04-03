@@ -166,6 +166,15 @@
                last_name,@"last_name",
                usernameWithoutWhiteSpace ,@"username",
                image,@"avatar",nil];
+            
+            //without image, s3 issue. use the above when it's fixed
+//            NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",
+//                                                       uid,@"uid",
+//                                                       provider,@"provider",
+//                                                       first_name,@"first_name",
+//                                                       last_name,@"last_name",
+//                                                       usernameWithoutWhiteSpace ,@"username",
+//                                                       nil];
 
             [self registerUserToHyve:userInfoDictionary];
             

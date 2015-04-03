@@ -13,6 +13,8 @@
 #import "HyveDetailsViewController.h"
 #import "Hyve.h"
 #import <AFBlurSegue.h>
+#import <AFNetworking.h>
+#import <Reachability.h>
 #import <BlurryModalSegue.h>
 #import <QuartzCore/QuartzCore.h>
 #import <POP.h>
@@ -36,10 +38,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+
     [self stylingBackgroundView];
     [self stylingNavigationBar];
     [self stylingHyveListTableView];
     [self settingHeaderForHyveListTable];
+
 
 }
 
@@ -52,6 +56,7 @@
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor clearColor];
+    [self connectToHyve];
 }
 
 #pragma mark - styling navigation bar
@@ -59,6 +64,101 @@
 {
     [self.navigationItem setHidesBackButton:YES];
 }
+
+
+#pragma mark - retrieve user info and paired Hyve
+-(void)connectToHyve
+{
+    Reachability *reachability = [Reachability reachabilityWithHostName:@"www.google.com"];
+    
+    if (reachability.isReachable)
+    {
+        [self retrieveUserInfoAndPairedHyve];
+    }
+    else
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+}
+
+-(void)retrieveUserInfoAndPairedHyve
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *api_token = [userDefaults objectForKey:@"api_token"];
+    
+    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/account"];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+    
+    [manager GET:hyveURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"responseObject retrieveUserInfoAndPairedHyve: \r\r %@", responseObject);
+        
+        NSArray *hyvesArray = [responseObject valueForKeyPath:@"user.hyves"];
+        
+        for (NSDictionary *pairedHyves in hyvesArray)
+        {
+            Hyve *hyve = [Hyve new];
+            hyve.peripheralName = [pairedHyves valueForKeyPath:@"name"];
+            hyve.peripheralUUIDString = [pairedHyves valueForKeyPath:@"uuid"];
+            hyve.peripheralRSSI = [pairedHyves valueForKeyPath:@"distance"];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"error with retrieveUserInfoAndPairedHyve: \r\r %@ \r localizedDescription: \r %@", error, [error localizedDescription]);
+        
+    }];
+    
+    
+/*
+    NSString *hyveUserAccountString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/account"];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+    
+    [manager GET:hyveUserAccountString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+*/
+    
+//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//    NSString *api_token = [userDefaults objectForKey:@"api_token"];
+//    
+//    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves"];
+//    
+//    NSURL *url = [NSURL URLWithString:hyveURLString];
+//    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
+//    [urlRequest setHTTPMethod:@"GET"];
+//    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+//    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//    [urlRequest setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+//    
+//    [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+//        
+//        if (connectionError)
+//        {
+//            NSLog(@"Error found %@ \r localizedDescriptionError %@", connectionError, [connectionError localizedDescription]);
+//        }
+//        else
+//        {
+//            NSDictionary *theJSONDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+//            NSLog(@"theJSONDictionary : \r %@", theJSONDictionary);
+//        }
+//        
+//    }];
+}
+
 
 #pragma mark - styling background view
 -(void)stylingBackgroundView

@@ -14,5 +14,6 @@
 @property (strong, nonatomic) CBPeripheral *peripheral;
 @property (strong, nonatomic) CBCentralManager *centralManager;
 @property (strong, nonatomic) Hyve *hyve;
+@property (strong, nonatomic) CBCharacteristic *characteristic;
 
 @end

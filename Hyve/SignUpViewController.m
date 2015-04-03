@@ -181,6 +181,7 @@
         {
             UITextField *textField = (UITextField*)theView;
             
+            [textField.layer pop_removeAllAnimations];
             if ([textField.text isEqualToString:@""])
             {
                 POPSpringAnimation *shakeEmptyTextField = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
@@ -278,7 +279,13 @@
             NSString *usernameWithoutWhiteSpace = [[username stringByReplacingOccurrencesOfString:@" " withString:@""]lowercaseString];
             NSString *image = [responseObject valueForKeyPath:@"info.image"];
             
-            NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",uid,@"uid",provider,@"provider",first_name,@"first_name",last_name,@"last_name",usernameWithoutWhiteSpace ,@"username", image,@"avatar",nil];
+            NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",
+               uid,@"uid",
+               provider,@"provider",
+               first_name,@"first_name",
+               last_name,@"last_name",
+               usernameWithoutWhiteSpace ,@"username",
+               image,@"avatar",nil];
             
             [self registerUserToHyve:userInfoDictionary];
             
@@ -312,6 +319,8 @@
 
 -(void)loginWithGooglePlus
 {
+    
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     GPPSignIn *signIn = [GPPSignIn sharedInstance];
     signIn.shouldFetchGooglePlusUser = YES;
     signIn.shouldFetchGoogleUserEmail = YES;
@@ -348,14 +357,24 @@
              {
                  //                NSLog(@"person display name: %@ \r person.aboutMe %@ \r birthday %@ \r gender: %@ \r familyName: %@ \r givenName %@ \r identifier %@ \r emails: %@", person.displayName, person.aboutMe, person.birthday, person.gender, person.name.familyName, person.name.givenName, person.identifier, [GPPSignIn sharedInstance].authentication.userEmail);
                  
+                 
+                 
                  NSString *email = [GPPSignIn sharedInstance].authentication.userEmail;
                  NSString *uid = person.identifier;
                  NSString *first_name = person.name.givenName;
                  NSString *last_name = person.name.familyName;
                  NSString *usernameWithoutWhiteSpace = [[NSString stringWithFormat:@"%@%@",first_name,last_name] lowercaseString];
+                 NSString *imageURLString = person.image.url;
                  NSString *provider = @"google";
                  
-                 NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",uid,@"uid",provider,@"provider",first_name,@"first_name",last_name,@"last_name",usernameWithoutWhiteSpace ,@"username", nil];
+                 NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",
+                                                  uid,@"uid",
+                                                  provider,@"provider",
+                                                  first_name,@"first_name",
+                                                  last_name,@"last_name",
+                                                  usernameWithoutWhiteSpace,@"username",
+                                                  imageURLString, @"avatar",nil];
+                 
                  [self registerUserToHyve:userInfoDictionary];
              }
          }];
@@ -390,31 +409,14 @@
         
         [self performSegueWithIdentifier:@"ToDashboardVCFromSignUp" sender:nil];
         
-//        [self checkingForFirstTimeUsers];
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"error %@ \r \r error localized:%@", error, [error localizedDescription]);
     }];
 }
-
-//#pragma mark - first time check
-//-(void)checkingForFirstTimeUsers
-//{
-//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-//    NSString *checkingForFirstTime = [userDefaults objectForKey:@"firstTimeEnterApp"];
-//    if (checkingForFirstTime == nil)
-//    {
-////        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-////        WalkthroughViewController *wvc = [storyboard instantiateViewControllerWithIdentifier:@"WalkthroughViewController"];
-////        [self.navigationController presentViewController:wvc animated:YES completion:nil];
-//        [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
-//    }
-//    else
-//    {
-//        [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
-//    }
-//}
 
 #pragma mark - alert 
 -(void)alertMessageToUser:(NSString*)alertMessage

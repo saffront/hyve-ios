@@ -365,6 +365,7 @@
 //        self.distanceNumber = @"40";
 //        self.distanceNumber = @"<S40>";
 //        self.distanceNumberData = [self.distanceNumber dataUsingEncoding:NSUTF8StringEncoding];
+        
         uint8_t byte[5];
         byte[0]='<';
         byte[1]='S';
@@ -381,7 +382,8 @@
 //        self.distanceNumber = @"46";
 //        self.distanceNumber = @"<S46>";
 //        self.distanceNumberData = [self.distanceNumber dataUsingEncoding:NSUTF8StringEncoding];
-        
+
+/*
         uint8_t byte[5];
         byte[0]='<';
         byte[1]='S';
@@ -389,6 +391,11 @@
         byte[3]='6';
         byte[4]='>';
         self.distanceNumberData = [NSData dataWithBytes:byte length:1];
+*/
+        
+        self.distanceNumber = @"<S46>";
+        const char *s =[self.distanceNumber UTF8String];
+        self.distanceNumberData = [NSData dataWithBytes:s length:strlen(s)];
         
         [self dismissGridMenuAnimated:YES completion:nil];
     }
@@ -534,7 +541,7 @@
     {
         NSLog(@"Discovered service %@ CBUUID= %@", service, service.UUID);
 
-        [self.peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:@"FFF6"]] forService:service];
+        [self.peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:@"FFF1"]] forService:service];
 //       [peripheral discoverCharacteristics:nil forService:service];
     }
 }
@@ -544,10 +551,11 @@
     for (CBCharacteristic *characteristic in service.characteristics)
     {
             CBUUID *characteristicUUID = characteristic.UUID;
-            CBUUID *characteristicUUIDString = [CBUUID UUIDWithString:@"FFF6"];
+            CBUUID *characteristicUUIDString = [CBUUID UUIDWithString:@"FFF1"];
     
             if ([characteristicUUID isEqual:characteristicUUIDString])
             {
+                self.characteristic = characteristic;
 //                CBMutableCharacteristic *proximity = [[CBMutableCharacteristic alloc] initWithType:characteristic.UUID properties:CBCharacteristicPropertyWrite value:self.distanceNumberData permissions:CBAttributePermissionsWriteable];
 //                [peripheral writeValue:self.distanceNumberData forCharacteristic:proximity type:CBCharacteristicWriteWithResponse];
                 
@@ -556,6 +564,22 @@
                 
 //                CBMutableCharacteristic *proximity = [[CBMutableCharacteristic alloc] initWithType:characteristic.UUID properties:CBCharacteristicPropertyWrite value:nil permissions:CBAttributePermissionsWriteable];
 //                [self.peripheral setNotifyValue:YES forCharacteristic:characteristic];
+                
+                NSString *a = @"0x61";
+                NSData *aData = [a dataUsingEncoding:NSASCIIStringEncoding];
+                
+                uint8_t byte[1];
+                byte[0]='a';
+
+                self.distanceNumberData = [NSData dataWithBytes:byte length:1];
+                
+//                self.distanceNumber = @"0x61";
+//                const char *s =[self.distanceNumber UTF8String];
+//                self.distanceNumberData = [NSData dataWithBytes:s length:strlen(s)];
+                
+//                [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(sendingAToHyve) userInfo:nil repeats:NO];
+                
+                
                 [self.peripheral writeValue:self.distanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
                 [peripheral readValueForCharacteristic:characteristic];
                 
@@ -628,6 +652,25 @@
     }
 */
 }
+
+-(void)sendingAToHyve
+{
+    NSString *a = @"a";
+    NSData *aData = [a dataUsingEncoding:NSASCIIStringEncoding];
+    [self.peripheral writeValue:aData forCharacteristic:self.characteristic type:CBCharacteristicWriteWithResponse];
+    
+    [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(sendingXToHyve) userInfo:nil repeats:NO];
+
+}
+
+-(void)sendingXToHyve
+{
+    NSString *x = @"X";
+    NSData *xData = [x dataUsingEncoding:NSASCIIStringEncoding];
+    [self.peripheral writeValue:xData forCharacteristic:self.characteristic type:CBCharacteristicWriteWithResponse];
+    
+}
+
 
 -(NSData*) stringToBytes:(NSString*)distanceString
 {
@@ -712,7 +755,7 @@
                                          @"distance":hyveProximity,
                                          @"uuid":hyveUUIDString};
         
-        [self connectToHyve:hyveDictionary];
+//        [self connectToHyve:hyveDictionary];
     }
 }
 

@@ -159,7 +159,13 @@
             NSString *usernameWithoutWhiteSpace = [[username stringByReplacingOccurrencesOfString:@" " withString:@""]lowercaseString];
             NSString *image = [responseObject valueForKeyPath:@"info.image"];
 
-            NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",uid,@"uid",provider,@"provider",first_name,@"first_name",last_name,@"last_name",usernameWithoutWhiteSpace ,@"username", image,@"avatar",nil];
+            NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",
+               uid,@"uid",
+               provider,@"provider",
+               first_name,@"first_name",
+               last_name,@"last_name",
+               usernameWithoutWhiteSpace ,@"username",
+               image,@"avatar",nil];
 
             [self registerUserToHyve:userInfoDictionary];
             
@@ -257,9 +263,17 @@
                 NSString *first_name = person.name.givenName;
                 NSString *last_name = person.name.familyName;
                 NSString *usernameWithoutWhiteSpace = [[NSString stringWithFormat:@"%@%@",first_name,last_name] lowercaseString];
+                NSString *imageURLString = person.image.url;
                 NSString *provider = @"google";
             
-                NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",uid,@"uid",provider,@"provider",first_name,@"first_name",last_name,@"last_name",usernameWithoutWhiteSpace ,@"username", nil];
+                NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",
+                                               uid,@"uid",
+                                               provider,@"provider",
+                                               first_name,@"first_name",
+                                               last_name,@"last_name",
+                                               usernameWithoutWhiteSpace,@"username",
+                                               imageURLString,@"avatar",nil];
+
                 [self registerUserToHyve:userInfoDictionary];
             }
         }];

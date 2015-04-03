@@ -84,8 +84,6 @@
     
     [manager GET:hyveUserAccountString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        NSLog(@"userAccount responseObject \r\r %@", responseObject);
-        
         NSDictionary *user = [responseObject valueForKeyPath:@"user"];
         self.user = [User new];
         self.user.provider = [[user valueForKeyPath:@"authentications.provider"] objectAtIndex:0];
@@ -112,15 +110,12 @@
             [self stylingEmailTextField:self.user];
             [self.userAvatar setImage:avatarImageFromHyve forState:UIControlStateNormal];
             
-            NSLog(@"self.userAvatar.imageview.image connectToHyve: %@", self.userAvatar.imageView.image);
         });
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"error %@ \r error localized description %@", error, [error localizedDescription]);
     }];
-    
-    
 }
 
 #pragma mark - styling backgroundview
@@ -174,7 +169,6 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.userAvatar setImage:resizedImageTakenByUser forState:UIControlStateNormal];
-            NSLog(@"self.userAvatar.image didFinishPickingMedia %@", self.userAvatar.imageView.image);
             UIImageWriteToSavedPhotosAlbum(imageTakenByUser, nil, nil, nil);
         });
     });
@@ -294,21 +288,10 @@
         self.email.userInteractionEnabled = NO;
         self.userAvatar.userInteractionEnabled = NO;
         
-//        NSString *email = [responseObject valueForKeyPath:@"info.email"];
-//        NSString *uid = [responseObject valueForKeyPath:@"uid"];
-//        NSString *provider = [responseObject valueForKeyPath:@"provider"];
-//        NSString *first_name = [responseObject valueForKeyPath:@"info.first_name"];
-//        NSString *last_name = [responseObject valueForKeyPath:@"extra.raw_info.last_name"];
-//        NSString *username = [NSString stringWithFormat:@"%@ %@", first_name, last_name];
-//        NSString *usernameWithoutWhiteSpace = [[username stringByReplacingOccurrencesOfString:@" " withString:@""]lowercaseString];
-//        
-//        NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",uid,@"uid",provider,@"provider",first_name,@"first_name",last_name,@"last_name",usernameWithoutWhiteSpace ,@"username", nil];
-        
         NSString *email = self.email.text;
         NSString *username = self.username.text;
         NSString *password = self.password.text;
         UIImage *avatarImage = self.userAvatar.imageView.image;
-        NSLog(@"avatarImage PATCH %@", self.userAvatar.imageView.image);
         
         NSString *avatarImageString = [UIImagePNGRepresentation(avatarImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
         NSString *avatarImageStringInSixtyFour = [NSString stringWithFormat:@"data:image/png;base64, (%@)", avatarImageString];
@@ -319,9 +302,6 @@
             NSString *password = @"hello123";
             NSString *password_confirmation = @"hello123";
             
-//            NSDictionary *savedInfoDictionary = [NSDictionary dictionaryWithObjectsAndKeys:email,@"email",
-//                                                        username,@"username",password,@"password",password_confirmation,@"password_confirmation",nil];
-            
             NSDictionary *savedInfoDictionary = @{@"email": email,
                                                   @"password":password,
                                                   @"username": username,
@@ -329,18 +309,27 @@
                                                   @"avatar":avatarImageStringInSixtyFour};
             
             NSDictionary *savedUserProfileInfoDictionary = @{@"user": savedInfoDictionary};
-            NSDictionary *user = [[NSDictionary alloc] initWithDictionary:savedUserProfileInfoDictionary];
             
             [self updateProfileToHyve:savedUserProfileInfoDictionary];
             
         }
         else //email login
         {
-            NSMutableDictionary *savedInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",
-                                                        username,@"username",
-                                                        password,@"password",nil];
+
+            UIImage *defaultUserImageViaEmailLogin = [UIImage imageNamed:@"jlaw"];
+            NSString *defaultUserImageViaEmailLoginString = [UIImagePNGRepresentation(defaultUserImageViaEmailLogin) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+            NSString *userImageEmailLoginStringInSixtyFour = [NSString stringWithFormat:@"data:image/png;base64, (%@)", defaultUserImageViaEmailLoginString];
             
-            [self updateProfileToHyve:savedInfoDictionary];
+            NSDictionary *savedInfoDictionaryViaEmailLogin = @{@"email": email,
+                                                               @"username": username,
+                                                               @"password": password,
+                                                               @"password_confirmation": password,
+                                                               @"avatar": userImageEmailLoginStringInSixtyFour};
+            
+            NSDictionary *savedUserProfileInfoDictionaryViaEmailLogin = @{@"user":savedInfoDictionaryViaEmailLogin};
+            
+            
+            [self updateProfileToHyve:savedUserProfileInfoDictionaryViaEmailLogin];
         }
     }
 }

@@ -755,7 +755,7 @@
                                          @"distance":hyveProximity,
                                          @"uuid":hyveUUIDString};
         
-//        [self connectToHyve:hyveDictionary];
+        [self connectToHyve:hyveDictionary];
     }
 }
 

@@ -473,13 +473,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Hyve/UserAccountViewController.m"
-            timestampString = "449729825.13024"
+            filePath = "Hyve/HyveDetailsViewController.m"
+            timestampString = "449738123.430865"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
-            landmarkName = "-retrieveUserAccountInfo"
+            startingLineNumber = "796"
+            endingLineNumber = "796"
+            landmarkName = "-updateHyveDetails:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

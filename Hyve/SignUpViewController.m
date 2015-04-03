@@ -364,8 +364,6 @@
              {
                  //                NSLog(@"person display name: %@ \r person.aboutMe %@ \r birthday %@ \r gender: %@ \r familyName: %@ \r givenName %@ \r identifier %@ \r emails: %@", person.displayName, person.aboutMe, person.birthday, person.gender, person.name.familyName, person.name.givenName, person.identifier, [GPPSignIn sharedInstance].authentication.userEmail);
                  
-                 
-                 
                  NSString *email = [GPPSignIn sharedInstance].authentication.userEmail;
                  NSString *uid = person.identifier;
                  NSString *first_name = person.name.givenName;

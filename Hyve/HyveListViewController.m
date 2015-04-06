@@ -56,19 +56,13 @@
     self.navigationController.view.backgroundColor = [UIColor clearColor];
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-
-}
-
 -(void)settingUpLoadingIndicator
 {
     self.loadingIndicator = [MBLoadingIndicator new];
     [self.loadingIndicator setBackColor:[UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1]];
     [self.loadingIndicator setOuterLoaderBuffer:5.0];
     [self.loadingIndicator setLoaderBackgroundColor:[UIColor whiteColor]];
-    [self.loadingIndicator setLoadedColor:[UIColor blueColor]];
+    [self.loadingIndicator setLoadedColor:[UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1]];
     [self.loadingIndicator setStartPosition:MBLoaderTop];
     [self.loadingIndicator setAnimationSpeed:MBLoaderSpeedMiddle];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -78,8 +72,6 @@
     });
     [self.hyveListTable addSubview:self.loadingIndicator];
     [self.hyveListTable bringSubviewToFront:self.loadingIndicator];
-    
-
 }
 
 #pragma mark - setting user info

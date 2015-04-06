@@ -14,6 +14,7 @@
 #import <POP.h>
 #import "WalkthroughViewController.h"
 #import <UIImageView+AFNetworking.h>
+#import <MBLoadingIndicator.h>
 
 @interface UserAccountViewController () <UIImagePickerControllerDelegate, UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet DKCircleButton *userAvatar;
@@ -26,6 +27,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *logoutButton;
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) UIView *activityIndicatorView;
+@property (strong, nonatomic) MBLoadingIndicator *loadingIndicator;
 
 @end
 
@@ -34,6 +36,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    [self stylingBackgroundView];
+    [self settingUpLoadingView];
     [self connectToHyve];
     [self stylingUserAvatarButton];
 
@@ -50,6 +53,24 @@
     [self.userAvatar.imageView setContentMode:UIViewContentModeScaleAspectFill];
     self.password.delegate = self;
 
+}
+
+#pragma mark - setting up loading view
+-(void)settingUpLoadingView
+{
+    self.loadingIndicator = [MBLoadingIndicator new];
+    [self.loadingIndicator setBackColor:[UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1]];
+    [self.loadingIndicator setOuterLoaderBuffer:5.0];
+    [self.loadingIndicator setLoaderBackgroundColor:[UIColor whiteColor]];
+    [self.loadingIndicator setLoadedColor:[UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1]];
+    [self.loadingIndicator setStartPosition:MBLoaderTop];
+    [self.loadingIndicator setAnimationSpeed:MBLoaderSpeedMiddle];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.loadingIndicator start];
+        [self.loadingIndicator incrementPercentageBy:40];
+        [self.view addSubview:self.loadingIndicator];
+        [self.view bringSubviewToFront:self.loadingIndicator];
+    });
 }
 
 #pragma mark - connect to Hyve 
@@ -129,6 +150,7 @@
                 [self stylingUsernameTextField:self.user];
                 [self stylingEmailTextField:self.user];
                 [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+                [self.loadingIndicator finish];
             });
         });
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

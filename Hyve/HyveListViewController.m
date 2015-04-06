@@ -25,6 +25,9 @@
 @property (strong, nonatomic) DKCircleButton *userProfileImageButton;
 @property (weak, nonatomic) IBOutlet UITableView *hyveListTable;
 @property float defaultY;
+//@property (strong, nonatomic) UIView *userProfileHeader;
+//@property (strong, nonatomic) UILabel *username;
+
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageBackground;
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
 @property (strong, nonatomic) IBOutlet UIView *profileTableHeader;
@@ -37,26 +40,38 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
 
+    [self connectToHyve];
     [self stylingBackgroundView];
     [self stylingNavigationBar];
     [self stylingHyveListTableView];
-    [self settingHeaderForHyveListTable];
-
-
+    
 }
 
 #pragma mark - viewWillAppear
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingUserImage:) name:@"user" object:nil];
+
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor clearColor];
-    [self connectToHyve];
+
+}
+
+#pragma mark - setting user info
+-(void)settingUserImage:(NSNotification*)notification
+{
+    NSDictionary *user = notification.object;
+
+    NSString *username = [user objectForKey:@"username"];
+    NSString *userProfileImage = [user objectForKey:@"userAvatarUR"];
+    
+    [self settingHeaderForHyveListTable:username imageURLString:userProfileImage];
+
 }
 
 #pragma mark - styling navigation bar
@@ -86,6 +101,8 @@
 
 -(void)retrieveUserInfoAndPairedHyve
 {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
     
@@ -102,63 +119,35 @@
         
         NSLog(@"responseObject retrieveUserInfoAndPairedHyve: \r\r %@", responseObject);
         
-        NSArray *hyvesArray = [responseObject valueForKeyPath:@"user.hyves"];
-        
-        for (NSDictionary *pairedHyves in hyvesArray)
-        {
-            Hyve *hyve = [Hyve new];
-            hyve.peripheralName = [pairedHyves valueForKeyPath:@"name"];
-            hyve.peripheralUUIDString = [pairedHyves valueForKeyPath:@"uuid"];
-            hyve.peripheralRSSI = [pairedHyves valueForKeyPath:@"distance"];
-        }
-        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            
+            NSString *username = [responseObject valueForKeyPath:@"user.username"];
+            NSString *avatarURLString = [responseObject valueForKeyPath:@"user.avatar.avatar.url"];
+           
+            NSArray *hyvesArray = [responseObject valueForKeyPath:@"user.hyves"];
+            
+            for (NSDictionary *pairedHyves in hyvesArray)
+            {
+                Hyve *hyve = [Hyve new];
+                hyve.peripheralName = [pairedHyves valueForKeyPath:@"name"];
+                hyve.peripheralUUIDString = [pairedHyves valueForKeyPath:@"uuid"];
+                hyve.peripheralRSSI = [pairedHyves valueForKeyPath:@"distance"];
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self settingHeaderForHyveListTable:username imageURLString:avatarURLString];
+                
+                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+            });
+            
+        });
+            
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"error with retrieveUserInfoAndPairedHyve: \r\r %@ \r localizedDescription: \r %@", error, [error localizedDescription]);
         
     }];
-    
-    
-/*
-    NSString *hyveUserAccountString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/account"];
-    
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
-    
-    [manager GET:hyveUserAccountString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-*/
-    
-//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-//    NSString *api_token = [userDefaults objectForKey:@"api_token"];
-//    
-//    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves"];
-//    
-//    NSURL *url = [NSURL URLWithString:hyveURLString];
-//    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
-//    [urlRequest setHTTPMethod:@"GET"];
-//    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-//    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-//    [urlRequest setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
-//    
-//    [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-//        
-//        if (connectionError)
-//        {
-//            NSLog(@"Error found %@ \r localizedDescriptionError %@", connectionError, [connectionError localizedDescription]);
-//        }
-//        else
-//        {
-//            NSDictionary *theJSONDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-//            NSLog(@"theJSONDictionary : \r %@", theJSONDictionary);
-//        }
-//        
-//    }];
 }
-
 
 #pragma mark - styling background view
 -(void)stylingBackgroundView
@@ -236,17 +225,24 @@
     return cell;
 }
 
--(void)settingHeaderForHyveListTable
+-(void)settingHeaderForHyveListTable:(NSString*)usernameFromHyve imageURLString:(NSString*)imageURLString
 {
+    
+    [self.userProfileImageButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
     UIView *userProfileHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.hyveListTable.frame.size.width, 250)];
     [userProfileHeader setUserInteractionEnabled:YES];
 
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, userProfileHeader.frame.size.width, userProfileHeader.frame.size.height)];
     backgroundImageView.image = [UIImage imageNamed:@"userProfileHeader"];
+    
+    NSURL *imageURL = [NSURL URLWithString:imageURLString];
+    NSData *imageURLData = [NSData dataWithContentsOfURL:imageURL];
+    UIImage *userProfileImage = [UIImage imageWithData:imageURLData];
 
     self.userProfileImageButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(userProfileHeader.frame.size.width / 2, 130, 100, 100)];
+    [self.userProfileImageButton.imageView setContentMode:UIViewContentModeScaleAspectFill];
     [self.userProfileImageButton setUserInteractionEnabled:YES];
-    [self.userProfileImageButton setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
+    [self.userProfileImageButton setImage:userProfileImage forState:UIControlStateNormal];
     [self.userProfileImageButton setTitle:@"" forState:UIControlStateNormal];
     [self.userProfileImageButton setCenter:CGPointMake(CGRectGetMidX(userProfileHeader.bounds), CGRectGetMidY(userProfileHeader.bounds))];
     [self.userProfileImageButton addTarget:self action:@selector(userProfileImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -256,7 +252,7 @@
     float positionOfUsernameCoordinateY = self.userProfileImageButton.frame.origin.y + self.userProfileImageButton.frame.size.height + 40;
     
     UILabel *username = [[UILabel alloc] initWithFrame:CGRectMake(backgroundImageView.frame.size.width/2, positionOfUsernameCoordinateY, 250, 40)];
-    username.text = @"Jennifer Lawrence";
+    username.text = usernameFromHyve;
     username.textAlignment = NSTextAlignmentCenter;
     username.numberOfLines = 0;
     username.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:20];

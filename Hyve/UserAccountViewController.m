@@ -380,6 +380,8 @@
 
 -(void)savingUserProfileEditField:(NSDictionary*)savedUserInfo
 {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
     
@@ -395,6 +397,17 @@
     [manager PATCH:hyveUserAccountString parameters:savedUserInfo success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSLog(@"PATCH UserInfo succesful : \r %@", responseObject);
+        
+        NSString *userAvatarURL = [responseObject valueForKeyPath:@"user.avatar.avatar.url"];
+        NSString *username = [responseObject valueForKeyPath:@"user.username"];
+        
+        NSDictionary *userInfoDictionary = @{@"username": username,
+                                             @"userAvatarUR": userAvatarURL};
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"user" object:userInfoDictionary];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"username" object:username];
+        
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 

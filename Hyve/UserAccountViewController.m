@@ -35,7 +35,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    [self stylingBackgroundView];
     [self settingUpLoadingView];
     [self connectToHyve];
     [self stylingUserAvatarButton];
@@ -59,7 +58,7 @@
 -(void)settingUpLoadingView
 {
     self.loadingIndicator = [MBLoadingIndicator new];
-    [self.loadingIndicator setBackColor:[UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1]];
+    [self.loadingIndicator setBackColor:[UIColor colorWithRed:0.20 green:0.20 blue:0.20 alpha:1]];
     [self.loadingIndicator setOuterLoaderBuffer:5.0];
     [self.loadingIndicator setLoaderBackgroundColor:[UIColor whiteColor]];
     [self.loadingIndicator setLoadedColor:[UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1]];

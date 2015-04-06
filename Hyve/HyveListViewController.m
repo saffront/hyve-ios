@@ -17,6 +17,7 @@
 #import <BlurryModalSegue.h>
 #import <QuartzCore/QuartzCore.h>
 #import <POP.h>
+#import <MBLoadingIndicator.h>
 
 @interface HyveListViewController () <UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate>
 
@@ -25,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *hyveListTable;
 @property float defaultY;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
+@property (strong, nonatomic) MBLoadingIndicator *loadingIndicator;
 
 @end
 
@@ -32,12 +34,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    [self settingUpLoadingIndicator];
     [self connectToHyve];
     [self stylingBackgroundView];
     [self stylingNavigationBar];
     [self stylingHyveListTableView];
-    
+
 }
 
 #pragma mark - viewWillAppear
@@ -45,12 +47,38 @@
 {
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingUserImage:) name:@"user" object:nil];
+    
 
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor clearColor];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+
+}
+
+-(void)settingUpLoadingIndicator
+{
+    self.loadingIndicator = [MBLoadingIndicator new];
+    [self.loadingIndicator setBackColor:[UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1]];
+    [self.loadingIndicator setOuterLoaderBuffer:5.0];
+    [self.loadingIndicator setLoaderBackgroundColor:[UIColor whiteColor]];
+    [self.loadingIndicator setLoadedColor:[UIColor blueColor]];
+    [self.loadingIndicator setStartPosition:MBLoaderTop];
+    [self.loadingIndicator setAnimationSpeed:MBLoaderSpeedMiddle];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.loadingIndicator start];
+        [self.loadingIndicator incrementPercentageBy:20];
+        [self.view addSubview:self.loadingIndicator];
+    });
+    [self.hyveListTable addSubview:self.loadingIndicator];
+    [self.hyveListTable bringSubviewToFront:self.loadingIndicator];
+    
 
 }
 
@@ -94,6 +122,7 @@
 -(void)retrieveUserInfoAndPairedHyve
 {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
@@ -128,7 +157,6 @@
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self settingHeaderForHyveListTable:username imageURLString:avatarURLString];
-            
             });
             
         });
@@ -223,6 +251,7 @@
         [self.userProfileImageButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
         UIView *userProfileHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.hyveListTable.frame.size.width, 250)];
         [userProfileHeader setUserInteractionEnabled:YES];
+        [userProfileHeader bringSubviewToFront:self.loadingIndicator];
         
         UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, userProfileHeader.frame.size.width, userProfileHeader.frame.size.height)];
         
@@ -247,6 +276,7 @@
         [username setCenter:CGPointMake(CGRectGetMidX(backgroundImageView.bounds), positionOfUsernameCoordinateY)];
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            [self.loadingIndicator incrementPercentageBy:20];
             backgroundImageView.image = [UIImage imageNamed:@"userProfileHeader"];
             [self.userProfileImageButton setImage:userProfileImage forState:UIControlStateNormal];
             [userProfileHeader addSubview:self.userProfileImageButton];
@@ -258,6 +288,8 @@
             
             self.hyveListTable.tableHeaderView = userProfileHeader;
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+
+            [self.loadingIndicator finish];
         });
     });
 }

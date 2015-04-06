@@ -12,7 +12,6 @@
 #import "HyveListViewController.h"
 #import "HyveDetailsViewController.h"
 #import "Hyve.h"
-#import <AFBlurSegue.h>
 #import <AFNetworking.h>
 #import <Reachability.h>
 #import <BlurryModalSegue.h>

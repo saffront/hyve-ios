@@ -25,7 +25,7 @@
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
 @property (strong, nonatomic) IBOutlet UIButton *logoutButton;
 @property (strong, nonatomic) User *user;
-
+@property (strong, nonatomic) UIView *activityIndicatorView;
 
 @end
 
@@ -49,6 +49,7 @@
     [self.userAvatar setContentMode:UIViewContentModeScaleAspectFill];
     [self.userAvatar.imageView setContentMode:UIViewContentModeScaleAspectFill];
     self.password.delegate = self;
+
 }
 
 #pragma mark - connect to Hyve 

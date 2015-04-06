@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Pods-AFBlurSegue.xcscheme</key>
+		<key>MBSimpleLoadingIndicator.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -35,6 +35,11 @@
 			<false/>
 		</dict>
 		<key>Pods-ISO8601.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-MBSimpleLoadingIndicator.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -77,72 +82,77 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0737DA453817E0FA5944A0F9</key>
+		<key>179BC5F55ADD53468E24FFDC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>0BD29D0C58003DB4DE4A1B91</key>
+		<key>251897F843C9EE4D09A6C222</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>13D72E97DDB15E4F10C707F7</key>
+		<key>4611750E8F632061F065A5B2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>16FC9DCDD0242CAB5BA28942</key>
+		<key>49377C09EF22E5CDA7B943F1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4125E29AAF87FBE91FBA41BE</key>
+		<key>5303F9536696CAF52981037E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4EE9AD8655EEF58766E522B4</key>
+		<key>66663943A01E516FDA729BCD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5B14C5B22C213FE8A5DA58A8</key>
+		<key>9BA1F847DBE2630B5759AB58</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>69DFEC15DED18A2730A64FE4</key>
+		<key>9FE20E59A9A03D67A6E13332</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7ED74C454195908174D33399</key>
+		<key>AB20E26B2078A4A2699399CF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>849A58D83FB85589A45665C4</key>
+		<key>B7A9E4265D48A664CF53D551</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B0DCB2ADE9BEC238199D562F</key>
+		<key>C1FADE96351F3F13A6348121</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BB11142644C7B70634A94DBE</key>
+		<key>CFFC46759325454F14AEE25E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CA654B7107436AA2CAD62D43</key>
+		<key>EC7600C3EA0D39507FD769F6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E778DE69A8A9301E112D88D3</key>
+		<key>F3AC7742171BD380A230BF12</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F3F3D25DF7C1D3E81FCC27B7</key>
 		<dict>
 			<key>primary</key>
 			<true/>

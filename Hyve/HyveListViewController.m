@@ -25,13 +25,6 @@
 @property (strong, nonatomic) DKCircleButton *userProfileImageButton;
 @property (weak, nonatomic) IBOutlet UITableView *hyveListTable;
 @property float defaultY;
-//@property (strong, nonatomic) UIView *userProfileHeader;
-//@property (strong, nonatomic) UILabel *username;
-
-@property (weak, nonatomic) IBOutlet UIImageView *profileImageBackground;
-@property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
-@property (strong, nonatomic) IBOutlet UIView *profileTableHeader;
-@property (strong, nonatomic) IBOutlet DKCircleButton *profileImageButton;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
 
 @end
@@ -136,8 +129,7 @@
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self settingHeaderForHyveListTable:username imageURLString:avatarURLString];
-                
-                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+            
             });
             
         });
@@ -228,43 +220,47 @@
 -(void)settingHeaderForHyveListTable:(NSString*)usernameFromHyve imageURLString:(NSString*)imageURLString
 {
     
-    [self.userProfileImageButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-    UIView *userProfileHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.hyveListTable.frame.size.width, 250)];
-    [userProfileHeader setUserInteractionEnabled:YES];
-
-    UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, userProfileHeader.frame.size.width, userProfileHeader.frame.size.height)];
-    backgroundImageView.image = [UIImage imageNamed:@"userProfileHeader"];
-    
-    NSURL *imageURL = [NSURL URLWithString:imageURLString];
-    NSData *imageURLData = [NSData dataWithContentsOfURL:imageURL];
-    UIImage *userProfileImage = [UIImage imageWithData:imageURLData];
-
-    self.userProfileImageButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(userProfileHeader.frame.size.width / 2, 130, 100, 100)];
-    [self.userProfileImageButton.imageView setContentMode:UIViewContentModeScaleAspectFill];
-    [self.userProfileImageButton setUserInteractionEnabled:YES];
-    [self.userProfileImageButton setImage:userProfileImage forState:UIControlStateNormal];
-    [self.userProfileImageButton setTitle:@"" forState:UIControlStateNormal];
-    [self.userProfileImageButton setCenter:CGPointMake(CGRectGetMidX(userProfileHeader.bounds), CGRectGetMidY(userProfileHeader.bounds))];
-    [self.userProfileImageButton addTarget:self action:@selector(userProfileImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [userProfileHeader addSubview:self.userProfileImageButton];
-    
-    float positionOfUsernameCoordinateY = self.userProfileImageButton.frame.origin.y + self.userProfileImageButton.frame.size.height + 40;
-    
-    UILabel *username = [[UILabel alloc] initWithFrame:CGRectMake(backgroundImageView.frame.size.width/2, positionOfUsernameCoordinateY, 250, 40)];
-    username.text = usernameFromHyve;
-    username.textAlignment = NSTextAlignmentCenter;
-    username.numberOfLines = 0;
-    username.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:20];
-    username.textColor = [UIColor whiteColor];
-    [username setCenter:CGPointMake(CGRectGetMidX(backgroundImageView.bounds), positionOfUsernameCoordinateY)];
-    
-    [backgroundImageView addSubview:username];
-    
-    [userProfileHeader addSubview:backgroundImageView];
-    [userProfileHeader bringSubviewToFront:self.userProfileImageButton];
-    
-    self.hyveListTable.tableHeaderView = userProfileHeader;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        [self.userProfileImageButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+        UIView *userProfileHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.hyveListTable.frame.size.width, 250)];
+        [userProfileHeader setUserInteractionEnabled:YES];
+        
+        UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, userProfileHeader.frame.size.width, userProfileHeader.frame.size.height)];
+        
+        NSURL *imageURL = [NSURL URLWithString:imageURLString];
+        NSData *imageURLData = [NSData dataWithContentsOfURL:imageURL];
+        UIImage *userProfileImage = [UIImage imageWithData:imageURLData];
+        
+        self.userProfileImageButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(userProfileHeader.frame.size.width / 2, 130, 100, 100)];
+        [self.userProfileImageButton.imageView setContentMode:UIViewContentModeScaleAspectFill];
+        [self.userProfileImageButton setUserInteractionEnabled:YES];
+        [self.userProfileImageButton setTitle:@"" forState:UIControlStateNormal];
+        [self.userProfileImageButton setCenter:CGPointMake(CGRectGetMidX(userProfileHeader.bounds), CGRectGetMidY(userProfileHeader.bounds))];
+        [self.userProfileImageButton addTarget:self action:@selector(userProfileImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        
+        float positionOfUsernameCoordinateY = self.userProfileImageButton.frame.origin.y + self.userProfileImageButton.frame.size.height + 40;
+        UILabel *username = [[UILabel alloc] initWithFrame:CGRectMake(backgroundImageView.frame.size.width/2, positionOfUsernameCoordinateY, 250, 40)];
+        
+        username.textAlignment = NSTextAlignmentCenter;
+        username.numberOfLines = 0;
+        username.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:20];
+        username.textColor = [UIColor whiteColor];
+        [username setCenter:CGPointMake(CGRectGetMidX(backgroundImageView.bounds), positionOfUsernameCoordinateY)];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            backgroundImageView.image = [UIImage imageNamed:@"userProfileHeader"];
+            [self.userProfileImageButton setImage:userProfileImage forState:UIControlStateNormal];
+            [userProfileHeader addSubview:self.userProfileImageButton];
+            username.text = usernameFromHyve;
+            [backgroundImageView addSubview:username];
+            
+            [userProfileHeader addSubview:backgroundImageView];
+            [userProfileHeader bringSubviewToFront:self.userProfileImageButton];
+            
+            self.hyveListTable.tableHeaderView = userProfileHeader;
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        });
+    });
 }
 
 #pragma mark - segue

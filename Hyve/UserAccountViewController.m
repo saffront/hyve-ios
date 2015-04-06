@@ -13,6 +13,7 @@
 #import <DKCircleButton.h>
 #import <POP.h>
 #import "WalkthroughViewController.h"
+#import <UIImageView+AFNetworking.h>
 
 @interface UserAccountViewController () <UIImagePickerControllerDelegate, UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet DKCircleButton *userAvatar;
@@ -70,6 +71,7 @@
 
 -(void)retrieveUserAccountInfo
 {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
     
@@ -84,42 +86,50 @@
     
     [manager GET:hyveUserAccountString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        NSDictionary *user = [responseObject valueForKeyPath:@"user"];
-        self.user = [User new];
-        self.user.provider = [[user valueForKeyPath:@"authentications.provider"] objectAtIndex:0];
-        self.user.avatarURL = [user valueForKeyPath:@"avatar.avatar.url"];
-        self.user.email = [user valueForKeyPath:@"email"];
-        self.user.username = [user valueForKeyPath:@"username"];
-//        self.user.password = [user valueForKeyPath:@"password"];
-        self.user.avatarURLString = [user valueForKeyPath:@"avatar.avatar.url"];
-        
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        self.user.password = [userDefaults objectForKey:@"userPassword"];
-        
-        if ([self.user.provider isEqualToString:@"facebook"] || [self.user.provider isEqualToString:@"google"])
-        {
-            self.password.alpha = 0;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            NSDictionary *user = [responseObject valueForKeyPath:@"user"];
+            self.user = [User new];
+            self.user.provider = [[user valueForKeyPath:@"authentications.provider"] objectAtIndex:0];
+            self.user.avatarURL = [user valueForKeyPath:@"avatar.avatar.url"];
+            self.user.email = [user valueForKeyPath:@"email"];
+            self.user.username = [user valueForKeyPath:@"username"];
+            self.user.avatarURLString = [user valueForKeyPath:@"avatar.avatar.url"];
             NSData *userAvatarURLData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.user.avatarURLString]];
-            UIImage *avatarImageFromHyve = [UIImage imageWithData:userAvatarURLData];
-            [self.userAvatar setImage:avatarImageFromHyve forState:UIControlStateNormal];
-        }
-        else
-        {
-            [self stylingPasswordTextField:self.user];
             
-            if (![self.user.avatarURLString isEqualToString:@""])
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            self.user.password = [userDefaults objectForKey:@"userPassword"];
+            
+            if ([self.user.provider isEqualToString:@"facebook"] || [self.user.provider isEqualToString:@"google"])
             {
-                NSData *userAvatarURLData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.user.avatarURLString]];
-                UIImage *avatarImageFromHyve = [UIImage imageWithData:userAvatarURLData];
-                [self.userAvatar setImage:avatarImageFromHyve forState:UIControlStateNormal];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.password.alpha = 0;
+//                    UIImage *avatarImageFromHyve = [UIImage imageWithData:userAvatarURLData];
+//                    [self.userAvatar setImage:avatarImageFromHyve forState:UIControlStateNormal];
+
+                    [self.userAvatar.imageView setImageWithURL:[NSURL URLWithString:self.user.avatarURLString] placeholderImage:[UIImage imageNamed:@"jlaw"]];
+                });
             }
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self stylingUsernameTextField:self.user];
-            [self stylingEmailTextField:self.user];
+            else
+            {
+                if (![self.user.avatarURLString isEqualToString:@""])
+                {
+                    UIImage *avatarImageFromHyve = [UIImage imageWithData:userAvatarURLData];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.userAvatar setImage:avatarImageFromHyve forState:UIControlStateNormal];
+                    });
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self stylingPasswordTextField:self.user];
+                });
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self stylingUsernameTextField:self.user];
+                [self stylingEmailTextField:self.user];
+                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+            });
         });
-        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"error %@ \r error localized description %@", error, [error localizedDescription]);
@@ -405,8 +415,6 @@
                                              @"userAvatarUR": userAvatarURL};
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"user" object:userInfoDictionary];
-//        [[NSNotificationCenter defaultCenter] postNotificationName:@"username" object:username];
-        
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

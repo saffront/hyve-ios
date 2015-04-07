@@ -162,6 +162,66 @@
     }];
 }
 
+-(void)populateCellHyveImage:(HyveListTableViewCell*)cell
+{
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *api_token = [userDefaults objectForKey:@"api_token"];
+    
+    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/account"];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+    
+    [manager GET:hyveURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"responseObject retrieveUserInfoAndPairedHyve: \r\r %@", responseObject);
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            
+            NSArray *hyvesArray = [responseObject valueForKeyPath:@"user.hyves"];
+            
+            for (NSDictionary *pairedHyves in hyvesArray)
+            {
+//                Hyve *hyve = [Hyve new];
+//                hyve.peripheralName = [pairedHyves valueForKeyPath:@"name"];
+//                hyve.peripheralUUIDString = [pairedHyves valueForKeyPath:@"uuid"];
+//                hyve.peripheralRSSI = [pairedHyves valueForKeyPath:@"distance"];
+//                hyve.hyveID = [pairedHyves valueForKeyPath:@"id"];
+                NSString *imageURLString = [pairedHyves valueForKeyPath:@"image.image.url"];
+                
+                if ([imageURLString isKindOfClass:[NSNull class]])
+                {
+                    NSLog(@"imageURLString : %@", imageURLString);
+                }
+                else if ([imageURLString isEqualToString:@""])
+                {
+                    [cell.hyveImage setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
+                }
+                else
+                {
+                    NSURL *imageURL = [NSURL URLWithString:imageURLString];
+                    NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+                    UIImage *hyveImage = [UIImage imageWithData:imageData];
+                    [cell.hyveImage setImage:hyveImage forState:UIControlStateNormal];
+                }
+            }
+        });
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"error with retrieveUserInfoAndPairedHyve: \r\r %@ \r localizedDescription: \r %@", error, [error localizedDescription]);
+        
+    }];
+
+}
+
 #pragma mark - styling background view
 -(void)stylingBackgroundView
 {
@@ -219,9 +279,11 @@
         cell.hyveName.numberOfLines = 0;
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [cell.hyveImage setImage:[UIImage imageNamed:@"houseKeys"] forState:UIControlStateNormal];
+//            [cell.hyveImage setImage:[UIImage imageNamed:@"houseKeys"] forState:UIControlStateNormal];
+            [self populateCellHyveImage:cell];
             cell.hyveImage.borderColor = [UIColor whiteColor];
             cell.hyveImage.borderSize = 3.0f;
+
         });
 
         cell.hyveBattery.text = @"Super strong";

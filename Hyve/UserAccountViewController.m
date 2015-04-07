@@ -126,7 +126,6 @@
                     self.password.alpha = 0;
 //                    UIImage *avatarImageFromHyve = [UIImage imageWithData:userAvatarURLData];
 //                    [self.userAvatar setImage:avatarImageFromHyve forState:UIControlStateNormal];
-
                     [self.userAvatar.imageView setImageWithURL:[NSURL URLWithString:self.user.avatarURLString] placeholderImage:[UIImage imageNamed:@"jlaw"]];
                 });
             }

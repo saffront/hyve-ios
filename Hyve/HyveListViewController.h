@@ -12,5 +12,6 @@
 @interface HyveListViewController : UIViewController
 @property (strong, nonatomic) NSMutableArray *hyveDevicesMutableArray;
 @property (strong, nonatomic) CBCentralManager *centralManager;
+@property (strong, nonatomic) NSMutableArray *hyvesPeripheralMutableArray;
 
 @end

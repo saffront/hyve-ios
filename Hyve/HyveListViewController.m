@@ -145,6 +145,8 @@
                 hyve.peripheralName = [pairedHyves valueForKeyPath:@"name"];
                 hyve.peripheralUUIDString = [pairedHyves valueForKeyPath:@"uuid"];
                 hyve.peripheralRSSI = [pairedHyves valueForKeyPath:@"distance"];
+                hyve.hyveID = [pairedHyves valueForKeyPath:@"id"];
+            
             }
             
             dispatch_async(dispatch_get_main_queue(), ^{

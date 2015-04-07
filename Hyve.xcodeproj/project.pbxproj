@@ -48,7 +48,7 @@
 		3BA2D3471AA95DAB008CA9E4 /* PeripheralListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA2D3461AA95DAB008CA9E4 /* PeripheralListViewController.m */; };
 		3BA2D34A1AA9A9C9008CA9E4 /* HyveListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA2D3491AA9A9C9008CA9E4 /* HyveListViewController.m */; };
 		3BBC2F791AB96D4C001A4390 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BBC2F781AB96D4C001A4390 /* QuartzCore.framework */; };
-		3BFDD94B1AA852E200849EDA /* Hyve.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFDD94A1AA852E200849EDA /* Hyve.m */; };
+		3BC0B4521AD29AC70074DA62 /* Hyve.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BC0B4511AD29AC70074DA62 /* Hyve.m */; };
 		3BFDD94E1AA854D200849EDA /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BFDD94D1AA854D200849EDA /* CoreBluetooth.framework */; };
 /* End PBXBuildFile section */
 
@@ -126,8 +126,8 @@
 		3BA2D3481AA9A9C9008CA9E4 /* HyveListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyveListViewController.h; sourceTree = "<group>"; };
 		3BA2D3491AA9A9C9008CA9E4 /* HyveListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyveListViewController.m; sourceTree = "<group>"; };
 		3BBC2F781AB96D4C001A4390 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		3BFDD9491AA852E200849EDA /* Hyve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hyve.h; sourceTree = "<group>"; };
-		3BFDD94A1AA852E200849EDA /* Hyve.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Hyve.m; sourceTree = "<group>"; };
+		3BC0B4501AD29AC70074DA62 /* Hyve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hyve.h; sourceTree = "<group>"; };
+		3BC0B4511AD29AC70074DA62 /* Hyve.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Hyve.m; sourceTree = "<group>"; };
 		3BFDD94D1AA854D200849EDA /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		5AF139C90BAC94F5EF0C7945 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -314,8 +314,8 @@
 			children = (
 				3B1224621ACBF731005EF52F /* User.h */,
 				3B1224631ACBF731005EF52F /* User.m */,
-				3BFDD9491AA852E200849EDA /* Hyve.h */,
-				3BFDD94A1AA852E200849EDA /* Hyve.m */,
+				3BC0B4501AD29AC70074DA62 /* Hyve.h */,
+				3BC0B4511AD29AC70074DA62 /* Hyve.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -484,7 +484,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BA2D34A1AA9A9C9008CA9E4 /* HyveListViewController.m in Sources */,
-				3BFDD94B1AA852E200849EDA /* Hyve.m in Sources */,
+				3BC0B4521AD29AC70074DA62 /* Hyve.m in Sources */,
 				3B1FD7601AC405840079A0C0 /* UserAccountViewController.m in Sources */,
 				3B5772A91AA714E1009FC171 /* ViewController.m in Sources */,
 				3B6C723C1ABBF6D5006ECC0C /* WalkthroughViewController.m in Sources */,

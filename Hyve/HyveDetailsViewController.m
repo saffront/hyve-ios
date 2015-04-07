@@ -569,7 +569,7 @@
                 NSData *aData = [a dataUsingEncoding:NSASCIIStringEncoding];
                 
                 uint8_t byte[1];
-                byte[0]='a';
+                byte[0]='<';
 
                 self.distanceNumberData = [NSData dataWithBytes:byte length:1];
                 
@@ -581,7 +581,8 @@
                 
                 
                 [self.peripheral writeValue:self.distanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
-                [peripheral readValueForCharacteristic:characteristic];
+                [self.peripheral readRSSI];
+//                [peripheral readValueForCharacteristic:characteristic];
                 
 //                NSUInteger bytes = [self.distanceNumber lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
 //                NSLog(@"bytes of self.distanceNumber is %i", bytes);
@@ -652,6 +653,8 @@
     }
 */
 }
+
+
 
 -(void)sendingAToHyve
 {
@@ -731,6 +734,38 @@
     }
 }
 
+-(void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error
+{
+    if (error)
+    {
+        NSLog(@"Error didReadRSSI: %@ \r localizedError: %@",error, [error localizedDescription]);
+    }
+    else
+    {
+        if (peripheral.state == CBPeripheralStateConnected)
+        {
+            NSLog(@"peripheral %@ \r peripheral's RSSI: %@",peripheral ,RSSI);
+        }
+    }
+}
+
+-(void)peripheralDidUpdateRSSI:(CBPeripheral *)peripheral error:(NSError *)error
+{
+    if (error)
+    {
+        NSLog(@"Error peripheralDidUpdateRSSI: %@ \r localizedError: %@",error, [error localizedDescription]);
+    }
+    else
+    {
+        if (peripheral.state == CBPeripheralStateConnected)
+        {
+            NSLog(@"peripheral didUPDATERSSI: \r %@ ",peripheral);
+        }
+    }
+    
+}
+
+
 //writing response to hyve
 -(void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
@@ -748,16 +783,20 @@
         UIImage *hyveImage = self.hyveImageButton.imageView.image;
         NSString *hyveUUIDString = peripheral.identifier.UUIDString;
         
+        NSString *avatarImageString = [UIImagePNGRepresentation(hyveImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+        NSString *avatarImageStringInSixtyFour = [NSString stringWithFormat:@"data:image/png;base64, (%@)", avatarImageString];
 //        NSMutableDictionary *pairedHyveDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:hyve.peripheralName,@"name",hyve.peripheralUUIDString,@"uuid", hyve.peripheralRSSI, @"distance",nil];
 //        [self sendingPairedHyveToBackend:pairedHyveDictionary];
         
         NSDictionary *hyveDictionary = @{@"name":hyveName,
                                          @"distance":hyveProximity,
-                                         @"uuid":hyveUUIDString};
+                                         @"uuid":hyveUUIDString,
+                                         @"image":avatarImageStringInSixtyFour};
         
         [self connectToHyve:hyveDictionary];
     }
 }
+
 
 #pragma mark - update hyves details 
 -(void)connectToHyve:(NSDictionary*)hyveDetails
@@ -782,7 +821,8 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
     
-    NSString *hyveUserAccountString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves"];
+    NSString *uuid = [self.peripheral.identifier UUIDString];
+    NSString *hyveUserAccountString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves/%@",uuid];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];

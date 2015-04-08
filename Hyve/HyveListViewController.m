@@ -47,7 +47,7 @@
 {
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingUserImage:) name:@"user" object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingHyveImage:) name:@"userImageURLString" object:nil];
 
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
@@ -85,6 +85,16 @@
     [self settingHeaderForHyveListTable:username imageURLString:userProfileImage];
 
 }
+
+#pragma mark - setting hyve image
+-(void)settingHyveImage:(NSNotification*)notification
+{
+    NSString *userImageURLString = notification.object;
+    
+    
+}
+
+
 
 #pragma mark - styling navigation bar
 -(void)stylingNavigationBar
@@ -162,7 +172,7 @@
     }];
 }
 
--(void)populateCellHyveImage:(HyveListTableViewCell*)cell
+-(void)populateCellHyveImage:(HyveListTableViewCell*)cell withHyve:(Hyve*)hyve
 {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     
@@ -191,25 +201,34 @@
             {
 //                Hyve *hyve = [Hyve new];
 //                hyve.peripheralName = [pairedHyves valueForKeyPath:@"name"];
-//                hyve.peripheralUUIDString = [pairedHyves valueForKeyPath:@"uuid"];
 //                hyve.peripheralRSSI = [pairedHyves valueForKeyPath:@"distance"];
 //                hyve.hyveID = [pairedHyves valueForKeyPath:@"id"];
-                NSString *imageURLString = [pairedHyves valueForKeyPath:@"image.image.url"];
                 
-                if ([imageURLString isKindOfClass:[NSNull class]])
+                NSString *peripheralUUIDStringFromHyveServer = [pairedHyves valueForKeyPath:@"uuid"];
+                
+                if ([peripheralUUIDStringFromHyveServer isEqualToString:hyve.peripheralUUIDString])
                 {
-                    NSLog(@"imageURLString : %@", imageURLString);
-                }
-                else if ([imageURLString isEqualToString:@""])
-                {
-                    [cell.hyveImage setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
-                }
-                else
-                {
-                    NSURL *imageURL = [NSURL URLWithString:imageURLString];
-                    NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-                    UIImage *hyveImage = [UIImage imageWithData:imageData];
-                    [cell.hyveImage setImage:hyveImage forState:UIControlStateNormal];
+                    hyve.imageURLString = [pairedHyves valueForKeyPath:@"image.image.url"];
+                    
+                    if ([hyve.imageURLString isKindOfClass:[NSNull class]])
+                    {
+                        NSLog(@"imageURLString : %@", hyve.imageURLString);
+                    }
+                    else if ([hyve.imageURLString isEqualToString:@""])
+                    {
+                        [cell.hyveImage setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
+                    }
+                    else
+                    {
+                        NSURL *imageURL = [NSURL URLWithString:hyve.imageURLString];
+                        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+                        UIImage *hyveImage = [UIImage imageWithData:imageData];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [cell.hyveImage setImage:hyveImage forState:UIControlStateNormal];
+                            cell.hyveImage.borderColor = [UIColor whiteColor];
+                            cell.hyveImage.borderSize = 3.0f;
+                        });
+                    }
                 }
             }
         });
@@ -255,8 +274,14 @@
     Hyve *hyve = [Hyve new];
     hyve.peripheralName = peripheral.name;
     hyve.peripheralUUID = peripheral.identifier;
+    hyve.peripheralUUIDString = [peripheral.identifier UUIDString];
 
     HyveListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HyveCellListVC"];
+    if (cell == nil)
+    {
+        cell = [[HyveListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"HyveCellListVC"];
+    }
+    
     cell.backgroundColor = [UIColor clearColor];
     cell.hyveContentView.backgroundColor = [UIColor colorWithRed:0.61 green:0.71 blue:0.71 alpha:0.4];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -278,14 +303,11 @@
         cell.hyveName.textColor = [UIColor whiteColor];
         cell.hyveName.numberOfLines = 0;
         
-        dispatch_async(dispatch_get_main_queue(), ^{
 //            [cell.hyveImage setImage:[UIImage imageNamed:@"houseKeys"] forState:UIControlStateNormal];
-            [self populateCellHyveImage:cell];
-            cell.hyveImage.borderColor = [UIColor whiteColor];
-            cell.hyveImage.borderSize = 3.0f;
-
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            [self populateCellHyveImage:cell withHyve:hyve];
         });
-
+        
         cell.hyveBattery.text = @"Super strong";
         cell.hyveBattery.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
         cell.hyveBattery.textColor = [UIColor whiteColor];

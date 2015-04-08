@@ -16,5 +16,6 @@
 @property (strong, nonatomic) NSString *peripheralName;
 @property (strong, nonatomic) NSString *hyveID;
 @property (strong, nonatomic) CBPeripheral *hyvePeripheral;
+@property (strong, nonatomic) NSString *imageURLString;
 
 @end

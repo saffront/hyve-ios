@@ -834,6 +834,9 @@
     [manager PATCH:hyveUserAccountString parameters:hyveDetails success:^(AFHTTPRequestOperation *operation, id responseObject) {
        
         NSLog(@"responseObject: \r %@", responseObject);
+        NSString *imageURLString = [responseObject valueForKeyPath:@"hyve.image.image.url"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"userImageURLString" object:imageURLString];
+        
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         

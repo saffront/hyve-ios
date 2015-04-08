@@ -226,11 +226,16 @@
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [cell.hyveImage setImage:hyveImage forState:UIControlStateNormal];
                             cell.hyveImage.borderColor = [UIColor whiteColor];
+                            cell.hyveImage.userInteractionEnabled = NO;
                             cell.hyveImage.borderSize = 3.0f;
                         });
                     }
                 }
             }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO]; 
+            });
         });
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

@@ -86,16 +86,6 @@
 
 }
 
-#pragma mark - setting hyve image
--(void)settingHyveImage:(NSNotification*)notification
-{
-    NSString *userImageURLString = notification.object;
-    
-    
-}
-
-
-
 #pragma mark - styling navigation bar
 -(void)stylingNavigationBar
 {
@@ -151,11 +141,11 @@
             
             for (NSDictionary *pairedHyves in hyvesArray)
             {
-                Hyve *hyve = [Hyve new];
-                hyve.peripheralName = [pairedHyves valueForKeyPath:@"name"];
-                hyve.peripheralUUIDString = [pairedHyves valueForKeyPath:@"uuid"];
-                hyve.peripheralRSSI = [pairedHyves valueForKeyPath:@"distance"];
-                hyve.hyveID = [pairedHyves valueForKeyPath:@"id"];
+                self.hyve = [Hyve new];
+                self.hyve.peripheralName = [pairedHyves valueForKeyPath:@"name"];
+                self.hyve.peripheralUUIDString = [pairedHyves valueForKeyPath:@"uuid"];
+                self.hyve.peripheralRSSI = [pairedHyves valueForKeyPath:@"distance"];
+                self.hyve.hyveID = [pairedHyves valueForKeyPath:@"id"];
             
             }
             
@@ -213,10 +203,17 @@
                     if ([hyve.imageURLString isKindOfClass:[NSNull class]])
                     {
                         NSLog(@"imageURLString : %@", hyve.imageURLString);
+                        [cell.hyveImage setImage:[UIImage imageNamed:@"jlaw2"] forState:UIControlStateNormal];
+                        cell.hyveImage.borderColor = [UIColor whiteColor];
+                        cell.hyveImage.userInteractionEnabled = NO;
+                        cell.hyveImage.borderSize = 3.0f;
                     }
                     else if ([hyve.imageURLString isEqualToString:@""])
                     {
                         [cell.hyveImage setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
+                        cell.hyveImage.borderColor = [UIColor whiteColor];
+                        cell.hyveImage.userInteractionEnabled = NO;
+                        cell.hyveImage.borderSize = 3.0f;
                     }
                     else
                     {
@@ -234,7 +231,7 @@
             }
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO]; 
+                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
             });
         });
         
@@ -276,10 +273,10 @@
     tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
     CBPeripheral *peripheral = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
-    Hyve *hyve = [Hyve new];
-    hyve.peripheralName = peripheral.name;
-    hyve.peripheralUUID = peripheral.identifier;
-    hyve.peripheralUUIDString = [peripheral.identifier UUIDString];
+    self.hyve = [Hyve new];
+    self.hyve.peripheralName = peripheral.name;
+    self.hyve.peripheralUUID = peripheral.identifier;
+    self.hyve.peripheralUUIDString = [peripheral.identifier UUIDString];
 
     HyveListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HyveCellListVC"];
     if (cell == nil)
@@ -291,7 +288,7 @@
     cell.hyveContentView.backgroundColor = [UIColor colorWithRed:0.61 green:0.71 blue:0.71 alpha:0.4];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    if ([hyve.peripheralName isEqualToString:@""] || hyve.peripheralName == nil)
+    if ([self.hyve.peripheralName isEqualToString:@""] || self.hyve.peripheralName == nil)
     {
         cell.hyveName.text = @"Unkown devices";
         cell.hyveName.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
@@ -303,15 +300,13 @@
     }
     else
     {
-        cell.hyveName.text = hyve.peripheralName;
+        cell.hyveBattery.alpha = 1;
+        cell.hyveProximity.alpha = 1;
+        
+        cell.hyveName.text = self.hyve.peripheralName;
         cell.hyveName.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
         cell.hyveName.textColor = [UIColor whiteColor];
         cell.hyveName.numberOfLines = 0;
-        
-//            [cell.hyveImage setImage:[UIImage imageNamed:@"houseKeys"] forState:UIControlStateNormal];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            [self populateCellHyveImage:cell withHyve:hyve];
-        });
         
         cell.hyveBattery.text = @"Super strong";
         cell.hyveBattery.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
@@ -322,6 +317,13 @@
         cell.hyveProximity.textColor = [UIColor whiteColor];
         cell.hyveProximity.numberOfLines = 0;
         cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
+        
+//            [cell.hyveImage setImage:[UIImage imageNamed:@"houseKeys"] forState:UIControlStateNormal];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            [self populateCellHyveImage:cell withHyve:self.hyve];
+        });
+        
+
         
     }
     return cell;

@@ -48,7 +48,8 @@
     [self stylingTextField];
     [self stylingHyveDistanceButton];
     [self stylingConnectButton];
-    [self stylingHyveImageButton];
+    [self retrieveHyveImageFromServer];
+    
     [self stylingSettingHyveImageButton];
     
     NSString *uuid = [self.peripheral.identifier UUIDString];
@@ -65,6 +66,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+
     
     UIImage *backButtonImage = [UIImage imageNamed:@"backButton"];
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -85,6 +87,38 @@
      [NSDictionary dictionaryWithObjectsAndKeys:
       [UIFont fontWithName:@"OpenSans-SemiBold" size:21],
       NSFontAttributeName, nil]];
+}
+
+-(void)retrieveHyveImageFromServer
+{
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *api_token = [userDefaults objectForKey:@"api_token"];
+    
+    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves/%@",[self.peripheral.identifier UUIDString]];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+    
+    [manager GET:hyveURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"responseObject retrieveImageFromServer: \r\r %@", responseObject);
+        Hyve *hyve = [Hyve new];
+        hyve.imageURLString = [responseObject valueForKeyPath:@"hyve.image.image.url"];
+        
+        [self stylingHyveImageButton:hyve];
+    
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"error with retrieveUserInfoAndPairedHyve: \r\r %@ \r localizedDescription: \r %@", error, [error localizedDescription]);
+        
+    }];
+
 }
 
 -(void)goBack
@@ -111,12 +145,39 @@
 }
 
 #pragma mark - styling hyve image button
--(void)stylingHyveImageButton
+-(void)stylingHyveImageButton:(Hyve*)hyve
 {
-    self.hyveImageButton.borderColor = [UIColor whiteColor];
-    self.hyveImageButton.borderSize = 2.0f;
-    [self.hyveImageButton setImage:[UIImage imageNamed:@"jlaw2"] forState:UIControlStateNormal];
-    [self.hyveImageButton setTitle:@"" forState:UIControlStateNormal];
+    if (![hyve isKindOfClass:[NSNull class]])
+    {
+        if (hyve.imageURLString == nil || [hyve.imageURLString isEqual:[NSNull null]])
+        {
+            UIImage *hyveImage = [UIImage imageNamed:@"jlaw2"];
+            
+            self.hyveImageButton.borderColor = [UIColor whiteColor];
+            self.hyveImageButton.borderSize = 2.0f;
+            [self.hyveImageButton setImage:hyveImage forState:UIControlStateNormal];
+            [self.hyveImageButton setTitle:@"" forState:UIControlStateNormal];
+        }
+        else
+        {
+            NSURL *urlImageString = [NSURL URLWithString:hyve.imageURLString];
+            NSData *hyveImageData = [NSData dataWithContentsOfURL:urlImageString];
+            UIImage *hyveImage = [UIImage imageWithData:hyveImageData];
+            
+            self.hyveImageButton.borderColor = [UIColor whiteColor];
+            self.hyveImageButton.borderSize = 2.0f;
+            [self.hyveImageButton setImage:hyveImage forState:UIControlStateNormal];
+            [self.hyveImageButton setTitle:@"" forState:UIControlStateNormal];
+        }
+    }
+    else
+    {
+        UIImage *defaultHyveImage = [UIImage imageNamed:@"jlaw"];
+        self.hyveImageButton.borderColor = [UIColor whiteColor];
+        self.hyveImageButton.borderSize = 2.0f;
+        [self.hyveImageButton setImage:defaultHyveImage forState:UIControlStateNormal];
+        [self.hyveImageButton setTitle:@"" forState:UIControlStateNormal];
+    }
 }
 
 -(void)takeAPictureForHyveImage
@@ -785,8 +846,6 @@
         
         NSString *avatarImageString = [UIImagePNGRepresentation(hyveImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
         NSString *avatarImageStringInSixtyFour = [NSString stringWithFormat:@"data:image/png;base64, (%@)", avatarImageString];
-//        NSMutableDictionary *pairedHyveDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:hyve.peripheralName,@"name",hyve.peripheralUUIDString,@"uuid", hyve.peripheralRSSI, @"distance",nil];
-//        [self sendingPairedHyveToBackend:pairedHyveDictionary];
         
         NSDictionary *hyveDictionary = @{@"name":hyveName,
                                          @"distance":hyveProximity,
@@ -834,9 +893,6 @@
     [manager PATCH:hyveUserAccountString parameters:hyveDetails success:^(AFHTTPRequestOperation *operation, id responseObject) {
        
         NSLog(@"responseObject: \r %@", responseObject);
-        NSString *imageURLString = [responseObject valueForKeyPath:@"hyve.image.image.url"];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"userImageURLString" object:imageURLString];
-        
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         

@@ -25,7 +25,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *connectButton;
 @property (strong, nonatomic) CNPGridMenu *gridMenu;
 @property (strong, nonatomic) NSString *distanceNumber;
-@property (strong, nonatomic) NSData *distanceNumberData;
+@property (strong, nonatomic) NSMutableData *distanceNumberData;
 @property (strong, nonatomic) IBOutlet UIButton *hyveDistanceButton;
 @property (strong, nonatomic) IBOutlet UIButton *settingHyveImageButton;
 
@@ -37,6 +37,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.distanceNumberData = [NSMutableData new];
 
     self.centralManager.delegate = self;
     self.hyveNameTextField.text = self.peripheral.name;
@@ -178,6 +179,8 @@
         [self.hyveImageButton setImage:defaultHyveImage forState:UIControlStateNormal];
         [self.hyveImageButton setTitle:@"" forState:UIControlStateNormal];
     }
+    
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
 -(void)takeAPictureForHyveImage
@@ -626,23 +629,114 @@
 //                CBMutableCharacteristic *proximity = [[CBMutableCharacteristic alloc] initWithType:characteristic.UUID properties:CBCharacteristicPropertyWrite value:nil permissions:CBAttributePermissionsWriteable];
 //                [self.peripheral setNotifyValue:YES forCharacteristic:characteristic];
                 
-                NSString *a = @"0x61";
-                NSData *aData = [a dataUsingEncoding:NSASCIIStringEncoding];
                 
-                uint8_t byte[1];
-                byte[0]='<';
-
-                self.distanceNumberData = [NSData dataWithBytes:byte length:1];
+                uint8_t byte[0];
+                NSInteger index;
+                
+                for (index = 0; index < 9; index++)
+                {
+                    switch (index) {
+                        case 0:
+                        {
+                            byte[0] = 'P';
+                            self.distanceNumberData = [[NSMutableData alloc] initWithBytes:byte length:1];
+                            [self.peripheral writeValue:self.distanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+                            [self.peripheral readRSSI];
+                            [self.peripheral readValueForCharacteristic:characteristic];
+                            break;
+                        }
+                        case 1:
+                        {
+                            byte[0] = '<';
+                            self.distanceNumberData = [[NSMutableData alloc] initWithBytes:byte length:1];
+                            [self.peripheral writeValue:self.distanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+                            [self.peripheral readRSSI];
+                            [self.peripheral readValueForCharacteristic:characteristic];
+                            break;
+                        }
+                        case 2:
+                        {
+                            byte[0] = 'S';
+                            self.distanceNumberData = [[NSMutableData alloc] initWithBytes:byte length:1];
+                            [self.peripheral writeValue:self.distanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+                            [self.peripheral readRSSI];
+                            [self.peripheral readValueForCharacteristic:characteristic];
+                            break;
+                        }
+                        case 3:
+                        {
+                            byte[0] = '4';
+                            self.distanceNumberData = [[NSMutableData alloc] initWithBytes:byte length:1];
+                            [self.peripheral writeValue:self.distanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+                            [self.peripheral readRSSI];
+                            [self.peripheral readValueForCharacteristic:characteristic];
+                            break;
+                        }
+                        case 4:
+                        {
+                            byte[0] = '0';
+                            self.distanceNumberData = [[NSMutableData alloc] initWithBytes:byte length:1];
+                            [self.peripheral writeValue:self.distanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+                            [self.peripheral readRSSI];
+                            [self.peripheral readValueForCharacteristic:characteristic];
+                            break;
+                        }
+                        case 5:
+                        {
+                            byte[0] = '>';
+                            self.distanceNumberData = [[NSMutableData alloc] initWithBytes:byte length:1];
+                            [self.peripheral writeValue:self.distanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+                            [self.peripheral readRSSI];
+                            [self.peripheral readValueForCharacteristic:characteristic];
+                            break;
+                        }
+                        case 6:
+                        {
+                            byte[0] = '<';
+                            self.distanceNumberData = [[NSMutableData alloc] initWithBytes:byte length:1];
+                            [self.peripheral writeValue:self.distanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+                            [self.peripheral readRSSI];
+                            [self.peripheral readValueForCharacteristic:characteristic];
+                            break;
+                        }
+                        case 7:
+                        {
+                            byte[0] = 'X';
+                            self.distanceNumberData = [[NSMutableData alloc] initWithBytes:byte length:1];
+                            [self.peripheral writeValue:self.distanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+                            [self.peripheral readRSSI];
+                            [self.peripheral readValueForCharacteristic:characteristic];
+                            break;
+                        }
+                        case 8:
+                        {
+                            byte[0] = '>';
+                            self.distanceNumberData = [[NSMutableData alloc] initWithBytes:byte length:1];
+                            [self.peripheral writeValue:self.distanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+                            [self.peripheral readRSSI];
+                            [self.peripheral readValueForCharacteristic:characteristic];
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+//                    [self.peripheral writeValue:self.distanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+//                    [self.peripheral readRSSI];
+//                    [self.peripheral readValueForCharacteristic:characteristic];
+                }
+                
+//                for (index = 0; index < dataLength; index++)
+//                {
+//                    [self.peripheral writeValue:self.distanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+//                    [self.peripheral readRSSI];
+//                    [self.peripheral readValueForCharacteristic:characteristic];
+//                }
                 
 //                self.distanceNumber = @"0x61";
 //                const char *s =[self.distanceNumber UTF8String];
 //                self.distanceNumberData = [NSData dataWithBytes:s length:strlen(s)];
                 
 //                [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(sendingAToHyve) userInfo:nil repeats:NO];
-                
-                
-                [self.peripheral writeValue:self.distanceNumberData forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
-                [self.peripheral readRSSI];
 //                [peripheral readValueForCharacteristic:characteristic];
                 
 //                NSUInteger bytes = [self.distanceNumber lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
@@ -713,46 +807,6 @@
         }
     }
 */
-}
-
-
-
--(void)sendingAToHyve
-{
-    NSString *a = @"a";
-    NSData *aData = [a dataUsingEncoding:NSASCIIStringEncoding];
-    [self.peripheral writeValue:aData forCharacteristic:self.characteristic type:CBCharacteristicWriteWithResponse];
-    
-    [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(sendingXToHyve) userInfo:nil repeats:NO];
-
-}
-
--(void)sendingXToHyve
-{
-    NSString *x = @"X";
-    NSData *xData = [x dataUsingEncoding:NSASCIIStringEncoding];
-    [self.peripheral writeValue:xData forCharacteristic:self.characteristic type:CBCharacteristicWriteWithResponse];
-    
-}
-
-
--(NSData*) stringToBytes:(NSString*)distanceString
-{
-    NSUInteger size = [distanceString length];
-    NSMutableData *bytes = [NSMutableData dataWithLength:size/2];
-    //getting a pointer to the actual array of bytes
-    
-    uint8_t *bytePointer = [bytes mutableBytes];
-    NSUInteger i =0;
-    
-    for (NSUInteger j = 0; j < size / 2; ++j)
-    {
-        bytePointer[j] = (([distanceString characterAtIndex: i] & 0xf) << 4)
-        | ([distanceString characterAtIndex: i + 1] & 0xf);
-        i += 2;
-    }
-    
-    return bytes;
 }
 
 //to read characteristic value

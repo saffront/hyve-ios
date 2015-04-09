@@ -66,7 +66,15 @@
     [self.loadingIndicator setAnimationSpeed:MBLoaderSpeedMiddle];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.loadingIndicator start];
-        [self.loadingIndicator incrementPercentageBy:40];
+        int count = 0;
+        
+        while (count++ < 2)
+        {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(count * 1.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                [self.loadingIndicator incrementPercentageBy:40];
+            });
+        }
         [self.view addSubview:self.loadingIndicator];
         [self.view bringSubviewToFront:self.loadingIndicator];
     });

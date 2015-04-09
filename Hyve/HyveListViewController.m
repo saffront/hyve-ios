@@ -65,11 +65,24 @@
     [self.loadingIndicator setLoadedColor:[UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1]];
     [self.loadingIndicator setStartPosition:MBLoaderTop];
     [self.loadingIndicator setAnimationSpeed:MBLoaderSpeedMiddle];
+
+    
     dispatch_async(dispatch_get_main_queue(), ^{
+
         [self.loadingIndicator start];
-        [self.loadingIndicator incrementPercentageBy:20];
+        int count = 0;
+        
+        while (count++ < 2)
+        {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(count * 1.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                [self.loadingIndicator incrementPercentageBy:20];
+            });
+        }
         [self.view addSubview:self.loadingIndicator];
+
     });
+    
     [self.hyveListTable addSubview:self.loadingIndicator];
     [self.hyveListTable bringSubviewToFront:self.loadingIndicator];
 }
@@ -158,6 +171,16 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"error with retrieveUserInfoAndPairedHyve: \r\r %@ \r localizedDescription: \r %@", error, [error localizedDescription]);
+        
+        if (error)
+        {
+            [self.loadingIndicator dismiss];
+            
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            [alertController addAction:okAction];
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
         
     }];
 }
@@ -358,7 +381,7 @@
         [username setCenter:CGPointMake(CGRectGetMidX(backgroundImageView.bounds), positionOfUsernameCoordinateY)];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.loadingIndicator incrementPercentageBy:20];
+            
             backgroundImageView.image = [UIImage imageNamed:@"userProfileHeader"];
             [self.userProfileImageButton setImage:userProfileImage forState:UIControlStateNormal];
             [userProfileHeader addSubview:self.userProfileImageButton];

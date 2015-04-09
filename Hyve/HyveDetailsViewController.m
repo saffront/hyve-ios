@@ -28,6 +28,7 @@
 @property (strong, nonatomic) NSMutableData *distanceNumberData;
 @property (strong, nonatomic) IBOutlet UIButton *hyveDistanceButton;
 @property (strong, nonatomic) IBOutlet UIButton *settingHyveImageButton;
+@property (strong, nonatomic) NSNumber *ninthTime;
 
 
 
@@ -426,66 +427,28 @@
     {
         [self.hyveDistanceButton setTitle:@"1 meter" forState:UIControlStateNormal];
         
-        uint8_t byte[5];
-        byte[0]='<';
-        byte[1]='S';
-        byte[2]='4';
-        byte[3]='0';
-        byte[4]='>';
-        self.distanceNumberData = [NSData dataWithBytes:byte length:1];
-    
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Two \r meters"])
     {
         [self.hyveDistanceButton setTitle:@"2 meters" forState:UIControlStateNormal];
         
-        self.distanceNumber = @"<S46>";
-        const char *s =[self.distanceNumber UTF8String];
-        self.distanceNumberData = [NSData dataWithBytes:s length:strlen(s)];
-        
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Four \r meters"])
     {
         [self.hyveDistanceButton setTitle:@"4 meters" forState:UIControlStateNormal];
-        self.distanceNumber = @"<S52>";
-        
-        uint8_t byte[5];
-        byte[0]='<';
-        byte[1]='S';
-        byte[2]='5';
-        byte[3]='2';
-        byte[4]='>';
-        self.distanceNumberData = [NSData dataWithBytes:byte length:1];
-
-        
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Eight \r meters"])
     {
         [self.hyveDistanceButton setTitle:@"8 meters" forState:UIControlStateNormal];
         
-        uint8_t byte[5];
-        byte[0]='<';
-        byte[1]='S';
-        byte[2]='5';
-        byte[3]='8';
-        byte[4]='>';
-        self.distanceNumberData = [NSData dataWithBytes:byte length:1];
-        
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Sixteen \r meters"])
     {
         [self.hyveDistanceButton setTitle:@"16 meters" forState:UIControlStateNormal];
-        uint8_t byte[5];
-        byte[0]='<';
-        byte[1]='S';
-        byte[2]='6';
-        byte[3]='4';
-        byte[4]='>';
-        self.distanceNumberData = [NSData dataWithBytes:byte length:1];
         
         [self dismissGridMenuAnimated:YES completion:nil];
     }
@@ -587,35 +550,40 @@
     
             if ([characteristicUUID isEqual:characteristicUUIDString])
             {
+                
+                NSLog(@"Not sending anything");
+                
                 if ([self.hyveDistanceButton.titleLabel.text isEqualToString:@"1 meter"])
                 {
                     //[self writingOneMeterDistanceData:characteristic];
-                    [self writingDistanceDataToHyve:characteristic withDataOne:'P' withDataTwo:'<' withDataThree:'S' withDataFour:'4' withDataFive:'0' withDataSix:'>' withDataSeven:'<' withDataEight:'X' withDataNine:'>'];
+                    [self writingDistanceDataToHyve:characteristic withDataOne:'P' withDataTwo:'<' withDataThree:'S' withDataFour:'8' withDataFive:'0' withDataSix:'>' withDataSeven:'<' withDataEight:'X' withDataNine:'>'];
                     
                 }
                 else if ([self.hyveDistanceButton.titleLabel.text isEqualToString:@"2 meters"])
                 {
                     //[self writingTwoMetersDistanceData:characteristic];
-                    [self writingDistanceDataToHyve:characteristic withDataOne:'P' withDataTwo:'<' withDataThree:'S' withDataFour:'4' withDataFive:'6' withDataSix:'>' withDataSeven:'<' withDataEight:'X' withDataNine:'>'];
+                    [self writingDistanceDataToHyve:characteristic withDataOne:'P' withDataTwo:'<' withDataThree:'S' withDataFour:'9' withDataFive:'6' withDataSix:'>' withDataSeven:'<' withDataEight:'X' withDataNine:'>'];
                 }
                 else if ([self.hyveDistanceButton.titleLabel.text isEqualToString:@"4 meters"])
                 {
                     //[self writingFourMetersDistanceData:characteristic];
-                    [self writingDistanceDataToHyve:characteristic withDataOne:'P' withDataTwo:'<' withDataThree:'S' withDataFour:'5' withDataFive:'2' withDataSix:'>' withDataSeven:'<' withDataEight:'X' withDataNine:'>'];
+                    [self writingDistanceDataToHyve:characteristic withDataOne:'P' withDataTwo:'<' withDataThree:'S' withDataFour:'9' withDataFive:'2' withDataSix:'>' withDataSeven:'<' withDataEight:'X' withDataNine:'>'];
                 }
                 else if ([self.hyveDistanceButton.titleLabel.text isEqualToString:@"8 meters"])
                 {
                     //[self writingEightMetersDistanceData:characteristic];
-                    [self writingDistanceDataToHyve:characteristic withDataOne:'P' withDataTwo:'<' withDataThree:'S' withDataFour:'5' withDataFive:'8' withDataSix:'>' withDataSeven:'<' withDataEight:'X' withDataNine:'>'];
+                    [self writingDistanceDataToHyve:characteristic withDataOne:'P' withDataTwo:'<' withDataThree:'S' withDataFour:'9' withDataFive:'8' withDataSix:'>' withDataSeven:'<' withDataEight:'X' withDataNine:'>'];
                 }
                 else if ([self.hyveDistanceButton.titleLabel.text isEqualToString:@"16 meters"])
                 {
                     //[self writingSixteenMetersDistanceData:characteristic];
-                    [self writingDistanceDataToHyve:characteristic withDataOne:'P' withDataTwo:'<' withDataThree:'S' withDataFour:'6' withDataFive:'4' withDataSix:'>' withDataSeven:'<' withDataEight:'X' withDataNine:'>'];
+                    [self writingDistanceDataToHyve:characteristic withDataOne:'<' withDataTwo:'S' withDataThree:'1' withDataFour:'0' withDataFive:'0' withDataSix:'>' withDataSeven:'<' withDataEight:'X' withDataNine:'>'];
+
                 }
             }
     }
 }
+
 
 #pragma mark - writing distance data
 -(void)writingDistanceDataToHyve:(CBCharacteristic*)characteristic withDataOne:(char)dataOne withDataTwo:(char)dataTwo withDataThree:(char)dataThree withDataFour:(char)dataFour withDataFive:(char)dataFive withDataSix:(char)dataSix withDataSeven:(char)dataSeven withDataEight:(char)dataEight withDataNine:(char)dataNine
@@ -637,6 +605,7 @@
                 byte[0] = dataTwo;
                 [self writingDistanceNumberDataToHyveHardware:byte characteristic:characteristic];
                 break;
+                
             }
             case 2:
             {
@@ -680,6 +649,7 @@
             {
                 byte[0] = dataNine;
                 [self writingDistanceNumberDataToHyveHardware:byte characteristic:characteristic];
+                self.ninthTime = [NSNumber numberWithInt:9];
                 break;
             }
             default:
@@ -780,24 +750,26 @@
     else
     {
         NSLog(@"didWriteValueForCharacteristic : %@ \r characteristic.value %@ \r characteristic.descriptors %@ \r characteristic.properties %u", characteristic, characteristic.value, characteristic.descriptors, characteristic.properties );
-        
-        NSString *hyveName = self.hyveNameTextField.text;
-        NSString *hyveProximity = self.hyveDistanceButton.titleLabel.text;
-        UIImage *hyveImage = self.hyveImageButton.imageView.image;
-        NSString *hyveUUIDString = peripheral.identifier.UUIDString;
-        
-        NSString *avatarImageString = [UIImagePNGRepresentation(hyveImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-        NSString *avatarImageStringInSixtyFour = [NSString stringWithFormat:@"data:image/png;base64, (%@)", avatarImageString];
-        
-        NSDictionary *hyveDictionary = @{@"name":hyveName,
-                                         @"distance":hyveProximity,
-                                         @"uuid":hyveUUIDString,
-                                         @"image":avatarImageStringInSixtyFour};
-        
-        [self connectToHyve:hyveDictionary];
+
+        if ([self.ninthTime isEqual:[NSNumber numberWithInt:9]])
+        {
+            NSString *hyveName = self.hyveNameTextField.text;
+            NSString *hyveProximity = self.hyveDistanceButton.titleLabel.text;
+            UIImage *hyveImage = self.hyveImageButton.imageView.image;
+            NSString *hyveUUIDString = peripheral.identifier.UUIDString;
+            
+            NSString *avatarImageString = [UIImagePNGRepresentation(hyveImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+            NSString *avatarImageStringInSixtyFour = [NSString stringWithFormat:@"data:image/png;base64, (%@)", avatarImageString];
+            
+            NSDictionary *hyveDictionary = @{@"name":hyveName,
+                                             @"distance":hyveProximity,
+                                             @"uuid":hyveUUIDString,
+                                             @"image":avatarImageStringInSixtyFour};
+            
+            [self connectToHyve:hyveDictionary];
+        }
     }
 }
-
 
 #pragma mark - update hyves details 
 -(void)connectToHyve:(NSDictionary*)hyveDetails

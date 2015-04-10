@@ -66,7 +66,6 @@
     [self.loadingIndicator setStartPosition:MBLoaderTop];
     [self.loadingIndicator setAnimationSpeed:MBLoaderSpeedMiddle];
 
-    
     dispatch_async(dispatch_get_main_queue(), ^{
 
         [self.loadingIndicator start];

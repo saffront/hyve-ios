@@ -164,6 +164,7 @@
     [self stylingDetectingHyveLabel];
     
     [self.centralManager scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@NO}];
+    self.hyveButton.userInteractionEnabled = NO;
     
     [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(timeoutScanningForHyve) userInfo:nil repeats:NO];
 }
@@ -238,6 +239,7 @@
 {
     [self.centralManager stopScan];
     [self performSegueWithIdentifier:@"ShowPeripheralsList" sender:nil];
+    self.hyveButton.userInteractionEnabled = YES;
 }
 
 

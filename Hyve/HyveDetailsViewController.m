@@ -29,8 +29,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *hyveDistanceButton;
 @property (strong, nonatomic) IBOutlet UIButton *settingHyveImageButton;
 @property (strong, nonatomic) NSNumber *ninthTime;
-
-
+@property BOOL takePictureButtonDidPressed;
+@property BOOL setPresetIconButtonDidPressed;
 
 @end
 
@@ -38,6 +38,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.takePictureButtonDidPressed = NO;
+    self.setPresetIconButtonDidPressed = NO;
+    
     self.distanceNumberData = [NSMutableData new];
 
     self.centralManager.delegate = self;
@@ -270,7 +273,7 @@
             [self.hyveImageButton pop_addAnimation:springAnimation forKey:@"sendAnimation"];
             
             [self.hyveImageButton setImage:self.resizedImage forState:UIControlStateNormal];
-            
+            self.takePictureButtonDidPressed = YES;
         });
     });
 }
@@ -297,23 +300,23 @@
 {
     CNPGridMenuItem *one = [CNPGridMenuItem new];
     one.title = [NSString stringWithFormat:@"One \r meter"];
-    one.icon = [UIImage imageNamed:@"remote"];
+    one.icon = [UIImage imageNamed:@"one"];
     
     CNPGridMenuItem *two = [CNPGridMenuItem new];
-    two.icon = [UIImage imageNamed:@"remote"];
+    two.icon = [UIImage imageNamed:@"two"];
     two.title = [NSString stringWithFormat:@"Two \r meters"];
     
     CNPGridMenuItem *four = [CNPGridMenuItem new];
     four.title = [NSString stringWithFormat:@"Four \r meters"];
-    four.icon = [UIImage imageNamed:@"remote"];
+    four.icon = [UIImage imageNamed:@"four"];
     
     CNPGridMenuItem *eight = [CNPGridMenuItem new];
     eight.title = [NSString stringWithFormat:@"Eight \r meters"];
-    eight.icon = [UIImage imageNamed:@"remote"];
+    eight.icon = [UIImage imageNamed:@"theEight"];
   
     CNPGridMenuItem *sixteen = [CNPGridMenuItem new];
     sixteen.title = [NSString stringWithFormat:@"Sixteen \r meters"];
-    sixteen.icon = [UIImage imageNamed:@"remote"];
+    sixteen.icon = [UIImage imageNamed:@"sixteen"];
     
     self.gridMenu = [[CNPGridMenu alloc] initWithMenuItems:@[one,two,four,eight,sixteen]];
     self.gridMenu.delegate = self;
@@ -348,6 +351,7 @@
     
     UIAlertAction *takePicture = [UIAlertAction actionWithTitle:@"Take a picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [self takeAPictureForHyveImage];
+        
     }];
     
     UIAlertAction *usePresetIcon = [UIAlertAction actionWithTitle:@"Use preset icon" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -374,54 +378,63 @@
         [self settingHyveImageButtonAnimation];
         [self.hyveImageButton setImage:[UIImage imageNamed:@"bagpack"] forState:UIControlStateNormal];
         [self dismissGridMenuAnimated:YES completion:nil];
+        self.setPresetIconButtonDidPressed = YES;
     }
     else if ([item.title isEqualToString:@"Laptop"])
     {
         [self settingHyveImageButtonAnimation];
         [self.hyveImageButton setImage:[UIImage imageNamed:@"macbook"] forState:UIControlStateNormal];
         [self dismissGridMenuAnimated:YES completion:nil];
+        self.setPresetIconButtonDidPressed = YES;
     }
     else if ([item.title isEqualToString:@"House Key"])
     {
         [self settingHyveImageButtonAnimation];
         [self.hyveImageButton setImage:[UIImage imageNamed:@"houseKeys"] forState:UIControlStateNormal];
         [self dismissGridMenuAnimated:YES completion:nil];
+        self.setPresetIconButtonDidPressed = YES;
     }
     else if ([item.title isEqualToString:@"Car Key"])
     {
         [self settingHyveImageButtonAnimation];
         [self.hyveImageButton setImage:[UIImage imageNamed:@"carKeys"] forState:UIControlStateNormal];
         [self dismissGridMenuAnimated:YES completion:nil];
+        self.setPresetIconButtonDidPressed = YES;
     }
     else if ([item.title isEqualToString:@"Bag"])
     {
         [self settingHyveImageButtonAnimation];
         [self.hyveImageButton setImage:[UIImage imageNamed:@"handbag"] forState:UIControlStateNormal];
         [self dismissGridMenuAnimated:YES completion:nil];
+        self.setPresetIconButtonDidPressed = YES;
     }
     else if ([item.title isEqualToString:@"Briefcase"])
     {
         [self settingHyveImageButtonAnimation];
         [self.hyveImageButton setImage:[UIImage imageNamed:@"briefcase"] forState:UIControlStateNormal];
         [self dismissGridMenuAnimated:YES completion:nil];
+        self.setPresetIconButtonDidPressed = YES;
     }
     else if ([item.title isEqualToString:@"Backpack"])
     {
         [self settingHyveImageButtonAnimation];
         [self.hyveImageButton setImage:[UIImage imageNamed:@"bagpack"] forState:UIControlStateNormal];
         [self dismissGridMenuAnimated:YES completion:nil];
+        self.setPresetIconButtonDidPressed = YES;
     }
     else if ([item.title isEqualToString:@"Wallet"])
     {
         [self settingHyveImageButtonAnimation];
         [self.hyveImageButton setImage:[UIImage imageNamed:@"wallet"] forState:UIControlStateNormal];
         [self dismissGridMenuAnimated:YES completion:nil];
+        self.setPresetIconButtonDidPressed = YES;
     }
     else if ([item.title isEqualToString:@"Remote Control"])
     {
         [self settingHyveImageButtonAnimation];
         [self.hyveImageButton setImage:[UIImage imageNamed:@"remote"] forState:UIControlStateNormal];
         [self dismissGridMenuAnimated:YES completion:nil];
+        self.setPresetIconButtonDidPressed = YES;
     }
     else if ([item.title isEqualToString:@"One \r meter"])
     {
@@ -761,12 +774,23 @@
             NSString *avatarImageString = [UIImagePNGRepresentation(hyveImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
             NSString *avatarImageStringInSixtyFour = [NSString stringWithFormat:@"data:image/png;base64, (%@)", avatarImageString];
             
-            NSDictionary *hyveDictionary = @{@"name":hyveName,
-                                             @"distance":hyveProximity,
-                                             @"uuid":hyveUUIDString,
-                                             @"image":avatarImageStringInSixtyFour};
-            
-            [self connectToHyve:hyveDictionary];
+            if (self.setPresetIconButtonDidPressed == YES || self.takePictureButtonDidPressed == YES)
+            {
+                NSDictionary *hyveDictionary = @{@"name":hyveName,
+                                                 @"distance":hyveProximity,
+                                                 @"uuid":hyveUUIDString,
+                                                 @"image":avatarImageStringInSixtyFour};
+                
+                [self connectToHyve:hyveDictionary];
+            }
+            else
+            {
+                NSDictionary *hyveDictionary = @{@"name":hyveName,
+                                                 @"distance":hyveProximity,
+                                                 @"uuid":hyveUUIDString};
+                
+                [self connectToHyve:hyveDictionary];
+            }
         }
     }
 }

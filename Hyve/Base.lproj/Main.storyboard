@@ -1345,7 +1345,7 @@
                     <connections>
                         <outlet property="hyveListTable" destination="izj-MW-hVs" id="bfY-v7-XhW"/>
                         <outlet property="swarmButton" destination="j9o-r1-l8p" id="Sth-nY-LZh"/>
-                        <segue destination="Hf0-s7-Zdq" kind="custom" identifier="ShowUserAccountVC" customClass="BlurryModalSegue" id="j1w-iQ-5jW"/>
+                        <segue destination="oI0-fe-4gh" kind="custom" identifier="ShowUserAccountVC" customClass="BlurryModalSegue" id="j1w-iQ-5jW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pIy-fo-a3J" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1588,7 +1588,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jy0-Cz-idu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6009" y="108.75"/>
+            <point key="canvasLocation" x="6927" y="108.75"/>
         </scene>
         <!--User Account View Controller-->
         <scene sceneID="cSH-Y9-JJD">
@@ -1874,7 +1874,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sdW-Bq-v75" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="lrx-Yr-2gI" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4747.5" y="-470.25"/>
+            <point key="canvasLocation" x="5665.5" y="-470.25"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="S6p-Hz-VHG">
@@ -2365,9 +2365,27 @@
             </objects>
             <point key="canvasLocation" x="633" y="-654.75"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="7vm-Js-aoZ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oI0-fe-4gh" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ybJ-70-niv">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Hf0-s7-Zdq" kind="relationship" relationship="rootViewController" id="Ve3-ne-uUw"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="244-2w-jeP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4747.5" y="-470.25"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ZUn-7y-4ra"/>
         <segue reference="82u-vr-klP"/>
+        <segue reference="0Ls-Nt-WTq"/>
     </inferredMetricsTieBreakers>
 </document>

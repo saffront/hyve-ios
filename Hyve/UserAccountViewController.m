@@ -35,6 +35,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self stylingBackgroundView];
     [self settingUpLoadingView];
     [self connectToHyve];
     [self stylingUserAvatarButton];
@@ -53,6 +54,21 @@
     self.password.delegate = self;
 
 }
+
+#pragma mark - view will appear
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES];
+}
+
+#pragma mark - view will disappear
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO];
+}
+
 
 #pragma mark - setting up loading view
 -(void)settingUpLoadingView
@@ -191,6 +207,18 @@
 {
     UIImageView *backgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     backgroundView.image = [UIImage imageNamed:@"appBg"];
+    
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    [blurEffectView setFrame:backgroundView.bounds];
+    [backgroundView addSubview:blurEffectView];
+    
+    UIVibrancyEffect *vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:blurEffect];
+    UIVisualEffectView *vibrancyEffectView = [[UIVisualEffectView alloc] initWithEffect:vibrancyEffect
+    ];
+    [vibrancyEffectView setFrame:backgroundView.bounds];
+    [blurEffectView.contentView addSubview:vibrancyEffectView];
+    
     [self.view addSubview:backgroundView];
 }
 
@@ -414,7 +442,8 @@
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     WalkthroughViewController *wvc = [storyboard instantiateViewControllerWithIdentifier:@"WalkthroughViewController"];
-    [self presentViewController:wvc animated:YES completion:nil];
+//    [self presentViewController:wvc animated:YES completion:nil];
+    [self.navigationController pushViewController:wvc animated:YES];
     
 }
 

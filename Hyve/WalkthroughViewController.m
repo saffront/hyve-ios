@@ -137,7 +137,6 @@
     UIPageControl *pageControl = [UIPageControl appearanceWhenContainedIn:[UIPageViewController class], nil];
     pageControl.pageIndicatorTintColor = [UIColor darkGrayColor];
     pageControl.currentPageIndicatorTintColor = [UIColor colorWithRed:0.80 green:0.80 blue:0.80 alpha:1];
-//    pageControl.currentPageIndicatorTintColor = [UIColor colorWithRed:0.50 green:0.50 blue:0.50 alpha:1];
 
 }
 

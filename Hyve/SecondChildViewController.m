@@ -7,6 +7,7 @@
 //
 
 #import "SecondChildViewController.h"
+#import <POP.h>
 
 @interface SecondChildViewController ()
 

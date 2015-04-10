@@ -53,6 +53,7 @@
     [backButton setFrame:CGRectMake(0, 0, 30, 30)];
     [backButton setBackgroundImage:backButtonImage forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+
     
     UIBarButtonItem *backButtonOnBar = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     self.navigationItem.leftBarButtonItem = backButtonOnBar;

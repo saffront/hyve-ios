@@ -7,6 +7,7 @@
 //
 
 #import "FirstChildViewController.h"
+#import <POP.h>
 
 @interface FirstChildViewController ()
 
@@ -43,6 +44,8 @@
     self.titleLabel.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:30];
     self.titleLabel.numberOfLines = 0;
     self.titleLabel.textColor = [UIColor colorWithRed:0.28 green:0.35 blue:0.40 alpha:1];
+
+    
 }
 
 #pragma mark - styling description label

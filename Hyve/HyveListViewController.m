@@ -74,7 +74,7 @@
 
 - (IBAction)onSwarmButtonHoldDownPressed:(id)sender
 {
-    NSLog(@"swarm button pressed down");
+    NSLog(@"Swarm button is hold down");
 }
 
 -(void)settingUpLoadingIndicator
@@ -373,7 +373,7 @@
 {
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        [self.userProfileImageButton setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
+        [self.userProfileImageButton setImage:[UIImage imageNamed:@"defaultUserProfileImage"] forState:UIControlStateNormal];
         UIView *userProfileHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.hyveListTable.frame.size.width, 250)];
         [userProfileHeader setUserInteractionEnabled:YES];
         [userProfileHeader bringSubviewToFront:self.loadingIndicator];
@@ -443,7 +443,8 @@
     {
         if ([segue isKindOfClass:[BlurryModalSegue class]])
         {
-            UserAccountViewController *uavc = segue.destinationViewController;
+            UINavigationController *navigationController = segue.destinationViewController;
+            UserAccountViewController *uavc = (UserAccountViewController*)[navigationController topViewController];
 
             BlurryModalSegue* bms = (BlurryModalSegue*)segue;
             bms.backingImageBlurRadius = @(40);

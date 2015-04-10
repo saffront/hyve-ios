@@ -111,8 +111,8 @@
     [self settingPlaceholderTextFieldColor:self.emailTextField setPlaceholderText:@"Email"];
     [self settingPlaceholderTextFieldColor:self.lastNameTextField setPlaceholderText:@"Last Name"];
     [self settingPlaceholderTextFieldColor:self.firstNameTextField setPlaceholderText:@"First Name"];
-    [self settingPlaceholderTextFieldColor:self.passwordTextField setPlaceholderText:@"Password"];
-    [self settingPlaceholderTextFieldColor:self.passwordConfirmationTextField setPlaceholderText:@"Password confirmation"];
+    [self settingPlaceholderTextFieldColor:self.passwordTextField setPlaceholderText:@"Password (min. 8 characters)"];
+    [self settingPlaceholderTextFieldColor:self.passwordConfirmationTextField setPlaceholderText:@"Password Confirmation"];
 }
 
 #pragma mark - styling text field

@@ -86,7 +86,7 @@
 -(void)stylingRegisterButton
 {
     self.registerButton.backgroundColor = [UIColor colorWithRed:0.96 green:0.46 blue:0.15 alpha:1];
-    [self.registerButton setTitle:@"Register" forState:UIControlStateNormal];
+    [self.registerButton setTitle:@"REGISTER" forState:UIControlStateNormal];
     [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.registerButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
 }

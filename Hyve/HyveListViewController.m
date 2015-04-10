@@ -380,7 +380,7 @@
         
         UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, userProfileHeader.frame.size.width, userProfileHeader.frame.size.height)];
         
-        if (![imageURLString isKindOfClass:[NSNull class]])
+        if (![imageURLString isKindOfClass:[NSNull class]] || imageURLString != nil)
         {
             NSURL *imageURL = [NSURL URLWithString:imageURLString];
             NSData *imageURLData = [NSData dataWithContentsOfURL:imageURL];

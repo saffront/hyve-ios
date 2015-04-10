@@ -1274,10 +1274,41 @@
                                     <outlet property="delegate" destination="qtE-yT-x4I" id="WB4-1U-H81"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j9o-r1-l8p" customClass="DKCircleButton">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="bNN-Ev-4PN"/>
+                                    <constraint firstAttribute="width" constant="80" id="xvD-xB-TTO"/>
+                                </constraints>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="bNN-Ev-4PN"/>
+                                        <exclude reference="xvD-xB-TTO"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="bNN-Ev-4PN"/>
+                                        <include reference="xvD-xB-TTO"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="onSwarmButtonHoldDownPressed:" destination="qtE-yT-x4I" eventType="touchDown" id="2Ff-Az-Ews"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="j9o-r1-l8p" firstAttribute="leading" secondItem="iVX-pF-caR" secondAttribute="leading" constant="20" id="0Ta-04-HM1">
+                                <variation key="heightClass=regular-widthClass=compact" constant="10"/>
+                            </constraint>
                             <constraint firstAttribute="trailing" secondItem="izj-MW-hVs" secondAttribute="trailing" id="4Am-Yo-85g"/>
+                            <constraint firstItem="pxV-kL-DgI" firstAttribute="top" secondItem="j9o-r1-l8p" secondAttribute="bottom" constant="20" id="WMh-pP-0oZ">
+                                <variation key="heightClass=regular-widthClass=compact" constant="8"/>
+                            </constraint>
                             <constraint firstItem="izj-MW-hVs" firstAttribute="top" secondItem="iVX-pF-caR" secondAttribute="top" id="ozK-zn-A0N"/>
                             <constraint firstItem="izj-MW-hVs" firstAttribute="leading" secondItem="iVX-pF-caR" secondAttribute="leading" id="vbO-sp-Zbx"/>
                             <constraint firstItem="izj-MW-hVs" firstAttribute="bottom" secondItem="pxV-kL-DgI" secondAttribute="top" id="yeg-Zk-LPl"/>
@@ -1285,28 +1316,35 @@
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="izj-MW-hVs"/>
+                                <exclude reference="j9o-r1-l8p"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="4Am-Yo-85g"/>
                                 <exclude reference="ozK-zn-A0N"/>
                                 <exclude reference="vbO-sp-Zbx"/>
                                 <exclude reference="yeg-Zk-LPl"/>
+                                <exclude reference="0Ta-04-HM1"/>
+                                <exclude reference="WMh-pP-0oZ"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
                                 <include reference="izj-MW-hVs"/>
+                                <include reference="j9o-r1-l8p"/>
                             </mask>
                             <mask key="constraints">
                                 <include reference="4Am-Yo-85g"/>
                                 <include reference="ozK-zn-A0N"/>
                                 <include reference="vbO-sp-Zbx"/>
                                 <include reference="yeg-Zk-LPl"/>
+                                <include reference="0Ta-04-HM1"/>
+                                <include reference="WMh-pP-0oZ"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
                         <outlet property="hyveListTable" destination="izj-MW-hVs" id="bfY-v7-XhW"/>
+                        <outlet property="swarmButton" destination="j9o-r1-l8p" id="Sth-nY-LZh"/>
                         <segue destination="Hf0-s7-Zdq" kind="custom" identifier="ShowUserAccountVC" customClass="BlurryModalSegue" id="j1w-iQ-5jW"/>
                     </connections>
                 </viewController>
@@ -1916,7 +1954,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="6CC-x0-8NV" firstAttribute="top" secondItem="BaN-O2-KOi" secondAttribute="bottom" constant="32" id="3NS-Q8-RgT">
-                                <variation key="heightClass=regular-widthClass=compact" constant="19"/>
+                                <variation key="heightClass=regular-widthClass=compact" constant="-9"/>
                             </constraint>
                             <constraint firstItem="BaN-O2-KOi" firstAttribute="leading" secondItem="4RC-mh-aDZ" secondAttribute="leading" constant="16" id="IVN-tP-xXt"/>
                             <constraint firstAttribute="centerX" secondItem="6CC-x0-8NV" secondAttribute="centerX" id="QZ0-YT-Uds"/>

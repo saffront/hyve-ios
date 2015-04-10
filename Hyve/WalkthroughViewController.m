@@ -95,7 +95,7 @@
     self.signUp.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
     self.signUp.titleLabel.text = @"SIGN UP";
     self.signUp.layer.borderWidth = 1.0f;
-    self.signUp.layer.borderColor = [UIColor colorWithRed:0.55 green:0.55 blue:0.55 alpha:1].CGColor;
+    self.signUp.layer.borderColor = [UIColor clearColor].CGColor;
     [self.signUp setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.signUp setBackgroundColor:[UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1]];
 }
@@ -105,7 +105,7 @@
 {
     [self.loginButton setTitle:@"LOG IN" forState:UIControlStateNormal];
     self.loginButton.layer.borderWidth = 1.0f;
-    self.loginButton.layer.borderColor = [UIColor colorWithRed:0.55 green:0.55 blue:0.55 alpha:1].CGColor;
+    self.loginButton.layer.borderColor = [UIColor clearColor].CGColor;
     [self.loginButton setBackgroundColor:[UIColor clearColor]];
     self.loginButton.titleLabel.text = @"LOG IN";
     self.loginButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
@@ -136,7 +136,8 @@
 {
     UIPageControl *pageControl = [UIPageControl appearanceWhenContainedIn:[UIPageViewController class], nil];
     pageControl.pageIndicatorTintColor = [UIColor darkGrayColor];
-    pageControl.currentPageIndicatorTintColor = [UIColor colorWithRed:0.50 green:0.50 blue:0.50 alpha:1];
+    pageControl.currentPageIndicatorTintColor = [UIColor colorWithRed:0.80 green:0.80 blue:0.80 alpha:1];
+//    pageControl.currentPageIndicatorTintColor = [UIColor colorWithRed:0.50 green:0.50 blue:0.50 alpha:1];
 
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import <DKCircleButton.h>
+#import <QuartzCore/QuartzCore.h>
 #import "UserAccountViewController.h"
 #import "HyveListTableViewCell.h"
 #import "HyveListViewController.h"
@@ -28,6 +29,7 @@
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
 @property (strong, nonatomic) MBLoadingIndicator *loadingIndicator;
 @property (strong, nonatomic) UIImage *userProfileImage;
+@property (weak, nonatomic) IBOutlet DKCircleButton *swarmButton;
 
 @end
 
@@ -40,6 +42,7 @@
     [self stylingBackgroundView];
     [self stylingNavigationBar];
     [self stylingHyveListTableView];
+    [self stylingSwarmButton];
 
 }
 
@@ -48,13 +51,30 @@
 {
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingUserImage:) name:@"user" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingHyveImage:) name:@"userImageURLString" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingHyveImage:) name:@"userImageURLString" object:nil];
 
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor clearColor];
+}
+
+
+#pragma mark - styling swarm button
+-(void)stylingSwarmButton
+{
+    [self.swarmButton setTitle:@"" forState:UIControlStateNormal];
+    
+    UIImage *swarmImageButton = [UIImage imageNamed:@"swarm"];
+    [self.swarmButton setImage:swarmImageButton forState:UIControlStateNormal];
+    [self.userProfileImageButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+
+}
+
+- (IBAction)onSwarmButtonHoldDownPressed:(id)sender
+{
+    NSLog(@"swarm button pressed down");
 }
 
 -(void)settingUpLoadingIndicator

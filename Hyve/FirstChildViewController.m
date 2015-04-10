@@ -39,7 +39,7 @@
 #pragma mark - styling title label
 -(void)stylingTitleLabel
 {
-    self.titleLabel.text = @"HYVE";
+    self.titleLabel.text = @"Welcome to HYVE";
     self.titleLabel.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:30];
     self.titleLabel.numberOfLines = 0;
     self.titleLabel.textColor = [UIColor colorWithRed:0.28 green:0.35 blue:0.40 alpha:1];
@@ -51,7 +51,7 @@
     self.descriptionLabel.text = @"Know where your stuff is?";
     self.descriptionLabel.numberOfLines = 0;
     self.descriptionLabel.textColor = [UIColor colorWithRed:0.28 green:0.35 blue:0.40 alpha:1];
-    self.descriptionLabel.font = [UIFont fontWithName:@"OpenSans" size:22];
+    self.descriptionLabel.font = [UIFont fontWithName:@"OpenSans" size:18];
     
 }
 

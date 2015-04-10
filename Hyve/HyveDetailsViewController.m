@@ -688,19 +688,7 @@
     }
     else
     {
-        NSLog(@"didUpdateValueForCharacteristic : %@ \r characteristic.value %@ \r characteristic.descriptors %@ \r characteristic.properties %lu", characteristic, characteristic.value, characteristic.descriptors, characteristic.properties );
-        
-        /*
-        NSData *peripheralValue = characteristic.value;
-        NSData *decipherPeripheralValueData = [NSData dataWithByte%lu[peripheralValue bytes] length:[peripheralValue length]];
-        const uint8_t *bytes = [decipherPeripheralValueData bytes];
-        int value = bytes[0];
-        NSLog(@"value of bytes : %i", value);
-        */
-        
-        
-        //reading the nsdata --> nsdata to nsstring --> not working, not nill, but can't via bytes in string
-//        NSString *peripheralValueString = [NSString stringWithUTF8String:[peripheralValue bytes]];
+        NSLog(@"didUpdateValueForCharacteristic : %@ \r characteristic.value %@ \r characteristic.descriptors %@ \r characteristic.properties %u", characteristic, characteristic.value, characteristic.descriptors, characteristic.properties );
     }
 }
 

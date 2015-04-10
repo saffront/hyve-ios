@@ -35,7 +35,7 @@
 #pragma mark - styling description label
 -(void)stylingDescriptionLabel
 {
-    self.descriptionLabel.text = @"With the discovered Hyves listed, associate your Hyves with by tapping on the pair button";
+    self.descriptionLabel.text = @"With the discovered Hyves listed, associate your Hyves by tapping on the pair button";
     self.descriptionLabel.numberOfLines = 0;
     self.descriptionLabel.textColor = [UIColor colorWithRed:0.28 green:0.35 blue:0.40 alpha:1];
     self.descriptionLabel.font = [UIFont fontWithName:@"OpenSans" size:18];

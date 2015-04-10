@@ -27,6 +27,7 @@
 @property float defaultY;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
 @property (strong, nonatomic) MBLoadingIndicator *loadingIndicator;
+@property (strong, nonatomic) UIImage *userProfileImage;
 
 @end
 
@@ -352,16 +353,24 @@
 {
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        [self.userProfileImageButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+        [self.userProfileImageButton setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
         UIView *userProfileHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.hyveListTable.frame.size.width, 250)];
         [userProfileHeader setUserInteractionEnabled:YES];
         [userProfileHeader bringSubviewToFront:self.loadingIndicator];
         
         UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, userProfileHeader.frame.size.width, userProfileHeader.frame.size.height)];
         
-        NSURL *imageURL = [NSURL URLWithString:imageURLString];
-        NSData *imageURLData = [NSData dataWithContentsOfURL:imageURL];
-        UIImage *userProfileImage = [UIImage imageWithData:imageURLData];
+        if (![imageURLString isKindOfClass:[NSNull class]])
+        {
+            NSURL *imageURL = [NSURL URLWithString:imageURLString];
+            NSData *imageURLData = [NSData dataWithContentsOfURL:imageURL];
+            self.userProfileImage = [UIImage imageWithData:imageURLData];
+        }
+        else
+        {
+            self.userProfileImage = [UIImage imageNamed:@"defaultUserProfileImage"];
+            [self.userProfileImageButton setImage:self.userProfileImage forState:UIControlStateNormal];
+        }
         
         self.userProfileImageButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(userProfileHeader.frame.size.width / 2, 130, 100, 100)];
         [self.userProfileImageButton.imageView setContentMode:UIViewContentModeScaleAspectFill];
@@ -382,7 +391,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             
             backgroundImageView.image = [UIImage imageNamed:@"userProfileHeader"];
-            [self.userProfileImageButton setImage:userProfileImage forState:UIControlStateNormal];
+            [self.userProfileImageButton setImage:self.userProfileImage forState:UIControlStateNormal];
             [userProfileHeader addSubview:self.userProfileImageButton];
             username.text = usernameFromHyve;
             [backgroundImageView addSubview:username];

@@ -123,7 +123,6 @@
             self.user.email = [user valueForKeyPath:@"email"];
             self.user.username = [user valueForKeyPath:@"username"];
             self.user.avatarURLString = [user valueForKeyPath:@"avatar.avatar.url"];
-            NSData *userAvatarURLData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.user.avatarURLString]];
             
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             self.user.password = [userDefaults objectForKey:@"userPassword"];
@@ -134,13 +133,25 @@
                     self.password.alpha = 0;
 //                    UIImage *avatarImageFromHyve = [UIImage imageWithData:userAvatarURLData];
 //                    [self.userAvatar setImage:avatarImageFromHyve forState:UIControlStateNormal];
-                    [self.userAvatar.imageView setImageWithURL:[NSURL URLWithString:self.user.avatarURLString] placeholderImage:[UIImage imageNamed:@"jlaw"]];
+                    [self.userAvatar.imageView setImageWithURL:[NSURL URLWithString:self.user.avatarURLString] placeholderImage:[UIImage imageNamed:@"defaultUserProfileImage"]];
                 });
             }
             else
             {
-                if (![self.user.avatarURLString isEqualToString:@""])
+                if ([self.user.avatarURLString isKindOfClass:[NSNull class]] || self.user.avatarURLString == nil)
                 {
+                    UIImage *defaultUserProfileImage = [UIImage imageNamed:@"defaultUserProfileImage"];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        [self.userAvatar setImage:defaultUserProfileImage forState:UIControlStateNormal];
+                        
+                    });
+                }
+                else
+                {
+                    NSData *userAvatarURLData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.user.avatarURLString]];
+                    
                     UIImage *avatarImageFromHyve = [UIImage imageWithData:userAvatarURLData];
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
@@ -162,6 +173,16 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"error %@ \r error localized description %@", error, [error localizedDescription]);
+        
+        if (error)
+        {
+            [self.loadingIndicator dismiss];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            [alertController addAction:okAction];
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
+        
     }];
 }
 
@@ -176,7 +197,7 @@
 #pragma mark - user avatar
 -(void)stylingUserAvatarButton
 {
-    [self.userAvatar setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
+    [self.userAvatar setImage:[UIImage imageNamed:@"defaultUserProfileImage"] forState:UIControlStateNormal];
 }
 
 - (IBAction)onUserAvatarButtonPressed:(id)sender

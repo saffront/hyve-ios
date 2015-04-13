@@ -245,6 +245,7 @@
                         <viewControllerLayoutGuide type="bottom" id="f8S-Bo-7hv"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="huj-co-RLt">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uU6-WW-H3F">
@@ -275,7 +276,7 @@
                                     <constraint firstAttribute="width" constant="368" id="kxL-H3-y0a"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="CoE-DC-QfY"/>
@@ -329,6 +330,9 @@
                                         <include reference="NAI-l3-xhP"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <action selector="onLoginButtonPressed:" destination="fvZ-Gm-zbx" eventType="touchUpInside" id="FY0-Fa-sk5"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -354,18 +358,18 @@
                                 <exclude reference="E3S-Sp-yRq"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="XFp-RN-pIM"/>
-                                <exclude reference="bb6-ZQ-6EV"/>
-                                <exclude reference="iph-d3-zcZ"/>
-                                <exclude reference="KbP-Zt-k59"/>
-                                <exclude reference="aT4-6P-b90"/>
-                                <exclude reference="nOn-e8-4eP"/>
                                 <exclude reference="JUs-Jv-Jm1"/>
                                 <exclude reference="ZTv-w4-zDZ"/>
                                 <exclude reference="kyv-i9-JfW"/>
+                                <exclude reference="KbP-Zt-k59"/>
+                                <exclude reference="aT4-6P-b90"/>
+                                <exclude reference="nOn-e8-4eP"/>
                                 <exclude reference="8lu-2Z-kiC"/>
                                 <exclude reference="B1r-aU-Biw"/>
                                 <exclude reference="mU9-1Z-Frs"/>
+                                <exclude reference="XFp-RN-pIM"/>
+                                <exclude reference="bb6-ZQ-6EV"/>
+                                <exclude reference="iph-d3-zcZ"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -376,18 +380,18 @@
                                 <include reference="E3S-Sp-yRq"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="XFp-RN-pIM"/>
-                                <include reference="bb6-ZQ-6EV"/>
-                                <include reference="iph-d3-zcZ"/>
-                                <include reference="KbP-Zt-k59"/>
-                                <include reference="aT4-6P-b90"/>
-                                <include reference="nOn-e8-4eP"/>
                                 <include reference="JUs-Jv-Jm1"/>
                                 <include reference="ZTv-w4-zDZ"/>
                                 <include reference="kyv-i9-JfW"/>
+                                <include reference="KbP-Zt-k59"/>
+                                <include reference="aT4-6P-b90"/>
+                                <include reference="nOn-e8-4eP"/>
                                 <include reference="8lu-2Z-kiC"/>
                                 <include reference="B1r-aU-Biw"/>
                                 <include reference="mU9-1Z-Frs"/>
+                                <include reference="XFp-RN-pIM"/>
+                                <include reference="bb6-ZQ-6EV"/>
+                                <include reference="iph-d3-zcZ"/>
                             </mask>
                         </variation>
                     </view>
@@ -396,6 +400,7 @@
                         <outlet property="hyveImageLogo" destination="Bx3-SE-m6B" id="KHn-Mr-5ou"/>
                         <outlet property="loginButton" destination="E3S-Sp-yRq" id="aha-fm-QJW"/>
                         <outlet property="passwordTextField" destination="3kd-oO-v0v" id="6tO-2v-rpb"/>
+                        <segue destination="Hpw-VC-FOY" kind="showDetail" identifier="ToDashboardFromEmailVC" id="NMv-hj-EGi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lvd-6w-SOQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1485,12 +1490,12 @@
                                 <exclude reference="j9o-r1-l8p"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="WMh-pP-0oZ"/>
+                                <exclude reference="0Ta-04-HM1"/>
                                 <exclude reference="4Am-Yo-85g"/>
                                 <exclude reference="ozK-zn-A0N"/>
                                 <exclude reference="vbO-sp-Zbx"/>
                                 <exclude reference="yeg-Zk-LPl"/>
-                                <exclude reference="0Ta-04-HM1"/>
-                                <exclude reference="WMh-pP-0oZ"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -1499,12 +1504,12 @@
                                 <include reference="j9o-r1-l8p"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="WMh-pP-0oZ"/>
+                                <include reference="0Ta-04-HM1"/>
                                 <include reference="4Am-Yo-85g"/>
                                 <include reference="ozK-zn-A0N"/>
                                 <include reference="vbO-sp-Zbx"/>
                                 <include reference="yeg-Zk-LPl"/>
-                                <include reference="0Ta-04-HM1"/>
-                                <include reference="WMh-pP-0oZ"/>
                             </mask>
                         </variation>
                     </view>
@@ -2551,7 +2556,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="NMv-hj-EGi"/>
         <segue reference="ObQ-NT-1SY"/>
-        <segue reference="9sE-72-1MT"/>
     </inferredMetricsTieBreakers>
 </document>

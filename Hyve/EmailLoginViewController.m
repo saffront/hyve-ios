@@ -7,6 +7,9 @@
 //
 
 #import "EmailLoginViewController.h"
+#import "DashboardViewController.h"
+#import <AFNetworking.h>
+#import <Reachability.h>
 
 @interface EmailLoginViewController() <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
@@ -25,7 +28,7 @@
     [self settingUpHyveImageLogo];
     [self stylingTextField:self.emailTextField];
     [self stylingTextField:self.passwordTextField];
-    [self stylingRegisterButton];
+    [self stylingLoginButton];
 }
 
 #pragma mark - setting up hyve image logo
@@ -103,7 +106,18 @@
     
     [keyboardToolbar sizeToFit];
     loginTextFields.inputAccessoryView = keyboardToolbar;
+    
+    
+    [self settingPlaceholderTextFieldColor:self.emailTextField setPlaceholderText:@"Email"];
+    [self settingPlaceholderTextFieldColor:self.passwordTextField setPlaceholderText:@"Password"];
+}
 
+
+-(void)settingPlaceholderTextFieldColor:(UITextField*)registrationTextField setPlaceholderText:(NSString*)placeholderText
+{
+    NSAttributedString *placeholder = [[NSAttributedString alloc] initWithString:placeholderText attributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    registrationTextField.attributedPlaceholder = placeholder;
+    
 }
 
 -(void)clearButtonPressed
@@ -135,23 +149,71 @@
     }
 }
 
-#pragma mark - styling register button
--(void)stylingRegisterButton
+#pragma mark - login button
+-(void)stylingLoginButton
 {
     self.loginButton.backgroundColor = [UIColor colorWithRed:0.96 green:0.46 blue:0.15 alpha:1];
     [self.loginButton setTitle:@"LOGIN" forState:UIControlStateNormal];
     [self.loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.loginButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
-    
-    [self settingPlaceholderTextFieldColor:self.emailTextField setPlaceholderText:@"Email"];
-    [self settingPlaceholderTextFieldColor:self.passwordTextField setPlaceholderText:@"Password"];
+
 }
 
--(void)settingPlaceholderTextFieldColor:(UITextField*)registrationTextField setPlaceholderText:(NSString*)placeholderText
+- (IBAction)onLoginButtonPressed:(id)sender
 {
-    NSAttributedString *placeholder = [[NSAttributedString alloc] initWithString:placeholderText attributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-    registrationTextField.attributedPlaceholder = placeholder;
+    Reachability *reachability = [Reachability reachabilityWithHostName:@"www.google.com"];
     
+    if (reachability.isReachable)
+    {
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+        [self loginUserViaEmail];
+    }
+    else
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+}
+
+-(void)loginUserViaEmail
+{
+    NSString *email = self.emailTextField.text;
+    NSString *password = self.passwordTextField.text;
+    NSString *provider = @"email";
+    
+    NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                               email,@"email",
+                                               provider,@"provider",
+                                               password,@"password",
+                                               nil];
+    
+    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/user_sessions"];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [manager.requestSerializer setValue:@"application/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+    
+    [manager POST:hyveURLString parameters:userInfoDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSString *api_token = [responseObject valueForKeyPath:@"api_token"];
+        NSString *successLoginViaEmail = @"successLoginViaEmail";
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:api_token forKey:@"api_token"];
+        [userDefaults setObject:successLoginViaEmail forKey:@"successLoginViaEmail"];
+        [userDefaults synchronize];
+        
+        [self performSegueWithIdentifier:@"ToDashboardFromEmailVC" sender:nil];
+        
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"error %@ \r \r error localized:%@", error, [error localizedDescription]);
+    }];
 }
 
 #pragma mark - text field delegate
@@ -182,5 +244,16 @@
 {
     [self.view endEditing:YES];
 }
+
+#pragma mark - segue
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"ToDashboardFromEmailVC"])
+    {
+        UINavigationController *navController = segue.destinationViewController;
+        DashboardViewController *dvc = (DashboardViewController*)[navController topViewController];
+    }
+}
+
 
 @end

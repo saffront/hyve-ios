@@ -1,4 +1,4 @@
-//
+ //
 //  PeripheralListViewController.m
 //  Hyve
 //
@@ -211,14 +211,14 @@
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Do you want to pair up with the selected devices?" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             
-            [self performSegueWithIdentifier:@"ShowHyveListVC" sender:nil];
+//            [self performSegueWithIdentifier:@"ShowHyveListVC" sender:nil];
             
             for (CBPeripheral *pairedHyve in self.selectedDeviceMutableArray)
             {
                 Hyve *hyve = [Hyve new];
                 hyve.peripheralName = pairedHyve.name;
                 hyve.peripheralUUIDString = pairedHyve.identifier.UUIDString;
-                hyve.peripheralRSSI = @"0"; // distance
+                hyve.peripheralRSSI = @"1";
                 
                 if (pairedHyve.name == nil)
                 {
@@ -226,7 +226,7 @@
                 }
                 
                 //passing in name and uuid
-                NSMutableDictionary *pairedHyveDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:hyve.peripheralName,@"name",hyve.peripheralUUIDString,@"uuid", hyve.peripheralRSSI, @"distance",nil];
+                NSMutableDictionary *pairedHyveDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:hyve.peripheralName,@"name",hyve.peripheralUUIDString,@"uuid",hyve.peripheralRSSI,@"distance",nil];
                 [self sendingPairedHyveToBackend:pairedHyveDictionary];
             }
         }];
@@ -280,8 +280,13 @@
     
     [manager POST:hyveURLString parameters:hyveletsDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
+        NSString *distanceInvalid = [[responseObject valueForKeyPath:@"errors.distance"] objectAtIndex:0];
+        NSLog(@"distanceInvalid %@", distanceInvalid);
+    
         //check response object
         NSLog(@"responseObject from connectToHyveBackend \r \r %@", responseObject);
+        [self performSegueWithIdentifier:@"ShowHyveListVC" sender:nil];
+        
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         

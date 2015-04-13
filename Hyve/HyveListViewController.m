@@ -20,7 +20,7 @@
 #import <POP.h>
 #import <MBLoadingIndicator.h>
 
-@interface HyveListViewController () <UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate>
+@interface HyveListViewController () <UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, CBPeripheralDelegate>
 
 @property (strong, nonatomic) Hyve *hyve;
 @property (strong, nonatomic) DKCircleButton *userProfileImageButton;
@@ -75,6 +75,27 @@
 - (IBAction)onSwarmButtonHoldDownPressed:(id)sender
 {
     NSLog(@"Swarm button is hold down");
+    
+    for (CBPeripheral *peripheral in self.hyveDevicesMutableArray) {
+    
+        if (peripheral.state == CBPeripheralStateConnected)
+        {
+            NSLog(@"peripheral %@", peripheral);
+            peripheral.delegate = self;
+            [peripheral readRSSI];
+        }
+    }
+}
+
+-(void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error
+{
+    for (CBPeripheral *hyvePeripheral in self.hyveDevicesMutableArray)
+    {
+        if ([hyvePeripheral isEqual:peripheral])
+        {
+            NSLog(@"peripheral %@ \r peripheral RSSI %@", peripheral.name, RSSI);
+        }
+    }
 }
 
 -(void)settingUpLoadingIndicator
@@ -246,17 +267,22 @@
                     if ([hyve.imageURLString isKindOfClass:[NSNull class]])
                     {
                         NSLog(@"imageURLString : %@", hyve.imageURLString);
-                        [cell.hyveImage setImage:[UIImage imageNamed:@"jlaw2"] forState:UIControlStateNormal];
-                        cell.hyveImage.borderColor = [UIColor whiteColor];
-                        cell.hyveImage.userInteractionEnabled = NO;
-                        cell.hyveImage.borderSize = 3.0f;
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [cell.hyveImage setImage:[UIImage imageNamed:@"jlaw2"] forState:UIControlStateNormal];
+                            cell.hyveImage.borderColor = [UIColor whiteColor];
+                            cell.hyveImage.userInteractionEnabled = NO;
+                            cell.hyveImage.borderSize = 3.0f;
+                        });
                     }
                     else if ([hyve.imageURLString isEqualToString:@""])
                     {
-                        [cell.hyveImage setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
-                        cell.hyveImage.borderColor = [UIColor whiteColor];
-                        cell.hyveImage.userInteractionEnabled = NO;
-                        cell.hyveImage.borderSize = 3.0f;
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [cell.hyveImage setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
+                            cell.hyveImage.borderColor = [UIColor whiteColor];
+                            cell.hyveImage.userInteractionEnabled = NO;
+                            cell.hyveImage.borderSize = 3.0f;
+                        });
                     }
                     else
                     {
@@ -361,10 +387,8 @@
         cell.hyveProximity.numberOfLines = 0;
         cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
         
-//            [cell.hyveImage setImage:[UIImage imageNamed:@"houseKeys"] forState:UIControlStateNormal];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            [self populateCellHyveImage:cell withHyve:self.hyve];
-        });
+//            [cell.hyveImage setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
+        [self populateCellHyveImage:cell withHyve:self.hyve];
     }
     return cell;
 }
@@ -380,16 +404,16 @@
         
         UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, userProfileHeader.frame.size.width, userProfileHeader.frame.size.height)];
         
-        if (![imageURLString isKindOfClass:[NSNull class]] || imageURLString != nil)
+        if ([imageURLString isKindOfClass:[NSNull class]] || imageURLString == nil)
+        {
+            self.userProfileImage = [UIImage imageNamed:@"defaultUserProfileImage"];
+            [self.userProfileImageButton setImage:self.userProfileImage forState:UIControlStateNormal];
+        }
+        else
         {
             NSURL *imageURL = [NSURL URLWithString:imageURLString];
             NSData *imageURLData = [NSData dataWithContentsOfURL:imageURL];
             self.userProfileImage = [UIImage imageWithData:imageURLData];
-        }
-        else
-        {
-            self.userProfileImage = [UIImage imageNamed:@"defaultUserProfileImage"];
-            [self.userProfileImageButton setImage:self.userProfileImage forState:UIControlStateNormal];
         }
         
         self.userProfileImageButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(userProfileHeader.frame.size.width / 2, 130, 100, 100)];

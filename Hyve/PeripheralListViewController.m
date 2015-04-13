@@ -144,8 +144,6 @@
         self.peripheral = [self.peripheralMutableArray objectAtIndex:indexPath.row];
         hyve.peripheralName = self.peripheral.name;
         hyve.peripheralUUID = self.peripheral.identifier;
-        
-        
     }
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PeripheralCellID"];
@@ -280,9 +278,9 @@
     
     [manager POST:hyveURLString parameters:hyveletsDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        NSString *distanceInvalid = [[responseObject valueForKeyPath:@"errors.distance"] objectAtIndex:0];
-        NSLog(@"distanceInvalid %@", distanceInvalid);
-    
+        NSString *invalid = [[responseObject valueForKeyPath:@"errors.distance"] objectAtIndex:0];
+        NSLog(@"distanceInvalid %@", invalid);
+
         //check response object
         NSLog(@"responseObject from connectToHyveBackend \r \r %@", responseObject);
         [self performSegueWithIdentifier:@"ShowHyveListVC" sender:nil];

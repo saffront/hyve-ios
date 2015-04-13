@@ -31,6 +31,7 @@
 @property (strong, nonatomic) NSNumber *ninthTime;
 @property BOOL takePictureButtonDidPressed;
 @property BOOL setPresetIconButtonDidPressed;
+@property (strong, nonatomic) NSString *hyveDistance;
 
 @end
 
@@ -154,7 +155,7 @@
     {
         if (hyve.imageURLString == nil || [hyve.imageURLString isEqual:[NSNull null]])
         {
-            UIImage *hyveImage = [UIImage imageNamed:@"jlaw2"];
+            UIImage *hyveImage = [UIImage imageNamed:@"defaultUserProfileImage"];
             
             self.hyveImageButton.borderColor = [UIColor whiteColor];
             self.hyveImageButton.borderSize = 2.0f;
@@ -175,7 +176,7 @@
     }
     else
     {
-        UIImage *defaultHyveImage = [UIImage imageNamed:@"jlaw"];
+        UIImage *defaultHyveImage = [UIImage imageNamed:@"defaultUserProfileImage"];
         self.hyveImageButton.borderColor = [UIColor whiteColor];
         self.hyveImageButton.borderSize = 2.0f;
         [self.hyveImageButton setImage:defaultHyveImage forState:UIControlStateNormal];
@@ -438,30 +439,31 @@
     else if ([item.title isEqualToString:@"One \r meter"])
     {
         [self.hyveDistanceButton setTitle:@"1 meter" forState:UIControlStateNormal];
-        
+        self.hyveDistance = @"1";
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Two \r meters"])
     {
         [self.hyveDistanceButton setTitle:@"2 meters" forState:UIControlStateNormal];
-        
+        self.hyveDistance = @"2";
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Four \r meters"])
     {
         [self.hyveDistanceButton setTitle:@"4 meters" forState:UIControlStateNormal];
+        self.hyveDistance = @"4";
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Eight \r meters"])
     {
         [self.hyveDistanceButton setTitle:@"8 meters" forState:UIControlStateNormal];
-        
+        self.hyveDistance = @"8";
         [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"Sixteen \r meters"])
     {
         [self.hyveDistanceButton setTitle:@"16 meters" forState:UIControlStateNormal];
-        
+        self.hyveDistance = @"16";
         [self dismissGridMenuAnimated:YES completion:nil];
     }
 }
@@ -641,7 +643,6 @@
             {
                 byte[0] = dataSix;
                 [self writingDistanceNumberDataToHyveHardware:byte characteristic:characteristic];
-                
                 break;
             }
             case 6:
@@ -654,21 +655,18 @@
             {
                 byte[0] = dataEight;
                 [self writingDistanceNumberDataToHyveHardware:byte characteristic:characteristic];
-                
                 break;
             }
             case 8:
             {
                 byte[0] = dataNine;
                 [self writingDistanceNumberDataToHyveHardware:byte characteristic:characteristic];
-                self.ninthTime = [NSNumber numberWithInt:9];
                 break;
             }
             default:
                 break;
         }
     }
-
 }
 
 -(void)writingDistanceNumberDataToHyveHardware:(const void*)byte characteristic:(CBCharacteristic*)characteristic
@@ -751,33 +749,38 @@
     {
         NSLog(@"didWriteValueForCharacteristic : %@ \r characteristic.value %@ \r characteristic.descriptors %@ \r characteristic.properties %u", characteristic, characteristic.value, characteristic.descriptors, characteristic.properties );
 
-        if ([self.ninthTime isEqual:[NSNumber numberWithInt:9]])
+        NSString *hyveName = self.hyveNameTextField.text;
+        NSString *hyveProximity = self.hyveDistance;
+        UIImage *hyveImage = self.hyveImageButton.imageView.image;
+        NSString *hyveUUIDString = peripheral.identifier.UUIDString;
+        
+        NSString *avatarImageString = [UIImagePNGRepresentation(hyveImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+        NSString *avatarImageStringInSixtyFour = [NSString stringWithFormat:@"data:image/png;base64, (%@)", avatarImageString];
+        
+        if (self.setPresetIconButtonDidPressed == YES || self.takePictureButtonDidPressed == YES)
         {
-            NSString *hyveName = self.hyveNameTextField.text;
-            NSString *hyveProximity = self.hyveDistanceButton.titleLabel.text;
-            UIImage *hyveImage = self.hyveImageButton.imageView.image;
-            NSString *hyveUUIDString = peripheral.identifier.UUIDString;
+            NSDictionary *hyveDictionary = @{@"name":hyveName,
+                                             @"distance":hyveProximity,
+                                             @"uuid":hyveUUIDString,
+                                             @"image":avatarImageStringInSixtyFour};
             
-            NSString *avatarImageString = [UIImagePNGRepresentation(hyveImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-            NSString *avatarImageStringInSixtyFour = [NSString stringWithFormat:@"data:image/png;base64, (%@)", avatarImageString];
+            static dispatch_once_t sendingHyveDictionaryToHyveServerOnce;
+            dispatch_once(&sendingHyveDictionaryToHyveServerOnce, ^{
+                [self connectToHyve:hyveDictionary];
+            });
             
-            if (self.setPresetIconButtonDidPressed == YES || self.takePictureButtonDidPressed == YES)
-            {
-                NSDictionary *hyveDictionary = @{@"name":hyveName,
-                                                 @"distance":hyveProximity,
-                                                 @"uuid":hyveUUIDString,
-                                                 @"image":avatarImageStringInSixtyFour};
-                
+//            [self connectToHyve:hyveDictionary];
+        }
+        else
+        {
+            NSDictionary *hyveDictionary = @{@"name":hyveName,
+                                             @"distance":hyveProximity,
+                                             @"uuid":hyveUUIDString};
+            
+            static dispatch_once_t sendingHyveDictionaryToHyveServerOnce;
+            dispatch_once(&sendingHyveDictionaryToHyveServerOnce, ^{
                 [self connectToHyve:hyveDictionary];
-            }
-            else
-            {
-                NSDictionary *hyveDictionary = @{@"name":hyveName,
-                                                 @"distance":hyveProximity,
-                                                 @"uuid":hyveUUIDString};
-                
-                [self connectToHyve:hyveDictionary];
-            }
+            });
         }
     }
 }
@@ -789,6 +792,7 @@
     
     if (reachability.isReachable)
     {
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
         [self updateHyveDetails:hyveDetails];
     }
     else
@@ -818,6 +822,7 @@
     [manager PATCH:hyveUserAccountString parameters:hyveDetails success:^(AFHTTPRequestOperation *operation, id responseObject) {
        
         NSLog(@"responseObject: \r %@", responseObject);
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         

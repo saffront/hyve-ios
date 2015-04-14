@@ -30,6 +30,8 @@
 @property (strong, nonatomic) MBLoadingIndicator *loadingIndicator;
 @property (strong, nonatomic) UIImage *userProfileImage;
 @property (weak, nonatomic) IBOutlet DKCircleButton *swarmButton;
+@property (strong, nonatomic) NSString *RSSI;
+@property (strong, nonatomic) NSIndexPath *indexPath;
 
 @end
 
@@ -62,7 +64,7 @@
 }
 
 
-#pragma mark - styling swarm button
+#pragma mark - swarm
 -(void)stylingSwarmButton
 {
     [self.swarmButton setTitle:@"" forState:UIControlStateNormal];
@@ -94,10 +96,10 @@
     {
         if ([hyvePeripheral isEqual:peripheral])
         {
-            NSLog(@"peripheral %@ \r peripheral RSSI %@", peripheral.name, RSSI);
-            //write method here to pass in RSSI and update cell just like HYVE IMAGE
             
-            NSDictionary *peripheralInfo = @{@"peripheral": peripheral};
+            NSLog(@"peripheral %@ \r peripheral RSSI %@", peripheral.name, RSSI);
+            
+            NSDictionary *peripheralInfo = @{@"peripheral": peripheral, @"RSSI": RSSI};
             [[NSNotificationCenter defaultCenter] postNotificationName:@"peripheralInfo" object:peripheralInfo];
         }
     }
@@ -107,8 +109,24 @@
 {
     NSDictionary *peripheralInfo = notification.object;
     NSLog(@"peripheralInfo %@", peripheralInfo);
+    
+    NSNumber *RSSI = [peripheralInfo objectForKey:@"RSSI"];
+    CBPeripheral *peripheralFromDidReadRSSI = [peripheralInfo objectForKey:@"peripheral"];
+    
+    for (CBPeripheral *hyvePeripheral in self.hyveDevicesMutableArray)
+    {
+        if ([hyvePeripheral.identifier isEqual:peripheralFromDidReadRSSI.identifier])
+        {
+            self.RSSI = [NSString stringWithFormat:@"%@", RSSI];
+            NSLog(@"self.RSSI %@", self.RSSI);
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+//                [self.hyveListTable reloadData];
+                [self.hyveListTable reloadRowsAtIndexPaths:@[self.indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            });
+        }
+    }
 }
-
 
 -(void)settingUpLoadingIndicator
 {
@@ -180,7 +198,6 @@
 -(void)retrieveUserInfoAndPairedHyve
 {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
@@ -238,12 +255,9 @@
     }];
 }
 
-
-
 -(void)populateCellHyveImage:(HyveListTableViewCell*)cell withHyve:(Hyve*)hyve
 {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
@@ -396,15 +410,42 @@
         cell.hyveBattery.numberOfLines = 0;
     
         [self populateCellHyveImage:cell withHyve:self.hyve];
-        
-        
-        
-        cell.hyveProximity.text = @"Super far";
-        cell.hyveProximity.textColor = [UIColor whiteColor];
-        cell.hyveProximity.numberOfLines = 0;
-        cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
+
+        if ([self.RSSI isEqualToString:@""] || self.RSSI == nil)
+        {
+            cell.hyveProximity.text = @"Hyve not connected";
+            cell.hyveProximity.textColor = [UIColor whiteColor];
+            cell.hyveProximity.numberOfLines = 0;
+            cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
+        }
+        else
+        {
+            cell.hyveProximity.text = self.RSSI;
+            cell.hyveProximity.textColor = [UIColor whiteColor];
+            cell.hyveProximity.numberOfLines = 0;
+            cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
+        }
     }
     return cell;
+
+}
+
+-(NSString*)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"Disconnect";
+}
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        NSLog(@"pressed");
+    }
 }
 
 -(void)settingHeaderForHyveListTable:(NSString*)usernameFromHyve imageURLString:(NSString*)imageURLString
@@ -464,6 +505,8 @@
         });
     });
 }
+
+
 
 #pragma mark - segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

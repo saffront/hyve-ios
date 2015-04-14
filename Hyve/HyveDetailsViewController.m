@@ -521,8 +521,6 @@
     NSLog(@"Central has connected to peripheral: %@ with UUID: %@",peripheral,peripheral.identifier);
     peripheral.delegate = self;
     [peripheral discoverServices:nil];
-
-
 }
 
 -(void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
@@ -825,6 +823,11 @@
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity. Unable update hyve" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
         
         NSLog(@"Error: \r %@ \r localized description: %@", error, [error localizedDescription]);
     }];

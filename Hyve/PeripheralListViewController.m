@@ -17,6 +17,7 @@
 @property (strong, nonatomic) NSMutableArray *selectedDeviceMutableArray;
 @property (weak, nonatomic) IBOutlet UIButton *pairButton;
 @property (weak, nonatomic) IBOutlet UILabel *instructionLabel;
+@property (strong ,nonatomic) NSMutableDictionary *pairedHyveDictionary;
 
 
 @end
@@ -28,6 +29,7 @@
 
 //    self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.92 alpha:1];
     self.selectedDeviceMutableArray = [NSMutableArray new];
+    self.pairedHyveDictionary = [NSMutableDictionary new];
     
     [self stylingBackgroundView];
     [self pairButtonConfiguration];
@@ -209,8 +211,6 @@
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Do you want to pair up with the selected devices?" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             
-//            [self performSegueWithIdentifier:@"ShowHyveListVC" sender:nil];
-            
             for (CBPeripheral *pairedHyve in self.selectedDeviceMutableArray)
             {
                 Hyve *hyve = [Hyve new];
@@ -224,9 +224,10 @@
                 }
                 
                 //passing in name and uuid
-                NSMutableDictionary *pairedHyveDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:hyve.peripheralName,@"name",hyve.peripheralUUIDString,@"uuid",hyve.peripheralRSSI,@"distance",nil];
-                [self sendingPairedHyveToBackend:pairedHyveDictionary];
+                self.pairedHyveDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:hyve.peripheralName,@"name",hyve.peripheralUUIDString,@"uuid",hyve.peripheralRSSI,@"distance",nil];
+//                [self sendingPairedHyveToBackend:pairedHyveDictionary];
             }
+            [self sendingPairedHyveToBackend:self.pairedHyveDictionary];
         }];
         
         UIAlertAction *noAction = [UIAlertAction actionWithTitle:@"NO" style:UIAlertActionStyleDefault handler:nil];
@@ -251,7 +252,7 @@
     if (reachability.isReachable)
     {
         //connect to hyve backend
-        
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
         [self connectToHyveBackend:hyveletsPairedDictionary];
     }
     else
@@ -267,6 +268,7 @@
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
+
     
     NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves"];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -284,7 +286,7 @@
         //check response object
         NSLog(@"responseObject from connectToHyveBackend \r \r %@", responseObject);
         [self performSegueWithIdentifier:@"ShowHyveListVC" sender:nil];
-        
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         

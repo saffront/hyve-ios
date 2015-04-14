@@ -52,7 +52,8 @@
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingUserImage:) name:@"user" object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingHyveImage:) name:@"userImageURLString" object:nil];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingHyveDistance:) name:@"peripheralInfo" object:nil];
+    
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
@@ -94,9 +95,20 @@
         if ([hyvePeripheral isEqual:peripheral])
         {
             NSLog(@"peripheral %@ \r peripheral RSSI %@", peripheral.name, RSSI);
+            //write method here to pass in RSSI and update cell just like HYVE IMAGE
+            
+            NSDictionary *peripheralInfo = @{@"peripheral": peripheral};
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"peripheralInfo" object:peripheralInfo];
         }
     }
 }
+
+-(void)settingHyveDistance:(NSNotification*)notification
+{
+    NSDictionary *peripheralInfo = notification.object;
+    NSLog(@"peripheralInfo %@", peripheralInfo);
+}
+
 
 -(void)settingUpLoadingIndicator
 {
@@ -226,6 +238,8 @@
     }];
 }
 
+
+
 -(void)populateCellHyveImage:(HyveListTableViewCell*)cell withHyve:(Hyve*)hyve
 {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
@@ -309,7 +323,6 @@
         NSLog(@"error with retrieveUserInfoAndPairedHyve: \r\r %@ \r localizedDescription: \r %@", error, [error localizedDescription]);
         
     }];
-
 }
 
 #pragma mark - styling background view
@@ -381,14 +394,15 @@
         cell.hyveBattery.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
         cell.hyveBattery.textColor = [UIColor whiteColor];
         cell.hyveBattery.numberOfLines = 0;
+    
+        [self populateCellHyveImage:cell withHyve:self.hyve];
+        
+        
         
         cell.hyveProximity.text = @"Super far";
         cell.hyveProximity.textColor = [UIColor whiteColor];
         cell.hyveProximity.numberOfLines = 0;
         cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
-        
-//            [cell.hyveImage setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
-        [self populateCellHyveImage:cell withHyve:self.hyve];
     }
     return cell;
 }

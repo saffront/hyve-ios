@@ -432,6 +432,7 @@
 
 -(NSString*)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSString *disconnect = @"Disconnect";
     return @"Disconnect";
 }
 
@@ -445,6 +446,9 @@
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
         NSLog(@"pressed");
+        CBPeripheral *peripheralToBeDisconnected = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
+        [self.centralManager cancelPeripheralConnection:peripheralToBeDisconnected];
+        NSLog(@"peripheralToBeDisconnected status: %@", peripheralToBeDisconnected);
     }
 }
 

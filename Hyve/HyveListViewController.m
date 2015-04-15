@@ -32,6 +32,8 @@
 @property (weak, nonatomic) IBOutlet DKCircleButton *swarmButton;
 @property (strong, nonatomic) NSString *RSSI;
 @property (strong, nonatomic) NSIndexPath *indexPath;
+@property (strong, nonatomic) NSString *RSSIString;
+@property BOOL patchedSwarmInfo;
 
 @end
 
@@ -39,6 +41,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.patchedSwarmInfo = NO;
     [self settingUpLoadingIndicator];
     [self connectToHyve];
     [self stylingBackgroundView];
@@ -98,10 +101,62 @@
             
             NSLog(@"peripheral %@ \r peripheral RSSI %@", peripheral.name, RSSI);
             
-            NSDictionary *peripheralInfo = @{@"peripheral": peripheral, @"RSSI": RSSI};
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"peripheralInfo" object:peripheralInfo];
+//            NSDictionary *peripheralInfo = @{@"peripheral": peripheral, @"RSSI": RSSI};
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"peripheralInfo" object:peripheralInfo];
+            
+            [self updateHyveProximityToHyveServerViaSwarm:RSSI peripheral:peripheral];
         }
     }
+}
+
+-(void)updateHyveProximityToHyveServerViaSwarm:(NSNumber*)RSSI peripheral:(CBPeripheral*)peripheral
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *api_token = [userDefaults objectForKey:@"api_token"];
+    
+    NSNumber *negativeOneHundres = [NSNumber numberWithInt:-100];
+    
+    if ([RSSI doubleValue] < [negativeOneHundres doubleValue]) //less than -100 ex. -101,-102 and etc..
+    {
+        self.RSSIString = @"out of range";
+    }
+    else
+    {
+        self.RSSIString = @"close by";
+    }
+    
+    NSDictionary *hyveDictionary = @{@"name":peripheral.name,
+                                     @"proximity":self.RSSIString,
+                                     @"uuid":[peripheral.identifier UUIDString]};
+    
+    NSString *uuid = [peripheral.identifier UUIDString];
+    NSString *hyveUserAccountString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves/%@",uuid];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+    
+    [manager PATCH:hyveUserAccountString parameters:hyveDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"responseObject: \r %@", responseObject);
+        self.patchedSwarmInfo = YES;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.hyveListTable reloadData];
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        });
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity. Unable update hyve" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+        
+        NSLog(@"Error: \r %@ \r localized description: %@", error, [error localizedDescription]);
+    }];
 }
 
 -(void)settingHyveDistance:(NSNotification*)notification
@@ -120,8 +175,7 @@
             NSLog(@"self.RSSI %@", self.RSSI);
             
             dispatch_async(dispatch_get_main_queue(), ^{
-//                [self.hyveListTable reloadData];
-                [self.hyveListTable reloadRowsAtIndexPaths:@[self.indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                
             });
         }
     }
@@ -349,6 +403,32 @@
     }];
 }
 
+-(void)populateCellHyveProximity:(HyveListTableViewCell*)cell withHyve:(Hyve*)hyve
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *api_token = [userDefaults objectForKey:@"api_token"];
+    
+    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/account"];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+    
+    [manager GET:hyveURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"responseObject : %@", responseObject);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"Error: %@", error);
+        
+    }];
+
+}
+
 #pragma mark - styling background view
 -(void)stylingBackgroundView
 {
@@ -420,6 +500,11 @@
         cell.hyveBattery.numberOfLines = 0;
     
         [self populateCellHyveImage:cell withHyve:self.hyve];
+        
+        if (self.patchedSwarmInfo == YES)
+        {
+            [self populateCellHyveProximity:cell withHyve:self.hyve];
+        }
 
         if ([self.RSSI isEqualToString:@""] || self.RSSI == nil)
         {
@@ -437,7 +522,6 @@
         }
     }
     return cell;
-
 }
 
 -(NSString*)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -504,6 +588,9 @@
             
             backgroundImageView.image = [UIImage imageNamed:@"userProfileHeader"];
             [self.userProfileImageButton setImage:self.userProfileImage forState:UIControlStateNormal];
+            [self.userProfileImageButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+            self.userProfileImageButton.imageView.clipsToBounds = YES;
+
             [userProfileHeader addSubview:self.userProfileImageButton];
             username.text = usernameFromHyve;
             [backgroundImageView addSubview:username];

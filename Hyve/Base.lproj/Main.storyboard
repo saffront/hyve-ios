@@ -1345,7 +1345,6 @@
                                                         </constraint>
                                                         <constraint firstItem="6P2-wq-CQc" firstAttribute="leading" secondItem="ybL-j9-FUW" secondAttribute="trailing" constant="17" id="hXh-04-nRY"/>
                                                         <constraint firstItem="6P2-wq-CQc" firstAttribute="leading" secondItem="ybL-j9-FUW" secondAttribute="trailing" constant="17" id="olW-37-CNX"/>
-                                                        <constraint firstAttribute="bottom" secondItem="ybL-j9-FUW" secondAttribute="bottom" constant="29" id="xIf-Xe-rLG"/>
                                                     </constraints>
                                                     <variation key="default">
                                                         <mask key="subviews">
@@ -1370,7 +1369,6 @@
                                                             <exclude reference="V5O-bb-aVr"/>
                                                             <exclude reference="KuX-EH-ozp"/>
                                                             <exclude reference="UEB-3n-gV1"/>
-                                                            <exclude reference="xIf-Xe-rLG"/>
                                                         </mask>
                                                     </variation>
                                                     <variation key="heightClass=regular-widthClass=compact">
@@ -1396,7 +1394,6 @@
                                                             <include reference="V5O-bb-aVr"/>
                                                             <include reference="KuX-EH-ozp"/>
                                                             <include reference="UEB-3n-gV1"/>
-                                                            <include reference="xIf-Xe-rLG"/>
                                                         </mask>
                                                     </variation>
                                                 </view>

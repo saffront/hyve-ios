@@ -39,6 +39,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.hyveImageButton setImage:[UIImage imageNamed:@"defaultUserProfileImage"] forState:UIControlStateNormal];
     self.takePictureButtonDidPressed = NO;
     self.setPresetIconButtonDidPressed = NO;
     

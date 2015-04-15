@@ -12,6 +12,7 @@
 #import <CNPGridMenu.h>
 #import <DKCircleButton.h>
 #import <POP.h>
+#import <MBLoadingIndicator.h>
 
 //32A9DD44-9B1C-BAA5-8587-8A2D36E0623E  - hive
 
@@ -32,6 +33,7 @@
 @property BOOL takePictureButtonDidPressed;
 @property BOOL setPresetIconButtonDidPressed;
 @property (strong, nonatomic) NSString *hyveDistance;
+@property (strong, nonatomic) MBLoadingIndicator *loadingIndicator;
 
 @end
 
@@ -39,7 +41,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.hyveImageButton setImage:[UIImage imageNamed:@"defaultUserProfileImage"] forState:UIControlStateNormal];
+    [self.hyveImageButton setImage:[UIImage imageNamed:@"defaultHyveImage"] forState:UIControlStateNormal];
     self.takePictureButtonDidPressed = NO;
     self.setPresetIconButtonDidPressed = NO;
     
@@ -92,6 +94,36 @@
      [NSDictionary dictionaryWithObjectsAndKeys:
       [UIFont fontWithName:@"OpenSans-SemiBold" size:21],
       NSFontAttributeName, nil]];
+    
+    [self settingUpLoadingIndicator];
+}
+
+#pragma mark - loading indicator
+-(void)settingUpLoadingIndicator
+{
+    self.loadingIndicator = [MBLoadingIndicator new];
+    [self.loadingIndicator setBackColor:[UIColor colorWithRed:0.20 green:0.20 blue:0.20 alpha:1]];
+    [self.loadingIndicator setOuterLoaderBuffer:5.0];
+    [self.loadingIndicator setLoaderBackgroundColor:[UIColor whiteColor]];
+    [self.loadingIndicator setLoadedColor:[UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1]];
+    [self.loadingIndicator setStartPosition:MBLoaderTop];
+    [self.loadingIndicator setAnimationSpeed:MBLoaderSpeedMiddle];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self.loadingIndicator start];
+        int count = 0;
+        
+        while (count++ < 2)
+        {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(count * 1.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                [self.loadingIndicator incrementPercentageBy:20];
+            });
+        }
+        [self.view addSubview:self.loadingIndicator];
+        
+    });
 }
 
 -(void)retrieveHyveImageFromServer
@@ -117,11 +149,17 @@
         hyve.imageURLString = [responseObject valueForKeyPath:@"hyve.image.image.url"];
         
         [self stylingHyveImageButton:hyve];
+        [self.loadingIndicator finish];
     
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
+        [self.loadingIndicator dismiss];
         NSLog(@"error with retrieveUserInfoAndPairedHyve: \r\r %@ \r localizedDescription: \r %@", error, [error localizedDescription]);
         
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity. Unable to update Hyve Image." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
     }];
 
 }
@@ -156,7 +194,7 @@
     {
         if (hyve.imageURLString == nil || [hyve.imageURLString isEqual:[NSNull null]])
         {
-            UIImage *hyveImage = [UIImage imageNamed:@"defaultUserProfileImage"];
+            UIImage *hyveImage = [UIImage imageNamed:@"defaultHyveImage"];
             
             self.hyveImageButton.borderColor = [UIColor whiteColor];
             self.hyveImageButton.borderSize = 2.0f;
@@ -177,7 +215,7 @@
     }
     else
     {
-        UIImage *defaultHyveImage = [UIImage imageNamed:@"defaultUserProfileImage"];
+        UIImage *defaultHyveImage = [UIImage imageNamed:@"defaultHyveImage"];
         self.hyveImageButton.borderColor = [UIColor whiteColor];
         self.hyveImageButton.borderSize = 2.0f;
         [self.hyveImageButton setImage:defaultHyveImage forState:UIControlStateNormal];

@@ -69,9 +69,11 @@
 {
     [self.swarmButton setTitle:@"" forState:UIControlStateNormal];
     
-    UIImage *swarmImageButton = [UIImage imageNamed:@"swarm"];
+    UIImage *swarmImageButton = [UIImage imageNamed:@"swarm1"];
     [self.swarmButton setImage:swarmImageButton forState:UIControlStateNormal];
-    [self.userProfileImageButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+    self.swarmButton.layer.borderColor = [UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1].CGColor;
+    self.swarmButton.layer.borderWidth = 2.0f;
+    [self.swarmButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
 
 }
 
@@ -258,6 +260,7 @@
 -(void)populateCellHyveImage:(HyveListTableViewCell*)cell withHyve:(Hyve*)hyve
 {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    [cell.hyveImage setImage:[UIImage imageNamed:@"defaultHyveImage"] forState:UIControlStateNormal];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
@@ -296,7 +299,8 @@
                     {
                         NSLog(@"imageURLString : %@", hyve.imageURLString);
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [cell.hyveImage setImage:[UIImage imageNamed:@"jlaw2"] forState:UIControlStateNormal];
+                            [cell.hyveImage setImage:[UIImage imageNamed:@"defaultHyveImage"] forState:UIControlStateNormal];
+                            cell.hyveImage.contentMode = UIViewContentModeScaleAspectFill;
                             cell.hyveImage.borderColor = [UIColor whiteColor];
                             cell.hyveImage.userInteractionEnabled = NO;
                             cell.hyveImage.borderSize = 3.0f;
@@ -306,7 +310,8 @@
                     {
                         
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [cell.hyveImage setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
+                            [cell.hyveImage setImage:[UIImage imageNamed:@"defaultHyveImage"] forState:UIControlStateNormal];
+                            cell.hyveImage.contentMode = UIViewContentModeScaleAspectFill;
                             cell.hyveImage.borderColor = [UIColor whiteColor];
                             cell.hyveImage.userInteractionEnabled = NO;
                             cell.hyveImage.borderSize = 3.0f;
@@ -319,6 +324,7 @@
                         UIImage *hyveImage = [UIImage imageWithData:imageData];
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [cell.hyveImage setImage:hyveImage forState:UIControlStateNormal];
+                            cell.hyveImage.contentMode = UIViewContentModeScaleAspectFill;
                             cell.hyveImage.borderColor = [UIColor whiteColor];
                             cell.hyveImage.userInteractionEnabled = NO;
                             cell.hyveImage.borderSize = 3.0f;
@@ -333,6 +339,13 @@
         });
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity. Unable to save pairing info" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
         
         NSLog(@"error with retrieveUserInfoAndPairedHyve: \r\r %@ \r localizedDescription: \r %@", error, [error localizedDescription]);
         

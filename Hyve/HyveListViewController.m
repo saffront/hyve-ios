@@ -68,11 +68,8 @@
 -(void)stylingSwarmButton
 {
     [self.swarmButton setTitle:@"" forState:UIControlStateNormal];
-    
     UIImage *swarmImageButton = [UIImage imageNamed:@"swarm1"];
     [self.swarmButton setImage:swarmImageButton forState:UIControlStateNormal];
-    self.swarmButton.layer.borderColor = [UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1].CGColor;
-    self.swarmButton.layer.borderWidth = 2.0f;
     [self.swarmButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
 
 }
@@ -445,7 +442,6 @@
 
 -(NSString*)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *disconnect = @"Disconnect";
     return @"Disconnect";
 }
 
@@ -470,7 +466,7 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         [self.userProfileImageButton setImage:[UIImage imageNamed:@"defaultUserProfileImage"] forState:UIControlStateNormal];
-        UIView *userProfileHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.hyveListTable.frame.size.width, 250)];
+        UIView *userProfileHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.hyveListTable.frame.size.width, 200)];
         [userProfileHeader setUserInteractionEnabled:YES];
         [userProfileHeader bringSubviewToFront:self.loadingIndicator];
         
@@ -488,14 +484,14 @@
             self.userProfileImage = [UIImage imageWithData:imageURLData];
         }
         
-        self.userProfileImageButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(userProfileHeader.frame.size.width / 2, 130, 100, 100)];
+        self.userProfileImageButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(userProfileHeader.frame.size.width / 2, 80, 100, 100)];
         [self.userProfileImageButton.imageView setContentMode:UIViewContentModeScaleAspectFill];
         [self.userProfileImageButton setUserInteractionEnabled:YES];
         [self.userProfileImageButton setTitle:@"" forState:UIControlStateNormal];
         [self.userProfileImageButton setCenter:CGPointMake(CGRectGetMidX(userProfileHeader.bounds), CGRectGetMidY(userProfileHeader.bounds))];
         [self.userProfileImageButton addTarget:self action:@selector(userProfileImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         
-        float positionOfUsernameCoordinateY = self.userProfileImageButton.frame.origin.y + self.userProfileImageButton.frame.size.height + 40;
+        float positionOfUsernameCoordinateY = self.userProfileImageButton.frame.origin.y + self.userProfileImageButton.frame.size.height + 30;
         UILabel *username = [[UILabel alloc] initWithFrame:CGRectMake(backgroundImageView.frame.size.width/2, positionOfUsernameCoordinateY, 250, 40)];
         
         username.textAlignment = NSTextAlignmentCenter;

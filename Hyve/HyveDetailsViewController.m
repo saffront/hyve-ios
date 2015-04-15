@@ -58,7 +58,6 @@
     [self stylingHyveDistanceButton];
     [self stylingConnectButton];
     [self retrieveHyveImageFromServer];
-    
     [self stylingSettingHyveImageButton];
     
     NSString *uuid = [self.peripheral.identifier UUIDString];
@@ -149,7 +148,7 @@
         hyve.imageURLString = [responseObject valueForKeyPath:@"hyve.image.image.url"];
         
         [self stylingHyveImageButton:hyve];
-        [self.loadingIndicator finish];
+
     
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
@@ -209,6 +208,7 @@
             
             self.hyveImageButton.borderColor = [UIColor whiteColor];
             self.hyveImageButton.borderSize = 2.0f;
+            self.hyveImageButton.clipsToBounds = YES;
             [self.hyveImageButton setImage:hyveImage forState:UIControlStateNormal];
             [self.hyveImageButton setTitle:@"" forState:UIControlStateNormal];
         }
@@ -223,6 +223,7 @@
     }
     
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    [self.loadingIndicator finish];
 }
 
 -(void)takeAPictureForHyveImage
@@ -297,7 +298,7 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         UIImage *imageTakenByUser = [info valueForKey:UIImagePickerControllerOriginalImage];
-        CGRect rect = CGRectMake(0, 0, 700, 800);
+        CGRect rect = CGRectMake(0, 0, 580, 580);
         
         UIGraphicsBeginImageContext(rect.size);
         [imageTakenByUser drawInRect:rect];
@@ -312,7 +313,14 @@
             [self.hyveImageButton pop_addAnimation:springAnimation forKey:@"sendAnimation"];
             
             [self.hyveImageButton setImage:self.resizedImage forState:UIControlStateNormal];
+            [self.hyveImageButton.imageView setContentMode:UIViewContentModeScaleAspectFill];
+            [self.hyveImageButton setContentMode:UIViewContentModeScaleAspectFill];
+            self.hyveImageButton.imageView.clipsToBounds = YES;
+            [self.hyveImageButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentFill];
+            [self.hyveImageButton setContentVerticalAlignment:UIControlContentVerticalAlignmentFill];
+            
             self.takePictureButtonDidPressed = YES;
+            [self.loadingIndicator finish];
         });
     });
 }
@@ -371,6 +379,7 @@
     self.settingHyveImageButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:18];
     self.settingHyveImageButton.backgroundColor = [UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1];
     self.settingHyveImageButton.tintColor = [UIColor whiteColor];
+    self.settingHyveImageButton.clipsToBounds = YES;
     self.settingHyveImageButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     [self.settingHyveImageButton setContentEdgeInsets:UIEdgeInsetsMake(0, 20, 0, 0)];
     [self.settingHyveImageButton setTitle:@"Set Hyve image" forState:UIControlStateNormal];
@@ -860,9 +869,11 @@
        
         NSLog(@"responseObject: \r %@", responseObject);
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        [self.loadingIndicator finish];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
+        [self.loadingIndicator dismiss];
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity. Unable update hyve" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
         [alertController addAction:okAction];

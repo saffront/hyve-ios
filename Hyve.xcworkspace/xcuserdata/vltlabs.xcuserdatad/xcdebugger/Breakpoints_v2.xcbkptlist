@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveDetailsViewController.m"
-            timestampString = "450774376.52697"
+            timestampString = "450781773.645781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "740"
-            endingLineNumber = "740"
+            startingLineNumber = "749"
+            endingLineNumber = "749"
             landmarkName = "-peripheral:didUpdateNotificationStateForCharacteristic:error:"
             landmarkType = "5">
          </BreakpointContent>
@@ -186,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveDetailsViewController.m"
-            timestampString = "450774376.52697"
+            timestampString = "450781773.645781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "744"
-            endingLineNumber = "744"
+            startingLineNumber = "753"
+            endingLineNumber = "753"
             landmarkName = "-peripheral:didReadRSSI:error:"
             landmarkType = "5">
          </BreakpointContent>
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveDetailsViewController.m"
-            timestampString = "450774376.52697"
+            timestampString = "450781773.645781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "752"
-            endingLineNumber = "752"
+            startingLineNumber = "761"
+            endingLineNumber = "761"
             landmarkName = "-peripheral:didReadRSSI:error:"
             landmarkType = "5">
          </BreakpointContent>
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveDetailsViewController.m"
-            timestampString = "450774376.52697"
+            timestampString = "450781773.645781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "758"
-            endingLineNumber = "758"
+            startingLineNumber = "767"
+            endingLineNumber = "767"
             landmarkName = "-peripheral:didReadRSSI:error:"
             landmarkType = "5">
          </BreakpointContent>
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveDetailsViewController.m"
-            timestampString = "450774376.52697"
+            timestampString = "450781773.645781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "767"
-            endingLineNumber = "767"
+            startingLineNumber = "776"
+            endingLineNumber = "776"
             landmarkName = "-peripheralDidUpdateRSSI:error:"
             landmarkType = "5">
          </BreakpointContent>
@@ -266,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveDetailsViewController.m"
-            timestampString = "450774376.52697"
+            timestampString = "450781773.645781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "788"
-            endingLineNumber = "788"
+            startingLineNumber = "797"
+            endingLineNumber = "797"
             landmarkName = "-peripheral:didWriteValueForCharacteristic:error:"
             landmarkType = "5">
          </BreakpointContent>
@@ -282,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveDetailsViewController.m"
-            timestampString = "450774376.52697"
+            timestampString = "450781773.645781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "783"
-            endingLineNumber = "783"
+            startingLineNumber = "792"
+            endingLineNumber = "792"
             landmarkName = "-peripheral:didWriteValueForCharacteristic:error:"
             landmarkType = "5">
          </BreakpointContent>
@@ -298,11 +298,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveDetailsViewController.m"
-            timestampString = "450774376.52697"
+            timestampString = "450781773.645781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "782"
-            endingLineNumber = "782"
+            startingLineNumber = "791"
+            endingLineNumber = "791"
             landmarkName = "-peripheral:didWriteValueForCharacteristic:error:"
             landmarkType = "5">
          </BreakpointContent>
@@ -328,11 +328,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveDetailsViewController.m"
-            timestampString = "450774376.52697"
+            timestampString = "450781773.645781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "629"
-            endingLineNumber = "629"
+            startingLineNumber = "638"
+            endingLineNumber = "638"
             landmarkName = "-peripheral:didDiscoverCharacteristicsForService:error:"
             landmarkType = "5">
          </BreakpointContent>
@@ -504,11 +504,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveDetailsViewController.m"
-            timestampString = "450774376.52697"
+            timestampString = "450781773.645781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "824"
-            endingLineNumber = "824"
+            startingLineNumber = "833"
+            endingLineNumber = "833"
             landmarkName = "@implementation HyveDetailsViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -520,11 +520,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveDetailsViewController.m"
-            timestampString = "450774376.52697"
+            timestampString = "450781773.645781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "623"
-            endingLineNumber = "623"
+            startingLineNumber = "632"
+            endingLineNumber = "632"
             landmarkName = "-peripheral:didDiscoverCharacteristicsForService:error:"
             landmarkType = "5">
          </BreakpointContent>
@@ -536,11 +536,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveDetailsViewController.m"
-            timestampString = "450774376.52697"
+            timestampString = "450781773.645781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "620"
-            endingLineNumber = "620"
+            startingLineNumber = "629"
+            endingLineNumber = "629"
             landmarkName = "-peripheral:didDiscoverCharacteristicsForService:error:"
             landmarkType = "5">
          </BreakpointContent>
@@ -552,11 +552,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveDetailsViewController.m"
-            timestampString = "450774376.52697"
+            timestampString = "450781773.645781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "615"
-            endingLineNumber = "615"
+            startingLineNumber = "624"
+            endingLineNumber = "624"
             landmarkName = "-peripheral:didDiscoverCharacteristicsForService:error:"
             landmarkType = "5">
          </BreakpointContent>
@@ -568,11 +568,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveDetailsViewController.m"
-            timestampString = "450774376.52697"
+            timestampString = "450781773.645781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "817"
-            endingLineNumber = "817"
+            startingLineNumber = "826"
+            endingLineNumber = "826"
             landmarkName = "-peripheral:didWriteValueForCharacteristic:error:"
             landmarkType = "5">
             <Locations>
@@ -583,28 +583,108 @@
                   symbolName = "-[HyveDetailsViewController peripheral:didWriteValueForCharacteristic:error:]"
                   moduleName = "Hyve"
                   urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/HyveDetailsViewController.m"
-                  timestampString = "450776872.524393"
+                  timestampString = "450782557.193921"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "818"
-                  endingLineNumber = "818"
+                  startingLineNumber = "827"
+                  endingLineNumber = "827"
                   offsetFromSymbolStart = "1608">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__77-[HyveDetailsViewController peripheral:didWriteValueForCharacteristic:error:]_block_invoke590"
+                  symbolName = "__77-[HyveDetailsViewController peripheral:didWriteValueForCharacteristic:error:]_block_invoke596"
                   moduleName = "Hyve"
                   urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/HyveDetailsViewController.m"
-                  timestampString = "450776872.524537"
+                  timestampString = "450782557.194062"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "818"
-                  endingLineNumber = "818"
+                  startingLineNumber = "827"
+                  endingLineNumber = "827"
                   offsetFromSymbolStart = "30">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hyve/HyveDetailsViewController.m"
+            timestampString = "450781773.645781"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "872"
+            endingLineNumber = "872"
+            landmarkName = "-updateHyveDetails:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hyve/HyveDetailsViewController.m"
+            timestampString = "450781773.645781"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "871"
+            endingLineNumber = "871"
+            landmarkName = "-updateHyveDetails:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hyve/HyveDetailsViewController.m"
+            timestampString = "450781773.645781"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "815"
+            endingLineNumber = "815"
+            landmarkName = "-peripheral:didWriteValueForCharacteristic:error:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hyve/HyveDetailsViewController.m"
+            timestampString = "450781773.645781"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "842"
+            endingLineNumber = "842"
+            landmarkName = "-connectToHyve:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hyve/HyveDetailsViewController.m"
+            timestampString = "450781773.645781"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "865"
+            endingLineNumber = "865"
+            landmarkName = "-updateHyveDetails:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

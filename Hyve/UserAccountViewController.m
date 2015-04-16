@@ -6,9 +6,14 @@
 //  Copyright (c) 2015 Jay Ang. All rights reserved.
 //
 
+#define kAWS_ACCESS_KEY @"AKIAJSSBZVG65WCQVB5A"
+#define kAWS_BUCKET @"hyveplus-staging"
+#define kAWS_SECRET_ACCESS_KEY @"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"
+
 #import "UserAccountViewController.h"
 #import "User.h"
 #import <Reachability.h>
+#import <AWSS3.h>
 #import <AFNetworking.h>
 #import <DKCircleButton.h>
 #import <POP.h>
@@ -28,6 +33,8 @@
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) UIView *activityIndicatorView;
 @property (strong, nonatomic) MBLoadingIndicator *loadingIndicator;
+@property (strong, nonatomic) NSURLSession *session;
+@property (strong, nonatomic) NSURLSessionDownloadTask *downloadTask;
 
 @end
 
@@ -147,8 +154,6 @@
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     self.password.alpha = 0;
-//                    UIImage *avatarImageFromHyve = [UIImage imageWithData:userAvatarURLData];
-//                    [self.userAvatar setImage:avatarImageFromHyve forState:UIControlStateNormal];
                     [self.userAvatar.imageView setImageWithURL:[NSURL URLWithString:self.user.avatarURLString] placeholderImage:[UIImage imageNamed:@"defaultUserProfileImage"]];
                 });
             }
@@ -389,14 +394,17 @@
         NSString *password = self.password.text;
         UIImage *avatarImage = self.userAvatar.imageView.image;
         
+        NSString *pathToImage = [NSTemporaryDirectory() stringByAppendingString:@"userAvatar.png"];
+        NSData *userAvatarData = UIImagePNGRepresentation(avatarImage);
+        [userAvatarData writeToFile:pathToImage atomically:YES];
+        NSURL *userAvatarURL = [[NSURL alloc] initFileURLWithPath:pathToImage];
+        
         //post and save to S3
+        [self connectToAmazonS3:userAvatarURL];
         
         NSString *avatarImageString = [UIImagePNGRepresentation(avatarImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
         NSString *avatarImageStringInSixtyFour = [NSString stringWithFormat:@"data:image/png;base64, (%@)", avatarImageString];
-        
-        
-        
-        
+
         if ([self.user.provider isEqualToString:@"facebook"] || [self.user.provider isEqualToString:@"google"])
         {
             NSString *password = @"hello123";
@@ -430,7 +438,7 @@
     }
 }
 
--(void)connectToAmazonS3:(NSString*)userAvatar
+-(void)connectToAmazonS3:(NSURL*)userAvatar
 {
     Reachability *reachability = [Reachability reachabilityWithHostname:@"www.google.com"];
     
@@ -447,10 +455,106 @@
     }
 }
 
--(void)submitAndRetrieveUserImageToAndFromS3:(NSString*)userAvatar
+-(void)submitAndRetrieveUserImageToAndFromS3:(NSURL*)userAvatar
 {
+    AWSStaticCredentialsProvider *credentialProvider = [[AWSStaticCredentialsProvider alloc] initWithAccessKey:kAWS_ACCESS_KEY secretKey:kAWS_SECRET_ACCESS_KEY];
+    AWSServiceConfiguration *configuration = [[AWSServiceConfiguration alloc] initWithRegion:AWSRegionAPSoutheast1 credentialsProvider:credentialProvider];
+    [AWSServiceManager defaultServiceManager].defaultServiceConfiguration = configuration;
     
+    AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
+    uploadRequest.bucket = kAWS_BUCKET;
+    uploadRequest.key = @"userAvatar.png";
+    uploadRequest.body = userAvatar;
+    
+    [self transferToS3:uploadRequest];
+
 }
+
+-(void)transferToS3:(AWSS3TransferManagerUploadRequest*)uploadRequest
+{
+    AWSS3TransferManager *transferManager = [AWSS3TransferManager defaultS3TransferManager];
+    [[transferManager upload:uploadRequest] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id(BFTask *task) {
+        
+        //code by amazon
+        if (task.error)
+        {
+            if ([task.error.domain isEqualToString:AWSS3TransferManagerErrorDomain])
+            {
+                switch (task.error.code)
+                {
+                    case AWSS3TransferManagerErrorCancelled:
+                    case AWSS3TransferManagerErrorPaused:
+                        break;
+                        
+                    default:
+                        NSLog(@"Error: %@", task.error);
+                        break;
+                }
+            }
+            else
+            {
+                // Unknown error.
+                NSLog(@"Error: %@", task.error);
+            }
+        }
+        
+        //download URL
+        if (task.result)
+        {
+            [self downloadUserAvatarURLFromS3:task];
+        }
+        else
+        {
+            //no task.result from s3
+            NSLog(@"no task.result from s3");
+        }
+        return nil;
+    }];
+}
+
+-(void)downloadUserAvatarURLFromS3:(BFTask*)task
+{
+    AWSS3TransferManagerUploadOutput *uploadOutput = task.result;
+    
+    AWSS3GetPreSignedURLRequest *getPresignedURLRequest = [AWSS3GetPreSignedURLRequest new];
+    getPresignedURLRequest.key = @"userAvatar.png";
+    getPresignedURLRequest.HTTPMethod = AWSHTTPMethodGET;
+    getPresignedURLRequest.bucket = kAWS_BUCKET;
+    getPresignedURLRequest.expires = [NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval) 63115200];
+    
+    [[[AWSS3PreSignedURLBuilder defaultS3PreSignedURLBuilder] getPreSignedURL:getPresignedURLRequest] continueWithBlock:^id(BFTask *task)
+     {
+         if (task.error)
+         {
+             NSLog(@"Error: task.error from AWSS3PreSignedURLBuilder %@", task.error);
+         }
+         else
+         {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                
+                //TODO: change userAvatar to a property to pass it to Hyve API
+                NSURL *userAvatarAmazonS3PresignedURL = task.result;
+                
+                NSURLRequest *request = [NSURLRequest requestWithURL:userAvatarAmazonS3PresignedURL];
+                self.downloadTask = [self.session downloadTaskWithRequest:request completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+                   
+                    if (error)
+                    {
+                        NSLog(@"Error NSURLSessionDownloadTask TaskCreation :%@", error);
+                    }
+                    else
+                    {
+                        NSLog(@"location from NSURLSessionDownloadTask:  %@", location);
+                        NSLog(@"response from NSURLSessionDownloadTask == %@", response);
+                    }
+                    [self.downloadTask resume];
+                }];
+            });
+         }
+         return nil;
+     }];
+}
+
 
 
 #pragma mark - logout button

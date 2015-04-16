@@ -1463,9 +1463,6 @@
                                         <include reference="xvD-xB-TTO"/>
                                     </mask>
                                 </variation>
-                                <connections>
-                                    <action selector="onSwarmButtonHoldDownPressed:" destination="qtE-yT-x4I" eventType="touchDown" id="2Ff-Az-Ews"/>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

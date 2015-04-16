@@ -307,8 +307,6 @@
     HyveListViewController *hlvc = segue.destinationViewController;
     hlvc.hyveDevicesMutableArray = self.selectedDeviceMutableArray;
     hlvc.centralManager = self.centralManager;
-
-    
 }
 
 

@@ -34,6 +34,7 @@
 @property (strong, nonatomic) NSIndexPath *indexPath;
 @property (strong, nonatomic) NSString *RSSIString;
 @property BOOL patchedSwarmInfo;
+@property BOOL releasedSwarmButton;
 
 @end
 
@@ -42,6 +43,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.patchedSwarmInfo = NO;
+    self.releasedSwarmButton = NO;
     [self settingUpLoadingIndicator];
     [self connectToHyve];
     [self stylingBackgroundView];
@@ -74,15 +76,17 @@
     UIImage *swarmImageButton = [UIImage imageNamed:@"swarm1"];
     [self.swarmButton setImage:swarmImageButton forState:UIControlStateNormal];
     [self.swarmButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
-
+    
+    [self.swarmButton addTarget:self action:@selector(holdOntoSwarmButton) forControlEvents:UIControlEventTouchDown];
+    [self.swarmButton addTarget:self action:@selector(releaseSwarmButton) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (IBAction)onSwarmButtonHoldDownPressed:(id)sender
+-(void)holdOntoSwarmButton
 {
     NSLog(@"Swarm button is hold down");
     
     for (CBPeripheral *peripheral in self.hyveDevicesMutableArray) {
-    
+        
         if (peripheral.state == CBPeripheralStateConnected)
         {
             NSLog(@"peripheral %@", peripheral);
@@ -91,6 +95,7 @@
         }
     }
 }
+
 
 -(void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error
 {
@@ -101,8 +106,8 @@
             
             NSLog(@"peripheral %@ \r peripheral RSSI %@", peripheral.name, RSSI);
             
-//            NSDictionary *peripheralInfo = @{@"peripheral": peripheral, @"RSSI": RSSI};
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"peripheralInfo" object:peripheralInfo];
+            //            NSDictionary *peripheralInfo = @{@"peripheral": peripheral, @"RSSI": RSSI};
+            //            [[NSNotificationCenter defaultCenter] postNotificationName:@"peripheralInfo" object:peripheralInfo];
             
             [self updateHyveProximityToHyveServerViaSwarm:RSSI peripheral:peripheral];
         }
@@ -145,11 +150,12 @@
         self.patchedSwarmInfo = YES;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.hyveListTable reloadData];
-            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
         });
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity. Unable update hyve" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
         [alertController addAction:okAction];
@@ -159,25 +165,14 @@
     }];
 }
 
--(void)settingHyveDistance:(NSNotification*)notification
+-(void)releaseSwarmButton
 {
-    NSDictionary *peripheralInfo = notification.object;
-    NSLog(@"peripheralInfo %@", peripheralInfo);
+    NSLog(@"swarm button released");
+    self.releasedSwarmButton = YES;
     
-    NSNumber *RSSI = [peripheralInfo objectForKey:@"RSSI"];
-    CBPeripheral *peripheralFromDidReadRSSI = [peripheralInfo objectForKey:@"peripheral"];
-    
-    for (CBPeripheral *hyvePeripheral in self.hyveDevicesMutableArray)
+    if (self.releasedSwarmButton == YES)
     {
-        if ([hyvePeripheral.identifier isEqual:peripheralFromDidReadRSSI.identifier])
-        {
-            self.RSSI = [NSString stringWithFormat:@"%@", RSSI];
-            NSLog(@"self.RSSI %@", self.RSSI);
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-            });
-        }
+        [self.hyveListTable reloadData];
     }
 }
 
@@ -282,7 +277,6 @@
                 self.hyve.peripheralUUIDString = [pairedHyves valueForKeyPath:@"uuid"];
                 self.hyve.peripheralRSSI = [pairedHyves valueForKeyPath:@"distance"];
                 self.hyve.hyveID = [pairedHyves valueForKeyPath:@"id"];
-            
             }
             
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -456,6 +450,8 @@
                                 cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
                             }
                             
+                            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+                            self.patchedSwarmInfo = NO;
                         });
                     }
                 }
@@ -465,6 +461,7 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"Error: %@", error);
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
     }];
 
@@ -546,20 +543,29 @@
         {
             [self populateCellHyveProximity:cell withHyve:self.hyve];
         }
-
-        if ([self.RSSI isEqualToString:@""] || self.RSSI == nil)
+        
+        
+        cell.hyveProximity.text = @"Hyve not connected";
+        cell.hyveProximity.textColor = [UIColor whiteColor];
+        cell.hyveProximity.numberOfLines = 0;
+        cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
+        
+        if (self.releasedSwarmButton == YES)
         {
-            cell.hyveProximity.text = @"Hyve not connected";
-            cell.hyveProximity.textColor = [UIColor whiteColor];
-            cell.hyveProximity.numberOfLines = 0;
-            cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
-        }
-        else
-        {
-            cell.hyveProximity.text = self.RSSI;
-            cell.hyveProximity.textColor = [UIColor whiteColor];
-            cell.hyveProximity.numberOfLines = 0;
-            cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
+            if (peripheral.state == CBPeripheralStateConnected)
+            {
+                cell.hyveProximity.text = @"Hyve is connected";
+                cell.hyveProximity.textColor = [UIColor whiteColor];
+                cell.hyveProximity.numberOfLines = 0;
+                cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
+            }
+            else
+            {
+                cell.hyveProximity.text = @"Hyve not connected";
+                cell.hyveProximity.textColor = [UIColor whiteColor];
+                cell.hyveProximity.numberOfLines = 0;
+                cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
+            }
         }
     }
     return cell;

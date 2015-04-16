@@ -389,8 +389,12 @@
         NSString *password = self.password.text;
         UIImage *avatarImage = self.userAvatar.imageView.image;
         
+        //post and save to S3
+        
         NSString *avatarImageString = [UIImagePNGRepresentation(avatarImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
         NSString *avatarImageStringInSixtyFour = [NSString stringWithFormat:@"data:image/png;base64, (%@)", avatarImageString];
+        
+        
         
         
         if ([self.user.provider isEqualToString:@"facebook"] || [self.user.provider isEqualToString:@"google"])
@@ -424,6 +428,28 @@
             [self updateProfileToHyve:savedUserProfileInfoDictionaryViaEmailLogin];
         }
     }
+}
+
+-(void)connectToAmazonS3:(NSString*)userAvatar
+{
+    Reachability *reachability = [Reachability reachabilityWithHostname:@"www.google.com"];
+    
+    if (reachability.isReachable)
+    {
+        [self submitAndRetrieveUserImageToAndFromS3:userAvatar];
+    }
+    else
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+}
+
+-(void)submitAndRetrieveUserImageToAndFromS3:(NSString*)userAvatar
+{
+    
 }
 
 

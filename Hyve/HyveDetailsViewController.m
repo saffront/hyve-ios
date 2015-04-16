@@ -6,7 +6,12 @@
 //  Copyright (c) 2015 Jay Ang. All rights reserved.
 //
 
+#define kAWS_ACCESS_KEY @"AKIAJSSBZVG65WCQVB5A"
+#define kAWS_BUCKET @"hyveplus-staging"
+#define kAWS_SECRET_ACCESS_KEY @"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"
+
 #import "HyveDetailsViewController.h"
+#import <AWSS3.h>
 #import <AFNetworking.h>
 #import <Reachability.h>
 #import <CNPGridMenu.h>
@@ -34,6 +39,10 @@
 @property BOOL setPresetIconButtonDidPressed;
 @property (strong, nonatomic) NSString *hyveDistance;
 @property (strong, nonatomic) MBLoadingIndicator *loadingIndicator;
+@property (strong, nonatomic) AWSS3PutObjectRequest *por;
+@property (strong, nonatomic) AWSS3 *s3;
+@property (strong, nonatomic) NSURLSessionDownloadTask *downloadTask;
+@property (strong, nonatomic) NSURLSession *session;
 
 @end
 
@@ -330,6 +339,7 @@
     NSLog(@"Cancel image picker was called");
     [self.imagePickerController dismissViewControllerAnimated:YES completion:nil];
 }
+
 
 #pragma mark - hyve distance
 -(void)stylingHyveDistanceButton
@@ -812,10 +822,10 @@
             
             static dispatch_once_t sendingHyveDictionaryToHyveServerOnce;
             dispatch_once(&sendingHyveDictionaryToHyveServerOnce, ^{
-                [self connectToHyve:hyveDictionary];
+//                [self connectToHyve:hyveDictionary];
+                [self connectToAmazonS3];
             });
-            
-//            [self connectToHyve:hyveDictionary];
+
         }
         else
         {
@@ -831,7 +841,126 @@
     }
 }
 
-#pragma mark - update hyves details 
+#pragma mark - amazon s3
+-(void)connectToAmazonS3
+{
+    Reachability *reachability = [Reachability reachabilityWithHostname:@"www.google.com"];
+    
+    if (reachability.isReachable)
+    {
+        [self uploadAndDownloadHyveImageS3];
+    }
+    else
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+}
+
+-(void)uploadAndDownloadHyveImageS3
+{
+    AWSStaticCredentialsProvider *credentialProvider = [[AWSStaticCredentialsProvider alloc] initWithAccessKey:kAWS_ACCESS_KEY secretKey:kAWS_SECRET_ACCESS_KEY];
+    AWSServiceConfiguration *configuration = [[AWSServiceConfiguration alloc] initWithRegion:AWSRegionAPSoutheast1 credentialsProvider:credentialProvider];
+    [AWSServiceManager defaultServiceManager].defaultServiceConfiguration = configuration;
+    
+    UIImage *imageToBeUploadedToS3 = self.hyveImageButton.imageView.image;
+    NSString *pathToImage = [NSTemporaryDirectory() stringByAppendingString:@"hyveImage.png"];
+    NSData *hyveImageData = UIImagePNGRepresentation(imageToBeUploadedToS3);
+    [hyveImageData writeToFile:pathToImage atomically:YES];
+    NSURL *hyveImageURL = [[NSURL alloc] initFileURLWithPath:pathToImage];
+    
+    //Transfer manager upload
+    AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
+    uploadRequest.bucket = kAWS_BUCKET;
+    uploadRequest.key = @"hyveImage.png";
+    uploadRequest.body = hyveImageURL;
+    
+    //transfer to S3
+    AWSS3TransferManager *transferManager = [AWSS3TransferManager defaultS3TransferManager];
+    [[transferManager upload:uploadRequest] continueWithExecutor:[BFExecutor mainThreadExecutor]
+                                                       withBlock:^id(BFTask *task)
+    {
+        if (task.error)
+        {
+            if ([task.error.domain isEqualToString:AWSS3TransferManagerErrorDomain])
+            {
+                switch (task.error.code)
+                {
+                    case AWSS3TransferManagerErrorCancelled:
+                    case AWSS3TransferManagerErrorPaused:
+                        break;
+                        
+                    default:
+                        NSLog(@"Error: %@", task.error);
+                        break;
+                }
+            }
+            else
+            {
+                NSLog(@"error from awss3transfermanger : \r %@", task.error);
+            }
+        }
+        
+        //download from hyve image url from s3
+        if (task.result)
+        {
+            [self downloadHyveImageURLFromS3:task];
+        }
+        else
+        {
+            NSLog(@"Error task download error : %@", task.error);
+        }
+        return nil;
+    }];
+}
+
+-(void)downloadHyveImageURLFromS3:(BFTask*)task
+{
+    AWSS3TransferManagerUploadOutput *uploadOutput = task.result;
+    NSLog(@"uploadOutput %@", uploadOutput);
+    
+    AWSS3GetPreSignedURLRequest *getPresignedURLRequest = [AWSS3GetPreSignedURLRequest new];
+    getPresignedURLRequest.key = @"hyveImage.png";
+    getPresignedURLRequest.HTTPMethod = AWSHTTPMethodGET;
+    getPresignedURLRequest.bucket = kAWS_BUCKET;
+    getPresignedURLRequest.expires = [NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval) 63115200]; //31622400
+
+    [[[AWSS3PreSignedURLBuilder defaultS3PreSignedURLBuilder] getPreSignedURL:getPresignedURLRequest] continueWithBlock:^id(BFTask *task)
+     {
+         if (task.error)
+         {
+            NSLog(@"Error: taskError from asss3presignedurlbuilder %@", task.error);
+         }
+         else
+         {
+             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                
+                 NSURL *hyveImageS3URL = task.result;
+                 //PATCH HYVE STUFF HERE
+                 
+                 NSURLRequest *request = [NSURLRequest requestWithURL:hyveImageS3URL];
+                 self.downloadTask = [self.session downloadTaskWithRequest:request completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+                     
+                     if (error)
+                     {
+                         NSLog(@"Error NSURLSessionDownloadTask TaskCreation :%@", error);
+                     }
+                     else
+                     {
+                         NSLog(@"location from NSURLSessionDownloadTask:  %@", location);
+                         NSLog(@"response from NSURLSessionDownloadTask == %@", response);
+                     }
+                     [self.downloadTask resume];
+                 }];
+             });
+         }
+         return nil;
+     }];
+}
+
+#pragma mark - update hyves details
 -(void)connectToHyve:(NSDictionary*)hyveDetails
 {
     Reachability *reachability = [Reachability reachabilityWithHostname:@"www.google.com"];

@@ -583,12 +583,12 @@
                   symbolName = "-[HyveDetailsViewController peripheral:didWriteValueForCharacteristic:error:]"
                   moduleName = "Hyve"
                   urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/HyveDetailsViewController.m"
-                  timestampString = "450863200.250292"
+                  timestampString = "450865846.632015"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "827"
                   endingLineNumber = "827"
-                  offsetFromSymbolStart = "1596">
+                  offsetFromSymbolStart = "1608">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -597,12 +597,12 @@
                   symbolName = "__77-[HyveDetailsViewController peripheral:didWriteValueForCharacteristic:error:]_block_invoke594"
                   moduleName = "Hyve"
                   urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/HyveDetailsViewController.m"
-                  timestampString = "450863200.250488"
+                  timestampString = "450865846.63216"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "827"
                   endingLineNumber = "827"
-                  offsetFromSymbolStart = "24">
+                  offsetFromSymbolStart = "30">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -709,12 +709,12 @@
                   symbolName = "__61-[HyveListViewController populateCellHyveProximity:withHyve:]_block_invoke_2"
                   moduleName = "Hyve"
                   urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/HyveListViewController.m"
-                  timestampString = "450863200.254079"
+                  timestampString = "450865846.635368"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "467"
                   endingLineNumber = "467"
-                  offsetFromSymbolStart = "952">
+                  offsetFromSymbolStart = "918">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -723,12 +723,12 @@
                   symbolName = "__61-[HyveListViewController populateCellHyveProximity:withHyve:]_block_invoke_2"
                   moduleName = "Hyve"
                   urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/HyveListViewController.m"
-                  timestampString = "450863200.254231"
+                  timestampString = "450865846.635512"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "467"
                   endingLineNumber = "467"
-                  offsetFromSymbolStart = "988">
+                  offsetFromSymbolStart = "942">
                </Location>
             </Locations>
          </BreakpointContent>

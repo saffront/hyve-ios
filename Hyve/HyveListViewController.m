@@ -523,7 +523,7 @@
     if ([self.hyve.peripheralName isEqualToString:@""] || self.hyve.peripheralName == nil)
     {
         cell.hyveName.text = @"Unkown devices";
-        cell.hyveName.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
+        cell.hyveName.font = [UIFont fontWithName:@"OpenSans-Bold" size:22];
         cell.hyveName.textColor = [UIColor whiteColor];
         [cell.hyveImage setImage:[UIImage imageNamed:@"houseKeys"] forState:UIControlStateNormal];
         cell.hyveBattery.alpha = 0;
@@ -536,7 +536,7 @@
         cell.hyveProximity.alpha = 1;
         
         cell.hyveName.text = self.hyve.peripheralName;
-        cell.hyveName.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
+        cell.hyveName.font = [UIFont fontWithName:@"OpenSans-Bold" size:22];
         cell.hyveName.textColor = [UIColor whiteColor];
         cell.hyveName.numberOfLines = 0;
         
@@ -632,14 +632,13 @@
 
 -(void)settingHeaderForHyveListTable:(NSString*)usernameFromHyve imageURLString:(NSString*)imageURLString
 {
-    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         [self.userProfileImageButton setImage:[UIImage imageNamed:@"defaultUserProfileImage"] forState:UIControlStateNormal];
         UIView *userProfileHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.hyveListTable.frame.size.width, 200)];
         [userProfileHeader setUserInteractionEnabled:YES];
         [userProfileHeader bringSubviewToFront:self.loadingIndicator];
         
-        UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, userProfileHeader.frame.size.width, userProfileHeader.frame.size.height)];
+        UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, -200, userProfileHeader.frame.size.width, userProfileHeader.frame.size.height + 200)];
         
         if ([imageURLString isKindOfClass:[NSNull class]] || imageURLString == nil)
         {
@@ -660,7 +659,8 @@
         [self.userProfileImageButton setCenter:CGPointMake(CGRectGetMidX(userProfileHeader.bounds), CGRectGetMidY(userProfileHeader.bounds))];
         [self.userProfileImageButton addTarget:self action:@selector(userProfileImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         
-        float positionOfUsernameCoordinateY = self.userProfileImageButton.frame.origin.y + self.userProfileImageButton.frame.size.height + 30;
+//        float positionOfUsernameCoordinateY = self.userProfileImageButton.frame.origin.y + self.userProfileImageButton.frame.size.height + 230;
+        float positionOfUsernameCoordinateY = userProfileHeader.frame.origin.y + 370;
         UILabel *username = [[UILabel alloc] initWithFrame:CGRectMake(backgroundImageView.frame.size.width/2, positionOfUsernameCoordinateY, 250, 40)];
         
         username.textAlignment = NSTextAlignmentCenter;

@@ -421,6 +421,47 @@
         
         NSLog(@"responseObject : %@", responseObject);
         
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+           
+            NSArray *hyvesArray = [responseObject valueForKeyPath:@"user.hyves"];
+            
+            for (NSDictionary *hyvesInfo in hyvesArray)
+            {
+                NSString *peripheralUUIDStringFromHyveServer = [hyvesInfo valueForKeyPath:@"uuid"];
+                
+                if ([peripheralUUIDStringFromHyveServer isEqualToString:hyve.peripheralUUIDString])
+                {
+                    NSString *proximity = [hyvesInfo valueForKeyPath:@"proximity"];
+                    
+                    if ([proximity isKindOfClass:[NSNull class]])
+                    {
+                        NSLog(@"proximity is null");
+                    }
+                    else
+                    {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                           
+                            cell.hyveProximity.text = proximity;
+                            
+                            if ([cell.hyveProximity.text isEqualToString:@"close by"])
+                            {
+                                cell.hyveProximity.textColor = [UIColor greenColor];
+                                cell.hyveProximity.numberOfLines = 0;
+                                cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
+                            }
+                            else
+                            {
+                                cell.hyveProximity.textColor = [UIColor redColor];
+                                cell.hyveProximity.numberOfLines = 0;
+                                cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
+                            }
+                            
+                        });
+                    }
+                }
+            }
+        });
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"Error: %@", error);

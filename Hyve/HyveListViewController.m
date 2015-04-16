@@ -35,6 +35,7 @@
 @property (strong, nonatomic) NSString *RSSIString;
 @property BOOL patchedSwarmInfo;
 @property BOOL releasedSwarmButton;
+@property (strong, nonatomic) UIView *hyveListTableViewFooter;
 
 @end
 
@@ -72,6 +73,7 @@
 #pragma mark - swarm
 -(void)stylingSwarmButton
 {
+    self.swarmButton.alpha = 0;
     [self.swarmButton setTitle:@"" forState:UIControlStateNormal];
     UIImage *swarmImageButton = [UIImage imageNamed:@"swarm1"];
     [self.swarmButton setImage:swarmImageButton forState:UIControlStateNormal];
@@ -170,9 +172,15 @@
     NSLog(@"swarm button released");
     self.releasedSwarmButton = YES;
     
-    if (self.releasedSwarmButton == YES)
-    {
-        [self.hyveListTable reloadData];
+    for (CBPeripheral *peripheral in self.hyveDevicesMutableArray) {
+        
+        if (peripheral.state == CBPeripheralStateConnected)
+        {
+            if (self.releasedSwarmButton == YES)
+            {
+                [self.hyveListTable reloadData];
+            }
+        }
     }
 }
 
@@ -509,7 +517,7 @@
     }
     
     cell.backgroundColor = [UIColor clearColor];
-    cell.hyveContentView.backgroundColor = [UIColor colorWithRed:0.61 green:0.71 blue:0.71 alpha:0.4];
+    cell.hyveContentView.backgroundColor = [UIColor colorWithRed:0.50 green:0.50 blue:0.50 alpha:0.4];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if ([self.hyve.peripheralName isEqualToString:@""] || self.hyve.peripheralName == nil)
@@ -543,8 +551,7 @@
         {
             [self populateCellHyveProximity:cell withHyve:self.hyve];
         }
-        
-        
+
         cell.hyveProximity.text = @"Hyve not connected";
         cell.hyveProximity.textColor = [UIColor whiteColor];
         cell.hyveProximity.numberOfLines = 0;
@@ -554,7 +561,7 @@
         {
             if (peripheral.state == CBPeripheralStateConnected)
             {
-                cell.hyveProximity.text = @"Hyve is connected";
+                cell.hyveProximity.text = @"Connected";
                 cell.hyveProximity.textColor = [UIColor whiteColor];
                 cell.hyveProximity.numberOfLines = 0;
                 cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
@@ -571,6 +578,37 @@
     return cell;
 }
 
+//footer
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 100;
+}
+
+-(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (self.hyveListTableViewFooter == nil)
+    {
+        self.hyveListTableViewFooter = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 100)];
+        
+        self.hyveListTableViewFooter.backgroundColor = [UIColor clearColor];
+
+        DKCircleButton *hyveSwarmButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, 50, 70, 70)];
+        [hyveSwarmButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds), CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
+        [hyveSwarmButton setImage:[UIImage imageNamed:@"swarm1"] forState:UIControlStateNormal];
+        
+        [hyveSwarmButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+        
+        [hyveSwarmButton addTarget:self action:@selector(holdOntoSwarmButton) forControlEvents:UIControlEventTouchDown];
+        [hyveSwarmButton addTarget:self action:@selector(releaseSwarmButton) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self.hyveListTableViewFooter addSubview:hyveSwarmButton];
+        
+    }
+    
+    return self.hyveListTableViewFooter;
+}
+
+//disconnect
 -(NSString*)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return @"Disconnect";

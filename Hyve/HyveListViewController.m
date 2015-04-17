@@ -29,7 +29,7 @@
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
 @property (strong, nonatomic) MBLoadingIndicator *loadingIndicator;
 @property (strong, nonatomic) UIImage *userProfileImage;
-@property (weak, nonatomic) IBOutlet DKCircleButton *swarmButton;
+@property (strong, nonatomic) DKCircleButton *swarmHyveButton;
 @property (strong, nonatomic) NSString *RSSI;
 @property (strong, nonatomic) NSIndexPath *indexPath;
 @property (strong, nonatomic) NSString *RSSIString;
@@ -42,6 +42,7 @@
 @implementation HyveListViewController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     self.patchedSwarmInfo = NO;
     self.releasedSwarmButton = NO;
@@ -50,7 +51,7 @@
     [self stylingBackgroundView];
     [self stylingNavigationBar];
     [self stylingHyveListTableView];
-    [self stylingSwarmButton];
+//    [self stylingSwarmHyveButton];
 
 }
 
@@ -60,7 +61,7 @@
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingUserImage:) name:@"user" object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingHyveImage:) name:@"userImageURLString" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingHyveDistance:) name:@"peripheralInfo" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingHyveDistance:) name:@"peripheralInfo" object:nil];
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
@@ -68,21 +69,23 @@
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor clearColor];
     
-    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.hyveListTable reloadData];
+    });
 }
 
 
 #pragma mark - swarm
--(void)stylingSwarmButton
+-(void)stylingSwarmHyveButton
 {
-    self.swarmButton.alpha = 0;
-    [self.swarmButton setTitle:@"" forState:UIControlStateNormal];
+    self.swarmHyveButton.alpha = 0;
+    [self.swarmHyveButton setTitle:@"" forState:UIControlStateNormal];
     UIImage *swarmImageButton = [UIImage imageNamed:@"swarm1"];
-    [self.swarmButton setImage:swarmImageButton forState:UIControlStateNormal];
-    [self.swarmButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+    [self.swarmHyveButton setImage:swarmImageButton forState:UIControlStateNormal];
+    [self.swarmHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
     
-    [self.swarmButton addTarget:self action:@selector(holdOntoSwarmButton) forControlEvents:UIControlEventTouchDown];
-    [self.swarmButton addTarget:self action:@selector(releaseSwarmButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.swarmHyveButton addTarget:self action:@selector(holdOntoSwarmButton) forControlEvents:UIControlEventTouchDown];
+    [self.swarmHyveButton addTarget:self action:@selector(releaseSwarmButton) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(void)holdOntoSwarmButton
@@ -96,13 +99,6 @@
             NSLog(@"peripheral %@", peripheral);
             peripheral.delegate = self;
             [peripheral readRSSI];
-        }
-        else if (peripheral.state == CBPeripheralStateDisconnected)
-        {
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Meet Swarm! To enable Swarm, please connect your Hyve" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-            [alertController addAction:okAction];
-            [self presentViewController:alertController animated:YES completion:nil];
         }
     }
 }
@@ -601,20 +597,36 @@
         
         self.hyveListTableViewFooter.backgroundColor = [UIColor clearColor];
 
-        DKCircleButton *hyveSwarmButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, 50, 70, 70)];
-        [hyveSwarmButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds), CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
-        [hyveSwarmButton setImage:[UIImage imageNamed:@"swarm1"] forState:UIControlStateNormal];
+        self.swarmHyveButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, 50, 70, 70)];
+        [self.swarmHyveButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds), CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
+        [self.swarmHyveButton setImage:[UIImage imageNamed:@"swarm1"] forState:UIControlStateNormal];
         
-        [hyveSwarmButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+        [self.swarmHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
         
-        [hyveSwarmButton addTarget:self action:@selector(holdOntoSwarmButton) forControlEvents:UIControlEventTouchDown];
-        [hyveSwarmButton addTarget:self action:@selector(releaseSwarmButton) forControlEvents:UIControlEventTouchUpInside];
+        UILongPressGestureRecognizer *swarmButtonLongPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwarmButtonLongPressGesture:)];
+//        [self.swarmHyveButton addTarget:self action:@selector(holdOntoSwarmButton) forControlEvents:UIControlEventTouchDown];
+//        [self.swarmHyveButton addTarget:self action:@selector(releaseSwarmButton) forControlEvents:UIControlEventTouchUpInside];
+        [self.swarmHyveButton addGestureRecognizer:swarmButtonLongPressGesture];
         
-        [self.hyveListTableViewFooter addSubview:hyveSwarmButton];
+        [self.hyveListTableViewFooter addSubview:self.swarmHyveButton];
+        self.hyveListTableViewFooter.userInteractionEnabled = YES;
         
     }
     
     return self.hyveListTableViewFooter;
+}
+
+-(void)handleSwarmButtonLongPressGesture:(UILongPressGestureRecognizer*)longGestureRecognizer
+{
+    if (longGestureRecognizer.state == UIGestureRecognizerStateBegan)
+    {
+        [self holdOntoSwarmButton];
+    }
+    
+    if (longGestureRecognizer.state == UIGestureRecognizerStateEnded)
+    {
+        [self releaseSwarmButton];
+    }
 }
 
 //disconnect

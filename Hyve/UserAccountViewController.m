@@ -389,9 +389,6 @@
         self.email.userInteractionEnabled = NO;
         self.userAvatar.userInteractionEnabled = NO;
         
-        NSString *email = self.email.text;
-        NSString *username = self.username.text;
-        NSString *password = self.password.text;
         UIImage *avatarImage = self.userAvatar.imageView.image;
         
         NSString *pathToImage = [NSTemporaryDirectory() stringByAppendingString:@"userAvatar.png"];
@@ -405,36 +402,6 @@
         NSString *avatarImageString = [UIImagePNGRepresentation(avatarImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
         NSString *avatarImageStringInSixtyFour = [NSString stringWithFormat:@"data:image/png;base64, (%@)", avatarImageString];
 
-        if ([self.user.provider isEqualToString:@"facebook"] || [self.user.provider isEqualToString:@"google"])
-        {
-            NSString *password = @"hello123";
-            NSString *password_confirmation = @"hello123";
-            
-            NSDictionary *savedInfoDictionary = @{@"email": email,
-                                                  @"password":password,
-                                                  @"username": username,
-                                                  @"password_confirmation": password_confirmation,
-                                                  @"avatar":avatarImageStringInSixtyFour};
-            
-            NSDictionary *savedUserProfileInfoDictionary = @{@"user": savedInfoDictionary};
-            
-            [self updateProfileToHyve:savedUserProfileInfoDictionary];
-            
-        }
-        else //email login
-        {
-            
-            NSDictionary *savedInfoDictionaryViaEmailLogin = @{@"email": email,
-                                                               @"username": username,
-                                                               @"password": password,
-                                                               @"password_confirmation": password,
-                                                               @"avatar": avatarImageStringInSixtyFour};
-            
-            NSDictionary *savedUserProfileInfoDictionaryViaEmailLogin = @{@"user":savedInfoDictionaryViaEmailLogin};
-            
-            
-            [self updateProfileToHyve:savedUserProfileInfoDictionaryViaEmailLogin];
-        }
     }
 }
 
@@ -534,6 +501,8 @@
                 
                 //TODO: change userAvatar to a property to pass it to Hyve API
                 NSURL *userAvatarAmazonS3PresignedURL = task.result;
+                [self sendSavedUserInfoToHyve:userAvatarAmazonS3PresignedURL];
+                
                 
                 NSURLRequest *request = [NSURLRequest requestWithURL:userAvatarAmazonS3PresignedURL];
                 self.downloadTask = [self.session downloadTaskWithRequest:request completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
@@ -553,6 +522,49 @@
          }
          return nil;
      }];
+}
+
+#pragma mark - send saved user info to hyve
+-(void)sendSavedUserInfoToHyve:(NSURL*)amazonS3UserAvatarPresignedURL
+{
+    if ([self.user.provider isEqualToString:@"facebook"] || [self.user.provider isEqualToString:@"google"])
+    {
+        NSString *email = self.email.text;
+        NSString *username = self.username.text;
+        NSString *password = @"hello123";
+        NSString *password_confirmation = @"hello123";
+        NSString *avatarURL = [NSString stringWithFormat:@"%@", amazonS3UserAvatarPresignedURL];
+        
+        NSDictionary *savedInfoDictionary = @{@"email": email,
+                                              @"password":password,
+                                              @"username": username,
+                                              @"password_confirmation": password_confirmation,
+                                              @"avatar":avatarURL};
+        
+        NSDictionary *savedUserProfileInfoDictionary = @{@"user": savedInfoDictionary};
+        
+        [self updateProfileToHyve:savedUserProfileInfoDictionary];
+        
+    }
+    else //email login
+    {
+        
+        NSString *email = self.email.text;
+        NSString *username = self.username.text;
+        NSString *password = self.password.text;
+        NSString *avatarURL = [NSString stringWithFormat:@"%@", amazonS3UserAvatarPresignedURL];
+        
+        NSDictionary *savedInfoDictionaryViaEmailLogin = @{@"email": email,
+                                                           @"username": username,
+                                                           @"password": password,
+                                                           @"password_confirmation": password,
+                                                           @"avatar": avatarURL};
+        
+        NSDictionary *savedUserProfileInfoDictionaryViaEmailLogin = @{@"user":savedInfoDictionaryViaEmailLogin};
+        
+        
+        [self updateProfileToHyve:savedUserProfileInfoDictionaryViaEmailLogin];
+    }
 }
 
 

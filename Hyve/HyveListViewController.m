@@ -158,6 +158,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.hyveListTable reloadData];
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+
         });
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -176,6 +177,7 @@
 {
     NSLog(@"swarm button released");
     self.releasedSwarmButton = YES;
+    self.patchedSwarmInfo = NO;
     
     for (CBPeripheral *peripheral in self.hyveDevicesMutableArray) {
         
@@ -464,7 +466,7 @@
                             }
                             
                             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-                            self.patchedSwarmInfo = NO;
+                            
                         });
                     }
                 }
@@ -477,7 +479,7 @@
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
     }];
-
+    self.patchedSwarmInfo = NO;
 }
 
 #pragma mark - styling background view
@@ -647,6 +649,7 @@
         NSLog(@"pressed");
         CBPeripheral *peripheralToBeDisconnected = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
         [self.centralManager cancelPeripheralConnection:peripheralToBeDisconnected];
+        [self.hyveListTable reloadData];
         NSLog(@"peripheralToBeDisconnected status: %@", peripheralToBeDisconnected);
     }
 }

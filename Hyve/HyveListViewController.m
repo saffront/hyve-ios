@@ -67,6 +67,8 @@
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor clearColor];
+    
+    
 }
 
 
@@ -94,6 +96,13 @@
             NSLog(@"peripheral %@", peripheral);
             peripheral.delegate = self;
             [peripheral readRSSI];
+        }
+        else if (peripheral.state == CBPeripheralStateDisconnected)
+        {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Meet Swarm! To enable Swarm, please connect your Hyve" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            [alertController addAction:okAction];
+            [self presentViewController:alertController animated:YES completion:nil];
         }
     }
 }

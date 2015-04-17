@@ -815,20 +815,24 @@
         
         if (self.setPresetIconButtonDidPressed == YES || self.takePictureButtonDidPressed == YES)
         {
-            NSDictionary *hyveDictionary = @{@"name":hyveName,
-                                             @"distance":hyveProximity,
-                                             @"uuid":hyveUUIDString,
-                                             @"image":avatarImageStringInSixtyFour};
+//            NSDictionary *hyveDictionary = @{@"name":hyveName,
+//                                             @"distance":hyveProximity,
+//                                             @"uuid":hyveUUIDString,
+//                                             @"image":avatarImageStringInSixtyFour};
             
             static dispatch_once_t sendingHyveDictionaryToHyveServerOnce;
             dispatch_once(&sendingHyveDictionaryToHyveServerOnce, ^{
 //                [self connectToHyve:hyveDictionary];
-                [self connectToAmazonS3];
+                [self connectToAmazonS3:peripheral];
             });
 
         }
         else
         {
+            NSString *hyveName = self.hyveNameTextField.text;
+            NSString *hyveProximity = self.hyveDistance;
+            NSString *hyveUUIDString = peripheral.identifier.UUIDString;
+            
             NSDictionary *hyveDictionary = @{@"name":hyveName,
                                              @"distance":hyveProximity,
                                              @"uuid":hyveUUIDString};
@@ -842,13 +846,13 @@
 }
 
 #pragma mark - amazon s3
--(void)connectToAmazonS3
+-(void)connectToAmazonS3:(CBPeripheral*)peripheral
 {
     Reachability *reachability = [Reachability reachabilityWithHostname:@"www.google.com"];
     
     if (reachability.isReachable)
     {
-        [self uploadAndDownloadHyveImageS3];
+        [self uploadAndDownloadHyveImageS3:peripheral];
     }
     else
     {
@@ -859,7 +863,7 @@
     }
 }
 
--(void)uploadAndDownloadHyveImageS3
+-(void)uploadAndDownloadHyveImageS3:(CBPeripheral*)peripheral
 {
     AWSStaticCredentialsProvider *credentialProvider = [[AWSStaticCredentialsProvider alloc] initWithAccessKey:kAWS_ACCESS_KEY secretKey:kAWS_SECRET_ACCESS_KEY];
     AWSServiceConfiguration *configuration = [[AWSServiceConfiguration alloc] initWithRegion:AWSRegionAPSoutheast1 credentialsProvider:credentialProvider];
@@ -906,7 +910,7 @@
         //download from hyve image url from s3
         if (task.result)
         {
-            [self downloadHyveImageURLFromS3:task];
+            [self downloadHyveImageURLFromS3:task peripheral:peripheral];
         }
         else
         {
@@ -916,7 +920,7 @@
     }];
 }
 
--(void)downloadHyveImageURLFromS3:(BFTask*)task
+-(void)downloadHyveImageURLFromS3:(BFTask*)task peripheral:(CBPeripheral*)peripheral
 {
     AWSS3TransferManagerUploadOutput *uploadOutput = task.result;
     NSLog(@"uploadOutput %@", uploadOutput);
@@ -939,6 +943,8 @@
                 
                  NSURL *hyveImageS3URL = task.result;
                  //PATCH HYVE STUFF HERE
+                 [self sendUpdatedHyveInfoToHyve:hyveImageS3URL peripheral:peripheral];
+                 
                  
                  NSURLRequest *request = [NSURLRequest requestWithURL:hyveImageS3URL];
                  self.downloadTask = [self.session downloadTaskWithRequest:request completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
@@ -958,6 +964,24 @@
          }
          return nil;
      }];
+}
+
+#pragma mark - send updated hyve info to Hyve
+-(void)sendUpdatedHyveInfoToHyve:(NSURL*)hyveImageS3URL peripheral:(CBPeripheral*)peripheral
+{
+    NSString *hyveName = self.hyveNameTextField.text;
+    NSString *hyveProximity = self.hyveDistance;
+    NSString *hyveUUIDString = peripheral.identifier.UUIDString;
+    NSString *avatarURL = [NSString stringWithFormat:@"%@", hyveImageS3URL];
+    //    UIImage *hyveImage = self.hyveImageButton.imageView.image;
+    
+    NSDictionary *hyveDictionary = @{@"name":hyveName,
+                                     @"distance":hyveProximity,
+                                     @"uuid":hyveUUIDString,
+                                     @"image":avatarURL};
+    
+    [self connectToHyve:hyveDictionary];
+    
 }
 
 #pragma mark - update hyves details

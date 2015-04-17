@@ -481,8 +481,6 @@
 
 -(void)downloadUserAvatarURLFromS3:(BFTask*)task
 {
-    AWSS3TransferManagerUploadOutput *uploadOutput = task.result;
-    
     AWSS3GetPreSignedURLRequest *getPresignedURLRequest = [AWSS3GetPreSignedURLRequest new];
     getPresignedURLRequest.key = @"userAvatar.png";
     getPresignedURLRequest.HTTPMethod = AWSHTTPMethodGET;
@@ -499,10 +497,8 @@
          {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                 
-                //TODO: change userAvatar to a property to pass it to Hyve API
                 NSURL *userAvatarAmazonS3PresignedURL = task.result;
                 [self sendSavedUserInfoToHyve:userAvatarAmazonS3PresignedURL];
-                
                 
                 NSURLRequest *request = [NSURLRequest requestWithURL:userAvatarAmazonS3PresignedURL];
                 self.downloadTask = [self.session downloadTaskWithRequest:request completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {

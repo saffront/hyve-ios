@@ -53,7 +53,7 @@
     [self stylingBackgroundView];
     [self stylingNavigationBar];
     [self stylingHyveListTableView];
-    [self stylingSwarmHyveButton];
+//    [self stylingSwarmHyveButton];
 }
 
 #pragma mark - viewWillAppear
@@ -62,9 +62,6 @@
     [super viewWillAppear:animated];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingUserImage:) name:@"user" object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingHyveImage:) name:@"userImageURLString" object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingHyveDistance:) name:@"peripheralInfo" object:nil];
-    
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
@@ -114,9 +111,6 @@
         {
             
             NSLog(@"peripheral %@ \r peripheral RSSI %@", peripheral.name, RSSI);
-            
-            //            NSDictionary *peripheralInfo = @{@"peripheral": peripheral, @"RSSI": RSSI};
-            //            [[NSNotificationCenter defaultCenter] postNotificationName:@"peripheralInfo" object:peripheralInfo];
             
             [self updateHyveProximityToHyveServerViaSwarm:RSSI peripheral:peripheral];
         }
@@ -614,18 +608,9 @@
         self.swarmHyveButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, 50, 70, 70)];
         [self.swarmHyveButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds), CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
         [self.swarmHyveButton setImage:[UIImage imageNamed:@"swarm1"] forState:UIControlStateNormal];
-        
         [self.swarmHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
         
-        self.swarmButtonLongPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwarmButtonLongPressGesture:)];
-        self.swarmButtonLongPressGesture.delegate = self;
-        self.swarmButtonLongPressGesture.minimumPressDuration = 2.0;
-        self.swarmButtonLongPressGesture.numberOfTouchesRequired = 1;
-        self.swarmButtonLongPressGesture.allowableMovement = 100;
-        [self.swarmHyveButton addGestureRecognizer:self.swarmButtonLongPressGesture];
-
-//        [self.swarmHyveButton addTarget:self action:@selector(holdDownSwarmButton:) forControlEvents:UIControlEventTouchDown];
-//        [self.swarmHyveButton addTarget:self action:@selector(letGoOfSwarmButton:) forControlEvents:UIControlEventTouchUpInside];
+        [self.swarmHyveButton addTarget:self action:@selector(onSwarmButtonPressed) forControlEvents:UIControlEventTouchUpInside];
 
         [self.hyveListTableViewFooter addSubview:self.swarmHyveButton];
         [self.hyveListTableViewFooter bringSubviewToFront:self.swarmHyveButton];
@@ -636,54 +621,9 @@
     return self.hyveListTableViewFooter;
 }
 
-//-(void)holdDownSwarmButton:(id)sender
-//{
-//    [self holdOntoSwarmButton];
-//}
-//
-//
-//-(void)letGoOfSwarmButton:(id)sender
-//{
-//    [self releasedSwarmButton];
-//}
-
-//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
-//{
-//    return YES;
-//}
-
--(void)handleSwarmButtonLongPressGesture:(UILongPressGestureRecognizer*)longGestureRecognizer
+-(void)onSwarmButtonPressed
 {
-    NSLog(@"longGestureRecognizer: %@ \r state: %d", longGestureRecognizer, longGestureRecognizer.state);
-    
-    switch (longGestureRecognizer.state) {
-        case UIGestureRecognizerStateBegan:
-            [self holdOntoSwarmButton];
-            break;
-        case UIGestureRecognizerStateChanged:
-            NSLog(@"gesture regonizer state changed");
-            [self holdOntoSwarmButton];
-            break;
-        case UIGestureRecognizerStateEnded:
-            [self releaseSwarmButton];
-            break;
-        case UIGestureRecognizerStateCancelled:
-            NSLog(@"Gesture cancelled");
-            break;
-        default:
-            break;
-    }
-
-    
-//    if (longGestureRecognizer.state == UIGestureRecognizerStateBegan)
-//    {
-//        [self holdOntoSwarmButton];
-//    }
-//    
-//    if (longGestureRecognizer.state == UIGestureRecognizerStateEnded)
-//    {
-//        [self releaseSwarmButton];
-//    }
+    [self holdOntoSwarmButton];
 }
 
 //disconnect

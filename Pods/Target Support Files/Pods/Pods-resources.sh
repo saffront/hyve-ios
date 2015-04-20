@@ -61,6 +61,7 @@ install_resource()
                     install_resource "AWSSNS/AWSSNS/Resources/sns-2010-03-31.json"
                     install_resource "AWSSQS/AWSSQS/Resources/sqs-2012-11-05.json"
                     install_resource "AWSSimpleDB/AWSSimpleDB/Resources/sdb-2009-04-15.json"
+                    install_resource "KVNProgress/KVNProgress/Resources/KVNProgressView.xib"
                     install_resource "${BUILT_PRODUCTS_DIR}/MBSimpleLoadingIndicator.bundle"
           
 rsync -avr --copy-links --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

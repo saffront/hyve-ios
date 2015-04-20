@@ -126,6 +126,7 @@ PODS:
     - FMDB/common
   - GZIP (1.0.3)
   - ISO8601 (0.1.2)
+  - KVNProgress (2.2.1)
   - Mantle (1.5.4):
     - Mantle/extobjc (= 1.5.4)
   - Mantle/extobjc (1.5.4)
@@ -156,6 +157,7 @@ DEPENDENCIES:
   - BlurryModalSegue
   - CNPGridMenu
   - DKCircleButton
+  - KVNProgress
   - MBSimpleLoadingIndicator
   - pop
   - Reachability
@@ -184,6 +186,7 @@ SPEC CHECKSUMS:
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
   GZIP: f0863fda354e8f83316508c0a2c7bbe385e39129
   ISO8601: f74aa93ae1264e5089614325ef44016f08c7ac6c
+  KVNProgress: 7001d2d16a2755cee5599e8e485befe056f2197b
   Mantle: 60acd0cd363e27d945bda0a6b8e90577112d28f3
   MBSimpleLoadingIndicator: bb386548fda4a75fd792b1793ac1cd8ff2862cf7
   MZAppearance: c2937318234fd782e900fb178942278881ac5490

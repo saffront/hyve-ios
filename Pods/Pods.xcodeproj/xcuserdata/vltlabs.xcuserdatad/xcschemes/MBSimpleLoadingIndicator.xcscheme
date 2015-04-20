@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E292DABA1F8B137A8B1B2134"
+               BlueprintIdentifier = "4F68DB090EECF79B5DDDF72E"
                BuildableName = "MBSimpleLoadingIndicator.bundle"
                BlueprintName = "MBSimpleLoadingIndicator"
                ReferencedContainer = "container:Pods.xcodeproj">

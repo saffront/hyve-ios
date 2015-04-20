@@ -679,7 +679,9 @@
         NSLog(@"pressed");
         CBPeripheral *peripheralToBeDisconnected = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
         [self.centralManager cancelPeripheralConnection:peripheralToBeDisconnected];
-        [self.hyveListTable reloadData];
+        
+        [self.hyveListTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+//        [self.hyveListTable reloadData];
         NSLog(@"peripheralToBeDisconnected status: %@", peripheralToBeDisconnected);
     }
 }

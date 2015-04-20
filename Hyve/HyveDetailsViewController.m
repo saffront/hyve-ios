@@ -18,6 +18,7 @@
 #import <DKCircleButton.h>
 #import <POP.h>
 #import <MBLoadingIndicator.h>
+#import <KVNProgress.h>
 
 //32A9DD44-9B1C-BAA5-8587-8A2D36E0623E  - hive
 
@@ -43,6 +44,7 @@
 @property (strong, nonatomic) AWSS3 *s3;
 @property (strong, nonatomic) NSURLSessionDownloadTask *downloadTask;
 @property (strong, nonatomic) NSURLSession *session;
+@property (strong, nonatomic) KVNProgressConfiguration *loadingProgressView;
 
 @end
 
@@ -103,7 +105,19 @@
       [UIFont fontWithName:@"OpenSans-SemiBold" size:21],
       NSFontAttributeName, nil]];
     
-    [self settingUpLoadingIndicator];
+//    [self settingUpLoadingIndicator];
+    [self settingUpLoadingProgressView];
+}
+
+#pragma mark - setting up loading progress view
+-(void)settingUpLoadingProgressView
+{
+    self.loadingProgressView = [KVNProgressConfiguration defaultConfiguration];
+    [KVNProgress setConfiguration:self.loadingProgressView];
+    self.loadingProgressView.backgroundType = KVNProgressBackgroundTypeBlurred;
+    self.loadingProgressView.fullScreen = YES;
+    self.loadingProgressView.minimumDisplayTime = 1;
+    [KVNProgress showWithStatus:@"Loading..."];
 }
 
 #pragma mark - loading indicator
@@ -161,7 +175,8 @@
     
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
-        [self.loadingIndicator dismiss];
+        [KVNProgress dismiss];
+//        [self.loadingIndicator dismiss];
         NSLog(@"error with retrieveUserInfoAndPairedHyve: \r\r %@ \r localizedDescription: \r %@", error, [error localizedDescription]);
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity. Unable to update Hyve Image." preferredStyle:UIAlertControllerStyleAlert];
@@ -232,7 +247,8 @@
     }
     
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    [self.loadingIndicator finish];
+//    [self.loadingIndicator finish];
+    [KVNProgress showSuccessWithStatus:@"Found Hyve!"];
 }
 
 -(void)takeAPictureForHyveImage
@@ -329,7 +345,8 @@
             [self.hyveImageButton setContentVerticalAlignment:UIControlContentVerticalAlignmentFill];
             
             self.takePictureButtonDidPressed = YES;
-            [self.loadingIndicator finish];
+//            [self.loadingIndicator finish];
+            [KVNProgress showSuccessWithStatus:@"Image taken!"];
         });
     });
 }
@@ -1022,7 +1039,8 @@
        
         NSLog(@"responseObject: \r %@", responseObject);
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-        [self.loadingIndicator finish];
+//        [self.loadingIndicator finish];
+        [KVNProgress showSuccessWithStatus:@"Found Hyve!"];
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Succesfully connect to Hyve" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -1034,7 +1052,8 @@
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
-        [self.loadingIndicator dismiss];
+        [KVNProgress dismiss];
+//        [self.loadingIndicator dismiss];
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity. Unable to update hyve" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
         [alertController addAction:okAction];

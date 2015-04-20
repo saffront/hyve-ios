@@ -19,6 +19,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <POP.h>
 #import <MBLoadingIndicator.h>
+#import <KVNProgress.h>
 
 @interface HyveListViewController () <UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, CBPeripheralDelegate, UIGestureRecognizerDelegate>
 
@@ -38,6 +39,7 @@
 @property (strong, nonatomic) UIView *hyveListTableViewFooter;
 @property (strong, nonatomic) UILongPressGestureRecognizer *swarmButtonLongPressGesture;
 @property (weak, nonatomic) IBOutlet DKCircleButton *swarmButton;
+@property (strong, nonatomic) KVNProgressConfiguration *loadingProgressView;
 
 @end
 
@@ -48,12 +50,13 @@
     [super viewDidLoad];
     self.patchedSwarmInfo = NO;
     self.releasedSwarmButton = NO;
-    [self settingUpLoadingIndicator];
+//    [self settingUpLoadingIndicator];
     [self connectToHyve];
     [self stylingBackgroundView];
     [self stylingNavigationBar];
     [self stylingHyveListTableView];
 //    [self stylingSwarmHyveButton];
+    [self settingLoadingProgressView];
 }
 
 #pragma mark - viewWillAppear
@@ -71,6 +74,17 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.hyveListTable reloadData];
     });
+}
+
+#pragma mark - loading progress view
+-(void)settingLoadingProgressView
+{
+    self.loadingProgressView = [KVNProgressConfiguration defaultConfiguration];
+    [KVNProgress setConfiguration:self.loadingProgressView];
+    self.loadingProgressView.backgroundType = KVNProgressBackgroundTypeBlurred;
+    self.loadingProgressView.fullScreen = YES;
+    self.loadingProgressView.minimumDisplayTime = 1;
+    [KVNProgress showWithStatus:@"Loading..."];
 }
 
 
@@ -302,7 +316,9 @@
         
         if (error)
         {
-            [self.loadingIndicator dismiss];
+            [KVNProgress dismiss];
+            
+//            [self.loadingIndicator dismiss];
             
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity." preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
@@ -706,7 +722,9 @@
             self.hyveListTable.tableHeaderView = userProfileHeader;
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 
-            [self.loadingIndicator finish];
+//            [self.loadingIndicator finish];
+            
+            [KVNProgress showSuccessWithStatus:@"Pairing successful!"];
         });
     });
 }

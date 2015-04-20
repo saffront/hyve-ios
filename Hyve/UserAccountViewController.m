@@ -20,6 +20,7 @@
 #import "WalkthroughViewController.h"
 #import <UIImageView+AFNetworking.h>
 #import <MBLoadingIndicator.h>
+#import <KVNProgress.h>
 
 @interface UserAccountViewController () <UIImagePickerControllerDelegate, UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet DKCircleButton *userAvatar;
@@ -35,6 +36,7 @@
 @property (strong, nonatomic) MBLoadingIndicator *loadingIndicator;
 @property (strong, nonatomic) NSURLSession *session;
 @property (strong, nonatomic) NSURLSessionDownloadTask *downloadTask;
+@property (strong, nonatomic) KVNProgressConfiguration *loadingProgressView;
 
 @end
 
@@ -43,7 +45,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self stylingBackgroundView];
-    [self settingUpLoadingView];
+//    [self settingUpLoadingView];
     [self connectToHyve];
     [self stylingUserAvatarButton];
 
@@ -60,6 +62,8 @@
     [self.userAvatar.imageView setContentMode:UIViewContentModeScaleAspectFill];
     self.password.delegate = self;
 
+    self.loadingProgressView = [KVNProgressConfiguration defaultConfiguration];
+
 }
 
 #pragma mark - view will appear
@@ -67,6 +71,13 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
+    
+    [KVNProgress setConfiguration:self.loadingProgressView];
+    self.loadingProgressView.backgroundType = KVNProgressBackgroundTypeBlurred;
+    self.loadingProgressView.fullScreen = YES;
+    self.loadingProgressView.minimumDisplayTime = 1;
+    [KVNProgress showWithStatus:@"Fetching user profile..."];
+
 }
 
 #pragma mark - view will disappear
@@ -76,6 +87,12 @@
     [self.navigationController setNavigationBarHidden:NO];
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+
+    
+}
 
 #pragma mark - setting up loading view
 -(void)settingUpLoadingView
@@ -188,7 +205,8 @@
                 [self stylingUsernameTextField:self.user];
                 [self stylingEmailTextField:self.user];
                 [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-                [self.loadingIndicator finish];
+//                [self.loadingIndicator finish];
+                [KVNProgress showSuccessWithStatus:@"Success!"];
             });
         });
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -197,7 +215,9 @@
         
         if (error)
         {
-            [self.loadingIndicator dismiss];
+//            [self.loadingIndicator dismiss];
+            [KVNProgress dismiss];
+            
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
             [alertController addAction:okAction];

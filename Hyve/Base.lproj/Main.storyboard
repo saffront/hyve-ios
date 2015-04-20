@@ -1442,45 +1442,81 @@
                                     <outlet property="delegate" destination="qtE-yT-x4I" id="WB4-1U-H81"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jNO-pm-tv0" customClass="DKCircleButton">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="140" id="05e-zs-WFb"/>
+                                    <constraint firstAttribute="width" constant="140" id="3v9-xq-rLU"/>
+                                </constraints>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="05e-zs-WFb"/>
+                                        <exclude reference="3v9-xq-rLU"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="05e-zs-WFb"/>
+                                        <include reference="3v9-xq-rLU"/>
+                                    </mask>
+                                </variation>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="izj-MW-hVs" secondAttribute="trailing" id="4Am-Yo-85g"/>
+                            <constraint firstItem="jNO-pm-tv0" firstAttribute="leading" secondItem="iVX-pF-caR" secondAttribute="leading" constant="130" id="Ekd-Vb-cAu"/>
+                            <constraint firstAttribute="trailing" secondItem="jNO-pm-tv0" secondAttribute="trailing" constant="130" id="F9g-va-up3"/>
+                            <constraint firstItem="pxV-kL-DgI" firstAttribute="top" secondItem="izj-MW-hVs" secondAttribute="bottom" constant="76" id="iHv-OM-Qll">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
                             <constraint firstItem="izj-MW-hVs" firstAttribute="top" secondItem="iVX-pF-caR" secondAttribute="top" id="ozK-zn-A0N"/>
+                            <constraint firstItem="pxV-kL-DgI" firstAttribute="top" secondItem="jNO-pm-tv0" secondAttribute="bottom" id="uEo-8v-avG"/>
                             <constraint firstItem="izj-MW-hVs" firstAttribute="leading" secondItem="iVX-pF-caR" secondAttribute="leading" id="vbO-sp-Zbx"/>
-                            <constraint firstItem="izj-MW-hVs" firstAttribute="bottom" secondItem="pxV-kL-DgI" secondAttribute="top" id="yeg-Zk-LPl"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="izj-MW-hVs"/>
+                                <exclude reference="jNO-pm-tv0"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="4Am-Yo-85g"/>
                                 <exclude reference="ozK-zn-A0N"/>
                                 <exclude reference="vbO-sp-Zbx"/>
-                                <exclude reference="yeg-Zk-LPl"/>
+                                <exclude reference="Ekd-Vb-cAu"/>
+                                <exclude reference="F9g-va-up3"/>
+                                <exclude reference="iHv-OM-Qll"/>
+                                <exclude reference="uEo-8v-avG"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
                                 <include reference="izj-MW-hVs"/>
+                                <include reference="jNO-pm-tv0"/>
                             </mask>
                             <mask key="constraints">
                                 <include reference="4Am-Yo-85g"/>
                                 <include reference="ozK-zn-A0N"/>
                                 <include reference="vbO-sp-Zbx"/>
-                                <include reference="yeg-Zk-LPl"/>
+                                <include reference="Ekd-Vb-cAu"/>
+                                <include reference="F9g-va-up3"/>
+                                <include reference="iHv-OM-Qll"/>
+                                <include reference="uEo-8v-avG"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
                         <outlet property="hyveListTable" destination="izj-MW-hVs" id="bfY-v7-XhW"/>
+                        <outlet property="swarmButton" destination="jNO-pm-tv0" id="RCE-DZ-cNq"/>
                         <segue destination="oI0-fe-4gh" kind="custom" identifier="ShowUserAccountVC" customClass="BlurryModalSegue" id="j1w-iQ-5jW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pIy-fo-a3J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4867" y="431"/>
+            <point key="canvasLocation" x="4866" y="430.5"/>
         </scene>
         <!--Hyve Details View Controller-->
         <scene sceneID="fBL-iD-GHn">

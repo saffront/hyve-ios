@@ -37,6 +37,7 @@
 @property BOOL releasedSwarmButton;
 @property (strong, nonatomic) UIView *hyveListTableViewFooter;
 @property (strong, nonatomic) UILongPressGestureRecognizer *swarmButtonLongPressGesture;
+@property (weak, nonatomic) IBOutlet DKCircleButton *swarmButton;
 
 @end
 
@@ -52,10 +53,7 @@
     [self stylingBackgroundView];
     [self stylingNavigationBar];
     [self stylingHyveListTableView];
-//    [self stylingSwarmHyveButton];
-    
-    
-
+    [self stylingSwarmHyveButton];
 }
 
 #pragma mark - viewWillAppear
@@ -82,14 +80,14 @@
 #pragma mark - swarm
 -(void)stylingSwarmHyveButton
 {
-    self.swarmHyveButton.alpha = 0;
-    [self.swarmHyveButton setTitle:@"" forState:UIControlStateNormal];
+    self.swarmButton.alpha = 0;
+    [self.swarmButton setTitle:@"" forState:UIControlStateNormal];
     UIImage *swarmImageButton = [UIImage imageNamed:@"swarm1"];
-    [self.swarmHyveButton setImage:swarmImageButton forState:UIControlStateNormal];
-    [self.swarmHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+    [self.swarmButton setImage:swarmImageButton forState:UIControlStateNormal];
+    [self.swarmButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
     
-    [self.swarmHyveButton addTarget:self action:@selector(holdOntoSwarmButton) forControlEvents:UIControlEventTouchDown];
-    [self.swarmHyveButton addTarget:self action:@selector(releaseSwarmButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.swarmButton addTarget:self action:@selector(holdOntoSwarmButton) forControlEvents:UIControlEventTouchDown];
+    [self.swarmButton addTarget:self action:@selector(releaseSwarmButton) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(void)holdOntoSwarmButton
@@ -619,18 +617,18 @@
         
         [self.swarmHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
         
-//        self.swarmButtonLongPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwarmButtonLongPressGesture:)];
-//        self.swarmButtonLongPressGesture.delegate = self;
-//        self.swarmButtonLongPressGesture.minimumPressDuration = 2.0;
-//        self.swarmButtonLongPressGesture.numberOfTouchesRequired = 1;
-//        self.swarmButtonLongPressGesture.allowableMovement = 100;
-//        [self.swarmHyveButton addGestureRecognizer:self.swarmButtonLongPressGesture];
-        
-        [self.swarmHyveButton addTarget:self action:@selector(holdDownSwarmButton:) forControlEvents:UIControlEventTouchDown];
-        [self.swarmHyveButton addTarget:self action:@selector(letGoOfSwarmButton:) forControlEvents:UIControlEventTouchUpInside];
+        self.swarmButtonLongPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwarmButtonLongPressGesture:)];
+        self.swarmButtonLongPressGesture.delegate = self;
+        self.swarmButtonLongPressGesture.minimumPressDuration = 2.0;
+        self.swarmButtonLongPressGesture.numberOfTouchesRequired = 1;
+        self.swarmButtonLongPressGesture.allowableMovement = 100;
+        [self.swarmHyveButton addGestureRecognizer:self.swarmButtonLongPressGesture];
 
-        
+//        [self.swarmHyveButton addTarget:self action:@selector(holdDownSwarmButton:) forControlEvents:UIControlEventTouchDown];
+//        [self.swarmHyveButton addTarget:self action:@selector(letGoOfSwarmButton:) forControlEvents:UIControlEventTouchUpInside];
+
         [self.hyveListTableViewFooter addSubview:self.swarmHyveButton];
+        [self.hyveListTableViewFooter bringSubviewToFront:self.swarmHyveButton];
         self.hyveListTableViewFooter.userInteractionEnabled = YES;
         
     }
@@ -638,16 +636,21 @@
     return self.hyveListTableViewFooter;
 }
 
--(void)holdDownSwarmButton:(id)sender
-{
-    [self holdOntoSwarmButton];
-}
+//-(void)holdDownSwarmButton:(id)sender
+//{
+//    [self holdOntoSwarmButton];
+//}
+//
+//
+//-(void)letGoOfSwarmButton:(id)sender
+//{
+//    [self releasedSwarmButton];
+//}
 
-
--(void)letGoOfSwarmButton:(id)sender
-{
-    [self releasedSwarmButton];
-}
+//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+//{
+//    return YES;
+//}
 
 -(void)handleSwarmButtonLongPressGesture:(UILongPressGestureRecognizer*)longGestureRecognizer
 {
@@ -670,7 +673,7 @@
         default:
             break;
     }
-    
+
     
 //    if (longGestureRecognizer.state == UIGestureRecognizerStateBegan)
 //    {

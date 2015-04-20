@@ -395,6 +395,9 @@
         self.password.userInteractionEnabled = YES;
         self.email.userInteractionEnabled = YES;
         self.userAvatar.userInteractionEnabled = YES;
+        
+        
+        
     }
     else if ([self.editOrSaveProfileButton.titleLabel.text isEqualToString:@"Save"])
     {
@@ -410,10 +413,18 @@
         
         UIImage *avatarImage = self.userAvatar.imageView.image;
         
+        
         NSString *pathToImage = [NSTemporaryDirectory() stringByAppendingString:@"userAvatar.png"];
         NSData *userAvatarData = UIImagePNGRepresentation(avatarImage);
         [userAvatarData writeToFile:pathToImage atomically:YES];
         NSURL *userAvatarURL = [[NSURL alloc] initFileURLWithPath:pathToImage];
+        
+        
+        [KVNProgress setConfiguration:self.loadingProgressView];
+        self.loadingProgressView.backgroundType = KVNProgressBackgroundTypeBlurred;
+        self.loadingProgressView.fullScreen = YES;
+        self.loadingProgressView.minimumDisplayTime = 1;
+        [KVNProgress showWithStatus:@"Saving..."];
         
         //post and save to S3
         [self connectToAmazonS3:userAvatarURL];

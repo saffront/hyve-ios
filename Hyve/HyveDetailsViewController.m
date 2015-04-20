@@ -44,7 +44,7 @@
 @property (strong, nonatomic) AWSS3 *s3;
 @property (strong, nonatomic) NSURLSessionDownloadTask *downloadTask;
 @property (strong, nonatomic) NSURLSession *session;
-@property (strong, nonatomic) KVNProgressConfiguration *loadingProgressView;
+@property (nonatomic) KVNProgressConfiguration *loadingProgressView;
 
 @end
 
@@ -249,6 +249,7 @@
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 //    [self.loadingIndicator finish];
     [KVNProgress showSuccessWithStatus:@"Found Hyve!"];
+
 }
 
 -(void)takeAPictureForHyveImage
@@ -347,6 +348,7 @@
             self.takePictureButtonDidPressed = YES;
 //            [self.loadingIndicator finish];
             [KVNProgress showSuccessWithStatus:@"Image taken!"];
+
         });
     });
 }
@@ -1041,6 +1043,7 @@
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 //        [self.loadingIndicator finish];
         [KVNProgress showSuccessWithStatus:@"Found Hyve!"];
+
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Succesfully connect to Hyve" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {

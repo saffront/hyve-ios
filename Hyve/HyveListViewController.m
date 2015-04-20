@@ -39,7 +39,8 @@
 @property (strong, nonatomic) UIView *hyveListTableViewFooter;
 @property (strong, nonatomic) UILongPressGestureRecognizer *swarmButtonLongPressGesture;
 @property (weak, nonatomic) IBOutlet DKCircleButton *swarmButton;
-@property (strong, nonatomic) KVNProgressConfiguration *loadingProgressView;
+@property (nonatomic) KVNProgressConfiguration *loadingProgressView;
+@property  BOOL fromUserAccountVC;
 
 @end
 
@@ -48,6 +49,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    self.fromUserAccountVC = NO;
     self.patchedSwarmInfo = NO;
     self.releasedSwarmButton = NO;
 //    [self settingUpLoadingIndicator];
@@ -707,6 +709,8 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
+
+            
             backgroundImageView.image = [UIImage imageNamed:@"userProfileHeader"];
             [self.userProfileImageButton setImage:self.userProfileImage forState:UIControlStateNormal];
             [self.userProfileImageButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
@@ -724,7 +728,10 @@
 
 //            [self.loadingIndicator finish];
             
-            [KVNProgress showSuccessWithStatus:@"Pairing successful!"];
+            if (self.fromUserAccountVC == NO) {
+                [KVNProgress showSuccessWithStatus:@"Pairing successful!"];
+                self.fromUserAccountVC = YES;
+            }
         });
     });
 }

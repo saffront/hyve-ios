@@ -36,7 +36,7 @@
 @property (strong, nonatomic) MBLoadingIndicator *loadingIndicator;
 @property (strong, nonatomic) NSURLSession *session;
 @property (strong, nonatomic) NSURLSessionDownloadTask *downloadTask;
-@property (strong, nonatomic) KVNProgressConfiguration *loadingProgressView;
+@property (nonatomic) KVNProgressConfiguration *loadingProgressView;
 
 @end
 
@@ -91,7 +91,6 @@
 {
     [super viewDidAppear:animated];
 
-    
 }
 
 #pragma mark - setting up loading view
@@ -418,10 +417,7 @@
         
         //post and save to S3
         [self connectToAmazonS3:userAvatarURL];
-        
-        NSString *avatarImageString = [UIImagePNGRepresentation(avatarImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-        NSString *avatarImageStringInSixtyFour = [NSString stringWithFormat:@"data:image/png;base64, (%@)", avatarImageString];
-
+    
     }
 }
 
@@ -653,6 +649,8 @@
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"user" object:userInfoDictionary];
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        
+        [KVNProgress showSuccessWithStatus:@"Saved profile info"];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 

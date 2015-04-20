@@ -592,7 +592,7 @@
         {
             if (peripheral.state == CBPeripheralStateConnected)
             {
-                cell.hyveProximity.text = @"Connected";
+                cell.hyveProximity.text = @"Hyve is connected";
                 cell.hyveProximity.textColor = [UIColor whiteColor];
                 cell.hyveProximity.numberOfLines = 0;
                 cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
@@ -655,6 +655,23 @@
     return UITableViewCellEditingStyleDelete;
 }
 
+//-(NSArray*)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    
+//    UITableViewRowAction *disconnectAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"X \r\r Disconnect" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+//        
+//        CBPeripheral *peripheralToBeDisconnected = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
+//        [self.centralManager cancelPeripheralConnection:peripheralToBeDisconnected];
+//        [self.hyveListTable reloadData];
+//        
+//    }];
+//    disconnectAction.backgroundColor = [UIColor clearColor];
+//    [[UIButton appearance] setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+//    
+//    return @[disconnectAction];
+//    
+//}
+
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
@@ -662,10 +679,14 @@
         NSLog(@"pressed");
         CBPeripheral *peripheralToBeDisconnected = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
         [self.centralManager cancelPeripheralConnection:peripheralToBeDisconnected];
-        
         [self.hyveListTable reloadData];
         NSLog(@"peripheralToBeDisconnected status: %@", peripheralToBeDisconnected);
     }
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
 }
 
 -(void)settingHeaderForHyveListTable:(NSString*)usernameFromHyve imageURLString:(NSString*)imageURLString

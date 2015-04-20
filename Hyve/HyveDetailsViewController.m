@@ -555,6 +555,14 @@
 {
     NSLog(@"Connect app to hyve");
     [self.centralManager connectPeripheral:self.peripheral options:nil];
+    
+    self.loadingProgressView = [KVNProgressConfiguration defaultConfiguration];
+    [KVNProgress setConfiguration:self.loadingProgressView];
+    self.loadingProgressView.backgroundType = KVNProgressBackgroundTypeBlurred;
+    self.loadingProgressView.fullScreen = YES;
+    self.loadingProgressView.minimumDisplayTime = 1;
+    [KVNProgress showWithStatus:@"Connecting to Hyve..."];
+    
 }
 
 #pragma mark - styling connect button
@@ -1042,9 +1050,9 @@
         NSLog(@"responseObject: \r %@", responseObject);
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 //        [self.loadingIndicator finish];
-        [KVNProgress showSuccessWithStatus:@"Found Hyve!"];
+        self.loadingProgressView.minimumSuccessDisplayTime = 3;
+        [KVNProgress showSuccessWithStatus:@"Connected!"];
 
-        
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Succesfully connect to Hyve" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             

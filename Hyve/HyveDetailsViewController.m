@@ -1025,7 +1025,10 @@
         [self.loadingIndicator finish];
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Succesfully connect to Hyve" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
         [alertController addAction:okAction];
         [self presentViewController:alertController animated:YES completion:nil];
         

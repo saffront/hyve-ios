@@ -20,7 +20,7 @@
 #import <POP.h>
 #import <MBLoadingIndicator.h>
 
-@interface HyveListViewController () <UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, CBPeripheralDelegate>
+@interface HyveListViewController () <UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, CBPeripheralDelegate, UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) Hyve *hyve;
 @property (strong, nonatomic) DKCircleButton *userProfileImageButton;
@@ -36,6 +36,7 @@
 @property BOOL patchedSwarmInfo;
 @property BOOL releasedSwarmButton;
 @property (strong, nonatomic) UIView *hyveListTableViewFooter;
+@property (strong, nonatomic) UILongPressGestureRecognizer *swarmButtonLongPressGesture;
 
 @end
 
@@ -52,6 +53,8 @@
     [self stylingNavigationBar];
     [self stylingHyveListTableView];
 //    [self stylingSwarmHyveButton];
+    
+    
 
 }
 
@@ -59,6 +62,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingUserImage:) name:@"user" object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingHyveImage:) name:@"userImageURLString" object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingHyveDistance:) name:@"peripheralInfo" object:nil];
@@ -559,11 +563,21 @@
             [self populateCellHyveProximity:cell withHyve:self.hyve];
         }
 
-        cell.hyveProximity.text = @"Hyve not connected";
-        cell.hyveProximity.textColor = [UIColor whiteColor];
-        cell.hyveProximity.numberOfLines = 0;
-        cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
-        
+        if (peripheral.state == CBPeripheralStateConnected)
+        {
+            cell.hyveProximity.text = @"Hyve is connected";
+            cell.hyveProximity.textColor = [UIColor whiteColor];
+            cell.hyveProximity.numberOfLines = 0;
+            cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
+        }
+        else
+        {
+            cell.hyveProximity.text = @"Hyve not connected";
+            cell.hyveProximity.textColor = [UIColor whiteColor];
+            cell.hyveProximity.numberOfLines = 0;
+            cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
+        }
+    
         if (self.releasedSwarmButton == YES)
         {
             if (peripheral.state == CBPeripheralStateConnected)
@@ -605,10 +619,16 @@
         
         [self.swarmHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
         
-        UILongPressGestureRecognizer *swarmButtonLongPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwarmButtonLongPressGesture:)];
-//        [self.swarmHyveButton addTarget:self action:@selector(holdOntoSwarmButton) forControlEvents:UIControlEventTouchDown];
-//        [self.swarmHyveButton addTarget:self action:@selector(releaseSwarmButton) forControlEvents:UIControlEventTouchUpInside];
-        [self.swarmHyveButton addGestureRecognizer:swarmButtonLongPressGesture];
+//        self.swarmButtonLongPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwarmButtonLongPressGesture:)];
+//        self.swarmButtonLongPressGesture.delegate = self;
+//        self.swarmButtonLongPressGesture.minimumPressDuration = 2.0;
+//        self.swarmButtonLongPressGesture.numberOfTouchesRequired = 1;
+//        self.swarmButtonLongPressGesture.allowableMovement = 100;
+//        [self.swarmHyveButton addGestureRecognizer:self.swarmButtonLongPressGesture];
+        
+        [self.swarmHyveButton addTarget:self action:@selector(holdDownSwarmButton:) forControlEvents:UIControlEventTouchDown];
+        [self.swarmHyveButton addTarget:self action:@selector(letGoOfSwarmButton:) forControlEvents:UIControlEventTouchUpInside];
+
         
         [self.hyveListTableViewFooter addSubview:self.swarmHyveButton];
         self.hyveListTableViewFooter.userInteractionEnabled = YES;
@@ -618,17 +638,49 @@
     return self.hyveListTableViewFooter;
 }
 
+-(void)holdDownSwarmButton:(id)sender
+{
+    [self holdOntoSwarmButton];
+}
+
+
+-(void)letGoOfSwarmButton:(id)sender
+{
+    [self releasedSwarmButton];
+}
+
 -(void)handleSwarmButtonLongPressGesture:(UILongPressGestureRecognizer*)longGestureRecognizer
 {
-    if (longGestureRecognizer.state == UIGestureRecognizerStateBegan)
-    {
-        [self holdOntoSwarmButton];
+    NSLog(@"longGestureRecognizer: %@ \r state: %d", longGestureRecognizer, longGestureRecognizer.state);
+    
+    switch (longGestureRecognizer.state) {
+        case UIGestureRecognizerStateBegan:
+            [self holdOntoSwarmButton];
+            break;
+        case UIGestureRecognizerStateChanged:
+            NSLog(@"gesture regonizer state changed");
+            [self holdOntoSwarmButton];
+            break;
+        case UIGestureRecognizerStateEnded:
+            [self releaseSwarmButton];
+            break;
+        case UIGestureRecognizerStateCancelled:
+            NSLog(@"Gesture cancelled");
+            break;
+        default:
+            break;
     }
     
-    if (longGestureRecognizer.state == UIGestureRecognizerStateEnded)
-    {
-        [self releaseSwarmButton];
-    }
+    
+//    if (longGestureRecognizer.state == UIGestureRecognizerStateBegan)
+//    {
+//        [self holdOntoSwarmButton];
+//    }
+//    
+//    if (longGestureRecognizer.state == UIGestureRecognizerStateEnded)
+//    {
+//        [self releaseSwarmButton];
+//    }
 }
 
 //disconnect
@@ -649,6 +701,7 @@
         NSLog(@"pressed");
         CBPeripheral *peripheralToBeDisconnected = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
         [self.centralManager cancelPeripheralConnection:peripheralToBeDisconnected];
+        
         [self.hyveListTable reloadData];
         NSLog(@"peripheralToBeDisconnected status: %@", peripheralToBeDisconnected);
     }

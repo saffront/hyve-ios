@@ -182,6 +182,11 @@
         else
         {
             NSLog(@"error with login %@", [error localizedDescription]);
+            
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Login Error. Please do check your Settings to enable Facebook login.\r Here's a guide: 1. Settings \r 2.Facebook \r 3. Log in Facebook within Settings \r 4.Check to see if Facebook app is enabled \r 5.Login Hyve via Facebook" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            [alertController addAction:okAction];
+            [self presentViewController:alertController animated:YES completion:nil];
         }
     }];
 }

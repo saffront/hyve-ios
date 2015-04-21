@@ -300,6 +300,9 @@
         else
         {
             NSLog(@"error with login %@", [error localizedDescription]);
+            
+            [self alertMessageToUser:@"Login Error. Please do check your Settings to enable Facebook login.\r Here's a guide:\r 1.Settings \r 2.Facebook \r 3.Log in Facebook within Settings \r 4.Check to see if Facebook app is enabled \r 5.Login Hyve via Facebook "];
+            
         }
     }];
 }
@@ -421,7 +424,6 @@
         
         NSLog(@"error %@ \r \r error localized:%@", error, [error localizedDescription]);
         
-        [self alertMessageToUser:@"Trouble with Internet connectivity"];
     }];
 }
 

@@ -681,29 +681,23 @@
         moveSwarmButtonAnimation.springSpeed = 2;
         
         POPSpringAnimation *spinAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerRotation];
-        
         spinAnimation.fromValue = @(M_PI / 8);
         spinAnimation.toValue = @(0);
         spinAnimation.springBounciness = 20;
         spinAnimation.velocity = @(10);
         [self.swarmHyveButton.layer pop_addAnimation:moveSwarmButtonAnimation forKey:@"move"];
         [self.swarmHyveButton.layer pop_addAnimation:spinAnimation forKey:@"rotation"];
+        
+        [self.swarmHyveButton pop_removeAllAnimations];
+        POPBasicAnimation *fadingAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
+        fadingAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        fadingAnimation.fromValue = @(0.0);
+        fadingAnimation.toValue = @(1.0);
+        
+        [self.menuHyveButton pop_addAnimation:fadingAnimation forKey:@"fade"];
+        [self.scanHyveButton pop_addAnimation:fadingAnimation forKey:@"fade"];
 
-        moveSwarmButtonAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
-            
-            if (finished)
-            {
-                [self.swarmHyveButton pop_removeAllAnimations];
-                POPBasicAnimation *fadingAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
-                fadingAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-                fadingAnimation.fromValue = @(0.0);
-                fadingAnimation.toValue = @(1.0);
-                
-                [self.menuHyveButton pop_addAnimation:fadingAnimation forKey:@"fade"];
-                [self.scanHyveButton pop_addAnimation:fadingAnimation forKey:@"fade"];
-            }
-            sender.tag = 2;
-        };
+         sender.tag = 2;
     }
     else if (sender.tag == 2)
     {

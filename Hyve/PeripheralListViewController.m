@@ -277,6 +277,7 @@
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [manager.requestSerializer setValue:@"application/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
     [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+    manager.requestSerializer.timeoutInterval = 30;
     
     [manager POST:hyveURLString parameters:hyveletsDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
         

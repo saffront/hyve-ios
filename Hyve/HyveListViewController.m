@@ -86,6 +86,13 @@
     self.loadingProgressView.backgroundType = KVNProgressBackgroundTypeBlurred;
     self.loadingProgressView.fullScreen = YES;
     self.loadingProgressView.minimumDisplayTime = 1;
+    
+    self.loadingProgressView.tapBlock = ^(KVNProgress *progressView){
+        NSLog(@"Disconnect");
+        
+        
+    };
+    
     [KVNProgress showWithStatus:@"Loading..."];
 }
 
@@ -162,6 +169,7 @@
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+    manager.requestSerializer.timeoutInterval = 30;
     
     [manager PATCH:hyveUserAccountString parameters:hyveDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -285,6 +293,7 @@
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+    manager.requestSerializer.timeoutInterval = 30;
     
     [manager GET:hyveURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -347,6 +356,7 @@
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+    manager.requestSerializer.timeoutInterval = 30;
     
     [manager GET:hyveURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -439,6 +449,7 @@
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+    manager.requestSerializer.timeoutInterval = 30;
     
     [manager GET:hyveURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -731,12 +742,10 @@
         [username setCenter:CGPointMake(CGRectGetMidX(backgroundImageView.bounds), positionOfUsernameCoordinateY)];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            
 
-            
             backgroundImageView.image = [UIImage imageNamed:@"userProfileHeader"];
             [self.userProfileImageButton setImage:self.userProfileImage forState:UIControlStateNormal];
-            [self.userProfileImageButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+            [self.userProfileImageButton.imageView setContentMode:UIViewContentModeScaleAspectFill];
             self.userProfileImageButton.imageView.clipsToBounds = YES;
 
             [userProfileHeader addSubview:self.userProfileImageButton];

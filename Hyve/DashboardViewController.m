@@ -14,26 +14,6 @@
 #import <Reachability.h>
 #import <AFNetworking.h>
 
-// 5F10970D-4751-8EAE-0E80-FCA227055CB5 --- name=rpts , kCBAdvDataServiceUUIDs = FFF0,
-/*
- Central has found Peripheral. Peripheral : <CBPeripheral: 0x17e5f8c0, identifier = 5F10970D-4751-8EAE-0E80-FCA227055CB5, name = rpts, state = disconnected>, RSSI: 127, advertisementData: {
- kCBAdvDataIsConnectable = 1;
- kCBAdvDataLocalName = rpts;
- kCBAdvDataManufacturerData = <0112>;
- kCBAdvDataServiceUUIDs =     (
- FFF0
- );
- kCBAdvDataTxPowerLevel = 4;
- }
-*/
-
-/*
- Central has found Peripheral. Peripheral : <CBPeripheral: 0x1757a1f0, identifier = 1147F29D-876F-B2E4-565E-CEE139E445E7, name = VLT’s MacBook Pro, state = disconnected>, RSSI: -53, advertisementData: {
- kCBAdvDataIsConnectable = 1;
- }
- 
-*/
-
 @interface DashboardViewController () <CBCentralManagerDelegate, CBPeripheralDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *hyveButton;

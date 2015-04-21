@@ -672,7 +672,6 @@
 
 -(void)onSwarmButtonPressed:(DKCircleButton*)sender
 {
-
     CGPoint finalPosition = CGPointMake(self.hyveListTable.frame.size.width / 2 + 90, 50);
     POPSpringAnimation *moveSwarmButtonAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
     if (sender.tag == 1)
@@ -681,12 +680,20 @@
         moveSwarmButtonAnimation.springBounciness = 20;
         moveSwarmButtonAnimation.springSpeed = 2;
         
+        POPSpringAnimation *spinAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerRotation];
+        
+        spinAnimation.fromValue = @(M_PI / 8);
+        spinAnimation.toValue = @(0);
+        spinAnimation.springBounciness = 20;
+        spinAnimation.velocity = @(10);
         [self.swarmHyveButton.layer pop_addAnimation:moveSwarmButtonAnimation forKey:@"move"];
+        [self.swarmHyveButton.layer pop_addAnimation:spinAnimation forKey:@"rotation"];
 
         moveSwarmButtonAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
             
             if (finished)
             {
+                [self.swarmHyveButton pop_removeAllAnimations];
                 POPBasicAnimation *fadingAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
                 fadingAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
                 fadingAnimation.fromValue = @(0.0);

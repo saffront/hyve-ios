@@ -41,6 +41,8 @@
 @property (weak, nonatomic) IBOutlet DKCircleButton *swarmButton;
 @property (nonatomic) KVNProgressConfiguration *loadingProgressView;
 @property  BOOL fromUserAccountVC;
+@property (strong, nonatomic) DKCircleButton *scanHyveButton;
+@property (strong, nonatomic) DKCircleButton *menuHyveButton;
 
 @end
 
@@ -272,7 +274,9 @@
     else
     {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self retrieveUserInfoAndPairedHyve];
+        }];
         [alertController addAction:okAction];
         [self presentViewController:alertController animated:YES completion:nil];
     }
@@ -635,14 +639,30 @@
         self.hyveListTableViewFooter.backgroundColor = [UIColor clearColor];
 
         self.swarmHyveButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, 50, 70, 70)];
+        self.swarmHyveButton.tag = 1;
         [self.swarmHyveButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds), CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
         [self.swarmHyveButton setImage:[UIImage imageNamed:@"swarm1"] forState:UIControlStateNormal];
         [self.swarmHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+        [self.swarmHyveButton addTarget:self action:@selector(onSwarmButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         
-        [self.swarmHyveButton addTarget:self action:@selector(onSwarmButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-
+        self.scanHyveButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, self.hyveListTableViewFooter.frame.size.height / 2, 70, 70)];
+        [self.scanHyveButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds) - 80, CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
+    
+        [self.scanHyveButton setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
+        [self.scanHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+        [self.scanHyveButton addTarget:self action:@selector(onScanHyveButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        self.scanHyveButton.alpha = 0;
+        
+        self.menuHyveButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2 - 130, 50, 70, 70)];
+        [self.menuHyveButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds), CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
+        [self.menuHyveButton setImage:[UIImage imageNamed:@"jlaw2"] forState:UIControlStateNormal];
+        [self.menuHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+        [self.menuHyveButton addTarget:self action:@selector(onHyveMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        self.menuHyveButton.alpha = 0;
+        
         [self.hyveListTableViewFooter addSubview:self.swarmHyveButton];
-        [self.hyveListTableViewFooter bringSubviewToFront:self.swarmHyveButton];
+        [self.hyveListTableViewFooter addSubview:self.scanHyveButton];
+        [self.hyveListTableViewFooter addSubview:self.menuHyveButton];
         self.hyveListTableViewFooter.userInteractionEnabled = YES;
         
     }
@@ -650,8 +670,65 @@
     return self.hyveListTableViewFooter;
 }
 
--(void)onSwarmButtonPressed
+-(void)onSwarmButtonPressed:(DKCircleButton*)sender
 {
+
+    CGPoint finalPosition = CGPointMake(self.hyveListTable.frame.size.width / 2 + 90, 50);
+    POPSpringAnimation *moveSwarmButtonAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+    if (sender.tag == 1)
+    {
+        moveSwarmButtonAnimation.toValue = [NSValue valueWithCGPoint:finalPosition];
+        moveSwarmButtonAnimation.springBounciness = 20;
+        moveSwarmButtonAnimation.springSpeed = 2;
+        
+        [self.swarmHyveButton.layer pop_addAnimation:moveSwarmButtonAnimation forKey:@"move"];
+
+        moveSwarmButtonAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+            
+            if (finished)
+            {
+                POPBasicAnimation *fadingAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
+                fadingAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+                fadingAnimation.fromValue = @(0.0);
+                fadingAnimation.toValue = @(1.0);
+                
+                [self.menuHyveButton pop_addAnimation:fadingAnimation forKey:@"fade"];
+                [self.scanHyveButton pop_addAnimation:fadingAnimation forKey:@"fade"];
+            }
+            sender.tag = 2;
+        };
+    }
+    else if (sender.tag == 2)
+    {
+        POPBasicAnimation *fadingAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
+        fadingAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        fadingAnimation.fromValue = @(1.0);
+        fadingAnimation.toValue = @(0.0);
+        [self.menuHyveButton pop_addAnimation:fadingAnimation forKey:@"fade"];
+        [self.scanHyveButton pop_addAnimation:fadingAnimation forKey:@"fade"];
+        
+        CGPoint originalPosition = CGPointMake(finalPosition.x - 90, self.swarmHyveButton.frame.origin.y);
+        
+        moveSwarmButtonAnimation.toValue = [NSValue valueWithCGPoint:originalPosition];
+        moveSwarmButtonAnimation.springBounciness = 20;
+        moveSwarmButtonAnimation.springSpeed = 2;
+        
+        [self.swarmHyveButton.layer pop_addAnimation:moveSwarmButtonAnimation forKey:@"move"];
+        
+        moveSwarmButtonAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+            sender.tag = 1;
+        };
+    }
+}
+
+-(void)onScanHyveButtonPressed:(id)sender
+{
+    NSLog(@"HELLOOO!!!!");
+}
+
+-(void)onHyveMenuButtonPressed:(id)sender
+{
+    NSLog(@"HYVE MENU BUTTON PRESSED");
     [self holdOntoSwarmButton];
 }
 
@@ -767,7 +844,6 @@
         });
     });
 }
-
 
 
 #pragma mark - segue

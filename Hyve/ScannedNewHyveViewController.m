@@ -27,6 +27,7 @@
     [self stylingInstructionLabel];
     [self stylingPairButton];
     self.scannedNewHyveTable.backgroundColor = [UIColor clearColor];
+    self.scannedNewHyveTable.allowsMultipleSelection = YES;
 }
 
 
@@ -89,6 +90,49 @@
 
     
     return cell;
+}
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.pairButton setUserInteractionEnabled:YES];
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    if (cell.accessoryType == UITableViewCellAccessoryNone)
+    {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        
+        NSLog(@"select");
+//        self.peripheral = [self.peripheralMutableArray objectAtIndex:indexPath.row];
+//        [self.selectedDeviceMutableArray addObject:self.peripheral];
+//        
+//        NSLog(@"self.selectedDeviceMutableArray didSelectRowAtIndexPath :%@", self.selectedDeviceMutableArray);
+    }
+    else
+    {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+}
+
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    if (cell.accessoryType == UITableViewCellAccessoryCheckmark)
+    {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        NSLog(@"deselect");
+        
+//        self.peripheral = [self.peripheralMutableArray objectAtIndex:indexPath.row];
+//        [self.selectedDeviceMutableArray removeObject:self.peripheral];
+//        
+//        NSLog(@"self.selectedDeviceMutableArray didDeselectRowAtIndexPath :%@", self.selectedDeviceMutableArray);
+    }
+    else
+    {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
 }
 
 @end

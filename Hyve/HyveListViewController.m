@@ -945,7 +945,7 @@
         snhvc.scannedNewHyveMutableArray = self.scannedNewHyveMutableArray;
         
         BlurryModalSegue *bms = (BlurryModalSegue*)segue;
-        bms.backingImageBlurRadius = @(20);
+        bms.backingImageBlurRadius = @(15);
         bms.backingImageSaturationDeltaFactor = @(.15);
     }
 }

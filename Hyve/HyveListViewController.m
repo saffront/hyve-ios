@@ -91,8 +91,7 @@
     
     self.loadingProgressView.tapBlock = ^(KVNProgress *progressView){
         NSLog(@"Disconnect");
-        
-        
+
     };
     
     [KVNProgress showWithStatus:@"Loading..."];
@@ -641,30 +640,29 @@
         self.swarmHyveButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, 50, 70, 70)];
         self.swarmHyveButton.tag = 1;
         [self.swarmHyveButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds), CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
-        [self.swarmHyveButton setImage:[UIImage imageNamed:@"swarm1"] forState:UIControlStateNormal];
+        [self.swarmHyveButton setImage:[UIImage imageNamed:@"menu"] forState:UIControlStateNormal];
         [self.swarmHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
-        [self.swarmHyveButton addTarget:self action:@selector(onSwarmButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [self.swarmHyveButton addTarget:self action:@selector(onHyveMenuButtonPressed:)forControlEvents:UIControlEventTouchUpInside];
         
         self.scanHyveButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, self.hyveListTableViewFooter.frame.size.height / 2, 70, 70)];
         [self.scanHyveButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds) - 80, CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
     
-        [self.scanHyveButton setImage:[UIImage imageNamed:@"jlaw"] forState:UIControlStateNormal];
+        [self.scanHyveButton setImage:[UIImage imageNamed:@"scan"] forState:UIControlStateNormal];
         [self.scanHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [self.scanHyveButton addTarget:self action:@selector(onScanHyveButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         self.scanHyveButton.alpha = 0;
         
         self.menuHyveButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2 - 130, 50, 70, 70)];
         [self.menuHyveButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds), CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
-        [self.menuHyveButton setImage:[UIImage imageNamed:@"jlaw2"] forState:UIControlStateNormal];
+        [self.menuHyveButton setImage:[UIImage imageNamed:@"swarm1"] forState:UIControlStateNormal];
         [self.menuHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
-        [self.menuHyveButton addTarget:self action:@selector(onHyveMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [self.menuHyveButton addTarget:self action:@selector(onSwarmButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         self.menuHyveButton.alpha = 0;
         
         [self.hyveListTableViewFooter addSubview:self.swarmHyveButton];
         [self.hyveListTableViewFooter addSubview:self.scanHyveButton];
         [self.hyveListTableViewFooter addSubview:self.menuHyveButton];
         self.hyveListTableViewFooter.userInteractionEnabled = YES;
-        
     }
     
     return self.hyveListTableViewFooter;
@@ -672,6 +670,20 @@
 
 -(void)onSwarmButtonPressed:(DKCircleButton*)sender
 {
+    NSLog(@"swarm button pressed!");
+    [self holdOntoSwarmButton];
+}
+
+-(void)onScanHyveButtonPressed:(id)sender
+{
+    NSLog(@"scan hyve button pressed!");
+    
+}
+
+-(void)onHyveMenuButtonPressed:(DKCircleButton*)sender
+{
+    NSLog(@"HYVE MENU BUTTON PRESSED");
+
     CGPoint finalPosition = CGPointMake(self.hyveListTable.frame.size.width / 2 + 90, 50);
     POPSpringAnimation *moveSwarmButtonAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
     if (sender.tag == 1)
@@ -683,8 +695,8 @@
         POPSpringAnimation *spinAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerRotation];
         spinAnimation.fromValue = @(M_PI / 8);
         spinAnimation.toValue = @(0);
-        spinAnimation.springBounciness = 20;
-        spinAnimation.velocity = @(10);
+        spinAnimation.springBounciness = 5;
+        spinAnimation.velocity = @(20);
         [self.swarmHyveButton.layer pop_addAnimation:moveSwarmButtonAnimation forKey:@"move"];
         [self.swarmHyveButton.layer pop_addAnimation:spinAnimation forKey:@"rotation"];
         
@@ -696,8 +708,8 @@
         
         [self.menuHyveButton pop_addAnimation:fadingAnimation forKey:@"fade"];
         [self.scanHyveButton pop_addAnimation:fadingAnimation forKey:@"fade"];
-
-         sender.tag = 2;
+        
+        sender.tag = 2;
     }
     else if (sender.tag == 2)
     {
@@ -720,17 +732,6 @@
             sender.tag = 1;
         };
     }
-}
-
--(void)onScanHyveButtonPressed:(id)sender
-{
-    NSLog(@"HELLOOO!!!!");
-}
-
--(void)onHyveMenuButtonPressed:(id)sender
-{
-    NSLog(@"HYVE MENU BUTTON PRESSED");
-    [self holdOntoSwarmButton];
 }
 
 //disconnect

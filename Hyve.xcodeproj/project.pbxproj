@@ -15,6 +15,7 @@
 		3B1A46341AC5652900A97EC6 /* FourthChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1A46331AC5652900A97EC6 /* FourthChildViewController.m */; };
 		3B1FD75C1AC2CB7E0079A0C0 /* HyveListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1FD75B1AC2CB7E0079A0C0 /* HyveListTableViewCell.m */; };
 		3B1FD7601AC405840079A0C0 /* UserAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1FD75F1AC405840079A0C0 /* UserAccountViewController.m */; };
+		3B37BA911AE7B06800FABE1C /* ScannedNewHyveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B37BA901AE7B06800FABE1C /* ScannedNewHyveViewController.m */; };
 		3B3E7A9E1AC9290D00D1A7D6 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B3E7A9B1AC9290D00D1A7D6 /* OpenSans-Bold.ttf */; };
 		3B3E7A9F1AC9290D00D1A7D6 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B3E7A9C1AC9290D00D1A7D6 /* OpenSans-Regular.ttf */; };
 		3B3E7AA01AC9290D00D1A7D6 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B3E7A9D1AC9290D00D1A7D6 /* OpenSans-Semibold.ttf */; };
@@ -80,6 +81,8 @@
 		3B1FD75B1AC2CB7E0079A0C0 /* HyveListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HyveListTableViewCell.m; sourceTree = "<group>"; };
 		3B1FD75E1AC405840079A0C0 /* UserAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserAccountViewController.h; sourceTree = "<group>"; };
 		3B1FD75F1AC405840079A0C0 /* UserAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserAccountViewController.m; sourceTree = "<group>"; };
+		3B37BA8F1AE7B06800FABE1C /* ScannedNewHyveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScannedNewHyveViewController.h; sourceTree = "<group>"; };
+		3B37BA901AE7B06800FABE1C /* ScannedNewHyveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScannedNewHyveViewController.m; sourceTree = "<group>"; };
 		3B3E7A9B1AC9290D00D1A7D6 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		3B3E7A9C1AC9290D00D1A7D6 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		3B3E7A9D1AC9290D00D1A7D6 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
@@ -310,6 +313,8 @@
 				3B74B6B71AAD547900A0B50F /* HyveDetailsViewController.m */,
 				3B1FD75E1AC405840079A0C0 /* UserAccountViewController.h */,
 				3B1FD75F1AC405840079A0C0 /* UserAccountViewController.m */,
+				3B37BA8F1AE7B06800FABE1C /* ScannedNewHyveViewController.h */,
+				3B37BA901AE7B06800FABE1C /* ScannedNewHyveViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -494,6 +499,7 @@
 				3B5772A91AA714E1009FC171 /* ViewController.m in Sources */,
 				3B6C723C1ABBF6D5006ECC0C /* WalkthroughViewController.m in Sources */,
 				3B1A462E1AC564EB00A97EC6 /* SecondChildViewController.m in Sources */,
+				3B37BA911AE7B06800FABE1C /* ScannedNewHyveViewController.m in Sources */,
 				3B5772A61AA714E1009FC171 /* AppDelegate.m in Sources */,
 				3B1A462B1AC564C900A97EC6 /* FirstChildViewController.m in Sources */,
 				3B5772A31AA714E1009FC171 /* main.m in Sources */,

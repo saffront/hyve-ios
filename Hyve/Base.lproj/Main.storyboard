@@ -1457,10 +1457,10 @@
                                 <exclude reference="izj-MW-hVs"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="iHv-OM-Qll"/>
                                 <exclude reference="4Am-Yo-85g"/>
                                 <exclude reference="ozK-zn-A0N"/>
                                 <exclude reference="vbO-sp-Zbx"/>
-                                <exclude reference="iHv-OM-Qll"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -1468,21 +1468,167 @@
                                 <include reference="izj-MW-hVs"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="iHv-OM-Qll"/>
                                 <include reference="4Am-Yo-85g"/>
                                 <include reference="ozK-zn-A0N"/>
                                 <include reference="vbO-sp-Zbx"/>
-                                <include reference="iHv-OM-Qll"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
                         <outlet property="hyveListTable" destination="izj-MW-hVs" id="bfY-v7-XhW"/>
                         <segue destination="oI0-fe-4gh" kind="custom" identifier="ShowUserAccountVC" customClass="BlurryModalSegue" id="j1w-iQ-5jW"/>
+                        <segue destination="0xV-j0-3v0" kind="custom" identifier="ToScannedNewHyveVC" customClass="BlurryModalSegue" id="ZVI-Vd-h9I"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pIy-fo-a3J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4866" y="430.5"/>
+            <point key="canvasLocation" x="4978.5" y="489.75"/>
+        </scene>
+        <!--Scanned New Hyve View Controller-->
+        <scene sceneID="bM7-qo-UON">
+            <objects>
+                <viewController id="0xV-j0-3v0" customClass="ScannedNewHyveViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="JuD-cw-T59"/>
+                        <viewControllerLayoutGuide type="bottom" id="CoK-ao-GxS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="aUt-bk-VYK">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b9F-TN-0jD">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="eKB-7k-pZ7"/>
+                                </constraints>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="eKB-7k-pZ7"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="eKB-7k-pZ7"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="onPairButtonPressed:" destination="0xV-j0-3v0" eventType="touchUpInside" id="cDH-ex-HrZ"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iEI-yw-BEe">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="61" id="b4s-Wa-ry3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="b4s-Wa-ry3"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="b4s-Wa-ry3"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="8QY-Mq-WJf">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="581" id="hS8-8M-2ox"/>
+                                </constraints>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HyveCellID" id="3sA-RD-inh">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3sA-RD-inh" id="z1Z-9J-6Hq">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="hS8-8M-2ox"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="hS8-8M-2ox"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <outlet property="dataSource" destination="0xV-j0-3v0" id="0zk-yJ-tXe"/>
+                                    <outlet property="delegate" destination="0xV-j0-3v0" id="9Vo-9P-Qnc"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8QY-Mq-WJf" firstAttribute="leading" secondItem="aUt-bk-VYK" secondAttribute="leading" id="7ei-7T-hcE"/>
+                            <constraint firstItem="b9F-TN-0jD" firstAttribute="leading" secondItem="aUt-bk-VYK" secondAttribute="leading" id="XcJ-37-vfM"/>
+                            <constraint firstItem="8QY-Mq-WJf" firstAttribute="top" secondItem="iEI-yw-BEe" secondAttribute="bottom" constant="46" id="eFt-QW-rqq"/>
+                            <constraint firstAttribute="trailing" secondItem="iEI-yw-BEe" secondAttribute="trailing" constant="16" id="gdq-Tb-nrn"/>
+                            <constraint firstAttribute="trailing" secondItem="8QY-Mq-WJf" secondAttribute="trailing" id="lDf-E9-9oj"/>
+                            <constraint firstItem="CoK-ao-GxS" firstAttribute="top" secondItem="b9F-TN-0jD" secondAttribute="bottom" id="nxe-n5-xaE"/>
+                            <constraint firstItem="iEI-yw-BEe" firstAttribute="leading" secondItem="aUt-bk-VYK" secondAttribute="leading" constant="16" id="p9p-eL-Vv9"/>
+                            <constraint firstItem="iEI-yw-BEe" firstAttribute="top" secondItem="JuD-cw-T59" secondAttribute="bottom" constant="31" id="sDW-7R-U9J"/>
+                            <constraint firstItem="b9F-TN-0jD" firstAttribute="top" secondItem="8QY-Mq-WJf" secondAttribute="bottom" constant="1" id="t6l-eD-MId"/>
+                            <constraint firstAttribute="trailing" secondItem="b9F-TN-0jD" secondAttribute="trailing" id="wf0-I2-ano"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="b9F-TN-0jD"/>
+                                <exclude reference="iEI-yw-BEe"/>
+                                <exclude reference="8QY-Mq-WJf"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="gdq-Tb-nrn"/>
+                                <exclude reference="p9p-eL-Vv9"/>
+                                <exclude reference="sDW-7R-U9J"/>
+                                <exclude reference="7ei-7T-hcE"/>
+                                <exclude reference="eFt-QW-rqq"/>
+                                <exclude reference="lDf-E9-9oj"/>
+                                <exclude reference="XcJ-37-vfM"/>
+                                <exclude reference="t6l-eD-MId"/>
+                                <exclude reference="wf0-I2-ano"/>
+                                <exclude reference="nxe-n5-xaE"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="b9F-TN-0jD"/>
+                                <include reference="iEI-yw-BEe"/>
+                                <include reference="8QY-Mq-WJf"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="gdq-Tb-nrn"/>
+                                <include reference="p9p-eL-Vv9"/>
+                                <include reference="sDW-7R-U9J"/>
+                                <include reference="7ei-7T-hcE"/>
+                                <include reference="eFt-QW-rqq"/>
+                                <include reference="lDf-E9-9oj"/>
+                                <include reference="XcJ-37-vfM"/>
+                                <include reference="t6l-eD-MId"/>
+                                <include reference="wf0-I2-ano"/>
+                                <include reference="nxe-n5-xaE"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="instructionLabel" destination="iEI-yw-BEe" id="UOg-uK-pqF"/>
+                        <outlet property="pairButton" destination="b9F-TN-0jD" id="lqt-Zv-AT9"/>
+                        <outlet property="scannedNewHyveTable" destination="8QY-Mq-WJf" id="aQX-pU-cZH"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PVM-JE-wWv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4978.5" y="1215"/>
         </scene>
         <!--Hyve Details View Controller-->
         <scene sceneID="fBL-iD-GHn">
@@ -2517,7 +2663,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="NMv-hj-EGi"/>
-        <segue reference="ObQ-NT-1SY"/>
+        <segue reference="ZUn-7y-4ra"/>
+        <segue reference="82u-vr-klP"/>
     </inferredMetricsTieBreakers>
 </document>

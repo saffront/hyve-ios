@@ -12,6 +12,7 @@
 #import "HyveListTableViewCell.h"
 #import "HyveListViewController.h"
 #import "HyveDetailsViewController.h"
+#import "ScannedNewHyveViewController.h"
 #import "Hyve.h"
 #import <AFNetworking.h>
 #import <Reachability.h>
@@ -21,7 +22,8 @@
 #import <MBLoadingIndicator.h>
 #import <KVNProgress.h>
 
-@interface HyveListViewController () <UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, CBPeripheralDelegate, UIGestureRecognizerDelegate>
+
+@interface HyveListViewController () <UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, CBPeripheralDelegate, UIGestureRecognizerDelegate, CBCentralManagerDelegate>
 
 @property (strong, nonatomic) Hyve *hyve;
 @property (strong, nonatomic) DKCircleButton *userProfileImageButton;
@@ -43,6 +45,8 @@
 @property  BOOL fromUserAccountVC;
 @property (strong, nonatomic) DKCircleButton *scanHyveButton;
 @property (strong, nonatomic) DKCircleButton *menuHyveButton;
+@property (strong, nonatomic) NSMutableArray *scannedNewHyveMutableArray;
+@property (strong, nonatomic) CBCentralManager *scanNewHyveCentralManager;
 
 @end
 
@@ -51,6 +55,11 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    
+    self.scannedNewHyveMutableArray = [NSMutableArray new];
+    self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+    self.centralManager.delegate = self;
+    
     self.fromUserAccountVC = NO;
     self.patchedSwarmInfo = NO;
     self.releasedSwarmButton = NO;
@@ -678,6 +687,64 @@
 {
     NSLog(@"scan hyve button pressed!");
     
+    self.scanNewHyveCentralManager = self.centralManager;
+    
+    [self.scanNewHyveCentralManager scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@NO}];
+    self.scanHyveButton.userInteractionEnabled = NO;
+    [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(timeoutScanningForNewHyve) userInfo:nil repeats:NO];
+    
+}
+
+//central manager delegate
+-(void)centralManagerDidUpdateState:(CBCentralManager *)central
+{
+    switch (central.state) {
+        case CBCentralManagerStatePoweredOff:
+            NSLog(@"The central is off. Turn it on");
+            break;
+        case CBCentralManagerStatePoweredOn:
+            NSLog(@"Central is on and ready to use");
+            break;
+        case CBCentralManagerStateResetting:
+            NSLog(@"Central is resetting");
+            break;
+        case CBCentralManagerStateUnauthorized:
+            NSLog(@"Central state is unautorized");
+            break;
+        case CBCentralManagerStateUnknown:
+            NSLog(@"Central is state is unkown.");
+            break;
+        case CBCentralManagerStateUnsupported:
+            NSLog(@"Device does not have CoreBluetooth BLE");
+            break;
+        default:
+            break;
+    }
+}
+
+-(void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
+{
+    NSLog(@"Central has found Peripheral. Peripheral : %@, RSSI: %@, advertisementData: %@", peripheral, RSSI, advertisementData);
+    
+    CBPeripheral *newHyve = peripheral;
+    
+    if (![self.scannedNewHyveMutableArray containsObject:newHyve])
+    {
+        [self.scannedNewHyveMutableArray addObject:newHyve];
+        NSLog(@"self.scannedNewHyveMutableArray: \r %@", self.scannedNewHyveMutableArray);
+    }
+}
+
+-(void)timeoutScanningForNewHyve
+{
+    [self.scanNewHyveCentralManager stopScan];
+    //segue to new scanned hyve
+    
+    NSLog(@"self.scannedNewHyveMutableArray: %@ \r self.scannedNewHyveMutableArray.count \r %lu", self.scannedNewHyveMutableArray, (unsigned long)self.scannedNewHyveMutableArray.count);
+    self.scanHyveButton.userInteractionEnabled = YES;
+    
+    [self performSegueWithIdentifier:@"ToScannedNewHyveVC" sender:nil];
+    
 }
 
 -(void)onHyveMenuButtonPressed:(DKCircleButton*)sender
@@ -868,9 +935,18 @@
             UserAccountViewController *uavc = (UserAccountViewController*)[navigationController topViewController];
 
             BlurryModalSegue* bms = (BlurryModalSegue*)segue;
-            bms.backingImageBlurRadius = @(40);
+            bms.backingImageBlurRadius = @(30);
             bms.backingImageSaturationDeltaFactor = @(.35);
         }
+    }
+    else if ([segue.identifier isEqualToString:@"ToScannedNewHyveVC"])
+    {
+        ScannedNewHyveViewController *snhvc = segue.destinationViewController;
+        snhvc.scannedNewHyveMutableArray = self.scannedNewHyveMutableArray;
+        
+        BlurryModalSegue *bms = (BlurryModalSegue*)segue;
+        bms.backingImageBlurRadius = @(20);
+        bms.backingImageSaturationDeltaFactor = @(.15);
     }
 }
 

@@ -54,6 +54,12 @@
 - (IBAction)onPairButtonPressed:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+    if (self.selectedNewScannedHyveMutableArray.count > 0)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"scannedNewHyve" object:self.selectedNewScannedHyveMutableArray];
+    }
+    
 }
 
 #pragma mark - table
@@ -109,10 +115,6 @@
         [self.selectedNewScannedHyveMutableArray addObject:peripheral];
         
         NSLog(@"SELECT: \r self.selectedNewScannedHyveMutableArray : %@ \r %i", self.selectedNewScannedHyveMutableArray, self.selectedNewScannedHyveMutableArray.count);
-        //        self.peripheral = [self.peripheralMutableArray objectAtIndex:indexPath.row];
-//        [self.selectedDeviceMutableArray addObject:self.peripheral];
-//        
-//        NSLog(@"self.selectedDeviceMutableArray didSelectRowAtIndexPath :%@", self.selectedDeviceMutableArray);
     }
     else
     {
@@ -133,10 +135,6 @@
         
         NSLog(@"DESLECT: \r self.selectedNewScannedHyveMutableArray : %@ \r %i", self.selectedNewScannedHyveMutableArray, self.selectedNewScannedHyveMutableArray.count);
         
-//        self.peripheral = [self.peripheralMutableArray objectAtIndex:indexPath.row];
-//        [self.selectedDeviceMutableArray removeObject:self.peripheral];
-//        
-//        NSLog(@"self.selectedDeviceMutableArray didDeselectRowAtIndexPath :%@", self.selectedDeviceMutableArray);
     }
     else
     {

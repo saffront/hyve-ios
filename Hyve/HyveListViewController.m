@@ -77,6 +77,7 @@
 {
     [super viewWillAppear:animated];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(populateTableWithNewScannedHyve:) name:@"scannedNewHyve" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingUserImage:) name:@"user" object:nil];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
@@ -251,6 +252,7 @@
     [self.hyveListTable bringSubviewToFront:self.loadingIndicator];
 }
 
+#pragma mark - notifications
 #pragma mark - setting user info
 -(void)settingUserImage:(NSNotification*)notification
 {
@@ -260,7 +262,22 @@
     NSString *userProfileImage = [user objectForKey:@"userAvatarUR"];
     
     [self settingHeaderForHyveListTable:username imageURLString:userProfileImage];
+}
 
+#pragma mark - populateTableWithNewScannedHyve
+-(void)populateTableWithNewScannedHyve:(NSNotification*)notification
+{
+    NSMutableArray *newScannedHyveMutableArray = notification.object;
+    
+    for (CBPeripheral *peripheralOfNewScannedHyve in newScannedHyveMutableArray)
+    {
+        [self.hyveDevicesMutableArray addObject:peripheralOfNewScannedHyve];
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.hyveListTable reloadData];
+    });
+    NSLog(@"newScannedHyveMutableArray in HyveListVC: \r %@", newScannedHyveMutableArray);
 }
 
 #pragma mark - styling navigation bar

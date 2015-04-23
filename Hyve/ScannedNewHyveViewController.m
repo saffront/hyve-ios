@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *instructionLabel;
 @property (weak, nonatomic) IBOutlet UIButton *pairButton;
 @property (strong, nonatomic) Hyve *hyve;
+@property (strong, nonatomic) NSMutableArray *selectedNewScannedHyveMutableArray;
 
 @end
 
@@ -26,6 +27,7 @@
     
     [self stylingInstructionLabel];
     [self stylingPairButton];
+    self.selectedNewScannedHyveMutableArray = [NSMutableArray new];
     self.scannedNewHyveTable.backgroundColor = [UIColor clearColor];
     self.scannedNewHyveTable.allowsMultipleSelection = YES;
 }
@@ -103,8 +105,11 @@
     {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         
-        NSLog(@"select");
-//        self.peripheral = [self.peripheralMutableArray objectAtIndex:indexPath.row];
+        CBPeripheral *peripheral = [self.scannedNewHyveMutableArray objectAtIndex:indexPath.row];
+        [self.selectedNewScannedHyveMutableArray addObject:peripheral];
+        
+        NSLog(@"SELECT: \r self.selectedNewScannedHyveMutableArray : %@ \r %i", self.selectedNewScannedHyveMutableArray, self.selectedNewScannedHyveMutableArray.count);
+        //        self.peripheral = [self.peripheralMutableArray objectAtIndex:indexPath.row];
 //        [self.selectedDeviceMutableArray addObject:self.peripheral];
 //        
 //        NSLog(@"self.selectedDeviceMutableArray didSelectRowAtIndexPath :%@", self.selectedDeviceMutableArray);
@@ -122,7 +127,11 @@
     if (cell.accessoryType == UITableViewCellAccessoryCheckmark)
     {
         cell.accessoryType = UITableViewCellAccessoryNone;
-        NSLog(@"deselect");
+        
+        CBPeripheral *peripheral = [self.scannedNewHyveMutableArray objectAtIndex:indexPath.row];
+        [self.selectedNewScannedHyveMutableArray removeObject:peripheral];
+        
+        NSLog(@"DESLECT: \r self.selectedNewScannedHyveMutableArray : %@ \r %i", self.selectedNewScannedHyveMutableArray, self.selectedNewScannedHyveMutableArray.count);
         
 //        self.peripheral = [self.peripheralMutableArray objectAtIndex:indexPath.row];
 //        [self.selectedDeviceMutableArray removeObject:self.peripheral];

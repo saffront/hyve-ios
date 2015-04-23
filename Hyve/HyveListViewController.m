@@ -271,9 +271,19 @@
     
     for (CBPeripheral *peripheralOfNewScannedHyve in newScannedHyveMutableArray)
     {
-        [self.hyveDevicesMutableArray addObject:peripheralOfNewScannedHyve];
+        if ([self.hyveDevicesMutableArray containsObject:peripheralOfNewScannedHyve])
+        {
+            NSLog(@"hyve is already shown.");
+        }
+        else
+        {
+            NSLog(@"self.hyvesDevicesMutableObject of index :%i", [self.hyveDevicesMutableArray indexOfObject:peripheralOfNewScannedHyve]);
+            
+            
+            [self.hyveDevicesMutableArray addObject:peripheralOfNewScannedHyve];
+        }
     }
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.hyveListTable reloadData];
     });

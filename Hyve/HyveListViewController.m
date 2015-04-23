@@ -268,7 +268,7 @@
 -(void)populateTableWithNewScannedHyve:(NSNotification*)notification
 {
     NSMutableArray *newScannedHyveMutableArray = notification.object;
-    
+
     for (CBPeripheral *peripheralOfNewScannedHyve in newScannedHyveMutableArray)
     {
         if ([self.hyveDevicesMutableArray containsObject:peripheralOfNewScannedHyve])
@@ -277,13 +277,21 @@
         }
         else
         {
-            NSLog(@"self.hyvesDevicesMutableObject of index :%i", [self.hyveDevicesMutableArray indexOfObject:peripheralOfNewScannedHyve]);
+            //            [self.hyveDevicesMutableArray addObject:peripheralOfNewScannedHyve];
             
+            NSMutableSet *hyveDevicesSet = [NSMutableSet setWithArray:self.hyveDevicesMutableArray];
+            NSSet *newHyveSet = [NSSet setWithArray:newScannedHyveMutableArray];
+            [hyveDevicesSet unionSet:newHyveSet];
             
-            [self.hyveDevicesMutableArray addObject:peripheralOfNewScannedHyve];
+            NSArray *resultSet = [newHyveSet allObjects];
+            NSLog(@"resultSet %@", resultSet);
+            
+
+            [self.hyveDevicesMutableArray removeAllObjects];
+            [self.hyveDevicesMutableArray addObjectsFromArray:resultSet];
         }
     }
-
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.hyveListTable reloadData];
     });

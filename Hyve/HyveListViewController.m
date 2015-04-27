@@ -81,7 +81,12 @@
 {
     [super viewWillAppear:animated];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(populateTableWithNewScannedHyve:) name:@"scannedNewHyve" object:nil];
+    static dispatch_once_t once;
+    
+    dispatch_once(&once, ^{
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(populateTableWithNewScannedHyve:) name:@"scannedNewHyve" object:nil];
+    });
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingUserImage:) name:@"user" object:nil];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
@@ -93,6 +98,13 @@
         [self.hyveListTable reloadData];
     });
 }
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+
+}
+
 
 #pragma mark - loading progress view
 -(void)settingLoadingProgressView
@@ -1015,7 +1027,9 @@
         {
             UINavigationController *navigationController = segue.destinationViewController;
             UserAccountViewController *uavc = (UserAccountViewController*)[navigationController topViewController];
-
+            
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:@"scannedNewHyve" object:nil];
+            
             BlurryModalSegue* bms = (BlurryModalSegue*)segue;
             bms.backingImageBlurRadius = @(30);
             bms.backingImageSaturationDeltaFactor = @(.35);

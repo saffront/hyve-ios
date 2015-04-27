@@ -153,7 +153,7 @@
 {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"We sense a great disturbance in the force..would you like to continue searching?" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [NSTimer timerWithTimeInterval:30 target:self selector:@selector(timeoutHyveDiscovery) userInfo:nil repeats:NO];
+        [NSTimer timerWithTimeInterval:10 target:self selector:@selector(timeoutHyveDiscovery) userInfo:nil repeats:NO];
     }];
     UIAlertAction *noAction = [UIAlertAction actionWithTitle:@"NO" style:UIAlertActionStyleCancel handler:nil];
     

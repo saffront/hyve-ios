@@ -7,6 +7,8 @@
 //
 
 #import "ScannedNewHyveViewController.h"
+#import <AFNetworking.h>
+#import <Reachability.h>
 
 
 @interface ScannedNewHyveViewController() <UITableViewDataSource, UITableViewDelegate>
@@ -16,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *pairButton;
 @property (strong, nonatomic) Hyve *hyve;
 @property (strong, nonatomic) NSMutableArray *selectedNewScannedHyveMutableArray;
+@property (strong, nonatomic) NSMutableDictionary *newlyPairedHyveMutableDictionary;
 
 @end
 
@@ -55,10 +58,74 @@
 {
     [self dismissViewControllerAnimated:YES completion:nil];
     
-    if (self.selectedNewScannedHyveMutableArray.count > 0)
+    for (CBPeripheral *newlyPairedHyve in self.scannedNewHyveMutableArray)
     {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"scannedNewHyve" object:self.selectedNewScannedHyveMutableArray];
+        Hyve *hyve = [Hyve new];
+        hyve.peripheralName = newlyPairedHyve.name;
+        hyve.peripheralUUIDString = newlyPairedHyve.identifier.UUIDString;
+        hyve.peripheralRSSI = @"1";
+        
+        self.newlyPairedHyveMutableDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:hyve.peripheralName,@"name",hyve.peripheralUUIDString,@"uuid",hyve.peripheralRSSI,@"RSSI", nil];
     }
+    
+    [self connectToHyve:self.newlyPairedHyveMutableDictionary];
+}
+
+#pragma mark - submit paired hyve to server
+-(void)connectToHyve:(NSMutableDictionary*)newlyPairedHyve
+{
+    Reachability *reachability = [Reachability reachabilityWithHostName:@"www.google.com"];
+    
+    if (reachability.isReachable)
+    {
+        [self submitPairedHyveToServer:newlyPairedHyve];
+    }
+    else
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+}
+
+-(void)submitPairedHyveToServer:(NSMutableDictionary*)newlyPairedHyve
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *api_token = [userDefaults objectForKey:@"api_token"];
+
+    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves"];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [manager.requestSerializer setValue:@"application/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+    [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+    manager.requestSerializer.timeoutInterval = 30;
+    
+    [manager POST:hyveURLString parameters:self.newlyPairedHyveMutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
+        if (self.selectedNewScannedHyveMutableArray.count > 0)
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"scannedNewHyve" object:self.selectedNewScannedHyveMutableArray];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        if (error)
+        {
+            NSDictionary *userInfo = [error userInfo];
+            NSString *errorString = [[userInfo objectForKey:NSUnderlyingErrorKey] localizedDescription];
+            
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:errorString preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            [alertController addAction:okAction];
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
+        
+    }];
     
 }
 

@@ -99,13 +99,6 @@
     });
 }
 
--(void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-
-}
-
-
 #pragma mark - loading progress view
 -(void)settingLoadingProgressView
 {
@@ -289,42 +282,7 @@
     [self.hyveDevicesMutableArray addObjectsFromArray:newScannedHyveMutableArray];
     
     NSLog(@"self.hyveDevicesMutableArray %@", self.hyveDevicesMutableArray);
-    
-//    [self.hyveDevicesMutableArray addObjectsFromArray:newScannedHyveMutableArray];
-    
-//    NSArray *distinctUniqueValues = [self.hyveDevicesMutableArray valueForKeyPath:@"@distinctUnionOfObjects.identifier"];
-//    NSLog(@"distinctUniqueValues %@", distinctUniqueValues);
-    
-    
-
-/*
-    for (CBPeripheral *thePeripheral in distinctUniqueValues)
-    {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"identifier", thePeripheral];
         
-        NSArray *newArray = [self.hyveDevicesMutableArray filteredArrayUsingPredicate:predicate];
-        
-        [self.mutableNewArray addObjectsFromArray:newArray];
-        
-        NSLog(@"self.hyveDevicesMutableArray \r %@", self.mutableNewArray);
-    }
-    [self.hyveDevicesMutableArray removeAllObjects];
-    [self.hyveDevicesMutableArray addObjectsFromArray:self.mutableNewArray];
-    NSLog(@"self.hyveDevicesMutableArray \r %@", self.hyveDevicesMutableArray);
-*/
-    
-//    for (int i = 0; i < self.hyveDevicesMutableArray.count; i++)
-//    {
-//        CBPeripheral *peripheralIndexOne = [self.hyveDevicesMutableArray objectAtIndex:0];
-//        CBPeripheral *peripheralIndexAtIteration = [self.hyveDevicesMutableArray objectAtIndex:i];
-//        
-//        if ([peripheralIndexAtIteration.identifier.UUIDString isEqualToString:peripheralIndexOne.identifier.UUIDString])
-//        {
-//            [self.hyveDevicesMutableArray removeObject:peripheralIndexAtIteration];
-//        }
-//    }
-
-    
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.hyveListTable reloadData];
     });

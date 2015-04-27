@@ -9,7 +9,7 @@
 #import "ScannedNewHyveViewController.h"
 #import <AFNetworking.h>
 #import <Reachability.h>
-
+#import <KVNProgress.h>
 
 @interface ScannedNewHyveViewController() <UITableViewDataSource, UITableViewDelegate>
 
@@ -19,6 +19,8 @@
 @property (strong, nonatomic) Hyve *hyve;
 @property (strong, nonatomic) NSMutableArray *selectedNewScannedHyveMutableArray;
 @property (strong, nonatomic) NSMutableDictionary *newlyPairedHyveMutableDictionary;
+@property (nonatomic) KVNProgressConfiguration *loadingProgressView;
+@property (weak, nonatomic) IBOutlet UIButton *goBackButton;
 
 @end
 
@@ -33,6 +35,32 @@
     self.selectedNewScannedHyveMutableArray = [NSMutableArray new];
     self.scannedNewHyveTable.backgroundColor = [UIColor clearColor];
     self.scannedNewHyveTable.allowsMultipleSelection = YES;
+    [self stylingGoBackButton];
+    
+}
+
+#pragma mark - go back button
+-(void)stylingGoBackButton
+{
+//    [self.goBackButton setImage:[UIImage imageNamed:@"backButton"] forState:UIControlStateNormal];
+    [self.goBackButton setBackgroundImage:[UIImage imageNamed:@"backButton"] forState:UIControlStateNormal];
+}
+
+- (IBAction)onGoBackButtonPressed:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - setting up progress view
+-(void)settingUpProgressView
+{
+    self.loadingProgressView = [KVNProgressConfiguration defaultConfiguration];
+    [KVNProgress setConfiguration:self.loadingProgressView];
+    self.loadingProgressView.backgroundType = KVNProgressBackgroundTypeBlurred;
+    self.loadingProgressView.fullScreen = YES;
+    self.loadingProgressView.minimumDisplayTime = 1;
+    [KVNProgress showWithStatus:@"Pairing..."];
+
 }
 
 
@@ -56,7 +84,7 @@
 
 - (IBAction)onPairButtonPressed:(id)sender
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self settingUpProgressView];
     
     for (CBPeripheral *newlyPairedHyve in self.scannedNewHyveMutableArray)
     {
@@ -91,6 +119,7 @@
 
 -(void)submitPairedHyveToServer:(NSMutableDictionary*)newlyPairedHyve
 {
+    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
 
@@ -111,6 +140,10 @@
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"scannedNewHyve" object:self.selectedNewScannedHyveMutableArray];
         }
+        
+        [KVNProgress showSuccessWithStatus:@"Pairing successful!"];
+        
+        
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         

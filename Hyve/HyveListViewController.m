@@ -47,6 +47,8 @@
 @property (strong, nonatomic) DKCircleButton *menuHyveButton;
 @property (strong, nonatomic) NSMutableArray *scannedNewHyveMutableArray;
 @property (strong, nonatomic) CBCentralManager *scanNewHyveCentralManager;
+@property (strong, nonatomic) NSMutableArray *mutableNewArray;
+@property BOOL hyveIsFound;
 
 @end
 
@@ -56,6 +58,8 @@
     
     [super viewDidLoad];
     
+    self.hyveIsFound = NO;
+    self.mutableNewArray = [NSMutableArray new];
     self.scannedNewHyveMutableArray = [NSMutableArray new];
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     self.centralManager.delegate = self;
@@ -267,35 +271,51 @@
 #pragma mark - populateTableWithNewScannedHyve
 -(void)populateTableWithNewScannedHyve:(NSNotification*)notification
 {
+    [self.scannedNewHyveMutableArray removeAllObjects];
     NSMutableArray *newScannedHyveMutableArray = notification.object;
+    
+    [self.hyveDevicesMutableArray addObjectsFromArray:newScannedHyveMutableArray];
+    
+    NSLog(@"self.hyveDevicesMutableArray %@", self.hyveDevicesMutableArray);
+    
+//    [self.hyveDevicesMutableArray addObjectsFromArray:newScannedHyveMutableArray];
+    
+//    NSArray *distinctUniqueValues = [self.hyveDevicesMutableArray valueForKeyPath:@"@distinctUnionOfObjects.identifier"];
+//    NSLog(@"distinctUniqueValues %@", distinctUniqueValues);
+    
+    
 
-    for (CBPeripheral *peripheralOfNewScannedHyve in newScannedHyveMutableArray)
+/*
+    for (CBPeripheral *thePeripheral in distinctUniqueValues)
     {
-        if ([self.hyveDevicesMutableArray containsObject:peripheralOfNewScannedHyve])
-        {
-            NSLog(@"hyve is already shown.");
-        }
-        else
-        {
-            //            [self.hyveDevicesMutableArray addObject:peripheralOfNewScannedHyve];
-            
-            NSMutableSet *hyveDevicesSet = [NSMutableSet setWithArray:self.hyveDevicesMutableArray];
-            NSSet *newHyveSet = [NSSet setWithArray:newScannedHyveMutableArray];
-            [hyveDevicesSet unionSet:newHyveSet];
-            
-            NSArray *resultSet = [newHyveSet allObjects];
-            NSLog(@"resultSet %@", resultSet);
-            
-
-            [self.hyveDevicesMutableArray removeAllObjects];
-            [self.hyveDevicesMutableArray addObjectsFromArray:resultSet];
-        }
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"identifier", thePeripheral];
+        
+        NSArray *newArray = [self.hyveDevicesMutableArray filteredArrayUsingPredicate:predicate];
+        
+        [self.mutableNewArray addObjectsFromArray:newArray];
+        
+        NSLog(@"self.hyveDevicesMutableArray \r %@", self.mutableNewArray);
     }
+    [self.hyveDevicesMutableArray removeAllObjects];
+    [self.hyveDevicesMutableArray addObjectsFromArray:self.mutableNewArray];
+    NSLog(@"self.hyveDevicesMutableArray \r %@", self.hyveDevicesMutableArray);
+*/
+    
+//    for (int i = 0; i < self.hyveDevicesMutableArray.count; i++)
+//    {
+//        CBPeripheral *peripheralIndexOne = [self.hyveDevicesMutableArray objectAtIndex:0];
+//        CBPeripheral *peripheralIndexAtIteration = [self.hyveDevicesMutableArray objectAtIndex:i];
+//        
+//        if ([peripheralIndexAtIteration.identifier.UUIDString isEqualToString:peripheralIndexOne.identifier.UUIDString])
+//        {
+//            [self.hyveDevicesMutableArray removeObject:peripheralIndexAtIteration];
+//        }
+//    }
+
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.hyveListTable reloadData];
     });
-    NSLog(@"newScannedHyveMutableArray in HyveListVC: \r %@", newScannedHyveMutableArray);
 }
 
 #pragma mark - styling navigation bar
@@ -728,6 +748,13 @@
     self.scanHyveButton.userInteractionEnabled = NO;
     [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(timeoutScanningForNewHyve) userInfo:nil repeats:NO];
     
+    self.loadingProgressView = [KVNProgressConfiguration defaultConfiguration];
+    [KVNProgress setConfiguration:self.loadingProgressView];
+    self.loadingProgressView.backgroundType = KVNProgressBackgroundTypeBlurred;
+    self.loadingProgressView.fullScreen = YES;
+    
+    self.loadingProgressView.minimumDisplayTime = 1;
+    [KVNProgress showWithStatus:@"Scanning \r\r Please hold for 20 secs"];
 }
 
 //central manager delegate
@@ -763,23 +790,43 @@
     
     CBPeripheral *newHyve = peripheral;
     
-    if (![self.scannedNewHyveMutableArray containsObject:newHyve])
+    for (CBPeripheral *pairedHyve in self.hyveDevicesMutableArray)
     {
-        [self.scannedNewHyveMutableArray addObject:newHyve];
-        NSLog(@"self.scannedNewHyveMutableArray: \r %@", self.scannedNewHyveMutableArray);
+        self.hyveIsFound = NO;
+        if ([pairedHyve.identifier.UUIDString isEqualToString:newHyve.identifier.UUIDString])
+        {
+            self.hyveIsFound = YES;
+            break;
+        }
+    }
+    
+    if (self.hyveIsFound == NO)
+    {
+        if (![self.scannedNewHyveMutableArray containsObject:newHyve])
+        {
+            [self.scannedNewHyveMutableArray addObject:newHyve];
+        }
     }
 }
 
 -(void)timeoutScanningForNewHyve
 {
     [self.scanNewHyveCentralManager stopScan];
-    //segue to new scanned hyve
     
     NSLog(@"self.scannedNewHyveMutableArray: %@ \r self.scannedNewHyveMutableArray.count \r %lu", self.scannedNewHyveMutableArray, (unsigned long)self.scannedNewHyveMutableArray.count);
     self.scanHyveButton.userInteractionEnabled = YES;
     
-    [self performSegueWithIdentifier:@"ToScannedNewHyveVC" sender:nil];
-    
+    [KVNProgress dismissWithCompletion:^{
+        [self performSegueWithIdentifier:@"ToScannedNewHyveVC" sender:nil];
+    }];
+}
+
+-(void)filteringDiscoveredAndNewlyScannedHyve
+{
+    for (CBPeripheral *pairedHyve in self.hyveDevicesMutableArray) {
+        
+        
+    }
 }
 
 -(void)onHyveMenuButtonPressed:(DKCircleButton*)sender
@@ -978,6 +1025,7 @@
     {
         ScannedNewHyveViewController *snhvc = segue.destinationViewController;
         snhvc.scannedNewHyveMutableArray = self.scannedNewHyveMutableArray;
+        snhvc.pairedHyveMutableArray = self.hyveDevicesMutableArray;
         
         BlurryModalSegue *bms = (BlurryModalSegue*)segue;
         bms.backingImageBlurRadius = @(15);

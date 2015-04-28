@@ -27,17 +27,71 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-//    self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.92 alpha:1];
     self.selectedDeviceMutableArray = [NSMutableArray new];
     self.pairedHyveDictionary = [NSMutableDictionary new];
     
+    [self promptingUserToPairDevice];
     [self stylingBackgroundView];
     [self pairButtonConfiguration];
-    [self promptingUserToPairDevice];
     [self stylingInstructionLabel];
     [self stylingNavigationBar];
     [self stylingPeripheralListTableView];
+}
+
+#pragma mark - connected
+-(BOOL)connected
+{
+    __block BOOL reachable;
     
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+      
+        switch (status) {
+            case AFNetworkReachabilityStatusNotReachable:
+            {
+                NSLog(@"not reachable");
+                reachable = NO;
+                
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Internet unavailable. Please connect to the Internet" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                [alertController addAction:okAction];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self presentViewController:alertController animated:YES completion:nil];
+                });
+                break;
+            }
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+            {
+                NSLog(@"reachable with wifi");
+                reachable = YES;
+                break;
+            }
+            case AFNetworkReachabilityStatusReachableViaWWAN:
+            {
+                NSLog(@"reachable via WWAN");
+                reachable = YES;
+                break;
+            }
+            default:
+            {
+                NSLog(@"Unkown internet status");
+                reachable = NO;
+                
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Internet unavailable. Please connect to the Internet" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                [alertController addAction:okAction];
+
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self presentViewController:alertController animated:YES completion:nil];
+                });
+                break;
+            }
+        }
+    }];
+    
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    
+    return reachable;
 }
 
 #pragma mark - viewWillAppear
@@ -50,6 +104,8 @@
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor clearColor];
+
+    
 }
 
 #pragma mark - styling background view
@@ -120,7 +176,9 @@
 -(void)promptingUserToPairDevice
 {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"We have found these devices around you. Some may not be your Hyve. Please pair up your Hyve(s)" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self connected];
+    }];
     [alertController addAction:okAction];
     [self presentViewController:alertController animated:YES completion:nil];
 }
@@ -276,7 +334,7 @@
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [manager.requestSerializer setValue:@"application/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
     [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
-    manager.requestSerializer.timeoutInterval = 30;
+    manager.requestSerializer.timeoutInterval = 20;
     
     [manager POST:hyveURLString parameters:hyveletsDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
         

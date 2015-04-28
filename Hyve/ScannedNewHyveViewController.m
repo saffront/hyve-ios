@@ -21,6 +21,9 @@
 @property (strong, nonatomic) NSMutableDictionary *newlyPairedHyveMutableDictionary;
 @property (nonatomic) KVNProgressConfiguration *loadingProgressView;
 @property (weak, nonatomic) IBOutlet UIButton *goBackButton;
+@property BOOL loadingProgressViewAppears;
+@property int tapCount;
+@property (strong, nonatomic) AFHTTPRequestOperationManager *manager;
 
 @end
 
@@ -29,6 +32,8 @@
 
 -(void)viewDidLoad {
     [super viewDidLoad];
+    self.tapCount = 0;
+    self.loadingProgressViewAppears = NO;
     
     [self stylingInstructionLabel];
     [self stylingPairButton];
@@ -59,10 +64,58 @@
     self.loadingProgressView.backgroundType = KVNProgressBackgroundTypeBlurred;
     self.loadingProgressView.fullScreen = YES;
     self.loadingProgressView.minimumDisplayTime = 1;
+    
+//    __weak typeof(self) weakSelf = self;
+//    self.loadingProgressView.tapBlock = ^(KVNProgress *progressView) {
+//        
+//    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Are you sure you want to terminate this process?" preferredStyle:UIAlertControllerStyleAlert];
+//    
+//    UIAlertAction *noAction = [UIAlertAction actionWithTitle:@"NO" style:UIAlertActionStyleDefault handler:nil];
+//    
+//    UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//            [weakSelf.manager.operationQueue cancelAllOperations];
+//        }];
+//        
+//        [alertController addAction:noAction];
+//        [alertController addAction:yesAction];
+//        [weakSelf presentViewController:alertController animated:YES completion:nil];
+//    };
+
+    
+//    __weak typeof(self) weakSelf = self;
+//    self.tapCount = 0;
+//    self.loadingProgressView.tapBlock = ^(KVNProgress *progressView){
+//        
+//        weakSelf.tapCount++;
+//        
+//        if (weakSelf.tapCount == 2)
+//        {
+//            NSLog(@"double TAPPPPPPedddd");
+//            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Are you sure you want to terminate this process?" preferredStyle:UIAlertControllerStyleAlert];
+//            UIAlertAction *noAction = [UIAlertAction actionWithTitle:@"NO" style:UIAlertActionStyleDefault handler:nil];
+//            UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//                
+//                NSLog(@"YES!!");
+//                [weakSelf.manager.operationQueue cancelAllOperations];
+//                
+//            }];
+//            
+//            [alertController addAction:noAction];
+//            [alertController addAction:yesAction];
+//            [weakSelf presentViewController:alertController animated:YES completion:nil];
+//        }
+//    };
     [KVNProgress showWithStatus:@"Pairing..."];
+    
+    
+    self.loadingProgressViewAppears = YES;
 
 }
 
+-(void)cancelButtonProgressViewPressed
+{
+    NSLog(@"the cancel button was pressed!!!!!!");
+}
 
 #pragma mark - styling instruction label
 -(void)stylingInstructionLabel
@@ -107,6 +160,7 @@
     if (reachability.isReachable)
     {
         [self submitPairedHyveToServer:newlyPairedHyve];
+    
     }
     else
     {
@@ -119,7 +173,6 @@
 
 -(void)submitPairedHyveToServer:(NSMutableDictionary*)newlyPairedHyve
 {
-    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
 
@@ -130,7 +183,7 @@
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [manager.requestSerializer setValue:@"application/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
     [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
-    manager.requestSerializer.timeoutInterval = 30;
+    manager.requestSerializer.timeoutInterval = 20;
     
     [manager POST:hyveURLString parameters:self.newlyPairedHyveMutableDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -143,21 +196,17 @@
         
         [KVNProgress showSuccessWithStatus:@"Pairing successful!"];
         
-        
-        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         if (error)
         {
-            NSDictionary *userInfo = [error userInfo];
-            NSString *errorString = [[userInfo objectForKey:NSUnderlyingErrorKey] localizedDescription];
+            [KVNProgress dismiss];
             
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:errorString preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble connecting to server. Please try again later." preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
             [alertController addAction:okAction];
             [self presentViewController:alertController animated:YES completion:nil];
         }
-        
     }];
     
 }

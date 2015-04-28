@@ -151,7 +151,7 @@
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
-    manager.requestSerializer.timeoutInterval = 30; 
+    manager.requestSerializer.timeoutInterval = 20;
     
     [manager GET:hyveUserAccountString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -396,9 +396,7 @@
         self.password.userInteractionEnabled = YES;
         self.email.userInteractionEnabled = YES;
         self.userAvatar.userInteractionEnabled = YES;
-        
-        
-        
+
     }
     else if ([self.editOrSaveProfileButton.titleLabel.text isEqualToString:@"Save"])
     {
@@ -648,7 +646,7 @@
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
-    manager.requestSerializer.timeoutInterval = 30;
+    manager.requestSerializer.timeoutInterval = 20;
     
     [manager PATCH:hyveUserAccountString parameters:savedUserInfo success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -667,6 +665,7 @@
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 
+        [KVNProgress dismiss];
         NSLog(@"error in PATCH: \r %@", error);
         
     }];

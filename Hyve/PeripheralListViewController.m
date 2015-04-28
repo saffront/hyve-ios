@@ -19,7 +19,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *instructionLabel;
 @property (strong ,nonatomic) NSMutableDictionary *pairedHyveDictionary;
 
-
 @end
 
 @implementation PeripheralListViewController
@@ -186,14 +185,7 @@
 #pragma mark - table view delegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.peripheralMutableArray.count > 0)
-    {
-        return self.peripheralMutableArray.count;
-    }
-    else
-    {
-        return 1;
-    }
+    return self.peripheralMutableArray.count;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -262,6 +254,7 @@
     }
 }
 
+#pragma mark - pair button
 - (IBAction)onPairButtonPressed:(id)sender
 {
     if (self.selectedDeviceMutableArray.count > 0)
@@ -283,9 +276,9 @@
                 
                 //passing in name and uuid
                 self.pairedHyveDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:hyve.peripheralName,@"name",hyve.peripheralUUIDString,@"uuid",hyve.peripheralRSSI,@"distance",nil];
-//                [self sendingPairedHyveToBackend:pairedHyveDictionary];
             }
             [self sendingPairedHyveToBackend:self.pairedHyveDictionary];
+
         }];
         
         UIAlertAction *noAction = [UIAlertAction actionWithTitle:@"NO" style:UIAlertActionStyleDefault handler:nil];
@@ -345,6 +338,7 @@
         NSLog(@"responseObject from connectToHyveBackend \r \r %@", responseObject);
         [self performSegueWithIdentifier:@"ShowHyveListVC" sender:nil];
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         

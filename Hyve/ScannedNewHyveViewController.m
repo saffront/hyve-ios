@@ -47,7 +47,6 @@
 #pragma mark - go back button
 -(void)stylingGoBackButton
 {
-//    [self.goBackButton setImage:[UIImage imageNamed:@"backButton"] forState:UIControlStateNormal];
     [self.goBackButton setBackgroundImage:[UIImage imageNamed:@"backButton"] forState:UIControlStateNormal];
 }
 

@@ -61,7 +61,7 @@
     self.hyveIsFound = NO;
     self.mutableNewArray = [NSMutableArray new];
     self.scannedNewHyveMutableArray = [NSMutableArray new];
-    self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+//    self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     self.centralManager.delegate = self;
     
     self.fromUserAccountVC = NO;

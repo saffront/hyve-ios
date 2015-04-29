@@ -191,67 +191,70 @@
         
         NSLog(@"responseObject from connectToHyveBackend \r \r %@", responseObject);
         
-        for (NSDictionary *responseObjectDictionary in responseObject)
+        if (self.selectedNewScannedHyveMutableArray.count > 0)
         {
-            NSString *uuidTextError = @"has already been taken";
-            
-            NSDictionary *responseObjectDictionaryFirstLayer = responseObject;
-            NSDictionary *errorsDictionary = [responseObjectDictionaryFirstLayer objectForKey:@"errors"];
-            NSArray *uuidArray = [errorsDictionary objectForKey:@"uuid"];
-            NSString *uuidErrorFound = [uuidArray objectAtIndex:0];
-            
-            if ([uuidTextError isEqualToString:uuidErrorFound])
-            {
-                self.uuidError = YES;
-                break;
-            }
-        }
-
-        if (self.uuidError == YES)
-        {
-            [KVNProgress dismiss];
-            
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"" preferredStyle:UIAlertControllerStyleAlert];
-            [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-                textField.placeholder = NSLocalizedString(@"Enter your registered email", @"Email action");
-            }];
-            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                UITextField *emailEntry = alertController.textFields.firstObject;
-                NSString *emailEntryText = emailEntry.text;
-                
-                if ([email isEqualToString:emailEntryText])
-                {
-                    [self dismissViewControllerAnimated:YES completion:nil];
-                    
-                    if (self.selectedNewScannedHyveMutableArray.count > 0)
-                    {
-                        [[NSNotificationCenter defaultCenter] postNotificationName:@"scannedNewHyve" object:self.selectedNewScannedHyveMutableArray];
-                    }
-                    
-                    [KVNProgress showSuccessWithStatus:@"Pairing successful!"];
-                }
-                else
-                {
-                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"The email authentication does not match" preferredStyle:UIAlertControllerStyleAlert];
-                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                        [KVNProgress showErrorWithStatus:@"Pairing unsuccessful"];
-                    }];
-                    [alertController addAction:okAction];
-                    
-                    [self presentViewController:alertController animated:YES completion:nil];
-                    
-                    
-                }
-                self.uuidError = NO;
-            }];
-            
-            [alertController addAction:okAction];
-            [self presentViewController:alertController animated:YES completion:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"scannedNewHyve" object:self.selectedNewScannedHyveMutableArray];
         }
         
-        
+        [KVNProgress showSuccessWithStatus:@"Pairing successful!"];
+        [self dismissViewControllerAnimated:YES completion:nil];
 
-        
+//        for (NSDictionary *responseObjectDictionary in responseObject)
+//        {
+//            NSString *uuidTextError = @"has already been taken";
+//            
+//            NSDictionary *responseObjectDictionaryFirstLayer = responseObject;
+//            NSDictionary *errorsDictionary = [responseObjectDictionaryFirstLayer objectForKey:@"errors"];
+//            NSArray *uuidArray = [errorsDictionary objectForKey:@"uuid"];
+//            NSString *uuidErrorFound = [uuidArray objectAtIndex:0];
+//            
+//            if ([uuidTextError isEqualToString:uuidErrorFound])
+//            {
+//                self.uuidError = YES;
+//                break;
+//            }
+//        }
+//
+//        if (self.uuidError == YES)
+//        {
+//            [KVNProgress dismiss];
+//            
+//            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+//            [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+//                textField.placeholder = NSLocalizedString(@"Enter your registered email", @"Email action");
+//            }];
+//            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//                UITextField *emailEntry = alertController.textFields.firstObject;
+//                NSString *emailEntryText = emailEntry.text;
+//                
+//                if ([email isEqualToString:emailEntryText])
+//                {
+//                    [self dismissViewControllerAnimated:YES completion:nil];
+//                    
+//                    if (self.selectedNewScannedHyveMutableArray.count > 0)
+//                    {
+//                        [[NSNotificationCenter defaultCenter] postNotificationName:@"scannedNewHyve" object:self.selectedNewScannedHyveMutableArray];
+//                    }
+//                    
+//                    [KVNProgress showSuccessWithStatus:@"Pairing successful!"];
+//                }
+//                else
+//                {
+//                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"The email authentication does not match" preferredStyle:UIAlertControllerStyleAlert];
+//                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//                        [KVNProgress showErrorWithStatus:@"Pairing unsuccessful"];
+//                    }];
+//                    [alertController addAction:okAction];
+//                    
+//                    [self presentViewController:alertController animated:YES completion:nil];
+//                    
+//                    
+//                }
+//                self.uuidError = NO;
+//                [alertController addAction:okAction];
+//                [self presentViewController:alertController animated:YES completion:nil];
+//            }];
+//        }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         if (error)
@@ -264,7 +267,6 @@
             [self presentViewController:alertController animated:YES completion:nil];
         }
     }];
-    
 }
 
 #pragma mark - table

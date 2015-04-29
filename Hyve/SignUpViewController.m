@@ -411,8 +411,10 @@
         
         NSString *api_token = [responseObject valueForKeyPath:@"api_token"];
         NSString *successLoginViaEmail = @"successLoginViaEmail";
+        NSString *email = [responseObject valueForKeyPath:@"user_session.user.email"];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setObject:api_token forKey:@"api_token"];
+        [userDefaults setObject:email forKey:@"email"];
         [userDefaults setObject:successLoginViaEmail forKey:@"successLoginViaEmail"];
         [userDefaults synchronize];
         

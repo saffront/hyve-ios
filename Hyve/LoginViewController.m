@@ -204,8 +204,10 @@
     [manager POST:hyveURLString parameters:userInfoDictionaryJSON success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSString *api_token = [responseObject valueForKeyPath:@"api_token"];
+        NSString *email = [responseObject valueForKeyPath:@"user_session.user.email"];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setObject:api_token forKey:@"api_token"];
+        [userDefaults setObject:email forKey:@"email"];
         [userDefaults synchronize];
     
         [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];

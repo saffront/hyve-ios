@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *pairButton;
 @property (weak, nonatomic) IBOutlet UILabel *instructionLabel;
 @property (strong ,nonatomic) NSMutableDictionary *pairedHyveDictionary;
+@property BOOL uuidError;
 
 @end
 
@@ -26,6 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.uuidError = NO;
     self.selectedDeviceMutableArray = [NSMutableArray new];
     self.pairedHyveDictionary = [NSMutableDictionary new];
     
@@ -319,6 +321,7 @@
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
+    NSString *email = [userDefaults objectForKey:@"email"];
     
     NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves"];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -336,7 +339,54 @@
 
         //check response object
         NSLog(@"responseObject from connectToHyveBackend \r \r %@", responseObject);
-        [self performSegueWithIdentifier:@"ShowHyveListVC" sender:nil];
+        
+        for (NSDictionary *responseObjectDictionary in responseObject)
+        {
+            NSString *uuidTextError = @"has already been taken";
+            
+            NSDictionary *responseObjectDictionaryFirstLayer = responseObject;
+            NSDictionary *errorsDictionary = [responseObjectDictionaryFirstLayer objectForKey:@"errors"];
+            NSArray *uuidArray = [errorsDictionary objectForKey:@"uuid"];
+            NSString *uuidErrorFound = [uuidArray objectAtIndex:0];
+            
+            if ([uuidTextError isEqualToString:uuidErrorFound])
+            {
+                self.uuidError = YES;
+                break;
+            }
+        }
+        
+        if (self.uuidError == YES)
+        {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                textField.placeholder = NSLocalizedString(@"Email", @"Email action");
+            }];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                UITextField *emailEntry = alertController.textFields.firstObject;
+                NSString *emailEntryText = emailEntry.text;
+                
+                if ([email isEqualToString:emailEntryText])
+                {
+                    [self performSegueWithIdentifier:@"ShowHyveListVC" sender:nil];
+                }
+                else
+                {
+                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"The email authentication does not match" preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                    [alertController addAction:okAction];
+                    
+                    [self presentViewController:alertController animated:YES completion:nil];
+                    
+                }
+                self.uuidError = NO;
+            }];
+            
+            [alertController addAction:okAction];
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
+        
+
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     
         

@@ -290,36 +290,6 @@
     }
 }
 
--(void)settingUpLoadingIndicator
-{
-    self.loadingIndicator = [MBLoadingIndicator new];
-    [self.loadingIndicator setBackColor:[UIColor colorWithRed:0.20 green:0.20 blue:0.20 alpha:1]];
-    [self.loadingIndicator setOuterLoaderBuffer:5.0];
-    [self.loadingIndicator setLoaderBackgroundColor:[UIColor whiteColor]];
-    [self.loadingIndicator setLoadedColor:[UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1]];
-    [self.loadingIndicator setStartPosition:MBLoaderTop];
-    [self.loadingIndicator setAnimationSpeed:MBLoaderSpeedMiddle];
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-
-        [self.loadingIndicator start];
-        int count = 0;
-        
-        while (count++ < 2)
-        {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(count * 1.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                
-                [self.loadingIndicator incrementPercentageBy:20];
-            });
-        }
-        [self.view addSubview:self.loadingIndicator];
-
-    });
-    
-    [self.hyveListTable addSubview:self.loadingIndicator];
-    [self.hyveListTable bringSubviewToFront:self.loadingIndicator];
-}
-
 #pragma mark - notifications
 #pragma mark - setting user info
 -(void)settingUserImage:(NSNotification*)notification
@@ -424,8 +394,6 @@
         if (error)
         {
             [KVNProgress dismiss];
-            
-//            [self.loadingIndicator dismiss];
             
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity." preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
@@ -850,14 +818,6 @@
     }];
 }
 
--(void)filteringDiscoveredAndNewlyScannedHyve
-{
-    for (CBPeripheral *pairedHyve in self.hyveDevicesMutableArray) {
-        
-        
-    }
-}
-
 -(void)onHyveMenuButtonPressed:(DKCircleButton*)sender
 {
     NSLog(@"HYVE MENU BUTTON PRESSED");
@@ -949,8 +909,6 @@
         [self.centralManager cancelPeripheralConnection:peripheralToBeDisconnected];
         
         [self.hyveListTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-//        [self.hyveListTable reloadData];
-        NSLog(@"peripheralToBeDisconnected status: %@", peripheralToBeDisconnected);
     }
 }
 
@@ -988,7 +946,6 @@
         [self.userProfileImageButton setCenter:CGPointMake(CGRectGetMidX(userProfileHeader.bounds), CGRectGetMidY(userProfileHeader.bounds))];
         [self.userProfileImageButton addTarget:self action:@selector(userProfileImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         
-//        float positionOfUsernameCoordinateY = self.userProfileImageButton.frame.origin.y + self.userProfileImageButton.frame.size.height + 230;
         float positionOfUsernameCoordinateY = userProfileHeader.frame.origin.y + 370;
         UILabel *username = [[UILabel alloc] initWithFrame:CGRectMake(backgroundImageView.frame.size.width/2, positionOfUsernameCoordinateY, 250, 40)];
         
@@ -1014,8 +971,6 @@
             
             self.hyveListTable.tableHeaderView = userProfileHeader;
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-
-//            [self.loadingIndicator finish];
             
             if (self.fromUserAccountVC == NO) {
                 [KVNProgress showSuccessWithStatus:@"Pairing successful!"];

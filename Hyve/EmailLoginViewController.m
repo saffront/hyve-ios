@@ -10,12 +10,14 @@
 #import "DashboardViewController.h"
 #import <AFNetworking.h>
 #import <Reachability.h>
+#import <KVNProgress.h>
 
 @interface EmailLoginViewController() <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIImageView *hyveImageLogo;
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+@property (nonatomic) KVNProgressConfiguration *loadingProgressView;
 
 @end
 
@@ -149,6 +151,18 @@
     }
 }
 
+#pragma mark - setting loading progress view
+-(void)settingProgressView
+{
+    self.loadingProgressView = [KVNProgressConfiguration defaultConfiguration];
+    [KVNProgress setConfiguration:self.loadingProgressView];
+    self.loadingProgressView.backgroundType = KVNProgressBackgroundTypeBlurred;
+    self.loadingProgressView.fullScreen = YES;
+    self.loadingProgressView.minimumDisplayTime = 1;
+    
+    [KVNProgress showWithStatus:@"Processing...Please hold..."];
+}
+
 #pragma mark - login button
 -(void)stylingLoginButton
 {
@@ -166,6 +180,7 @@
     if (reachability.isReachable)
     {
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+        [self settingProgressView];
         [self loginUserViaEmail];
     }
     else
@@ -208,14 +223,23 @@
         [userDefaults setObject:successLoginViaEmail forKey:@"successLoginViaEmail"];
         [userDefaults synchronize];
         
-        [self performSegueWithIdentifier:@"ToDashboardFromEmailVC" sender:nil];
-        
+        [KVNProgress showSuccessWithStatus:@"Success!" completion:^{
+            [self performSegueWithIdentifier:@"ToDashboardFromEmailVC" sender:nil];
+        }];
+    
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-        
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"error %@ \r \r error localized:%@", error, [error localizedDescription]);
+        
+        [KVNProgress dismiss];
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble connecting with server. Please try again" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+        
     }];
 }
 

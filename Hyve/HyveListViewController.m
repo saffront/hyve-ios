@@ -166,11 +166,7 @@
     self.loadingProgressView.backgroundType = KVNProgressBackgroundTypeBlurred;
     self.loadingProgressView.fullScreen = YES;
     self.loadingProgressView.minimumDisplayTime = 1;
-    
-    self.loadingProgressView.tapBlock = ^(KVNProgress *progressView){
-        NSLog(@"Disconnect");
 
-    };
     
     [KVNProgress showWithStatus:@"Loading..."];
 }

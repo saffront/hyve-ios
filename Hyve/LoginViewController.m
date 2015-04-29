@@ -16,6 +16,7 @@
 #import <SimpleAuth/SimpleAuth.h>
 #import <GooglePlus/GooglePlus.h>
 #import <GoogleOpenSource/GoogleOpenSource.h>
+#import <KVNProgress.h>
 
 @interface LoginViewController () <GPPSignInDelegate>
 
@@ -25,6 +26,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *googlePlusButton;
 @property (strong, nonatomic) IBOutlet UILabel *loginLabelDescription;
 @property (strong, nonatomic) IBOutlet UIImageView *hyveLogoImageView;
+@property (nonatomic) KVNProgressConfiguration *loadingProgressView;
 
 @end
 
@@ -38,9 +40,6 @@
     [self stylingLoginButtons];
     [self stylingLabelDescription];
     [self stylingHyveLogoImageView];
-    
-    
-
 }
 
 #pragma mark - viewWillAppear
@@ -74,14 +73,6 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
-
-//
-//#pragma mark - viewWillDisappear
-//-(void)viewWillDisappear:(BOOL)animated
-//{
-//    [super viewWillDisappear:animated];
-//    self.navigationController.navigationBarHidden = NO;
-//}
 
 #pragma mark - styling login buttons
 -(void)stylingLoginButtons
@@ -125,6 +116,18 @@
     [self.hyveLogoImageView addMotionEffect:interpolationVertical];
 }
 
+#pragma mark - styling KVNProgressView
+-(void)settingProgressView
+{
+    self.loadingProgressView = [KVNProgressConfiguration defaultConfiguration];
+    [KVNProgress setConfiguration:self.loadingProgressView];
+    self.loadingProgressView.backgroundType = KVNProgressBackgroundTypeBlurred;
+    self.loadingProgressView.fullScreen = YES;
+    self.loadingProgressView.minimumDisplayTime = 1;
+    
+    [KVNProgress showWithStatus:@"Processing...Please hold..."];
+}
+
 #pragma mark - login with facebook
 - (IBAction)onLoginWithFacebookButtonPressed:(id)sender
 {
@@ -132,7 +135,9 @@
     
     if (reachability.isReachable)
     {
+        [self settingProgressView];
         [self loginWithFacebook];
+        
     }
     else
     {
@@ -167,24 +172,19 @@
                usernameWithoutWhiteSpace ,@"username",
                image,@"avatar",nil];
             
-            //without image, s3 issue. use the above when it's fixed
-//            NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",
-//                                                       uid,@"uid",
-//                                                       provider,@"provider",
-//                                                       first_name,@"first_name",
-//                                                       last_name,@"last_name",
-//                                                       usernameWithoutWhiteSpace ,@"username",
-//                                                       nil];
-
             [self registerUserToHyve:userInfoDictionary];
+
             
         }
         else
         {
             NSLog(@"error with login %@", [error localizedDescription]);
+            [KVNProgress dismiss];
             
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Login Error. Please do check your Settings to enable Facebook login.\r Here's a guide: 1. Settings \r 2.Facebook \r 3. Log in Facebook within Settings \r 4.Check to see if Facebook app is enabled \r 5.Login Hyve via Facebook" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [KVNProgress showErrorWithStatus:@"Yikes! Sorry..."];
+            }];
             [alertController addAction:okAction];
             [self presentViewController:alertController animated:YES completion:nil];
         }
@@ -209,15 +209,20 @@
         [userDefaults setObject:api_token forKey:@"api_token"];
         [userDefaults setObject:email forKey:@"email"];
         [userDefaults synchronize];
-    
-        [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
-        
+
+        [KVNProgress showSuccessWithStatus:@"Welcome to Hyve!" completion:^{
+            [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
+        }];
+
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"error %@ \r \r error localized:%@", error, [error localizedDescription]);
+        [KVNProgress dismiss];
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [KVNProgress showErrorWithStatus:@"Yikes! Sorry..."];
+        }];
         [alertController addAction:okAction];
         [self presentViewController:alertController animated:YES completion:nil];
     }];
@@ -230,6 +235,7 @@
     
     if (reachability.isReachable)
     {
+        [self settingProgressView];
         [self loginWithGooglePlus];
     }
     else

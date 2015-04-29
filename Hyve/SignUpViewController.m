@@ -14,6 +14,7 @@
 #import <Reachability.h>
 #import <GooglePlus/GooglePlus.h>
 #import <GoogleOpenSource/GoogleOpenSource.h>
+#import <KVNProgress.h>
 
 @interface SignUpViewController () <GPPSignInDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *emailTextField;
@@ -25,6 +26,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *facebookButton;
 @property (strong, nonatomic) IBOutlet UIButton *googlePlusButton;
 @property (strong, nonatomic) IBOutlet UITextField *passwordConfirmationTextField;
+@property (nonatomic) KVNProgressConfiguration *loadingProgressView;
 
 @end
 
@@ -197,6 +199,7 @@
                 
                 if (reachability.isReachable)
                 {
+                    [self settingProgressView];
                     [self assigningEmailLoginInfo];
                 }
                 else
@@ -252,7 +255,18 @@
             [self registerUserToHyve:userInfoDictionary];
         });
     }
+}
 
+#pragma mark - setting loading progress view
+-(void)settingProgressView
+{
+    self.loadingProgressView = [KVNProgressConfiguration defaultConfiguration];
+    [KVNProgress setConfiguration:self.loadingProgressView];
+    self.loadingProgressView.backgroundType = KVNProgressBackgroundTypeBlurred;
+    self.loadingProgressView.fullScreen = YES;
+    self.loadingProgressView.minimumDisplayTime = 1;
+    
+    [KVNProgress showWithStatus:@"Processing...Please hold..."];
 }
 
 #pragma mark - facebook
@@ -262,6 +276,7 @@
     
     if (reachability.isReachable)
     {
+        [self settingProgressView];
         [self loginWithFacebook];
     }
     else
@@ -295,7 +310,7 @@
                image,@"avatar",nil];
             
             [self registerUserToHyve:userInfoDictionary];
-            
+
         }
         else
         {
@@ -418,14 +433,22 @@
         [userDefaults setObject:successLoginViaEmail forKey:@"successLoginViaEmail"];
         [userDefaults synchronize];
         
-        [self performSegueWithIdentifier:@"ToDashboardVCFromSignUp" sender:nil];
-        
+        [KVNProgress showSuccessWithStatus:@"Success!" completion:^{
+            [self performSegueWithIdentifier:@"ToDashboardVCFromSignUp" sender:nil];
+        }];
+
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
+        [KVNProgress dismiss];
         NSLog(@"error %@ \r \r error localized:%@", error, [error localizedDescription]);
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble connecting to server. Plese try again" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
         
     }];
 }

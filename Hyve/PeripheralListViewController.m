@@ -360,7 +360,7 @@
         {
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"" preferredStyle:UIAlertControllerStyleAlert];
             [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-                textField.placeholder = NSLocalizedString(@"Email", @"Email action");
+                textField.placeholder = NSLocalizedString(@"Enter your registered email", @"Email action");
             }];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 UITextField *emailEntry = alertController.textFields.firstObject;
@@ -377,7 +377,6 @@
                     [alertController addAction:okAction];
                     
                     [self presentViewController:alertController animated:YES completion:nil];
-                    
                 }
                 self.uuidError = NO;
             }];

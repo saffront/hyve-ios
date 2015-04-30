@@ -27,6 +27,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *googlePlusButton;
 @property (strong, nonatomic) IBOutlet UITextField *passwordConfirmationTextField;
 @property (nonatomic) KVNProgressConfiguration *loadingProgressView;
+@property BOOL textFieldIsEmpty;
 
 @end
 
@@ -34,6 +35,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.textFieldIsEmpty = NO;
     self.title = @"Sign Up";
     
     [self assigningStyleToTextFields];
@@ -196,7 +198,7 @@
             else
             {
                 Reachability *reachability = [Reachability reachabilityWithHostname:@"www.google.com"];
-                
+            
                 if (reachability.isReachable)
                 {
                     [self settingProgressView];
@@ -226,20 +228,49 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:password forKey:@"userPassword"];
     
-    UIImage *defaultUserProfileImage = [UIImage imageNamed:@"jlaw"];
-    NSString *avatarImageString = [UIImagePNGRepresentation(defaultUserProfileImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-    NSString *avatarImageStringInSixtyFour = [NSString stringWithFormat:@"data:image/png;base64, (%@)", avatarImageString];
-    
-    if ([last_name isEqualToString:@""] ||
-        [first_name isEqualToString:@""] ||
-        [email isEqualToString:@""] ||
-        [password isEqualToString:@""] ||
-        [passwordConfirmation isEqualToString:@""] ||
-        passwordCharacterCount < 8)
+    for (UIView *textFields in self.view.subviews)
     {
-        [self alertMessageToUser:@"Please ensure all fields are entered"];
+        if ([textFields isKindOfClass:[UITextField class]])
+        {
+            UITextField *textField = (UITextField*)textFields;
+            
+            if ([textField.text isEqualToString:@""])
+            {
+                self.textFieldIsEmpty = YES;
+                break;
+            }
+        }
     }
-    else
+    
+    
+    if (self.textFieldIsEmpty == YES)
+    {
+        [KVNProgress dismiss];
+        
+        [self alertMessageToUser:@"Please ensure all fields are entered"];
+        self.textFieldIsEmpty = NO;
+    }
+    
+    if (passwordCharacterCount < 8)
+    {
+        [KVNProgress dismiss];
+        [self alertMessageToUser:@"Password length does not meet the required minimum length. Please ensure it has at least 8 characters"];
+    }
+    
+    
+//    if ([last_name isEqualToString:@""] ||
+//        [first_name isEqualToString:@""] ||
+//        [email isEqualToString:@""] ||
+//        [password isEqualToString:@""] ||
+//        [passwordConfirmation isEqualToString:@""] ||
+//        passwordCharacterCount < 8)
+//    {
+//        [KVNProgress dismiss];
+//        
+//        [self alertMessageToUser:@"Please ensure all fields are entered"];
+//    }
+//    else
+    if (passwordCharacterCount > 8 && self.textFieldIsEmpty == NO)
     {
         NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",
                                       provider,@"provider",
@@ -334,6 +365,7 @@
     
     if (reachability.isReachable)
     {
+        [self settingProgressView];
         [self loginWithGooglePlus];
     }
     else
@@ -380,7 +412,6 @@
              }
              else
              {
-                 //                NSLog(@"person display name: %@ \r person.aboutMe %@ \r birthday %@ \r gender: %@ \r familyName: %@ \r givenName %@ \r identifier %@ \r emails: %@", person.displayName, person.aboutMe, person.birthday, person.gender, person.name.familyName, person.name.givenName, person.identifier, [GPPSignIn sharedInstance].authentication.userEmail);
                  
                  NSString *email = [GPPSignIn sharedInstance].authentication.userEmail;
                  NSString *uid = person.identifier;
@@ -472,7 +503,11 @@
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:alertMessage preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
     [alertController addAction:okAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+    
+    if (self.presentedViewController == nil)
+    {
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
 }
 
 #pragma mark - dismiss keyboard upon touch

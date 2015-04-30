@@ -212,7 +212,6 @@
                 [self stylingUsernameTextField:self.user];
                 [self stylingEmailTextField:self.user];
                 [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-//                [self.loadingIndicator finish];
                 [KVNProgress showSuccessWithStatus:@"Success!"];
             });
         });
@@ -222,8 +221,13 @@
         
         if (error)
         {
-//            [self.loadingIndicator dismiss];
             [KVNProgress dismiss];
+            
+            NSURL *imageURL = [NSURL URLWithString:self.user.avatarURLString];
+            NSData *imageURLData = [NSData dataWithContentsOfURL:imageURL];
+            UIImage *userAvatar = [UIImage imageWithData:imageURLData];
+            
+            [self.userAvatar setImage:userAvatar forState:UIControlStateNormal];
             
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];

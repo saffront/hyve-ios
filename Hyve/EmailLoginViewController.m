@@ -214,6 +214,8 @@
     
     [manager POST:hyveURLString parameters:userInfoDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
+        
+        
         NSString *api_token = [responseObject valueForKeyPath:@"api_token"];
         NSString *successLoginViaEmail = @"successLoginViaEmail";
         NSString *email = [responseObject valueForKeyPath:@"user_session.user.email"];
@@ -223,10 +225,9 @@
         [userDefaults setObject:successLoginViaEmail forKey:@"successLoginViaEmail"];
         [userDefaults synchronize];
         
-        [KVNProgress showSuccessWithStatus:@"Success!" completion:^{
-            [self performSegueWithIdentifier:@"ToDashboardFromEmailVC" sender:nil];
-        }];
-    
+        [KVNProgress showSuccessWithStatus:@"Success!"];
+        [self performSegueWithIdentifier:@"ToDashboardFromEmailVC" sender:nil];
+        
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

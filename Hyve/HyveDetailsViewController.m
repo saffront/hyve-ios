@@ -163,7 +163,6 @@
       [UIFont fontWithName:@"OpenSans-SemiBold" size:21],
       NSFontAttributeName, nil]];
     
-//    [self settingUpLoadingIndicator];
     [self settingUpLoadingProgressView];
 }
 
@@ -178,34 +177,7 @@
     [KVNProgress showWithStatus:@"Loading..."];
 }
 
-#pragma mark - loading indicator
--(void)settingUpLoadingIndicator
-{
-    self.loadingIndicator = [MBLoadingIndicator new];
-    [self.loadingIndicator setBackColor:[UIColor colorWithRed:0.20 green:0.20 blue:0.20 alpha:1]];
-    [self.loadingIndicator setOuterLoaderBuffer:5.0];
-    [self.loadingIndicator setLoaderBackgroundColor:[UIColor whiteColor]];
-    [self.loadingIndicator setLoadedColor:[UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1]];
-    [self.loadingIndicator setStartPosition:MBLoaderTop];
-    [self.loadingIndicator setAnimationSpeed:MBLoaderSpeedMiddle];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        [self.loadingIndicator start];
-        int count = 0;
-        
-        while (count++ < 2)
-        {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(count * 1.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                
-                [self.loadingIndicator incrementPercentageBy:20];
-            });
-        }
-        [self.view addSubview:self.loadingIndicator];
-        
-    });
-}
-
+#pragma mark - retrieve hyve image from server
 -(void)retrieveHyveImageFromServer
 {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];

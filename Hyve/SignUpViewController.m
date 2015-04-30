@@ -15,6 +15,7 @@
 #import <GooglePlus/GooglePlus.h>
 #import <GoogleOpenSource/GoogleOpenSource.h>
 #import <KVNProgress.h>
+#import <AFNetworking.h>
 
 @interface SignUpViewController () <GPPSignInDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *emailTextField;
@@ -44,6 +45,63 @@
     [self stylingRegistrationOptionLabel];
     [self stylingFacebookButton];
     [self stylingGooglePlusButton];
+    [self connected];
+}
+
+#pragma mark - connected
+-(BOOL)connected
+{
+    __block BOOL reachable;
+    
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        
+        switch (status) {
+            case AFNetworkReachabilityStatusNotReachable:
+            {
+                NSLog(@"not reachable");
+                reachable = NO;
+                
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Internet unavailable. Please connect to the Internet" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                [alertController addAction:okAction];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self presentViewController:alertController animated:YES completion:nil];
+                });
+                break;
+            }
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+            {
+                NSLog(@"reachable with wifi");
+                reachable = YES;
+                break;
+            }
+            case AFNetworkReachabilityStatusReachableViaWWAN:
+            {
+                NSLog(@"reachable via WWAN");
+                reachable = YES;
+                break;
+            }
+            default:
+            {
+                NSLog(@"Unkown internet status");
+                reachable = NO;
+                
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Internet unavailable. Please connect to the Internet" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                [alertController addAction:okAction];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self presentViewController:alertController animated:YES completion:nil];
+                });
+                break;
+            }
+        }
+    }];
+    
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    
+    return reachable;
 }
 
 #pragma mark - viewWillAppear

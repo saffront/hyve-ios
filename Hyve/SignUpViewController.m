@@ -424,22 +424,39 @@
     
     [manager POST:hyveURLString parameters:userInfoDictionaryJSON success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        NSString *api_token = [responseObject valueForKeyPath:@"api_token"];
-        NSString *successLoginViaEmail = @"successLoginViaEmail";
-        NSString *email = [responseObject valueForKeyPath:@"user_session.user.email"];
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults setObject:api_token forKey:@"api_token"];
-        [userDefaults setObject:email forKey:@"email"];
-        [userDefaults setObject:successLoginViaEmail forKey:@"successLoginViaEmail"];
-        [userDefaults synchronize];
         
-        [KVNProgress showSuccessWithStatus:@"Success!" completion:^{
-            [self performSegueWithIdentifier:@"ToDashboardVCFromSignUp" sender:nil];
-        }];
-
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        NSString *errorText = [[responseObject valueForKeyPath:@"errors.email"] objectAtIndex:0];
         
+        NSArray *errorArray = [responseObject valueForKeyPath:@"errors.email"];
         
+        if (errorArray.count > 0)
+        {
+            [KVNProgress dismiss];
+            
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"You already have an established acccount with Hyve. You can go ahead and use the login functionality." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okACtion = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
+            [alertController addAction:okACtion];
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
+        else
+        {
+            NSString *api_token = [responseObject valueForKeyPath:@"api_token"];
+            NSString *successLoginViaEmail = @"successLoginViaEmail";
+            NSString *email = [responseObject valueForKeyPath:@"user_session.user.email"];
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults setObject:api_token forKey:@"api_token"];
+            [userDefaults setObject:email forKey:@"email"];
+            [userDefaults setObject:successLoginViaEmail forKey:@"successLoginViaEmail"];
+            [userDefaults synchronize];
+            
+            [KVNProgress showSuccessWithStatus:@"Success!" completion:^{
+                [self performSegueWithIdentifier:@"ToDashboardVCFromSignUp" sender:nil];
+            }];
+            
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         [KVNProgress dismiss];

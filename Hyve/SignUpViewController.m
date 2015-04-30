@@ -424,9 +424,6 @@
     
     [manager POST:hyveURLString parameters:userInfoDictionaryJSON success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        
-        NSString *errorText = [[responseObject valueForKeyPath:@"errors.email"] objectAtIndex:0];
-        
         NSArray *errorArray = [responseObject valueForKeyPath:@"errors.email"];
         
         if (errorArray.count > 0)
@@ -451,9 +448,8 @@
             [userDefaults setObject:successLoginViaEmail forKey:@"successLoginViaEmail"];
             [userDefaults synchronize];
             
-            [KVNProgress showSuccessWithStatus:@"Success!" completion:^{
-                [self performSegueWithIdentifier:@"ToDashboardVCFromSignUp" sender:nil];
-            }];
+            [KVNProgress showSuccessWithStatus:@"Success!"];
+            [self performSegueWithIdentifier:@"ToDashboardVCFromSignUp" sender:nil];
             
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         }

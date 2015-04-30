@@ -164,13 +164,14 @@
             NSString *usernameWithoutWhiteSpace = [[username stringByReplacingOccurrencesOfString:@" " withString:@""]lowercaseString];
             NSString *image = [responseObject valueForKeyPath:@"info.image"];
 
-            NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",
-               uid,@"uid",
-               provider,@"provider",
-               first_name,@"first_name",
-               last_name,@"last_name",
-               usernameWithoutWhiteSpace ,@"username",
-               image,@"avatar",nil];
+            NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                       email,@"email",
+                                                       uid,@"uid",
+                                                       provider,@"provider",
+                                                       first_name,@"first_name",
+                                                       last_name,@"last_name",
+                                                       usernameWithoutWhiteSpace ,@"username",
+                                                       image,@"avatar",nil];
             
             [self registerUserToHyve:userInfoDictionary];
 
@@ -203,17 +204,30 @@
     
     [manager POST:hyveURLString parameters:userInfoDictionaryJSON success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        NSString *api_token = [responseObject valueForKeyPath:@"api_token"];
-        NSString *email = [responseObject valueForKeyPath:@"user_session.user.email"];
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults setObject:api_token forKey:@"api_token"];
-        [userDefaults setObject:email forKey:@"email"];
-        [userDefaults synchronize];
-
-        [KVNProgress showSuccessWithStatus:@"Welcome to Hyve!" completion:^{
+        NSArray *errorArray = [responseObject valueForKeyPath:@"errors.email"];
+        
+        if (errorArray.count > 0)
+        {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"There seem to be an account error. Please ensure account has been registered" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
+            [alertController addAction:okAction];
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
+        else
+        {
+            NSString *api_token = [responseObject valueForKeyPath:@"api_token"];
+            NSString *email = [responseObject valueForKeyPath:@"user_session.user.email"];
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults setObject:api_token forKey:@"api_token"];
+            [userDefaults setObject:email forKey:@"email"];
+            [userDefaults synchronize];
+            
+            [KVNProgress showSuccessWithStatus:@"Welcome to Hyve!"];
             [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
-        }];
 
+        }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"error %@ \r \r error localized:%@", error, [error localizedDescription]);

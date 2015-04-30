@@ -171,7 +171,14 @@
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     self.password.alpha = 0;
-                    [self.userAvatar.imageView setImageWithURL:[NSURL URLWithString:self.user.avatarURLString] placeholderImage:[UIImage imageNamed:@"defaultUserProfileImage"]];
+                    
+                    NSURL *imageURL = [NSURL URLWithString:self.user.avatarURLString];
+                    NSData *imageURLData = [NSData dataWithContentsOfURL:imageURL];
+                    UIImage *userAvatar = [UIImage imageWithData:imageURLData];
+                    
+                    [self.userAvatar setImage:userAvatar forState:UIControlStateNormal];
+                    
+//                    [self.userAvatar.imageView setImageWithURL:[NSURL URLWithString:self.user.avatarURLString] placeholderImage:[UIImage imageNamed:@"defaultUserProfileImage"]];
                 });
             }
             else
@@ -661,7 +668,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"user" object:userInfoDictionary];
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
-        [KVNProgress showSuccessWithStatus:@"Saved profile info"];
+        [KVNProgress showSuccessWithStatus:@"Saved profile info!"];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 

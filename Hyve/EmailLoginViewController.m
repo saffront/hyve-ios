@@ -11,6 +11,7 @@
 #import <AFNetworking.h>
 #import <Reachability.h>
 #import <KVNProgress.h>
+#import <POP.h>
 
 @interface EmailLoginViewController() <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
@@ -18,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (nonatomic) KVNProgressConfiguration *loadingProgressView;
+@property BOOL emptyTextField;
 
 @end
 
@@ -25,12 +27,73 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+
     self.title = @"Login";
+    
+    self.emptyTextField = NO;
     [self stylingBackgroundView];
     [self settingUpHyveImageLogo];
     [self stylingTextField:self.emailTextField];
     [self stylingTextField:self.passwordTextField];
     [self stylingLoginButton];
+    [self connected];
+}
+
+#pragma mark - connected
+-(BOOL)connected
+{
+    __block BOOL reachable;
+    
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        
+        switch (status) {
+            case AFNetworkReachabilityStatusNotReachable:
+            {
+                NSLog(@"not reachable");
+                reachable = NO;
+                
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Internet unavailable. Please connect to the Internet" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                [alertController addAction:okAction];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self presentViewController:alertController animated:YES completion:nil];
+                });
+                break;
+            }
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+            {
+                NSLog(@"reachable with wifi");
+                reachable = YES;
+                break;
+            }
+            case AFNetworkReachabilityStatusReachableViaWWAN:
+            {
+                NSLog(@"reachable via WWAN");
+                reachable = YES;
+                break;
+            }
+            default:
+            {
+                NSLog(@"Unkown internet status");
+                reachable = NO;
+                
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Internet unavailable. Please connect to the Internet" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                [alertController addAction:okAction];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self presentViewController:alertController animated:YES completion:nil];
+                });
+                break;
+            }
+        }
+    }];
+    
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    
+    return reachable;
 }
 
 #pragma mark - setting up hyve image logo
@@ -175,20 +238,53 @@
 
 - (IBAction)onLoginButtonPressed:(id)sender
 {
-    Reachability *reachability = [Reachability reachabilityWithHostName:@"www.google.com"];
-    
-    if (reachability.isReachable)
+    for (UIView *theView in self.view.subviews)
     {
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-        [self settingProgressView];
-        [self loginUserViaEmail];
+        if ([theView isKindOfClass:[UITextField class]])
+        {
+            UITextField *textField = (UITextField*)theView;
+            
+            if ([textField.text isEqualToString:@""])
+            {
+                self.emptyTextField = YES;
+                break;
+            }
+        }
     }
-    else
+    
+    if (self.emptyTextField == YES)
     {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Please ensure both fields are entered" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
         [alertController addAction:okAction];
         [self presentViewController:alertController animated:YES completion:nil];
+        
+        POPSpringAnimation *shakeEmptyTextField = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+        shakeEmptyTextField.springBounciness = 20;
+        shakeEmptyTextField.velocity = @(2000);
+        shakeEmptyTextField.name = @"shake";
+        
+        [self.emailTextField pop_addAnimation:shakeEmptyTextField forKey:shakeEmptyTextField.name];
+        [self.passwordTextField pop_addAnimation:shakeEmptyTextField forKey:shakeEmptyTextField.name];
+        self.emptyTextField = NO;
+    }
+    else
+    {
+        Reachability *reachability = [Reachability reachabilityWithHostName:@"www.google.com"];
+        
+        if (reachability.isReachable)
+        {
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+            [self settingProgressView];
+            [self loginUserViaEmail];
+        }
+        else
+        {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            [alertController addAction:okAction];
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
     }
 }
 
@@ -197,7 +293,7 @@
     NSString *email = self.emailTextField.text;
     NSString *password = self.passwordTextField.text;
     NSString *provider = @"email";
-    
+ 
     NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                email,@"email",
                                                provider,@"provider",
@@ -214,22 +310,35 @@
     
     [manager POST:hyveURLString parameters:userInfoDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
+        NSString *errorTextFromRails = [responseObject valueForKeyPath:@"error"];
+        NSString *checkingForError = @"User not found, please check your parameters.";
         
-        
-        NSString *api_token = [responseObject valueForKeyPath:@"api_token"];
-        NSString *successLoginViaEmail = @"successLoginViaEmail";
-        NSString *email = [responseObject valueForKeyPath:@"user_session.user.email"];
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults setObject:email forKey:@"email"];
-        [userDefaults setObject:api_token forKey:@"api_token"];
-        [userDefaults setObject:successLoginViaEmail forKey:@"successLoginViaEmail"];
-        [userDefaults synchronize];
-        
-        [KVNProgress showSuccessWithStatus:@"Success!"];
-        [self performSegueWithIdentifier:@"ToDashboardFromEmailVC" sender:nil];
-        
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-        
+        if ([checkingForError isEqualToString:errorTextFromRails])
+        {
+            [KVNProgress dismiss];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"There seem to be an account error. Please ensure account has been registered" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
+            [alertController addAction:okAction];
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
+        else
+        {
+            NSString *api_token = [responseObject valueForKeyPath:@"api_token"];
+            NSString *successLoginViaEmail = @"successLoginViaEmail";
+            NSString *email = [responseObject valueForKeyPath:@"user_session.user.email"];
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults setObject:email forKey:@"email"];
+            [userDefaults setObject:api_token forKey:@"api_token"];
+            [userDefaults setObject:successLoginViaEmail forKey:@"successLoginViaEmail"];
+            [userDefaults synchronize];
+            
+            [KVNProgress showSuccessWithStatus:@"Success!"];
+            [self performSegueWithIdentifier:@"ToDashboardFromEmailVC" sender:nil];
+            
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"error %@ \r \r error localized:%@", error, [error localizedDescription]);

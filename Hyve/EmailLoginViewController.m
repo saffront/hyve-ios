@@ -280,6 +280,7 @@
         }
         else
         {
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
             [alertController addAction:okAction];
@@ -300,13 +301,14 @@
                                                password,@"password",
                                                nil];
     
+    
     NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/user_sessions"];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [manager.requestSerializer setValue:@"application/json; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
-    manager.requestSerializer.timeoutInterval = 20;
+    [manager.requestSerializer setTimeoutInterval:20];
     
     [manager POST:hyveURLString parameters:userInfoDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -316,6 +318,7 @@
         if ([checkingForError isEqualToString:errorTextFromRails])
         {
             [KVNProgress dismiss];
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"There seem to be an account error. Please ensure account has been registered" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 [self.navigationController popViewControllerAnimated:YES];
@@ -334,16 +337,17 @@
             [userDefaults setObject:successLoginViaEmail forKey:@"successLoginViaEmail"];
             [userDefaults synchronize];
             
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
             [KVNProgress showSuccessWithStatus:@"Success!"];
             [self performSegueWithIdentifier:@"ToDashboardFromEmailVC" sender:nil];
             
-            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"error %@ \r \r error localized:%@", error, [error localizedDescription]);
         
         [KVNProgress dismiss];
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble connecting with server. Please try again" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];

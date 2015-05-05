@@ -518,6 +518,7 @@
         if (errorArray.count > 0)
         {
             [KVNProgress dismiss];
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
             
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"You already have an established acccount with Hyve. You can go ahead and use the login functionality." preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *okACtion = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -545,6 +546,7 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         [KVNProgress dismiss];
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         NSLog(@"error %@ \r \r error localized:%@", error, [error localizedDescription]);
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble connecting to server. Plese try again" preferredStyle:UIAlertControllerStyleAlert];

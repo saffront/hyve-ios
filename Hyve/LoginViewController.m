@@ -240,6 +240,7 @@
         {
             NSLog(@"error with login %@", [error localizedDescription]);
             [KVNProgress dismiss];
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
             
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Login Error. Please do check your Settings to enable Facebook login.\r Here's a guide: 1. Settings \r 2.Facebook \r 3. Log in Facebook within Settings \r 4.Check to see if Facebook app is enabled \r 5.Login Hyve via Facebook" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -284,6 +285,7 @@
             [userDefaults synchronize];
             
             [KVNProgress showSuccessWithStatus:@"Welcome to Hyve!"];
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
             [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];
 
         }
@@ -291,6 +293,7 @@
         
         NSLog(@"error %@ \r \r error localized:%@", error, [error localizedDescription]);
         [KVNProgress dismiss];
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {

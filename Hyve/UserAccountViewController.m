@@ -191,13 +191,11 @@
         {
             [KVNProgress dismiss];
             
-            NSURL *imageURL = [NSURL URLWithString:self.user.avatarURLString];
-            NSData *imageURLData = [NSData dataWithContentsOfURL:imageURL];
-            UIImage *userAvatar = [UIImage imageWithData:imageURLData];
+            UIImage *defaultUserProfileImage = [UIImage imageNamed:@"defaultUserProfileImage"];
             
-            [self.userAvatar setImage:userAvatar forState:UIControlStateNormal];
+            [self.userAvatar setImage:defaultUserProfileImage forState:UIControlStateNormal];
             
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity. Unable to retrieve user info" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
             [alertController addAction:okAction];
             [self presentViewController:alertController animated:YES completion:nil];
@@ -642,7 +640,7 @@
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
-    manager.requestSerializer.timeoutInterval = 20;
+    [manager.requestSerializer setTimeoutInterval:20];
     
     [manager PATCH:hyveUserAccountString parameters:savedUserInfo success:^(AFHTTPRequestOperation *operation, id responseObject) {
         

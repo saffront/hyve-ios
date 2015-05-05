@@ -45,7 +45,6 @@
     self.firstTimeRunning = YES;
     [self stylingNavigationBar];
     [self stylingBackgroundView];
-//    [self connectToHyveServerToRetrievePairedHyve];
 }
 
 #pragma mark - detectingHyveLabel at intro
@@ -75,6 +74,8 @@
     [self detectingHyveLabelAtIntro];
     self.isHyveButtonPressed = NO;
     
+    [self notFirstTimeRunningApp];
+    
 }
 
 #pragma mark - viewWillDisappear
@@ -82,14 +83,12 @@
 {
     [super viewWillDisappear:animated];
     self.navigationController.navigationBarHidden = NO;
-    
-    self.firstTimeRunning = NO;
+
 }
 
 #pragma mark - styling navigation bar
 -(void)stylingNavigationBar
 {
-    
     UIImage *backButtonImage = [UIImage imageNamed:@"backButton"];
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton setFrame:CGRectMake(0, 0, 100, 30)];
@@ -97,9 +96,6 @@
     
     UIBarButtonItem *backButtonOnBar = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     self.navigationItem.leftBarButtonItem = backButtonOnBar;
-    
-//    self.navigationController.navigationBar.topItem.backBarButtonItem = [[UIBarButtonItem alloc]
-//                                                                         initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     UIFont *font = [UIFont fontWithName:@"OpenSans-SemiBold" size:18];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
@@ -122,6 +118,15 @@
     if (self.isHyveButtonPressed == NO)
     {
         [self displayBluetoothNetworkDetectionIndicator];
+        
+        NSString *notFirstTimeUsingAppString = @"notFirstTime";
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:notFirstTimeUsingAppString forKey:@"notFirstTime"];
+        [userDefaults synchronize];
+//        self.firstTimeRunning = NO;
+//        
+//        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//        [userDefaults setBool:self.firstTimeRunning forKey:@"firstTimeRunning"];
     }
 }
 
@@ -164,7 +169,6 @@
 }
 
 #pragma mark - Core Bluetooth
-
 //check to see if Bluetooth is on
 -(void)centralManagerDidUpdateState:(CBCentralManager *)central
 {
@@ -206,13 +210,6 @@
 
 
     NSLog(@"self.peripheralMutableArray.count %lu", (unsigned long)self.peripheralMutableArray.count);
-
-//    if ([peripheral.name isEqualToString:@"VLT’s MacBook Pro"])
-//    {
-//        self.peripheral = peripheral;
-//        [self.centralManager stopScan];
-//        [self performSegueWithIdentifier:@"ShowPeripheralsList" sender:nil];
-//    }
 }
 
 -(void)timeoutScanningForHyve
@@ -249,6 +246,33 @@
     
     NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves"];
     
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+    [manager.requestSerializer setTimeoutInterval:20];
+    
+    [manager GET:hyveURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"responseObject \r  %@", responseObject);
+        NSDictionary *hyveDictionary = responseObject;
+        NSArray *hyveArray = [hyveDictionary valueForKeyPath:@"hyves"];
+        
+        
+        for (NSDictionary *hyveDictionaries in hyveArray)
+        {
+            NSLog(@"hyveDictionaries %@", hyveDictionaries);
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"Error %@", error);
+    }];
+    
+    
+/*
     NSURL *url = [NSURL URLWithString:hyveURLString];
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
     [urlRequest setHTTPMethod:@"GET"];
@@ -267,44 +291,23 @@
             NSDictionary *theJSONDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
             NSLog(@"theJSONDictionary : \r %@", theJSONDictionary);
         }
-        
     }];
-    
-//    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:urlRequest];
-//    operation.responseSerializer = [AFJSONResponseSerializer serializer];
-//    
-//    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        
-//        NSLog(@"responseObject %@", responseObject);
-//        
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//       
-//        NSLog(@"error %@ \r\r localizedError %@", error, [error localizedDescription]);
-//        
-//    }];
-//    [operation start];
-    
-    
-    
-//    NSURL *hyveURL = [NSURL URLWithString:hyveURLString];
-//    NSURLRequest *hyveURLRequest = [NSURLRequest requestWithURL:hyveURL];
-//    
-//    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:hyveURLRequest];
-//    operation.responseSerializer = [AFJSONResponseSerializer serializer];
-//    
-//    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        
-//        NSLog(@"responseObject %@", responseObject);
-//        
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        
-//        NSLog(@"error to GET HYVE PAIRED %@ \r\r %@", error, [error localizedDescription]);
-//        
-//    }];
-//    
-//    [operation start];
+*/
 }
 
+#pragma mark - not first time user
+-(void)notFirstTimeRunningApp
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *notFirstTime = [userDefaults objectForKey:@"notFirstTime"];
+    
+    if ([notFirstTime isEqualToString:@"notFirstTime"])
+    {
+        [self connectToHyveServerToRetrievePairedHyve];
+    }
+}
+
+#pragma mark - segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     PeripheralListViewController *plvc = segue.destinationViewController;
@@ -312,6 +315,8 @@
     plvc.centralManager = self.centralManager;
     plvc.peripheralMutableArray = self.peripheralMutableArray;
     [self.hyveButton.imageView stopAnimating];
+
+    
 }
 
 

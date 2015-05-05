@@ -61,7 +61,6 @@
     self.hyveIsFound = NO;
     self.mutableNewArray = [NSMutableArray new];
     self.scannedNewHyveMutableArray = [NSMutableArray new];
-//    self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     self.centralManager.delegate = self;
     
     self.fromUserAccountVC = NO;
@@ -71,7 +70,6 @@
     [self stylingBackgroundView];
     [self stylingNavigationBar];
     [self stylingHyveListTableView];
-//    [self stylingSwarmHyveButton];
     [self settingLoadingProgressView];
     
     [self connected];
@@ -165,7 +163,6 @@
     self.loadingProgressView.backgroundType = KVNProgressBackgroundTypeBlurred;
     self.loadingProgressView.fullScreen = YES;
     self.loadingProgressView.minimumDisplayTime = 1;
-
     
     [KVNProgress showWithStatus:@"Loading..."];
 }
@@ -243,7 +240,7 @@
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
-    manager.requestSerializer.timeoutInterval = 20;
+    [manager.requestSerializer setTimeoutInterval:20];
     
     [manager PATCH:hyveUserAccountString parameters:hyveDictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -336,6 +333,7 @@
         }];
         [alertController addAction:okAction];
         [self presentViewController:alertController animated:YES completion:nil];
+        
     }
 }
 
@@ -348,13 +346,27 @@
     
     NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/account"];
     
+    Reachability *reachability = [Reachability reachabilityWithHostName:@"www.google.com"];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
-    manager.requestSerializer.timeoutInterval = 20;
+    if (reachability.isReachable)
+    {
+        manager.responseSerializer = [AFJSONResponseSerializer serializer];
+        manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+        [manager.requestSerializer setTimeoutInterval:20];
+    }
+    else
+    {
+        manager.responseSerializer = [AFJSONResponseSerializer serializer];
+        manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
+        [manager.requestSerializer setTimeoutInterval:20];
+        [manager.requestSerializer setCachePolicy:NSURLRequestReturnCacheDataElseLoad];
+    }
     
     [manager GET:hyveURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -415,7 +427,7 @@
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
-    manager.requestSerializer.timeoutInterval = 20;
+    [manager.requestSerializer setTimeoutInterval:20];
     
     [manager GET:hyveURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -426,12 +438,7 @@
             NSArray *hyvesArray = [responseObject valueForKeyPath:@"user.hyves"];
             
             for (NSDictionary *pairedHyves in hyvesArray)
-            {
-//                Hyve *hyve = [Hyve new];
-//                hyve.peripheralName = [pairedHyves valueForKeyPath:@"name"];
-//                hyve.peripheralRSSI = [pairedHyves valueForKeyPath:@"distance"];
-//                hyve.hyveID = [pairedHyves valueForKeyPath:@"id"];
-                
+            {                
                 NSString *peripheralUUIDStringFromHyveServer = [pairedHyves valueForKeyPath:@"uuid"];
                 
                 if ([peripheralUUIDStringFromHyveServer isEqualToString:hyve.peripheralUUIDString])
@@ -484,6 +491,7 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        [KVNProgress dismiss];
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity. Info may not be real time" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
@@ -508,7 +516,7 @@
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
-    manager.requestSerializer.timeoutInterval = 20;
+    [manager.requestSerializer setTimeoutInterval:20];
     
     [manager GET:hyveURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -877,23 +885,6 @@
 {
     return UITableViewCellEditingStyleDelete;
 }
-
-//-(NSArray*)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    
-//    UITableViewRowAction *disconnectAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"X \r\r Disconnect" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-//        
-//        CBPeripheral *peripheralToBeDisconnected = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
-//        [self.centralManager cancelPeripheralConnection:peripheralToBeDisconnected];
-//        [self.hyveListTable reloadData];
-//        
-//    }];
-//    disconnectAction.backgroundColor = [UIColor clearColor];
-//    [[UIButton appearance] setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-//    
-//    return @[disconnectAction];
-//    
-//}
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {

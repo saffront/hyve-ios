@@ -67,7 +67,6 @@
     self.fromUserAccountVC = NO;
     self.patchedSwarmInfo = NO;
     self.releasedSwarmButton = NO;
-//    [self settingUpLoadingIndicator];
     [self connectToHyve];
     [self stylingBackgroundView];
     [self stylingNavigationBar];
@@ -486,7 +485,7 @@
         
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity. Unable to save pairing info" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity. Info may not be real time" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
         [alertController addAction:okAction];
         [self presentViewController:alertController animated:YES completion:nil];

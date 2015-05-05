@@ -310,11 +310,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/UserAccountViewController.m"
-            timestampString = "452070364.780606"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "233"
-            endingLineNumber = "233"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "-retrieveUserAccountInfo"
             landmarkType = "5">
          </BreakpointContent>
@@ -326,11 +326,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/UserAccountViewController.m"
-            timestampString = "452070364.780606"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
+            startingLineNumber = "203"
+            endingLineNumber = "203"
             landmarkName = "-retrieveUserAccountInfo"
             landmarkType = "5">
          </BreakpointContent>
@@ -436,11 +436,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "254"
-            endingLineNumber = "254"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
             landmarkName = "-updateHyveProximityToHyveServerViaSwarm:peripheral:"
             landmarkType = "5">
          </BreakpointContent>
@@ -532,12 +532,12 @@
                   moduleName = "Hyve"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/HyveDetailsViewController.m"
-                  timestampString = "452081436.77448"
+                  timestampString = "452499099.042324"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "899"
                   endingLineNumber = "899"
-                  offsetFromSymbolStart = "1660">
+                  offsetFromSymbolStart = "18">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -547,7 +547,7 @@
                   moduleName = "Hyve"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/HyveDetailsViewController.m"
-                  timestampString = "452081436.77465"
+                  timestampString = "452499099.042471"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "899"
@@ -612,11 +612,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/UserAccountViewController.m"
-            timestampString = "452070364.780606"
+            timestampString = "452493837.075015"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "508"
-            endingLineNumber = "508"
+            startingLineNumber = "493"
+            endingLineNumber = "493"
             landmarkName = "-transferToS3:"
             landmarkType = "5">
          </BreakpointContent>
@@ -628,11 +628,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/UserAccountViewController.m"
-            timestampString = "452070364.780606"
+            timestampString = "452493837.075015"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "513"
-            endingLineNumber = "513"
+            startingLineNumber = "498"
+            endingLineNumber = "498"
             landmarkName = "-transferToS3:"
             landmarkType = "5">
          </BreakpointContent>
@@ -644,11 +644,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/UserAccountViewController.m"
-            timestampString = "452070364.780606"
+            timestampString = "452493837.075015"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "451"
-            endingLineNumber = "451"
+            startingLineNumber = "436"
+            endingLineNumber = "436"
             landmarkName = "-connectToAmazonS3:"
             landmarkType = "5">
          </BreakpointContent>
@@ -660,27 +660,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/UserAccountViewController.m"
-            timestampString = "452070364.780606"
+            timestampString = "452493837.075015"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "440"
-            endingLineNumber = "440"
-            landmarkName = "-onEditOrSaveProfileButtonPressed:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Hyve/UserAccountViewController.m"
-            timestampString = "452070364.780606"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "540"
-            endingLineNumber = "540"
+            startingLineNumber = "525"
+            endingLineNumber = "525"
             landmarkName = "-downloadUserAvatarURLFromS3:"
             landmarkType = "5">
          </BreakpointContent>
@@ -692,11 +676,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/UserAccountViewController.m"
-            timestampString = "452070364.780606"
+            timestampString = "452493837.075015"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "579"
-            endingLineNumber = "579"
+            startingLineNumber = "564"
+            endingLineNumber = "564"
             landmarkName = "-sendSavedUserInfoToHyve:"
             landmarkType = "5">
          </BreakpointContent>
@@ -708,11 +692,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/UserAccountViewController.m"
-            timestampString = "452070364.780606"
+            timestampString = "452493837.075015"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "599"
-            endingLineNumber = "599"
+            startingLineNumber = "584"
+            endingLineNumber = "584"
             landmarkName = "-sendSavedUserInfoToHyve:"
             landmarkType = "5">
          </BreakpointContent>
@@ -724,11 +708,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/UserAccountViewController.m"
-            timestampString = "452070364.780606"
+            timestampString = "452493837.075015"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "473"
-            endingLineNumber = "473"
+            startingLineNumber = "458"
+            endingLineNumber = "458"
             landmarkName = "-submitAndRetrieveUserImageToAndFromS3:"
             landmarkType = "5">
          </BreakpointContent>
@@ -756,11 +740,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
+            startingLineNumber = "220"
+            endingLineNumber = "220"
             landmarkName = "-updateHyveProximityToHyveServerViaSwarm:peripheral:"
             landmarkType = "5">
          </BreakpointContent>
@@ -772,11 +756,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/UserAccountViewController.m"
-            timestampString = "452070364.780606"
+            timestampString = "452493837.075015"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "674"
-            endingLineNumber = "674"
+            startingLineNumber = "659"
+            endingLineNumber = "659"
             landmarkName = "-savingUserProfileEditField:"
             landmarkType = "5">
          </BreakpointContent>
@@ -788,11 +772,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/UserAccountViewController.m"
-            timestampString = "452070364.780606"
+            timestampString = "452493837.075015"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "680"
-            endingLineNumber = "680"
+            startingLineNumber = "665"
+            endingLineNumber = "665"
             landmarkName = "-savingUserProfileEditField:"
             landmarkType = "5">
          </BreakpointContent>
@@ -836,11 +820,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1064"
-            endingLineNumber = "1064">
+            startingLineNumber = "1063"
+            endingLineNumber = "1063">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -850,11 +834,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1061"
-            endingLineNumber = "1061">
+            startingLineNumber = "1060"
+            endingLineNumber = "1060">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -864,11 +848,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "390"
-            endingLineNumber = "390"
+            startingLineNumber = "389"
+            endingLineNumber = "389"
             landmarkName = "-retrieveUserInfoAndPairedHyve"
             landmarkType = "5">
          </BreakpointContent>
@@ -880,11 +864,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "201"
-            endingLineNumber = "201"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
             landmarkName = "-holdOntoSwarmButton"
             landmarkType = "5">
          </BreakpointContent>
@@ -1072,11 +1056,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "658"
-            endingLineNumber = "658"
+            startingLineNumber = "657"
+            endingLineNumber = "657"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1088,11 +1072,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "463"
-            endingLineNumber = "463"
+            startingLineNumber = "462"
+            endingLineNumber = "462"
             landmarkName = "-populateCellHyveImage:withHyve:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1104,11 +1088,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "488"
-            endingLineNumber = "488"
+            startingLineNumber = "487"
+            endingLineNumber = "487"
             landmarkName = "-populateCellHyveImage:withHyve:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1120,11 +1104,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "474"
-            endingLineNumber = "474"
+            startingLineNumber = "473"
+            endingLineNumber = "473"
             landmarkName = "-populateCellHyveImage:withHyve:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1136,11 +1120,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "436"
-            endingLineNumber = "436"
+            startingLineNumber = "435"
+            endingLineNumber = "435"
             landmarkName = "-populateCellHyveImage:withHyve:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1152,11 +1136,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "444"
-            endingLineNumber = "444"
+            startingLineNumber = "443"
+            endingLineNumber = "443"
             landmarkName = "-populateCellHyveImage:withHyve:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1168,11 +1152,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "163"
-            endingLineNumber = "163"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
             landmarkName = "-settingLoadingProgressView"
             landmarkType = "5">
          </BreakpointContent>
@@ -1184,11 +1168,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "451"
-            endingLineNumber = "451"
+            startingLineNumber = "450"
+            endingLineNumber = "450"
             landmarkName = "-populateCellHyveImage:withHyve:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1200,11 +1184,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "453"
-            endingLineNumber = "453"
+            startingLineNumber = "452"
+            endingLineNumber = "452"
             landmarkName = "-populateCellHyveImage:withHyve:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1216,11 +1200,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "457"
-            endingLineNumber = "457"
+            startingLineNumber = "456"
+            endingLineNumber = "456"
             landmarkName = "-populateCellHyveImage:withHyve:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1280,11 +1264,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1008"
-            endingLineNumber = "1008"
+            startingLineNumber = "1007"
+            endingLineNumber = "1007"
             landmarkName = "-prepareForSegue:sender:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1328,11 +1312,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1009"
-            endingLineNumber = "1009"
+            startingLineNumber = "1008"
+            endingLineNumber = "1008"
             landmarkName = "-prepareForSegue:sender:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1344,11 +1328,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "758"
-            endingLineNumber = "758"
+            startingLineNumber = "757"
+            endingLineNumber = "757"
             landmarkName = "-centralManagerDidUpdateState:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1360,11 +1344,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "406"
-            endingLineNumber = "406"
+            startingLineNumber = "405"
+            endingLineNumber = "405"
             landmarkName = "-populateCellHyveImage:withHyve:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1376,11 +1360,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "402"
-            endingLineNumber = "402"
+            startingLineNumber = "401"
+            endingLineNumber = "401"
             landmarkName = "-populateCellHyveImage:withHyve:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1392,11 +1376,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "379"
-            endingLineNumber = "379"
+            startingLineNumber = "378"
+            endingLineNumber = "378"
             landmarkName = "-retrieveUserInfoAndPairedHyve"
             landmarkType = "5">
             <Locations>
@@ -1408,12 +1392,12 @@
                   moduleName = "Hyve"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/HyveListViewController.m"
-                  timestampString = "452081436.804753"
+                  timestampString = "452499099.069913"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "380"
-                  endingLineNumber = "380"
-                  offsetFromSymbolStart = "1258">
+                  startingLineNumber = "379"
+                  endingLineNumber = "379"
+                  offsetFromSymbolStart = "1232">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -1423,11 +1407,11 @@
                   moduleName = "Hyve"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/HyveListViewController.m"
-                  timestampString = "452081436.804906"
+                  timestampString = "452499099.070064"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "380"
-                  endingLineNumber = "380"
+                  startingLineNumber = "379"
+                  endingLineNumber = "379"
                   offsetFromSymbolStart = "30">
                </Location>
             </Locations>
@@ -1440,11 +1424,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "369"
-            endingLineNumber = "369"
+            startingLineNumber = "368"
+            endingLineNumber = "368"
             landmarkName = "-retrieveUserInfoAndPairedHyve"
             landmarkType = "5">
          </BreakpointContent>
@@ -1488,12 +1472,12 @@
                   moduleName = "Hyve"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/LoginViewController.m"
-                  timestampString = "452081436.806935"
+                  timestampString = "452499099.0719"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "271"
-                  endingLineNumber = "271"
-                  offsetFromSymbolStart = "330">
+                  startingLineNumber = "272"
+                  endingLineNumber = "272"
+                  offsetFromSymbolStart = "310">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -1503,12 +1487,12 @@
                   moduleName = "Hyve"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/LoginViewController.m"
-                  timestampString = "452081436.80708"
+                  timestampString = "452499099.072051"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "271"
-                  endingLineNumber = "271"
-                  offsetFromSymbolStart = "48">
+                  startingLineNumber = "272"
+                  endingLineNumber = "272"
+                  offsetFromSymbolStart = "44">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1520,11 +1504,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "944"
-            endingLineNumber = "944"
+            startingLineNumber = "943"
+            endingLineNumber = "943"
             landmarkName = "-settingHeaderForHyveListTable:imageURLString:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1536,11 +1520,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/HyveListViewController.m"
-            timestampString = "452078386.738784"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "970"
-            endingLineNumber = "970"
+            startingLineNumber = "969"
+            endingLineNumber = "969"
             landmarkName = "-settingHeaderForHyveListTable:imageURLString:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1584,12 +1568,12 @@
                   moduleName = "Hyve"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/SignUpViewController.m"
-                  timestampString = "452081436.809648"
+                  timestampString = "452499099.074405"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "545"
-                  endingLineNumber = "545"
-                  offsetFromSymbolStart = "1294">
+                  startingLineNumber = "546"
+                  endingLineNumber = "546"
+                  offsetFromSymbolStart = "1386">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -1599,12 +1583,12 @@
                   moduleName = "Hyve"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/SignUpViewController.m"
-                  timestampString = "452081436.809829"
+                  timestampString = "452499099.074552"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "545"
-                  endingLineNumber = "545"
-                  offsetFromSymbolStart = "1306">
+                  startingLineNumber = "546"
+                  endingLineNumber = "546"
+                  offsetFromSymbolStart = "1394">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -1614,12 +1598,12 @@
                   moduleName = "Hyve"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/SignUpViewController.m"
-                  timestampString = "452081436.809952"
+                  timestampString = "452499099.074679"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "545"
-                  endingLineNumber = "545"
-                  offsetFromSymbolStart = "92">
+                  startingLineNumber = "546"
+                  endingLineNumber = "546"
+                  offsetFromSymbolStart = "72">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1679,11 +1663,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/UserAccountViewController.m"
-            timestampString = "452058218.225323"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
             landmarkName = "-retrieveUserAccountInfo"
             landmarkType = "5">
          </BreakpointContent>
@@ -1695,11 +1679,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/UserAccountViewController.m"
-            timestampString = "452058969.077907"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "181"
-            endingLineNumber = "181"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
             landmarkName = "-retrieveUserAccountInfo"
             landmarkType = "5">
             <Locations>
@@ -1711,12 +1695,12 @@
                   moduleName = "Hyve"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/UserAccountViewController.m"
-                  timestampString = "452081436.813814"
+                  timestampString = "452499099.077712"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "182"
-                  endingLineNumber = "182"
-                  offsetFromSymbolStart = "504">
+                  startingLineNumber = "150"
+                  endingLineNumber = "150"
+                  offsetFromSymbolStart = "486">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -1726,12 +1710,12 @@
                   moduleName = "Hyve"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/UserAccountViewController.m"
-                  timestampString = "452081436.813943"
+                  timestampString = "452499099.077862"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "182"
-                  endingLineNumber = "182"
-                  offsetFromSymbolStart = "532">
+                  startingLineNumber = "150"
+                  endingLineNumber = "150"
+                  offsetFromSymbolStart = "506">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1743,11 +1727,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/UserAccountViewController.m"
-            timestampString = "452058969.077907"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
             landmarkName = "-retrieveUserAccountInfo"
             landmarkType = "5">
             <Locations>
@@ -1759,26 +1743,26 @@
                   moduleName = "Hyve"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/UserAccountViewController.m"
-                  timestampString = "452081436.814591"
+                  timestampString = "452499099.07859"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "190"
-                  endingLineNumber = "190"
-                  offsetFromSymbolStart = "2290">
+                  startingLineNumber = "158"
+                  endingLineNumber = "158"
+                  offsetFromSymbolStart = "2240">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__52-[UserAccountViewController retrieveUserAccountInfo]_block_invoke231"
+                  symbolName = "__52-[UserAccountViewController retrieveUserAccountInfo]_block_invoke195"
                   moduleName = "Hyve"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/UserAccountViewController.m"
-                  timestampString = "452081436.814717"
+                  timestampString = "452499099.078714"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "190"
-                  endingLineNumber = "190"
+                  startingLineNumber = "158"
+                  endingLineNumber = "158"
                   offsetFromSymbolStart = "30">
                </Location>
             </Locations>
@@ -1791,11 +1775,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hyve/UserAccountViewController.m"
-            timestampString = "452059011.939848"
+            timestampString = "452492772.533583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
             landmarkName = "-retrieveUserAccountInfo"
             landmarkType = "5">
          </BreakpointContent>
@@ -1861,6 +1845,70 @@
             startingLineNumber = "254"
             endingLineNumber = "254"
             landmarkName = "-onLoginButtonPressed:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hyve/UserAccountViewController.m"
+            timestampString = "452492772.533583"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "170"
+            endingLineNumber = "170"
+            landmarkName = "-retrieveUserAccountInfo"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__52-[UserAccountViewController retrieveUserAccountInfo]_block_invoke_2"
+                  moduleName = "Hyve"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/UserAccountViewController.m"
+                  timestampString = "452499099.081883"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "170"
+                  endingLineNumber = "170"
+                  offsetFromSymbolStart = "2684">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__52-[UserAccountViewController retrieveUserAccountInfo]_block_invoke199"
+                  moduleName = "Hyve"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vltlabs/Desktop/Hyve/Hyve/UserAccountViewController.m"
+                  timestampString = "452499099.082032"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "170"
+                  endingLineNumber = "170"
+                  offsetFromSymbolStart = "30">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hyve/UserAccountViewController.m"
+            timestampString = "452492772.533583"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
+            landmarkName = "-retrieveUserAccountInfo"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

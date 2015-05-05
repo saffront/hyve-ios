@@ -19,7 +19,6 @@
 #import <POP.h>
 #import "WalkthroughViewController.h"
 #import <UIImageView+AFNetworking.h>
-#import <MBLoadingIndicator.h>
 #import <KVNProgress.h>
 
 @interface UserAccountViewController () <UIImagePickerControllerDelegate, UITextFieldDelegate>
@@ -33,7 +32,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *logoutButton;
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) UIView *activityIndicatorView;
-@property (strong, nonatomic) MBLoadingIndicator *loadingIndicator;
 @property (strong, nonatomic) NSURLSession *session;
 @property (strong, nonatomic) NSURLSessionDownloadTask *downloadTask;
 @property (nonatomic) KVNProgressConfiguration *loadingProgressView;
@@ -45,7 +43,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self stylingBackgroundView];
-//    [self settingUpLoadingView];
     [self connectToHyve];
     [self stylingUserAvatarButton];
 
@@ -87,37 +84,6 @@
     [self.navigationController setNavigationBarHidden:NO];
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-
-}
-
-#pragma mark - setting up loading view
--(void)settingUpLoadingView
-{
-    self.loadingIndicator = [MBLoadingIndicator new];
-    [self.loadingIndicator setBackColor:[UIColor colorWithRed:0.20 green:0.20 blue:0.20 alpha:1]];
-    [self.loadingIndicator setOuterLoaderBuffer:5.0];
-    [self.loadingIndicator setLoaderBackgroundColor:[UIColor whiteColor]];
-    [self.loadingIndicator setLoadedColor:[UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1]];
-    [self.loadingIndicator setStartPosition:MBLoaderTop];
-    [self.loadingIndicator setAnimationSpeed:MBLoaderSpeedMiddle];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.loadingIndicator start];
-        int count = 0;
-        
-        while (count++ < 2)
-        {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(count * 1.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                
-                [self.loadingIndicator incrementPercentageBy:40];
-            });
-        }
-        [self.view addSubview:self.loadingIndicator];
-        [self.view bringSubviewToFront:self.loadingIndicator];
-    });
-}
 
 #pragma mark - connect to Hyve 
 -(void)connectToHyve
@@ -130,8 +96,10 @@
     }
     else
     {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity. Unable to retrieve user info" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [KVNProgress dismiss];
+        }];
         [alertController addAction:okAction];
         [self presentViewController:alertController animated:YES completion:nil];
     }
@@ -151,7 +119,7 @@
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
-    manager.requestSerializer.timeoutInterval = 20;
+    [manager.requestSerializer setTimeoutInterval:20];
     
     [manager GET:hyveUserAccountString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -399,6 +367,23 @@
 
 - (IBAction)onEditOrSaveProfileButtonPressed:(id)sender
 {
+    Reachability *reachability = [Reachability reachabilityWithHostName:@"www.google.com"];
+    
+    if (reachability.isReachable)
+    {
+        [self editOrSaveButtonPressedAction];
+    }
+    else
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"You're currently offline. To edit profile, please ensure you have Internet connectivity" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+}
+
+-(void)editOrSaveButtonPressedAction
+{
     if ([self.editOrSaveProfileButton.titleLabel.text isEqualToString:@"Edit"])
     {
         [self assignCustomAnimationToUIElements];
@@ -407,7 +392,7 @@
         self.password.userInteractionEnabled = YES;
         self.email.userInteractionEnabled = YES;
         self.userAvatar.userInteractionEnabled = YES;
-
+        
     }
     else if ([self.editOrSaveProfileButton.titleLabel.text isEqualToString:@"Save"])
     {
@@ -438,7 +423,7 @@
         
         //post and save to S3
         [self connectToAmazonS3:userAvatarURL];
-    
+        
     }
 }
 

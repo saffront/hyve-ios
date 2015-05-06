@@ -180,6 +180,7 @@
                 [self stylingUsernameTextField:self.user];
                 [self stylingEmailTextField:self.user];
                 [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+                self.loadingProgressView.minimumSuccessDisplayTime = 1.5;
                 [KVNProgress showSuccessWithStatus:@"Success!"];
             });
         });
@@ -655,6 +656,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"user" object:userInfoDictionary];
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
+        self.loadingProgressView.minimumSuccessDisplayTime = 1.5;
         [KVNProgress showSuccessWithStatus:@"Saved profile info!"];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -664,7 +666,6 @@
         
     }];
 }
-
 
 -(void)clearToken
 {

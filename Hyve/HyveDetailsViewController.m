@@ -278,6 +278,7 @@
     
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 //    [self.loadingIndicator finish];
+    self.loadingProgressView.minimumSuccessDisplayTime = 1.5;
     [KVNProgress showSuccessWithStatus:@"Found Hyve!"];
 
 }
@@ -377,6 +378,7 @@
             
             self.takePictureButtonDidPressed = YES;
 //            [self.loadingIndicator finish];
+            self.loadingProgressView.minimumSuccessDisplayTime = 1.5;
             [KVNProgress showSuccessWithStatus:@"Image taken!"];
 
         });
@@ -1080,7 +1082,7 @@
         NSLog(@"responseObject: \r %@", responseObject);
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 //        [self.loadingIndicator finish];
-        self.loadingProgressView.minimumSuccessDisplayTime = 3;
+        self.loadingProgressView.minimumSuccessDisplayTime = 3.0;
         [KVNProgress showSuccessWithStatus:@"Connected!"];
 
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Succesfully connect to Hyve" preferredStyle:UIAlertControllerStyleAlert];

@@ -338,6 +338,7 @@
             [userDefaults synchronize];
             
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+            self.loadingProgressView.minimumSuccessDisplayTime = 1.5;
             [KVNProgress showSuccessWithStatus:@"Success!"];
             [self performSegueWithIdentifier:@"ToDashboardFromEmailVC" sender:nil];
             

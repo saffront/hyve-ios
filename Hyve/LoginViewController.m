@@ -284,6 +284,7 @@
             [userDefaults setObject:email forKey:@"email"];
             [userDefaults synchronize];
             
+            self.loadingProgressView.minimumSuccessDisplayTime = 1.5;
             [KVNProgress showSuccessWithStatus:@"Welcome to Hyve!"];
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
             [self performSegueWithIdentifier:@"ShowDashboardVC" sender:nil];

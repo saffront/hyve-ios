@@ -538,6 +538,7 @@
             [userDefaults setObject:successLoginViaEmail forKey:@"successLoginViaEmail"];
             [userDefaults synchronize];
             
+            self.loadingProgressView.minimumSuccessDisplayTime = 1.5;
             [KVNProgress showSuccessWithStatus:@"Success!"];
             [self performSegueWithIdentifier:@"ToDashboardVCFromSignUp" sender:nil];
             

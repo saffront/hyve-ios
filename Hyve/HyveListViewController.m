@@ -909,6 +909,7 @@
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
             
             if (self.fromUserAccountVC == NO) {
+                self.loadingProgressView.minimumSuccessDisplayTime = 1.5;
                 [KVNProgress showSuccessWithStatus:@"Pairing successful!"];
                 self.fromUserAccountVC = YES;
             }

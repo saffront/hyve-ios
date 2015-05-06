@@ -152,7 +152,7 @@
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"scannedNewHyve" object:self.selectedNewScannedHyveMutableArray];
         }
-        
+        self.loadingProgressView.minimumSuccessDisplayTime = 1.5;
         [KVNProgress showSuccessWithStatus:@"Pairing successful!"];
         [self dismissViewControllerAnimated:YES completion:nil];
 

@@ -646,11 +646,6 @@
     
         [self populateCellHyveImage:cell withHyve:self.hyve];
         
-        if (self.patchedSwarmInfo == YES)
-        {
-            [self populateCellHyveProximity:cell withHyve:self.hyve];
-        }
-
         if (peripheral.state == CBPeripheralStateConnected)
         {
             cell.hyveProximity.text = @"Hyve is connected";
@@ -665,7 +660,7 @@
             cell.hyveProximity.numberOfLines = 0;
             cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
         }
-    
+        
         if (self.releasedSwarmButton == YES)
         {
             if (peripheral.state == CBPeripheralStateConnected)
@@ -682,6 +677,11 @@
                 cell.hyveProximity.numberOfLines = 0;
                 cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
             }
+        }
+        
+        if (self.patchedSwarmInfo == YES)
+        {
+            [self populateCellHyveProximity:cell withHyve:self.hyve];
         }
     }
     return cell;

@@ -8,6 +8,7 @@
 
 #import "DashboardViewController.h"
 #import "PeripheralListViewController.h"
+#import "HyveListViewController.h"
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "Hyve.h"
 #import <POP.h>
@@ -24,6 +25,7 @@
 @property (strong, nonatomic) CBPeripheral *peripheral;
 @property (strong, nonatomic) NSMutableArray *peripheralMutableArray;
 @property BOOL firstTimeRunning;
+@property (strong, nonatomic) NSMutableArray *pairedHyveMutableArray;
 @end
 
 
@@ -32,6 +34,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.pairedHyveMutableArray = [NSMutableArray new];
     self.peripheralMutableArray = [NSMutableArray new];
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     self.centralManager.delegate = self;
@@ -256,43 +259,24 @@
     
     [manager GET:hyveURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        NSLog(@"responseObject \r  %@", responseObject);
         NSDictionary *hyveDictionary = responseObject;
         NSArray *hyveArray = [hyveDictionary valueForKeyPath:@"hyves"];
         
-        
         for (NSDictionary *hyveDictionaries in hyveArray)
         {
-            NSLog(@"hyveDictionaries %@", hyveDictionaries);
+            NSString *uuidOfPairedHyvesString = [hyveDictionaries valueForKeyPath:@"uuid"];
+            CBUUID *uuid = [CBUUID UUIDWithString:uuidOfPairedHyvesString];
+            [self.pairedHyveMutableArray addObject:uuid];
         }
+        
+        NSArray *theNewArray = [self.centralManager retrievePeripheralsWithIdentifiers:self.pairedHyveMutableArray];
+        [self.peripheralMutableArray addObjectsFromArray:theNewArray];
+        [self performSegueWithIdentifier:@"ToHyveListVC" sender:nil];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"Error %@", error);
     }];
-    
-    
-/*
-    NSURL *url = [NSURL URLWithString:hyveURLString];
-    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
-    [urlRequest setHTTPMethod:@"GET"];
-    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [urlRequest setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
-    
-    [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-       
-        if (connectionError)
-        {
-            NSLog(@"Error found %@ \r localizedDescriptionError %@", connectionError, [connectionError localizedDescription]);
-        }
-        else
-        {
-            NSDictionary *theJSONDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-            NSLog(@"theJSONDictionary : \r %@", theJSONDictionary);
-        }
-    }];
-*/
 }
 
 #pragma mark - not first time user
@@ -310,13 +294,22 @@
 #pragma mark - segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    PeripheralListViewController *plvc = segue.destinationViewController;
-    plvc.peripheral = self.peripheral;
-    plvc.centralManager = self.centralManager;
-    plvc.peripheralMutableArray = self.peripheralMutableArray;
-    [self.hyveButton.imageView stopAnimating];
-
-    
+    if ([segue.identifier isEqualToString:@"ToHyveListVC"])
+    {
+        HyveListViewController *hlvc = segue.destinationViewController;
+        hlvc.hyveDevicesMutableArray = self.peripheralMutableArray;
+        hlvc.centralManager = self.centralManager;
+        NSLog(@"hlvc.hyveDevicesMutableArray %@", hlvc.hyveDevicesMutableArray);
+        
+    }
+    else if ([segue.identifier isEqualToString:@"ShowPeripheralsList"])
+    {
+        PeripheralListViewController *plvc = segue.destinationViewController;
+        plvc.peripheral = self.peripheral;
+        plvc.centralManager = self.centralManager;
+        plvc.peripheralMutableArray = self.peripheralMutableArray;
+        [self.hyveButton.imageView stopAnimating];
+    }
 }
 
 

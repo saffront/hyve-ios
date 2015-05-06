@@ -1052,6 +1052,7 @@
                         <outlet property="detectingHyveLabel" destination="o7S-uG-vBn" id="sxN-vv-hYl"/>
                         <outlet property="hyveButton" destination="vpO-kJ-HlX" id="F6Y-Fd-93J"/>
                         <segue destination="Akx-ne-8Rz" kind="show" identifier="ShowPeripheralsList" id="Vx6-l8-Xje"/>
+                        <segue destination="qtE-yT-x4I" kind="show" identifier="ToHyveListVC" id="kUe-es-4cv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -1483,7 +1484,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pIy-fo-a3J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4978.5" y="489.75"/>
+            <point key="canvasLocation" x="4813.5" y="355.5"/>
         </scene>
         <!--Scanned New Hyve View Controller-->
         <scene sceneID="bM7-qo-UON">
@@ -1675,7 +1676,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PVM-JE-wWv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4978.5" y="1215"/>
+            <point key="canvasLocation" x="4795.5" y="1107"/>
         </scene>
         <!--Hyve Details View Controller-->
         <scene sceneID="fBL-iD-GHn">
@@ -2710,7 +2711,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ZUn-7y-4ra"/>
         <segue reference="82u-vr-klP"/>
+        <segue reference="ZUn-7y-4ra"/>
+        <segue reference="kUe-es-4cv"/>
     </inferredMetricsTieBreakers>
 </document>

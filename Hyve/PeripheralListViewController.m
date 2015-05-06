@@ -278,9 +278,8 @@
                 
                 //passing in name and uuid
                 self.pairedHyveDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:hyve.peripheralName,@"name",hyve.peripheralUUIDString,@"uuid",hyve.peripheralRSSI,@"distance",nil];
+                [self sendingPairedHyveToBackend:self.pairedHyveDictionary];
             }
-            [self sendingPairedHyveToBackend:self.pairedHyveDictionary];
-
         }];
         
         UIAlertAction *noAction = [UIAlertAction actionWithTitle:@"NO" style:UIAlertActionStyleDefault handler:nil];
@@ -339,55 +338,7 @@
         
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         [self performSegueWithIdentifier:@"ShowHyveListVC" sender:nil];
-        
-        //check response object
-//        NSLog(@"responseObject from connectToHyveBackend \r \r %@", responseObject);
-//        
-//        for (NSDictionary *responseObjectDictionary in responseObject)
-//        {
-//            NSString *uuidTextError = @"has already been taken";
-//            
-//            NSDictionary *responseObjectDictionaryFirstLayer = responseObject;
-//            NSDictionary *errorsDictionary = [responseObjectDictionaryFirstLayer objectForKey:@"errors"];
-//            NSArray *uuidArray = [errorsDictionary objectForKey:@"uuid"];
-//            NSString *uuidErrorFound = [uuidArray objectAtIndex:0];
-//            
-//            if ([uuidTextError isEqualToString:uuidErrorFound])
-//            {
-//                self.uuidError = YES;
-//                break;
-//            }
-//        }
-//        
-//        if (self.uuidError == YES)
-//        {
-//            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"It appears that the Hyve has been paired before. Please enter your registered email below" preferredStyle:UIAlertControllerStyleAlert];
-//            [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-//                textField.placeholder = NSLocalizedString(@"Registered Email", @"Email action");
-//            }];
-//            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-//                UITextField *emailEntry = alertController.textFields.firstObject;
-//                NSString *emailEntryText = emailEntry.text;
-//                
-//                if ([email isEqualToString:emailEntryText])
-//                {
-//                    [self performSegueWithIdentifier:@"ShowHyveListVC" sender:nil];
-//                }
-//                else
-//                {
-//                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"The email authentication does not match" preferredStyle:UIAlertControllerStyleAlert];
-//                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-//                    [alertController addAction:okAction];
-//                    
-//                    [self presentViewController:alertController animated:YES completion:nil];
-//                }
-//                self.uuidError = NO;
-//            }];
-//            
-//            [alertController addAction:okAction];
-//            [self presentViewController:alertController animated:YES completion:nil];
-//        }
-        
+                
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"error %@ \r \r error localized:%@", error, [error localizedDescription]);

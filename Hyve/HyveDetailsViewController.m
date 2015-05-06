@@ -677,7 +677,6 @@
     
             if ([characteristicUUID isEqual:characteristicUUIDString])
             {
-                
                 NSLog(@"Not sending anything");
                 
                 if ([self.hyveDistanceButton.titleLabel.text isEqualToString:@"1 meter"])

@@ -37,7 +37,6 @@
 @property (strong, nonatomic) NSIndexPath *indexPath;
 @property (strong, nonatomic) NSString *RSSIString;
 @property BOOL patchedSwarmInfo;
-@property BOOL releasedSwarmButton;
 @property (strong, nonatomic) UIView *hyveListTableViewFooter;
 @property (strong, nonatomic) UILongPressGestureRecognizer *swarmButtonLongPressGesture;
 @property (weak, nonatomic) IBOutlet DKCircleButton *swarmButton;
@@ -65,7 +64,6 @@
     
     self.fromUserAccountVC = NO;
     self.patchedSwarmInfo = NO;
-    self.releasedSwarmButton = NO;
     [self connectToHyve];
     [self stylingBackgroundView];
     [self stylingNavigationBar];
@@ -167,20 +165,7 @@
     [KVNProgress showWithStatus:@"Loading..."];
 }
 
-
 #pragma mark - swarm
--(void)stylingSwarmHyveButton
-{
-    self.swarmButton.alpha = 0;
-    [self.swarmButton setTitle:@"" forState:UIControlStateNormal];
-    UIImage *swarmImageButton = [UIImage imageNamed:@"swarm1"];
-    [self.swarmButton setImage:swarmImageButton forState:UIControlStateNormal];
-    [self.swarmButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
-    
-    [self.swarmButton addTarget:self action:@selector(holdOntoSwarmButton) forControlEvents:UIControlEventTouchDown];
-    [self.swarmButton addTarget:self action:@selector(releaseSwarmButton) forControlEvents:UIControlEventTouchUpInside];
-}
-
 -(void)holdOntoSwarmButton
 {
     NSLog(@"Swarm button is hold down");
@@ -196,14 +181,12 @@
     }
 }
 
-
 -(void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error
 {
     for (CBPeripheral *hyvePeripheral in self.hyveDevicesMutableArray)
     {
         if ([hyvePeripheral isEqual:peripheral])
         {
-            
             NSLog(@"peripheral %@ \r peripheral RSSI %@", peripheral.name, RSSI);
             
             [self updateHyveProximityToHyveServerViaSwarm:RSSI peripheral:peripheral];
@@ -262,24 +245,6 @@
         
         NSLog(@"Error: \r %@ \r localized description: %@", error, [error localizedDescription]);
     }];
-}
-
--(void)releaseSwarmButton
-{
-    NSLog(@"swarm button released");
-    self.releasedSwarmButton = YES;
-    self.patchedSwarmInfo = NO;
-    
-    for (CBPeripheral *peripheral in self.hyveDevicesMutableArray) {
-        
-        if (peripheral.state == CBPeripheralStateConnected)
-        {
-            if (self.releasedSwarmButton == YES)
-            {
-                [self.hyveListTable reloadData];
-            }
-        }
-    }
 }
 
 #pragma mark - notifications
@@ -661,27 +626,12 @@
             cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
         }
         
-        if (self.releasedSwarmButton == YES)
+        if (self.patchedSwarmInfo == YES)
         {
             if (peripheral.state == CBPeripheralStateConnected)
             {
-                cell.hyveProximity.text = @"Hyve is connected";
-                cell.hyveProximity.textColor = [UIColor whiteColor];
-                cell.hyveProximity.numberOfLines = 0;
-                cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
+                [self populateCellHyveProximity:cell withHyve:self.hyve];
             }
-            else
-            {
-                cell.hyveProximity.text = @"Hyve not connected";
-                cell.hyveProximity.textColor = [UIColor whiteColor];
-                cell.hyveProximity.numberOfLines = 0;
-                cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
-            }
-        }
-        
-        if (self.patchedSwarmInfo == YES)
-        {
-            [self populateCellHyveProximity:cell withHyve:self.hyve];
         }
     }
     return cell;

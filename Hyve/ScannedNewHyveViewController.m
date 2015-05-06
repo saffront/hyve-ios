@@ -66,56 +66,9 @@
     self.loadingProgressView.fullScreen = YES;
     self.loadingProgressView.minimumDisplayTime = 1;
     
-//    __weak typeof(self) weakSelf = self;
-//    self.loadingProgressView.tapBlock = ^(KVNProgress *progressView) {
-//        
-//    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Are you sure you want to terminate this process?" preferredStyle:UIAlertControllerStyleAlert];
-//    
-//    UIAlertAction *noAction = [UIAlertAction actionWithTitle:@"NO" style:UIAlertActionStyleDefault handler:nil];
-//    
-//    UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-//            [weakSelf.manager.operationQueue cancelAllOperations];
-//        }];
-//        
-//        [alertController addAction:noAction];
-//        [alertController addAction:yesAction];
-//        [weakSelf presentViewController:alertController animated:YES completion:nil];
-//    };
-
-    
-//    __weak typeof(self) weakSelf = self;
-//    self.tapCount = 0;
-//    self.loadingProgressView.tapBlock = ^(KVNProgress *progressView){
-//        
-//        weakSelf.tapCount++;
-//        
-//        if (weakSelf.tapCount == 2)
-//        {
-//            NSLog(@"double TAPPPPPPedddd");
-//            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Are you sure you want to terminate this process?" preferredStyle:UIAlertControllerStyleAlert];
-//            UIAlertAction *noAction = [UIAlertAction actionWithTitle:@"NO" style:UIAlertActionStyleDefault handler:nil];
-//            UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-//                
-//                NSLog(@"YES!!");
-//                [weakSelf.manager.operationQueue cancelAllOperations];
-//                
-//            }];
-//            
-//            [alertController addAction:noAction];
-//            [alertController addAction:yesAction];
-//            [weakSelf presentViewController:alertController animated:YES completion:nil];
-//        }
-//    };
     [KVNProgress showWithStatus:@"Pairing..."];
     
-    
     self.loadingProgressViewAppears = YES;
-
-}
-
--(void)cancelButtonProgressViewPressed
-{
-    NSLog(@"the cancel button was pressed!!!!!!");
 }
 
 #pragma mark - styling instruction label
@@ -147,9 +100,13 @@
         hyve.peripheralUUIDString = newlyPairedHyve.identifier.UUIDString;
         hyve.peripheralRSSI = @"1";
         
-        self.newlyPairedHyveMutableDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:hyve.peripheralName,@"name",hyve.peripheralUUIDString,@"uuid",hyve.peripheralRSSI,@"RSSI", nil];
+        if (newlyPairedHyve.name == nil)
+        {
+            hyve.peripheralName = @"Unknown device";
+        }
+        
+        self.newlyPairedHyveMutableDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:hyve.peripheralName,@"name",hyve.peripheralUUIDString,@"uuid",hyve.peripheralRSSI,@"distance", nil];
     }
-    
     [self connectToHyve:self.newlyPairedHyveMutableDictionary];
 }
 
@@ -208,7 +165,12 @@
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble connecting to server. Please try again later." preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
             [alertController addAction:okAction];
-            [self presentViewController:alertController animated:YES completion:nil];
+            
+            if (!self.presentedViewController)
+            {
+                [self presentViewController:alertController animated:YES completion:nil];
+            }
+
         }
     }];
 }
@@ -247,7 +209,6 @@
         cell.textLabel.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:20];
     }
 
-    
     return cell;
 }
 

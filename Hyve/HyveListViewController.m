@@ -624,7 +624,7 @@
         cell.hyveName.text = @"Unkown devices";
         cell.hyveName.font = [UIFont fontWithName:@"OpenSans-Bold" size:22];
         cell.hyveName.textColor = [UIColor whiteColor];
-        [cell.hyveImage setImage:[UIImage imageNamed:@"houseKeys"] forState:UIControlStateNormal];
+        [cell.hyveImage setImage:[UIImage imageNamed:@"defaultHyveImage"] forState:UIControlStateNormal];
         cell.hyveBattery.alpha = 0;
         cell.hyveProximity.alpha = 0;
         cell.hyveName.numberOfLines = 0;

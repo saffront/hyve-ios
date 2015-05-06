@@ -207,7 +207,6 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         [KVNProgress dismiss];
-//        [self.loadingIndicator dismiss];
         NSLog(@"error with retrieveUserInfoAndPairedHyve: \r\r %@ \r localizedDescription: \r %@", error, [error localizedDescription]);
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity. Unable to update Hyve Image." preferredStyle:UIAlertControllerStyleAlert];

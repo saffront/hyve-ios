@@ -247,7 +247,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
     
-    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves"];
+    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/account"];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
@@ -260,7 +260,7 @@
     [manager GET:hyveURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSDictionary *hyveDictionary = responseObject;
-        NSArray *hyveArray = [hyveDictionary valueForKeyPath:@"hyves"];
+        NSArray *hyveArray = [hyveDictionary valueForKeyPath:@"user.hyves"];
         
         for (NSDictionary *hyveDictionaries in hyveArray)
         {

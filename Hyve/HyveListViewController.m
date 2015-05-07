@@ -298,7 +298,6 @@
         }];
         [alertController addAction:okAction];
         [self presentViewController:alertController animated:YES completion:nil];
-        
     }
 }
 
@@ -884,7 +883,6 @@
         
         float positionOfUsernameCoordinateY = userProfileHeader.frame.origin.y + 370;
         UILabel *username = [[UILabel alloc] initWithFrame:CGRectMake(backgroundImageView.frame.size.width/2, positionOfUsernameCoordinateY, 250, 40)];
-        
         username.textAlignment = NSTextAlignmentCenter;
         username.numberOfLines = 0;
         username.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:20];

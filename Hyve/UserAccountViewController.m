@@ -84,7 +84,6 @@
     [self.navigationController setNavigationBarHidden:NO];
 }
 
-
 #pragma mark - connect to Hyve 
 -(void)connectToHyve
 {
@@ -623,7 +622,6 @@
         [alertController addAction:okAction];
         [self presentViewController:alertController animated:YES completion:nil];
     }
-    
 }
 
 -(void)savingUserProfileEditField:(NSDictionary*)savedUserInfo

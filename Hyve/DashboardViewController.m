@@ -77,8 +77,6 @@
     [self detectingHyveLabelAtIntro];
     self.isHyveButtonPressed = NO;
     
-    [self notFirstTimeRunningApp];
-    
 }
 
 #pragma mark - viewWillDisappear
@@ -109,7 +107,7 @@
 #pragma mark - styling detection hyve label
 -(void)stylingDetectingHyveLabel
 {
-    self.detectingHyveLabel.text = [NSString stringWithFormat:@"Searching for Hyve \r\r This process will take 30 seconds"];
+    self.detectingHyveLabel.text = [NSString stringWithFormat:@"Searching for Hyve \r\r This process will take 15 seconds"];
     self.detectingHyveLabel.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:17];
     self.detectingHyveLabel.textColor = [UIColor blackColor];
     self.detectingHyveLabel.numberOfLines = 0;
@@ -126,10 +124,6 @@
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setObject:notFirstTimeUsingAppString forKey:@"notFirstTime"];
         [userDefaults synchronize];
-//        self.firstTimeRunning = NO;
-//        
-//        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-//        [userDefaults setBool:self.firstTimeRunning forKey:@"firstTimeRunning"];
     }
 }
 
@@ -182,7 +176,7 @@
             break;
         case CBCentralManagerStatePoweredOn:
             NSLog(@"Central is on and ready to use");
-            self.hyveButton.enabled = YES;
+            [self notFirstTimeRunningApp];
             break;
         case CBCentralManagerStateResetting:
             NSLog(@"Central is resetting");
@@ -292,7 +286,19 @@
     
     if ([notFirstTime isEqualToString:@"notFirstTime"])
     {
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        UIVisualEffectView *visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        visualEffectView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
+        [self.view addSubview:visualEffectView];
+        
+        self.detectingHyveLabel.alpha = 0;
+        self.hyveButton.alpha = 0;
+        
         [self connectToHyveServerToRetrievePairedHyve];
+    }
+    else
+    {
+        self.hyveButton.enabled = YES;
     }
 }
 
@@ -316,9 +322,5 @@
         [self.hyveButton.imageView stopAnimating];
     }
 }
-
-
-
-
 
 @end

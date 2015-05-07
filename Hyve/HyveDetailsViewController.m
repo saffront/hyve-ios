@@ -706,7 +706,11 @@
                 {
                     //[self writingSixteenMetersDistanceData:characteristic];
                     [self writingDistanceDataToHyve:characteristic withDataOne:'<' withDataTwo:'S' withDataThree:'1' withDataFour:'0' withDataFive:'0' withDataSix:'>' withDataSeven:'<' withDataEight:'X' withDataNine:'>'];
-
+                }
+                else
+                {
+                    [self writingDistanceDataToHyve:characteristic withDataOne:'<' withDataTwo:'S' withDataThree:'1' withDataFour:'0' withDataFive:'0' withDataSix:'>' withDataSeven:'<' withDataEight:'X' withDataNine:'>'];
+                    self.hyveDistance = @"16 meters";
                 }
             }
     }
@@ -868,8 +872,6 @@
         UIImage *hyveImage = self.hyveImageButton.imageView.image;
         NSString *hyveUUIDString = peripheral.identifier.UUIDString;
         
-        NSString *avatarImageString = [UIImagePNGRepresentation(hyveImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-        NSString *avatarImageStringInSixtyFour = [NSString stringWithFormat:@"data:image/png;base64, (%@)", avatarImageString];
         
         if (self.setPresetIconButtonDidPressed == YES || self.takePictureButtonDidPressed == YES)
         {
@@ -1081,7 +1083,6 @@
        
         NSLog(@"responseObject: \r %@", responseObject);
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-//        [self.loadingIndicator finish];
         self.loadingProgressView.minimumSuccessDisplayTime = 3.0;
         [KVNProgress showSuccessWithStatus:@"Connected!"];
 
@@ -1096,7 +1097,6 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         [KVNProgress dismiss];
-//        [self.loadingIndicator dismiss];
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity. Unable to update hyve" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
         [alertController addAction:okAction];

@@ -26,6 +26,7 @@
 @property (strong, nonatomic) NSMutableArray *peripheralMutableArray;
 @property BOOL firstTimeRunning;
 @property (strong, nonatomic) NSMutableArray *pairedHyveMutableArray;
+@property (strong, nonatomic) UIVisualEffectView *visualEffectView;
 @end
 
 
@@ -286,14 +287,15 @@
     
     if ([notFirstTime isEqualToString:@"notFirstTime"])
     {
-        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-        UIVisualEffectView *visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-        visualEffectView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
-        [self.view addSubview:visualEffectView];
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        self.visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        self.visualEffectView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
+        [self.view addSubview:self.visualEffectView];
+
         
-        self.detectingHyveLabel.alpha = 0;
-        self.hyveButton.alpha = 0;
-        
+//        self.detectingHyveLabel.alpha = 0;
+//        self.hyveButton.alpha = 0;
+//        [self settingLoadingProgressView];
         [self connectToHyveServerToRetrievePairedHyve];
     }
     else
@@ -310,7 +312,7 @@
         HyveListViewController *hlvc = segue.destinationViewController;
         hlvc.hyveDevicesMutableArray = self.peripheralMutableArray;
         hlvc.centralManager = self.centralManager;
-        NSLog(@"hlvc.hyveDevicesMutableArray %@", hlvc.hyveDevicesMutableArray);
+//        NSLog(@"hlvc.hyveDevicesMutableArray %@", hlvc.hyveDevicesMutableArray);
         
     }
     else if ([segue.identifier isEqualToString:@"ShowPeripheralsList"])
@@ -322,5 +324,6 @@
         [self.hyveButton.imageView stopAnimating];
     }
 }
+
 
 @end

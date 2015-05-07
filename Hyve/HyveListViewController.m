@@ -57,6 +57,7 @@
     
     [super viewDidLoad];
     
+    [self settingLoadingProgressView];
     self.hyveIsFound = NO;
     self.mutableNewArray = [NSMutableArray new];
     self.scannedNewHyveMutableArray = [NSMutableArray new];
@@ -68,9 +69,9 @@
     [self stylingBackgroundView];
     [self stylingNavigationBar];
     [self stylingHyveListTableView];
-    [self settingLoadingProgressView];
-    
+
     [self connected];
+    [self setDefaultUserProfile];
     
 }
 
@@ -130,11 +131,73 @@
     return reachable;
 }
 
+#pragma mark - default user profile
+-(void)setDefaultUserProfile
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+
+        UIView *userProfileHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.hyveListTable.frame.size.width, 200)];
+        [userProfileHeader setUserInteractionEnabled:YES];
+        [userProfileHeader bringSubviewToFront:self.loadingIndicator];
+        userProfileHeader.alpha = 0;
+        
+        UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, -200, userProfileHeader.frame.size.width, userProfileHeader.frame.size.height + 200)];
+        backgroundImageView.alpha = 0;
+        
+        self.userProfileImageButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(userProfileHeader.frame.size.width / 2, 80, 100, 100)];
+        [self.userProfileImageButton.imageView setContentMode:UIViewContentModeScaleAspectFill];
+        [self.userProfileImageButton setUserInteractionEnabled:YES];
+        [self.userProfileImageButton setTitle:@"" forState:UIControlStateNormal];
+        [self.userProfileImageButton setCenter:CGPointMake(CGRectGetMidX(userProfileHeader.bounds), CGRectGetMidY(userProfileHeader.bounds))];
+        [self.userProfileImageButton addTarget:self action:@selector(userProfileImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        self.userProfileImage = [UIImage imageNamed:@"defaultUserProfileImage"];
+        self.userProfileImageButton.alpha = 0;
+
+        float positionOfUsernameCoordinateY = userProfileHeader.frame.origin.y + 370;
+        UILabel *username = [[UILabel alloc] initWithFrame:CGRectMake(backgroundImageView.frame.size.width/2, positionOfUsernameCoordinateY, 250, 40)];
+        username.textAlignment = NSTextAlignmentCenter;
+        username.numberOfLines = 0;
+        username.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:20];
+        username.textColor = [UIColor whiteColor];
+        [username setCenter:CGPointMake(CGRectGetMidX(backgroundImageView.bounds), positionOfUsernameCoordinateY)];
+        username.alpha = 0;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            backgroundImageView.image = [UIImage imageNamed:@"userProfileHeader"];
+            [self.userProfileImageButton setImage:self.userProfileImage forState:UIControlStateNormal];
+            [self.userProfileImageButton.imageView setContentMode:UIViewContentModeScaleAspectFill];
+            self.userProfileImageButton.imageView.clipsToBounds = YES;
+            
+            [userProfileHeader addSubview:self.userProfileImageButton];
+            username.text = @"Hyve";
+            [backgroundImageView addSubview:username];
+            
+            [userProfileHeader addSubview:backgroundImageView];
+            [userProfileHeader bringSubviewToFront:self.userProfileImageButton];
+            
+            self.hyveListTable.tableHeaderView = userProfileHeader;
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+            
+            if (self.fromUserAccountVC == NO) {
+                self.loadingProgressView.minimumSuccessDisplayTime = 1.5;
+                [KVNProgress showSuccessWithStatus:@"Pairing successful!"];
+                self.fromUserAccountVC = YES;
+                self.hyveListTable.alpha = 1;
+                self.userProfileImageButton.alpha = 1;
+                userProfileHeader.alpha = 1;
+                backgroundImageView.alpha = 1;
+                username.alpha = 1;
+            }
+        });
+    });
+}
+
 #pragma mark - viewWillAppear
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
     static dispatch_once_t once;
     
     dispatch_once(&once, ^{
@@ -163,6 +226,9 @@
     self.loadingProgressView.minimumDisplayTime = 1;
     
     [KVNProgress showWithStatus:@"Loading..."];
+    
+    self.hyveListTable.alpha = 0;
+    self.userProfileImageButton.alpha = 0;
 }
 
 #pragma mark - swarm
@@ -549,7 +615,7 @@
 #pragma mark - styling hyve list table view
 -(void)stylingHyveListTableView
 {
-    self.hyveListTable.tableHeaderView.frame = CGRectMake(0, 0, self.view.frame.size.width, 320);
+    self.hyveListTable.tableHeaderView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     self.hyveListTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.hyveListTable.backgroundColor = [UIColor clearColor];
     self.hyveListTable.layoutMargins = UIEdgeInsetsZero;
@@ -910,6 +976,8 @@
                 self.loadingProgressView.minimumSuccessDisplayTime = 1.5;
                 [KVNProgress showSuccessWithStatus:@"Pairing successful!"];
                 self.fromUserAccountVC = YES;
+                self.hyveListTable.alpha = 1;
+                self.userProfileImageButton.alpha = 1;
             }
         });
     });

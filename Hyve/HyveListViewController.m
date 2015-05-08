@@ -891,26 +891,54 @@
 }
 
 //disconnect
--(NSString*)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return @"Disconnect";
-}
+//-(NSString*)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return @"Disconnect";
+//}
+//
+//-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return UITableViewCellEditingStyleDelete;
+//}
 
--(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return UITableViewCellEditingStyleDelete;
+-(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UITableViewRowAction *buzzAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Buzz" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+        
+        NSLog(@"I am gonna buzz you");
+        
+        CBPeripheral *peripheralToBeBuzzed = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
+        
+        if (peripheralToBeBuzzed.state == CBPeripheralStateConnected)
+        {
+            NSLog(@"Buzz");
+        }
+        
+    }];
+    buzzAction.backgroundColor = [UIColor blueColor];
+    
+    
+    UITableViewRowAction *disconnectAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Disconnect"  handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+        
+        CBPeripheral *peripheralToBeDisconnected = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
+        [self.centralManager cancelPeripheralConnection:peripheralToBeDisconnected];
+        [self.hyveListTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        
+    }];
+    disconnectAction.backgroundColor = [UIColor redColor];
+    return @[buzzAction,disconnectAction];
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete)
-    {
-        NSLog(@"pressed");
-        CBPeripheral *peripheralToBeDisconnected = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
-        [self.centralManager cancelPeripheralConnection:peripheralToBeDisconnected];
-        
-        [self.hyveListTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    }
+//    if (editingStyle == UITableViewCellEditingStyleDelete)
+//    {
+//        NSLog(@"pressed");
+//        CBPeripheral *peripheralToBeDisconnected = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
+//        [self.centralManager cancelPeripheralConnection:peripheralToBeDisconnected];
+//        
+//        [self.hyveListTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+//    }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath

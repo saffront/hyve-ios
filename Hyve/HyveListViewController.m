@@ -38,11 +38,8 @@
 @property BOOL patchedSwarmInfo;
 @property (strong, nonatomic) UIView *hyveListTableViewFooter;
 @property (strong, nonatomic) UILongPressGestureRecognizer *swarmButtonLongPressGesture;
-//@property (weak, nonatomic) IBOutlet DKCircleButton *swarmButton;
 @property (nonatomic) KVNProgressConfiguration *loadingProgressView;
 @property  BOOL fromUserAccountVC;
-//@property (strong, nonatomic) DKCircleButton *scanHyveButton;
-//@property (strong, nonatomic) DKCircleButton *menuHyveButton;
 @property (strong, nonatomic) NSMutableArray *scannedNewHyveMutableArray;
 @property (strong, nonatomic) CBCentralManager *scanNewHyveCentralManager;
 @property (strong, nonatomic) NSMutableArray *mutableNewArray;
@@ -858,12 +855,9 @@
         spinAnimation.toValue = @(0);
         spinAnimation.springBounciness = 5;
         spinAnimation.velocity = @(20);
-//        [self.swarmHyveButton.layer pop_addAnimation:moveSwarmButtonAnimation forKey:@"move"];
-//        [self.swarmHyveButton.layer pop_addAnimation:spinAnimation forKey:@"rotation"];
         [self.swarmMenuButton.layer pop_addAnimation:moveSwarmButtonAnimation forKey:@"move"];
         [self.swarmMenuButton.layer pop_addAnimation:spinAnimation forKey:@"rotation"];
         
-//        [self.swarmHyveButton pop_removeAllAnimations];
         [self.swarmMenuButton pop_removeAllAnimations];
         POPBasicAnimation *fadingAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
         fadingAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
@@ -889,8 +883,7 @@
         moveSwarmButtonAnimation.toValue = [NSValue valueWithCGPoint:originalPosition];
         moveSwarmButtonAnimation.springBounciness = 20;
         moveSwarmButtonAnimation.springSpeed = 2;
-        
-//        [self.swarmHyveButton.layer pop_addAnimation:moveSwarmButtonAnimation forKey:@"move"];
+    
         [self.swarmMenuButton.layer pop_addAnimation:moveSwarmButtonAnimation forKey:@"move"];
         moveSwarmButtonAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
             sender.tag = 1;
@@ -898,22 +891,15 @@
     }
 }
 
-//disconnect
-//-(NSString*)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return @"Disconnect";
-//}
-//
-//-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return UITableViewCellEditingStyleDelete;
-//}
-
 -(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     CBPeripheral *peripheralToBeBuzzed = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
     
-    UITableViewRowAction *buzzAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Buzz" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+    NSString *buzz = @"Buzz";
+    NSString *buzzWithSpace = [buzz stringByPaddingToLength:10 withString:@" " startingAtIndex:0];
+    
+    
+    UITableViewRowAction *buzzAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:buzzWithSpace handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
         
         if (peripheralToBeBuzzed.state == CBPeripheralStateConnected)
         {
@@ -937,7 +923,7 @@
                 self.buzzData = [NSData dataWithBytes:byte length:1];
                 
                 [peripheralToBeBuzzed discoverServices:nil];
-                action.title = @"Buzz";
+                buzzAction.title = @"Buzz";
             }
         }
     }];

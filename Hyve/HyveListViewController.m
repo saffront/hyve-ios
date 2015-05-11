@@ -49,6 +49,7 @@
 @property (strong, nonatomic) NSMutableArray *mutableNewArray;
 @property BOOL hyveIsFound;
 @property (strong, nonatomic) NSData *buzzData;
+@property (strong, nonatomic) UIButton *swarmMenuButton;
 
 @end
 
@@ -717,12 +718,21 @@
         
         self.hyveListTableViewFooter.backgroundColor = [UIColor clearColor];
 
-        self.swarmHyveButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, 50, 70, 70)];
-        self.swarmHyveButton.tag = 1;
-        [self.swarmHyveButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds), CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
-        [self.swarmHyveButton setImage:[UIImage imageNamed:@"menu"] forState:UIControlStateNormal];
-        [self.swarmHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
-        [self.swarmHyveButton addTarget:self action:@selector(onHyveMenuButtonPressed:)forControlEvents:UIControlEventTouchUpInside];
+//        self.swarmHyveButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, 50, 70, 70)];
+//        self.swarmHyveButton.tag = 1;
+//        [self.swarmHyveButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds), CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
+//        [self.swarmHyveButton setImage:[UIImage imageNamed:@"hexMenu"] forState:UIControlStateNormal];
+//        [self.swarmHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+//        self.swarmButton.layer.borderColor = [UIColor clearColor].CGColor;
+//        self.swarmButton.borderColor = [UIColor clearColor];
+//        [self.swarmHyveButton addTarget:self action:@selector(onHyveMenuButtonPressed:)forControlEvents:UIControlEventTouchUpInside];
+        
+        self.swarmMenuButton = [[UIButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, 50, 70, 70)];
+        self.swarmMenuButton.tag = 1;
+        [self.swarmMenuButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds), CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
+        [self.swarmMenuButton setImage:[UIImage imageNamed:@"hexMenu"] forState:UIControlStateNormal];
+        [self.swarmMenuButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+        [self.swarmMenuButton addTarget:self action:@selector(onHyveMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         
         self.scanHyveButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, self.hyveListTableViewFooter.frame.size.height / 2, 70, 70)];
         [self.scanHyveButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds) - 80, CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
@@ -739,7 +749,8 @@
         [self.menuHyveButton addTarget:self action:@selector(onSwarmButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         self.menuHyveButton.alpha = 0;
         
-        [self.hyveListTableViewFooter addSubview:self.swarmHyveButton];
+//        [self.hyveListTableViewFooter addSubview:self.swarmHyveButton];
+        [self.hyveListTableViewFooter addSubview:self.swarmMenuButton];
         [self.hyveListTableViewFooter addSubview:self.scanHyveButton];
         [self.hyveListTableViewFooter addSubview:self.menuHyveButton];
         self.hyveListTableViewFooter.userInteractionEnabled = YES;
@@ -854,10 +865,13 @@
         spinAnimation.toValue = @(0);
         spinAnimation.springBounciness = 5;
         spinAnimation.velocity = @(20);
-        [self.swarmHyveButton.layer pop_addAnimation:moveSwarmButtonAnimation forKey:@"move"];
-        [self.swarmHyveButton.layer pop_addAnimation:spinAnimation forKey:@"rotation"];
+//        [self.swarmHyveButton.layer pop_addAnimation:moveSwarmButtonAnimation forKey:@"move"];
+//        [self.swarmHyveButton.layer pop_addAnimation:spinAnimation forKey:@"rotation"];
+        [self.swarmMenuButton.layer pop_addAnimation:moveSwarmButtonAnimation forKey:@"move"];
+        [self.swarmMenuButton.layer pop_addAnimation:spinAnimation forKey:@"rotation"];
         
-        [self.swarmHyveButton pop_removeAllAnimations];
+//        [self.swarmHyveButton pop_removeAllAnimations];
+        [self.swarmMenuButton pop_removeAllAnimations];
         POPBasicAnimation *fadingAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
         fadingAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
         fadingAnimation.fromValue = @(0.0);
@@ -883,8 +897,8 @@
         moveSwarmButtonAnimation.springBounciness = 20;
         moveSwarmButtonAnimation.springSpeed = 2;
         
-        [self.swarmHyveButton.layer pop_addAnimation:moveSwarmButtonAnimation forKey:@"move"];
-        
+//        [self.swarmHyveButton.layer pop_addAnimation:moveSwarmButtonAnimation forKey:@"move"];
+        [self.swarmMenuButton.layer pop_addAnimation:moveSwarmButtonAnimation forKey:@"move"];
         moveSwarmButtonAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
             sender.tag = 1;
         };

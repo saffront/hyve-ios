@@ -593,7 +593,7 @@
     self.loadingProgressView.backgroundType = KVNProgressBackgroundTypeBlurred;
     self.loadingProgressView.fullScreen = YES;
     self.loadingProgressView.minimumDisplayTime = 1;
-    [KVNProgress showWithStatus:@"Connecting to Hyve..."];
+    [KVNProgress showWithStatus:@"Connecting to Hyve... \r\r This process may take a while as we are saving your Hyve details"];
     
 }
 

@@ -22,7 +22,6 @@
 #import <MBLoadingIndicator.h>
 #import <KVNProgress.h>
 
-
 @interface HyveListViewController () <UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, CBPeripheralDelegate, UIGestureRecognizerDelegate, CBCentralManagerDelegate>
 
 @property (strong, nonatomic) Hyve *hyve;
@@ -39,17 +38,19 @@
 @property BOOL patchedSwarmInfo;
 @property (strong, nonatomic) UIView *hyveListTableViewFooter;
 @property (strong, nonatomic) UILongPressGestureRecognizer *swarmButtonLongPressGesture;
-@property (weak, nonatomic) IBOutlet DKCircleButton *swarmButton;
+//@property (weak, nonatomic) IBOutlet DKCircleButton *swarmButton;
 @property (nonatomic) KVNProgressConfiguration *loadingProgressView;
 @property  BOOL fromUserAccountVC;
-@property (strong, nonatomic) DKCircleButton *scanHyveButton;
-@property (strong, nonatomic) DKCircleButton *menuHyveButton;
+//@property (strong, nonatomic) DKCircleButton *scanHyveButton;
+//@property (strong, nonatomic) DKCircleButton *menuHyveButton;
 @property (strong, nonatomic) NSMutableArray *scannedNewHyveMutableArray;
 @property (strong, nonatomic) CBCentralManager *scanNewHyveCentralManager;
 @property (strong, nonatomic) NSMutableArray *mutableNewArray;
 @property BOOL hyveIsFound;
 @property (strong, nonatomic) NSData *buzzData;
 @property (strong, nonatomic) UIButton *swarmMenuButton;
+@property (strong, nonatomic) UIButton *scanHyveButton;
+@property (strong, nonatomic) UIButton *swarmButton;
 
 @end
 
@@ -730,29 +731,42 @@
         self.swarmMenuButton = [[UIButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, 50, 70, 70)];
         self.swarmMenuButton.tag = 1;
         [self.swarmMenuButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds), CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
-        [self.swarmMenuButton setImage:[UIImage imageNamed:@"hexMenu"] forState:UIControlStateNormal];
+        [self.swarmMenuButton setImage:[UIImage imageNamed:@"hexMenuHamburger"] forState:UIControlStateNormal];
         [self.swarmMenuButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [self.swarmMenuButton addTarget:self action:@selector(onHyveMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         
-        self.scanHyveButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, self.hyveListTableViewFooter.frame.size.height / 2, 70, 70)];
+//        self.scanHyveButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, self.hyveListTableViewFooter.frame.size.height / 2, 70, 70)];
+//        [self.scanHyveButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds) - 80, CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
+//        [self.scanHyveButton setImage:[UIImage imageNamed:@"scan"] forState:UIControlStateNormal];
+//        [self.scanHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+//        [self.scanHyveButton addTarget:self action:@selector(onScanHyveButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+//        self.scanHyveButton.alpha = 0;
+        
+        self.scanHyveButton = [[UIButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, self.hyveListTableViewFooter.frame.size.height / 2, 70, 70)];
         [self.scanHyveButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds) - 80, CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
-    
         [self.scanHyveButton setImage:[UIImage imageNamed:@"scan"] forState:UIControlStateNormal];
         [self.scanHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [self.scanHyveButton addTarget:self action:@selector(onScanHyveButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         self.scanHyveButton.alpha = 0;
         
-        self.menuHyveButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2 - 130, 50, 70, 70)];
-        [self.menuHyveButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds), CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
-        [self.menuHyveButton setImage:[UIImage imageNamed:@"swarm1"] forState:UIControlStateNormal];
-        [self.menuHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
-        [self.menuHyveButton addTarget:self action:@selector(onSwarmButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        self.menuHyveButton.alpha = 0;
+//        self.menuHyveButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2 - 130, 50, 70, 70)];
+//        [self.menuHyveButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds), CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
+//        [self.menuHyveButton setImage:[UIImage imageNamed:@"swarm1"] forState:UIControlStateNormal];
+//        [self.menuHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+//        [self.menuHyveButton addTarget:self action:@selector(onSwarmButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+//        self.menuHyveButton.alpha = 0;
+        
+        self.swarmButton = [[UIButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2 - 130, 50, 70, 70)];
+        [self.swarmButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds), CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
+        [self.swarmButton setImage:[UIImage imageNamed:@"swarm1"] forState:UIControlStateNormal];
+        [self.swarmButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+        [self.swarmButton addTarget:self action:@selector(onSwarmButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        self.swarmButton.alpha = 0;
         
 //        [self.hyveListTableViewFooter addSubview:self.swarmHyveButton];
         [self.hyveListTableViewFooter addSubview:self.swarmMenuButton];
         [self.hyveListTableViewFooter addSubview:self.scanHyveButton];
-        [self.hyveListTableViewFooter addSubview:self.menuHyveButton];
+        [self.hyveListTableViewFooter addSubview:self.swarmButton];
         self.hyveListTableViewFooter.userInteractionEnabled = YES;
     }
     
@@ -857,7 +871,7 @@
     if (sender.tag == 1)
     {
         moveSwarmButtonAnimation.toValue = [NSValue valueWithCGPoint:finalPosition];
-        moveSwarmButtonAnimation.springBounciness = 20;
+        moveSwarmButtonAnimation.springBounciness = 10;
         moveSwarmButtonAnimation.springSpeed = 2;
         
         POPSpringAnimation *spinAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerRotation];
@@ -877,7 +891,7 @@
         fadingAnimation.fromValue = @(0.0);
         fadingAnimation.toValue = @(1.0);
         
-        [self.menuHyveButton pop_addAnimation:fadingAnimation forKey:@"fade"];
+        [self.swarmButton pop_addAnimation:fadingAnimation forKey:@"fade"];
         [self.scanHyveButton pop_addAnimation:fadingAnimation forKey:@"fade"];
         
         sender.tag = 2;
@@ -888,7 +902,7 @@
         fadingAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
         fadingAnimation.fromValue = @(1.0);
         fadingAnimation.toValue = @(0.0);
-        [self.menuHyveButton pop_addAnimation:fadingAnimation forKey:@"fade"];
+        [self.swarmButton pop_addAnimation:fadingAnimation forKey:@"fade"];
         [self.scanHyveButton pop_addAnimation:fadingAnimation forKey:@"fade"];
         
         CGPoint originalPosition = CGPointMake(finalPosition.x - 90, self.swarmHyveButton.frame.origin.y);
@@ -918,15 +932,12 @@
 
 -(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewRowAction *buzzAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Buzz" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
-        
-        NSLog(@"I am gonna buzz you");
+    CBPeripheral *peripheralToBeBuzzed = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
     
-        CBPeripheral *peripheralToBeBuzzed = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
+    UITableViewRowAction *buzzAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Buzz" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
         
         if (peripheralToBeBuzzed.state == CBPeripheralStateConnected)
         {
-            NSLog(@"Buzz");
             if ([action.title isEqualToString:@"Buzz"])
             {
                 uint8_t byte[1];
@@ -935,9 +946,9 @@
                 self.buzzData = [NSData dataWithBytes:byte length:1];
                 
                 [peripheralToBeBuzzed discoverServices:nil];
+                action.title = @"Shh...";
                 
-                buzzAction.title = @"Shh...";
-                
+                [buzzAction setTitle:@"Shh..."];
             }
             else if ([action.title isEqualToString:@"Shh..."])
             {
@@ -947,23 +958,34 @@
                 self.buzzData = [NSData dataWithBytes:byte length:1];
                 
                 [peripheralToBeBuzzed discoverServices:nil];
-                buzzAction.title = @"Buzz";
+                action.title = @"Buzz";
             }
         }
-        
     }];
-    buzzAction.backgroundColor = [UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1];
+    buzzAction.backgroundColor = [UIColor colorWithRed:0.89 green:0.39 blue:0.16 alpha:1];
     
-    UITableViewRowAction *disconnectAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Disconnect"  handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+    UITableViewRowAction *disconnectAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Disconnect"  handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
         
         CBPeripheral *peripheralToBeDisconnected = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
         [self.centralManager cancelPeripheralConnection:peripheralToBeDisconnected];
         [self.hyveListTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         
     }];
-    disconnectAction.backgroundColor = [UIColor colorWithRed:0.89 green:0.39 blue:0.16 alpha:1];
-
-    return @[buzzAction,disconnectAction];
+    disconnectAction.backgroundColor = [UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1];
+    
+    
+    UITableViewRowAction *unbuzzAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Unbuzz" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+       
+        uint8_t byte[1];
+        byte[0]='b';
+        
+        self.buzzData = [NSData dataWithBytes:byte length:1];
+        
+        [peripheralToBeBuzzed discoverServices:nil];
+    }];
+    unbuzzAction.backgroundColor = [UIColor colorWithRed:1 green:0.64 blue:0 alpha:1];
+    
+    return @[unbuzzAction, buzzAction,disconnectAction];
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath

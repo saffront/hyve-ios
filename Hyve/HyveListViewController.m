@@ -952,8 +952,7 @@
         }
         
     }];
-    buzzAction.backgroundColor = [UIColor blueColor];
-    
+    buzzAction.backgroundColor = [UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1];
     
     UITableViewRowAction *disconnectAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Disconnect"  handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
         
@@ -962,7 +961,8 @@
         [self.hyveListTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         
     }];
-    disconnectAction.backgroundColor = [UIColor redColor];
+    disconnectAction.backgroundColor = [UIColor colorWithRed:0.89 green:0.39 blue:0.16 alpha:1];
+
     return @[buzzAction,disconnectAction];
 }
 

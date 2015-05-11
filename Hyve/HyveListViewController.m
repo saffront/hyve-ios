@@ -575,9 +575,11 @@
                     {
                         dispatch_async(dispatch_get_main_queue(), ^{
                            
-                            cell.hyveProximity.text = proximity;
+//                            cell.hyveProximity.text = proximity;
+                            cell.hyveProximity.text = [NSString stringWithFormat:@"Proximity: %@",proximity];
                             
-                            if ([cell.hyveProximity.text isEqualToString:@"close by"])
+                            if ([cell.hyveProximity.text isEqualToString:@"Proximity: close by"])
+//                            if ([cell.hyveProximity.text isEqualToString:@"close by"])
                             {
                                 cell.hyveProximity.textColor = [UIColor greenColor];
                                 cell.hyveProximity.numberOfLines = 0;
@@ -656,7 +658,7 @@
     {
         cell.hyveName.text = @"Unkown devices";
         cell.hyveName.font = [UIFont fontWithName:@"OpenSans-Bold" size:22];
-        cell.hyveName.textColor = [UIColor whiteColor];
+        cell.hyveName.textColor = [UIColor colorWithRed:0.29 green:0.29 blue:0.29 alpha:1];
         [cell.hyveImage setImage:[UIImage imageNamed:@"defaultHyveImage"] forState:UIControlStateNormal];
         cell.hyveBattery.alpha = 0;
         cell.hyveProximity.alpha = 0;
@@ -669,11 +671,11 @@
         
         cell.hyveName.text = self.hyve.peripheralName;
         cell.hyveName.font = [UIFont fontWithName:@"OpenSans-Bold" size:22];
-        cell.hyveName.textColor = [UIColor whiteColor];
+        cell.hyveName.textColor = [UIColor colorWithRed:0.29 green:0.29 blue:0.29 alpha:1];
         cell.hyveName.numberOfLines = 0;
         
-        cell.hyveBattery.text = @"Super strong";
-        cell.hyveBattery.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
+        cell.hyveBattery.text = [NSString stringWithFormat:@"Battery: Strong"];
+        cell.hyveBattery.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:14];
         cell.hyveBattery.textColor = [UIColor whiteColor];
         cell.hyveBattery.numberOfLines = 0;
     
@@ -681,17 +683,19 @@
         
         if (peripheral.state == CBPeripheralStateConnected)
         {
-            cell.hyveProximity.text = @"Hyve is connected";
+//            cell.hyveProximity.text = @"Hyve is connected";
+            cell.hyveProximity.text = @"Proximity: Connected";
             cell.hyveProximity.textColor = [UIColor whiteColor];
             cell.hyveProximity.numberOfLines = 0;
-            cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
+            cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:14];
         }
         else
         {
-            cell.hyveProximity.text = @"Hyve not connected";
+//            cell.hyveProximity.text = @"Hyve not connected";
+            cell.hyveProximity.text = @"Proximity: Not Connected";
             cell.hyveProximity.textColor = [UIColor whiteColor];
             cell.hyveProximity.numberOfLines = 0;
-            cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:16];
+            cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:14];
         }
         
         if (self.patchedSwarmInfo == YES)

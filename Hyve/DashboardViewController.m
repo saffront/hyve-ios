@@ -252,6 +252,7 @@
     [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
     [manager.requestSerializer setTimeoutInterval:20];
     
+    
     [manager GET:hyveURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSDictionary *hyveDictionary = responseObject;

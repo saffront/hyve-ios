@@ -48,6 +48,7 @@
 @property (strong, nonatomic) CBCentralManager *scanNewHyveCentralManager;
 @property (strong, nonatomic) NSMutableArray *mutableNewArray;
 @property BOOL hyveIsFound;
+@property (strong, nonatomic) NSData *buzzData;
 
 @end
 
@@ -906,12 +907,34 @@
     UITableViewRowAction *buzzAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Buzz" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
         
         NSLog(@"I am gonna buzz you");
-        
+    
         CBPeripheral *peripheralToBeBuzzed = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
         
         if (peripheralToBeBuzzed.state == CBPeripheralStateConnected)
         {
             NSLog(@"Buzz");
+            if ([action.title isEqualToString:@"Buzz"])
+            {
+                uint8_t byte[1];
+                byte[0]='a';
+                
+                self.buzzData = [NSData dataWithBytes:byte length:1];
+                
+                [peripheralToBeBuzzed discoverServices:nil];
+                
+                buzzAction.title = @"Shh...";
+                
+            }
+            else if ([action.title isEqualToString:@"Shh..."])
+            {
+                uint8_t byte[1];
+                byte[0]='b';
+                
+                self.buzzData = [NSData dataWithBytes:byte length:1];
+                
+                [peripheralToBeBuzzed discoverServices:nil];
+                buzzAction.title = @"Buzz";
+            }
         }
         
     }];
@@ -940,6 +963,8 @@
 //        [self.hyveListTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 //    }
 }
+
+
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -1011,6 +1036,30 @@
     });
 }
 
+#pragma mark - peripheral delegate
+-(void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
+{
+    for (CBService *service in peripheral.services)
+    {
+        NSLog(@"peripheral = %@ \r service: %@ \r service.uuid: %@", peripheral, service, service.UUID);
+        
+        [peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:@"FFF1"]] forService:service];
+    }
+}
+
+-(void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error
+{
+    for (CBCharacteristic *characterisitc in service.characteristics)
+    {
+        CBUUID *characteristicUUID = characterisitc.UUID;
+        CBUUID *characteristicUUIDString = [CBUUID UUIDWithString:@"FFF1"];
+        
+        if ([characteristicUUID isEqual:characteristicUUIDString])
+        {
+            [peripheral writeValue:self.buzzData forCharacteristic:characterisitc type:CBCharacteristicWriteWithResponse];
+        }
+    }
+}
 
 #pragma mark - segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

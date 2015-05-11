@@ -328,7 +328,7 @@
 //        [self alertMessageToUser:@"Please ensure all fields are entered"];
 //    }
 //    else
-    if (passwordCharacterCount > 8 && self.textFieldIsEmpty == NO)
+    if (passwordCharacterCount >= 8 && self.textFieldIsEmpty == NO)
     {
         NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",
                                       provider,@"provider",

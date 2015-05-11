@@ -720,17 +720,7 @@
     if (self.hyveListTableViewFooter == nil)
     {
         self.hyveListTableViewFooter = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 100)];
-        
         self.hyveListTableViewFooter.backgroundColor = [UIColor clearColor];
-
-//        self.swarmHyveButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, 50, 70, 70)];
-//        self.swarmHyveButton.tag = 1;
-//        [self.swarmHyveButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds), CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
-//        [self.swarmHyveButton setImage:[UIImage imageNamed:@"hexMenu"] forState:UIControlStateNormal];
-//        [self.swarmHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
-//        self.swarmButton.layer.borderColor = [UIColor clearColor].CGColor;
-//        self.swarmButton.borderColor = [UIColor clearColor];
-//        [self.swarmHyveButton addTarget:self action:@selector(onHyveMenuButtonPressed:)forControlEvents:UIControlEventTouchUpInside];
         
         self.swarmMenuButton = [[UIButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, 50, 70, 70)];
         self.swarmMenuButton.tag = 1;
@@ -739,26 +729,12 @@
         [self.swarmMenuButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [self.swarmMenuButton addTarget:self action:@selector(onHyveMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         
-//        self.scanHyveButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, self.hyveListTableViewFooter.frame.size.height / 2, 70, 70)];
-//        [self.scanHyveButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds) - 80, CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
-//        [self.scanHyveButton setImage:[UIImage imageNamed:@"scan"] forState:UIControlStateNormal];
-//        [self.scanHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
-//        [self.scanHyveButton addTarget:self action:@selector(onScanHyveButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-//        self.scanHyveButton.alpha = 0;
-        
         self.scanHyveButton = [[UIButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, self.hyveListTableViewFooter.frame.size.height / 2, 70, 70)];
         [self.scanHyveButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds) - 80, CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
         [self.scanHyveButton setImage:[UIImage imageNamed:@"scan"] forState:UIControlStateNormal];
         [self.scanHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [self.scanHyveButton addTarget:self action:@selector(onScanHyveButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         self.scanHyveButton.alpha = 0;
-        
-//        self.menuHyveButton = [[DKCircleButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2 - 130, 50, 70, 70)];
-//        [self.menuHyveButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds), CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
-//        [self.menuHyveButton setImage:[UIImage imageNamed:@"swarm1"] forState:UIControlStateNormal];
-//        [self.menuHyveButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
-//        [self.menuHyveButton addTarget:self action:@selector(onSwarmButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-//        self.menuHyveButton.alpha = 0;
         
         self.swarmButton = [[UIButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2 - 130, 50, 70, 70)];
         [self.swarmButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds), CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
@@ -767,7 +743,6 @@
         [self.swarmButton addTarget:self action:@selector(onSwarmButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         self.swarmButton.alpha = 0;
         
-//        [self.hyveListTableViewFooter addSubview:self.swarmHyveButton];
         [self.hyveListTableViewFooter addSubview:self.swarmMenuButton];
         [self.hyveListTableViewFooter addSubview:self.scanHyveButton];
         [self.hyveListTableViewFooter addSubview:self.swarmButton];

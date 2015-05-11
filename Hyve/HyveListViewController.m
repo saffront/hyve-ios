@@ -773,7 +773,7 @@
     
     [self.scanNewHyveCentralManager scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@NO}];
     self.scanHyveButton.userInteractionEnabled = NO;
-    [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(timeoutScanningForNewHyve) userInfo:nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(timeoutScanningForNewHyve) userInfo:nil repeats:NO];
     
     self.loadingProgressView = [KVNProgressConfiguration defaultConfiguration];
     [KVNProgress setConfiguration:self.loadingProgressView];
@@ -781,7 +781,7 @@
     self.loadingProgressView.fullScreen = YES;
     
     self.loadingProgressView.minimumDisplayTime = 1;
-    [KVNProgress showWithStatus:@"Scanning \r\r Please hold for 20 secs"];
+    [KVNProgress showWithStatus:@"Scanning \r\r Please hold for 10 secs"];
 }
 
 //central manager delegate

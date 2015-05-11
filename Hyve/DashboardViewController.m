@@ -108,7 +108,7 @@
 #pragma mark - styling detection hyve label
 -(void)stylingDetectingHyveLabel
 {
-    self.detectingHyveLabel.text = [NSString stringWithFormat:@"Searching for Hyve \r\r This process will take 15 seconds"];
+    self.detectingHyveLabel.text = [NSString stringWithFormat:@"Searching for Hyve \r\r This process will take 10 seconds"];
     self.detectingHyveLabel.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:17];
     self.detectingHyveLabel.textColor = [UIColor blackColor];
     self.detectingHyveLabel.numberOfLines = 0;
@@ -251,7 +251,6 @@
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [manager.requestSerializer setValue:api_token forHTTPHeaderField:@"X-hyve-token"];
     [manager.requestSerializer setTimeoutInterval:20];
-    
     
     [manager GET:hyveURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         

@@ -29,7 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.blurView.alpha = 0;
-    [self checkingForToken];
+//    [self checkingForToken];
     
     self.backgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.backgroundView.image = [UIImage imageNamed:@"walkthroughBg2"];
@@ -73,12 +73,14 @@
             {
                 NSLog(@"reachable with wifi");
                 reachable = YES;
+                [self checkingForToken];
                 break;
             }
             case AFNetworkReachabilityStatusReachableViaWWAN:
             {
                 NSLog(@"reachable via WWAN");
                 reachable = YES;
+                [self checkingForToken];
                 break;
             }
             default:

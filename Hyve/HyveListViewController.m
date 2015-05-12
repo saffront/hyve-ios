@@ -48,6 +48,7 @@
 @property (strong, nonatomic) UIButton *swarmMenuButton;
 @property (strong, nonatomic) UIButton *scanHyveButton;
 @property (strong, nonatomic) UIButton *swarmButton;
+@property (strong, nonatomic) UIView *instructionalScreenView;
 
 @end
 
@@ -58,6 +59,7 @@
     [super viewDidLoad];
     
     [self settingLoadingProgressView];
+    [self showingInstructionalScreenToFirstTimeUser];
     self.hyveIsFound = NO;
     self.mutableNewArray = [NSMutableArray new];
     self.scannedNewHyveMutableArray = [NSMutableArray new];
@@ -130,6 +132,49 @@
     
     return reachable;
 }
+
+#pragma mark - instructional screen
+-(void)showingInstructionalScreenToFirstTimeUser
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *notFirstTime = [userDefaults objectForKey:@"notFirstTime"];
+    
+    if (![notFirstTime isEqualToString:@"notFirstTime"])
+    {
+        self.instructionalScreenView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        
+        UIImage *instruction1 = [UIImage imageNamed:@"swipeInstruction1"];
+        UIImage *instruction2 = [UIImage imageNamed:@"swipeInstruction2"];
+        UIImage *instruction3 = [UIImage imageNamed:@"swipeInstruction3"];
+        UIImage *instruction4 = [UIImage imageNamed:@"swipeInstruction4"];
+
+        NSArray *gifInstruction = @[instruction1, instruction2, instruction3, instruction4];
+        
+        UIImageView *instructionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.instructionalScreenView.frame.size.width, self.instructionalScreenView.frame.size.height)];
+        instructionImageView.animationImages = gifInstruction;
+        instructionImageView.animationDuration = 3;
+        instructionImageView.animationRepeatCount = 1;
+        [instructionImageView startAnimating];
+        
+        if ([instructionImageView isAnimating] == NO)
+        {
+            UIButton *dismissButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2, 100, 100)];
+            [dismissButton setTitle:@"Gotcha!" forState:UIControlStateNormal];
+            [dismissButton addTarget:self action:@selector(onDismissInstructionalScreenPressed) forControlEvents:UIControlEventTouchUpInside];
+            [self.instructionalScreenView addSubview:dismissButton];
+        }
+        
+        [self.instructionalScreenView addSubview:instructionImageView];
+        [self.view addSubview:self.instructionalScreenView];
+        [self.view bringSubviewToFront:self.instructionalScreenView];
+    }
+}
+
+-(void)onDismissInstructionalScreenPressed
+{
+    [self.instructionalScreenView removeFromSuperview];
+}
+
 
 #pragma mark - default user profile
 -(void)setDefaultUserProfile
@@ -215,6 +260,8 @@
         [self.hyveListTable reloadData];
     });
 }
+
+
 
 #pragma mark - loading progress view
 -(void)settingLoadingProgressView
@@ -680,7 +727,6 @@
         
         if (peripheral.state == CBPeripheralStateConnected)
         {
-//            cell.hyveProximity.text = @"Hyve is connected";
             cell.hyveProximity.text = @"Proximity: Connected";
             cell.hyveProximity.textColor = [UIColor whiteColor];
             cell.hyveProximity.numberOfLines = 0;
@@ -688,7 +734,6 @@
         }
         else
         {
-//            cell.hyveProximity.text = @"Hyve not connected";
             cell.hyveProximity.text = @"Proximity: Not Connected";
             cell.hyveProximity.textColor = [UIColor whiteColor];
             cell.hyveProximity.numberOfLines = 0;
@@ -898,12 +943,13 @@
     NSString *buzz = @"Buzz";
     NSString *buzzWithSpace = [buzz stringByPaddingToLength:10 withString:@" " startingAtIndex:0];
     
-    
     UITableViewRowAction *buzzAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:buzzWithSpace handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+        
+        NSLog(@"Buzz");
         
         if (peripheralToBeBuzzed.state == CBPeripheralStateConnected)
         {
-            if ([action.title isEqualToString:@"Buzz"])
+            if ([action.title isEqualToString:buzzWithSpace])
             {
                 uint8_t byte[1];
                 byte[0]='a';
@@ -923,7 +969,7 @@
                 self.buzzData = [NSData dataWithBytes:byte length:1];
                 
                 [peripheralToBeBuzzed discoverServices:nil];
-                buzzAction.title = @"Buzz";
+                [buzzAction setTitle:buzzWithSpace];
             }
         }
     }];
@@ -941,6 +987,8 @@
     
     UITableViewRowAction *unbuzzAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Unbuzz" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
        
+        NSLog(@"Unbuzz");
+        
         uint8_t byte[1];
         byte[0]='b';
         

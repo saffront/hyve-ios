@@ -650,10 +650,6 @@
     {
         NSLog(@"connectedToPeripheral : peripheral ==> %@ self.pheripheral ~~> %@", peripheral, self.peripheral);
         
-//        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:[NSString stringWithFormat:@"Successfully connected to %@", peripheral.name] preferredStyle:UIAlertControllerStyleAlert];
-//        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-//        [alertController addAction:okAction];
-//        [self presentViewController:alertController animated:YES completion:nil];
     }
 }
 
@@ -683,28 +679,23 @@
                 
                 if ([self.hyveDistanceButton.titleLabel.text isEqualToString:@"1 meter"])
                 {
-                    //[self writingOneMeterDistanceData:characteristic];
                     [self writingDistanceDataToHyve:characteristic withDataOne:'P' withDataTwo:'<' withDataThree:'S' withDataFour:'8' withDataFive:'0' withDataSix:'>' withDataSeven:'<' withDataEight:'X' withDataNine:'>'];
                     
                 }
                 else if ([self.hyveDistanceButton.titleLabel.text isEqualToString:@"2 meters"])
                 {
-                    //[self writingTwoMetersDistanceData:characteristic];
                     [self writingDistanceDataToHyve:characteristic withDataOne:'P' withDataTwo:'<' withDataThree:'S' withDataFour:'9' withDataFive:'6' withDataSix:'>' withDataSeven:'<' withDataEight:'X' withDataNine:'>'];
                 }
                 else if ([self.hyveDistanceButton.titleLabel.text isEqualToString:@"4 meters"])
                 {
-                    //[self writingFourMetersDistanceData:characteristic];
                     [self writingDistanceDataToHyve:characteristic withDataOne:'P' withDataTwo:'<' withDataThree:'S' withDataFour:'9' withDataFive:'2' withDataSix:'>' withDataSeven:'<' withDataEight:'X' withDataNine:'>'];
                 }
                 else if ([self.hyveDistanceButton.titleLabel.text isEqualToString:@"8 meters"])
                 {
-                    //[self writingEightMetersDistanceData:characteristic];
                     [self writingDistanceDataToHyve:characteristic withDataOne:'P' withDataTwo:'<' withDataThree:'S' withDataFour:'9' withDataFive:'8' withDataSix:'>' withDataSeven:'<' withDataEight:'X' withDataNine:'>'];
                 }
                 else if ([self.hyveDistanceButton.titleLabel.text isEqualToString:@"16 meters"])
                 {
-                    //[self writingSixteenMetersDistanceData:characteristic];
                     [self writingDistanceDataToHyve:characteristic withDataOne:'<' withDataTwo:'S' withDataThree:'1' withDataFour:'0' withDataFive:'0' withDataSix:'>' withDataSeven:'<' withDataEight:'X' withDataNine:'>'];
                 }
                 else

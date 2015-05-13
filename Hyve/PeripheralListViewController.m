@@ -309,7 +309,7 @@
     }
     else
     {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity. Unable to pair selected device" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble connecting to server. Unable to pair selected device" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
         [alertController addAction:OKAction];
         [self presentViewController:alertController animated:YES completion:nil];

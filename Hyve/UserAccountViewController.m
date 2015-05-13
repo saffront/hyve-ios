@@ -670,7 +670,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
     [userDefaults removeObjectForKey:@"api_token"];
-    [userDefaults removeObjectForKey:@"notFirstTime"];
+//    [userDefaults removeObjectForKey:@"notFirstTime"];
 }
 
 #pragma mark - styling back button

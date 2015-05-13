@@ -49,6 +49,7 @@
 @property (strong, nonatomic) UIButton *scanHyveButton;
 @property (strong, nonatomic) UIButton *swarmButton;
 @property (strong, nonatomic) UIView *instructionalScreenView;
+@property (strong, nonatomic) UIImageView *instructionImageView;
 
 @end
 
@@ -59,7 +60,6 @@
     [super viewDidLoad];
     
     [self settingLoadingProgressView];
-    [self showingInstructionalScreenToFirstTimeUser];
     self.hyveIsFound = NO;
     self.mutableNewArray = [NSMutableArray new];
     self.scannedNewHyveMutableArray = [NSMutableArray new];
@@ -74,7 +74,14 @@
 
     [self connected];
     [self setDefaultUserProfile];
-    
+
+}
+
+#pragma mark - viewDidAppear
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self showingInstructionalScreenToFirstTimeUser];
 }
 
 #pragma mark - connected
@@ -136,37 +143,37 @@
 #pragma mark - instructional screen
 -(void)showingInstructionalScreenToFirstTimeUser
 {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *notFirstTime = [userDefaults objectForKey:@"notFirstTime"];
-    
-    if (![notFirstTime isEqualToString:@"notFirstTime"])
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"FirstTimeUserLandingHyveListVC"] != nil)
     {
+        NSLog(@"no need show instrutional screen view");
+    }
+    else
+    {
+        
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setInteger:1 forKey:@"FirstTimeUserLandingHyveListVC"];
+        
         self.instructionalScreenView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
         
         UIImage *instruction1 = [UIImage imageNamed:@"swipeInstruction1"];
         UIImage *instruction2 = [UIImage imageNamed:@"swipeInstruction2"];
         UIImage *instruction3 = [UIImage imageNamed:@"swipeInstruction3"];
         UIImage *instruction4 = [UIImage imageNamed:@"swipeInstruction4"];
-
+        
         NSArray *gifInstruction = @[instruction1, instruction2, instruction3, instruction4];
         
-        UIImageView *instructionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.instructionalScreenView.frame.size.width, self.instructionalScreenView.frame.size.height)];
-        instructionImageView.animationImages = gifInstruction;
-        instructionImageView.animationDuration = 3;
-        instructionImageView.animationRepeatCount = 1;
-        [instructionImageView startAnimating];
-        
-        if ([instructionImageView isAnimating] == NO)
-        {
-            UIButton *dismissButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2, 100, 100)];
-            [dismissButton setTitle:@"Gotcha!" forState:UIControlStateNormal];
-            [dismissButton addTarget:self action:@selector(onDismissInstructionalScreenPressed) forControlEvents:UIControlEventTouchUpInside];
-            [self.instructionalScreenView addSubview:dismissButton];
-        }
-        
-        [self.instructionalScreenView addSubview:instructionImageView];
+        self.instructionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.instructionalScreenView.frame.size.width, self.instructionalScreenView.frame.size.height)];
+        self.instructionImageView.animationImages = gifInstruction;
+        self.instructionImageView.animationDuration = 3;
+        self.instructionImageView.animationRepeatCount = 0;
+
+        [self.instructionalScreenView addSubview:self.instructionImageView];
         [self.view addSubview:self.instructionalScreenView];
         [self.view bringSubviewToFront:self.instructionalScreenView];
+        
+        [self.instructionImageView startAnimating];
+        
+        [NSTimer scheduledTimerWithTimeInterval:12 target:self selector:@selector(instructionGIFFinish) userInfo:nil repeats:NO];
     }
 }
 
@@ -175,6 +182,18 @@
     [self.instructionalScreenView removeFromSuperview];
 }
 
+-(void)instructionGIFFinish
+{
+    self.instructionImageView.alpha = 0;
+
+    UIButton *dismissButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2, 100, 100)];
+    [dismissButton setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds))];
+    [dismissButton setTitle:@"Gotcha!" forState:UIControlStateNormal];
+    [dismissButton addTarget:self action:@selector(onDismissInstructionalScreenPressed) forControlEvents:UIControlEventTouchUpInside];
+    dismissButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:18];
+    [dismissButton setBackgroundColor:[UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1]];
+    [self.instructionalScreenView addSubview:dismissButton];
+}
 
 #pragma mark - default user profile
 -(void)setDefaultUserProfile
@@ -957,19 +976,6 @@
                 self.buzzData = [NSData dataWithBytes:byte length:1];
                 
                 [peripheralToBeBuzzed discoverServices:nil];
-                action.title = @"Shh...";
-                
-                [buzzAction setTitle:@"Shh..."];
-            }
-            else if ([action.title isEqualToString:@"Shh..."])
-            {
-                uint8_t byte[1];
-                byte[0]='b';
-                
-                self.buzzData = [NSData dataWithBytes:byte length:1];
-                
-                [peripheralToBeBuzzed discoverServices:nil];
-                [buzzAction setTitle:buzzWithSpace];
             }
         }
     }];

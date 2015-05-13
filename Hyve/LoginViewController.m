@@ -222,8 +222,10 @@
             NSString *username = [NSString stringWithFormat:@"%@ %@", first_name, last_name];
             NSString *usernameWithoutWhiteSpace = [[username stringByReplacingOccurrencesOfString:@" " withString:@""]lowercaseString];
             NSString *image = [responseObject valueForKeyPath:@"info.image"];
+            NSString *token = [responseObject valueForKeyPath:@"credentials.token"];
 
             NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                       token, @"token",
                                                        email,@"email",
                                                        uid,@"uid",
                                                        provider,@"provider",
@@ -363,6 +365,7 @@
                 
 //                NSLog(@"person display name: %@ \r person.aboutMe %@ \r birthday %@ \r gender: %@ \r familyName: %@ \r givenName %@ \r identifier %@ \r emails: %@", person.displayName, person.aboutMe, person.birthday, person.gender, person.name.familyName, person.name.givenName, person.identifier, [GPPSignIn sharedInstance].authentication.userEmail);
                 
+                NSString *token = auth.accessToken;
                 NSString *email = [GPPSignIn sharedInstance].authentication.userEmail;
                 NSString *uid = person.identifier;
                 NSString *first_name = person.name.givenName;
@@ -371,13 +374,15 @@
                 NSString *imageURLString = person.image.url;
                 NSString *provider = @"google";
             
-                NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",
-                                               uid,@"uid",
-                                               provider,@"provider",
-                                               first_name,@"first_name",
-                                               last_name,@"last_name",
-                                               usernameWithoutWhiteSpace,@"username",
-                                               imageURLString,@"avatar",nil];
+                NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                           token, @"token",
+                                                           email,@"email",
+                                                           uid,@"uid",
+                                                           provider,@"provider",
+                                                           first_name,@"first_name",
+                                                           last_name,@"last_name",
+                                                           usernameWithoutWhiteSpace,@"username",
+                                                           imageURLString,@"avatar",nil];
 
                 [self registerUserToHyve:userInfoDictionary];
             }

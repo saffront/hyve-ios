@@ -300,7 +300,6 @@
         }
     }
     
-    
     if (self.textFieldIsEmpty == YES)
     {
         [KVNProgress dismiss];
@@ -389,14 +388,17 @@
             NSString *username = [NSString stringWithFormat:@"%@ %@", first_name, last_name];
             NSString *usernameWithoutWhiteSpace = [[username stringByReplacingOccurrencesOfString:@" " withString:@""]lowercaseString];
             NSString *image = [responseObject valueForKeyPath:@"info.image"];
+            NSString *token = [responseObject valueForKeyPath:@"credentials.token"];
             
-            NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",
-               uid,@"uid",
-               provider,@"provider",
-               first_name,@"first_name",
-               last_name,@"last_name",
-               usernameWithoutWhiteSpace ,@"username",
-               image,@"avatar",nil];
+            NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                       token, @"token",
+                                                       email,@"email",
+                                                       uid,@"uid",
+                                                       provider,@"provider",
+                                                       first_name,@"first_name",
+                                                       last_name,@"last_name",
+                                                       usernameWithoutWhiteSpace ,@"username",
+                                                       image,@"avatar",nil];
             
             [self registerUserToHyve:userInfoDictionary];
 
@@ -434,7 +436,6 @@
 
 -(void)loginWithGooglePlus
 {
-    
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     GPPSignIn *signIn = [GPPSignIn sharedInstance];
     signIn.shouldFetchGooglePlusUser = YES;
@@ -470,7 +471,7 @@
              }
              else
              {
-                 
+                 NSString *token = auth.accessToken;
                  NSString *email = [GPPSignIn sharedInstance].authentication.userEmail;
                  NSString *uid = person.identifier;
                  NSString *first_name = person.name.givenName;
@@ -479,7 +480,9 @@
                  NSString *imageURLString = person.image.url;
                  NSString *provider = @"google";
                  
-                 NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:email,@"email",
+                 NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                  token, @"token",
+                                                  email,@"email",
                                                   uid,@"uid",
                                                   provider,@"provider",
                                                   first_name,@"first_name",
@@ -550,10 +553,7 @@
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         NSLog(@"error %@ \r \r error localized:%@", error, [error localizedDescription]);
         
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble connecting to server. Plese try again" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-        [alertController addAction:okAction];
-        [self presentViewController:alertController animated:YES completion:nil];
+        [self alertMessageToUser:@"Trouble connecting to server. Please try again"];
         
     }];
 }

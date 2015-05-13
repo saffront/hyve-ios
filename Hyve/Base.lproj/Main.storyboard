@@ -1510,6 +1510,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pIy-fo-a3J" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="ZMZ-CM-7FE" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4813.5" y="355.5"/>
         </scene>
@@ -1544,7 +1545,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <action selector="onPairButtonPressed:" destination="0xV-j0-3v0" eventType="touchUpInside" id="cDH-ex-HrZ"/>
+                                    <segue destination="ZMZ-CM-7FE" kind="unwind" unwindAction="unwindSegueFromScannedNewHyveVC:" id="gdf-Sl-ldz"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iEI-yw-BEe">

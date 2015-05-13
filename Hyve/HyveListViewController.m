@@ -74,14 +74,14 @@
 
     [self connected];
     [self setDefaultUserProfile];
-
+    [self showingInstructionalScreenToFirstTimeUser];
 }
 
 #pragma mark - viewDidAppear
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self showingInstructionalScreenToFirstTimeUser];
+
 }
 
 #pragma mark - connected
@@ -149,23 +149,42 @@
     }
     else
     {
+        self.hyveListTable.alpha = 0;
+        self.userProfileImageButton.alpha = 0;
         
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setInteger:1 forKey:@"FirstTimeUserLandingHyveListVC"];
         
         self.instructionalScreenView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
         
-        UIImage *instruction1 = [UIImage imageNamed:@"swipeInstruction1"];
-        UIImage *instruction2 = [UIImage imageNamed:@"swipeInstruction2"];
-        UIImage *instruction3 = [UIImage imageNamed:@"swipeInstruction3"];
-        UIImage *instruction4 = [UIImage imageNamed:@"swipeInstruction4"];
-        
-        NSArray *gifInstruction = @[instruction1, instruction2, instruction3, instruction4];
-        
         self.instructionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.instructionalScreenView.frame.size.width, self.instructionalScreenView.frame.size.height)];
+        self.instructionImageView.image = [UIImage imageNamed:@"swipeInstruction2"];
+        
+        CGFloat midX = CGRectGetMidX(self.view.bounds);
+        CGFloat midY = CGRectGetMidY(self.view.bounds);
+        
+        UIButton *dismissButton = [[UIButton alloc] initWithFrame:CGRectMake(midX, midY + 130, 150, 100)];
+        [dismissButton setTitle:@"Gotcha!" forState:UIControlStateNormal];
+        [dismissButton addTarget:self action:@selector(onDismissInstructionalScreenPressed) forControlEvents:UIControlEventTouchUpInside];
+        dismissButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:18];
+        [dismissButton setBackgroundColor:[UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1]];
+        
+        [self.instructionalScreenView addSubview:dismissButton];
+        [self.instructionalScreenView addSubview:self.instructionImageView];
+        [self.view bringSubviewToFront:self.instructionalScreenView];
+        
+/*
+         UIImage *instruction1 = [UIImage imageNamed:@"swipeInstruction1"];
+         UIImage *instruction2 = [UIImage imageNamed:@"swipeInstruction2"];
+         UIImage *instruction3 = [UIImage imageNamed:@"swipeInstruction3"];
+         UIImage *instruction4 = [UIImage imageNamed:@"swipeInstruction4"];
+         
+         NSArray *gifInstruction = @[instruction1, instruction2, instruction3, instruction4];
+ 
+ 
         self.instructionImageView.animationImages = gifInstruction;
         self.instructionImageView.animationDuration = 3;
-        self.instructionImageView.animationRepeatCount = 0;
+        self.instructionImageView.animationRepeatCount = 1;
 
         [self.instructionalScreenView addSubview:self.instructionImageView];
         [self.view addSubview:self.instructionalScreenView];
@@ -174,26 +193,33 @@
         [self.instructionImageView startAnimating];
         
         [NSTimer scheduledTimerWithTimeInterval:12 target:self selector:@selector(instructionGIFFinish) userInfo:nil repeats:NO];
+*/
     }
 }
 
 -(void)onDismissInstructionalScreenPressed
 {
     [self.instructionalScreenView removeFromSuperview];
+    self.hyveListTable.alpha = 1;
+    self.userProfileImageButton.alpha = 1;
 }
 
--(void)instructionGIFFinish
-{
-    self.instructionImageView.alpha = 0;
-
-    UIButton *dismissButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2, 100, 100)];
-    [dismissButton setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds))];
-    [dismissButton setTitle:@"Gotcha!" forState:UIControlStateNormal];
-    [dismissButton addTarget:self action:@selector(onDismissInstructionalScreenPressed) forControlEvents:UIControlEventTouchUpInside];
-    dismissButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:18];
-    [dismissButton setBackgroundColor:[UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1]];
-    [self.instructionalScreenView addSubview:dismissButton];
-}
+//-(void)instructionGIFFinish
+//{
+//    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+//    UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+//    blurEffectView.frame = self.instructionImageView.bounds;
+//    [self.instructionImageView addSubview:blurEffectView];
+//
+//    UIButton *dismissButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2, 150, 100)];
+//    [dismissButton setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds))];
+//    [dismissButton setTitle:@"Gotcha!" forState:UIControlStateNormal];
+//    [dismissButton addTarget:self action:@selector(onDismissInstructionalScreenPressed) forControlEvents:UIControlEventTouchUpInside];
+//    dismissButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:18];
+//    [dismissButton setBackgroundColor:[UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1]];
+////    [self.instructionalScreenView addSubview:dismissButton];
+//    [self.instructionImageView addSubview:dismissButton];
+//}
 
 #pragma mark - default user profile
 -(void)setDefaultUserProfile
@@ -262,11 +288,11 @@
 {
     [super viewWillAppear:animated];
 
-    static dispatch_once_t once;
+//    static dispatch_once_t once;
     
-    dispatch_once(&once, ^{
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(populateTableWithNewScannedHyve:) name:@"scannedNewHyve" object:nil];
-    });
+//    dispatch_once(&once, ^{
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(populateTableWithNewScannedHyve:) name:@"scannedNewHyve" object:nil];
+//    });
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingUserImage:) name:@"user" object:nil];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
@@ -1154,6 +1180,21 @@
     if ([uavc isKindOfClass:[UserAccountViewController class]])
     {
         NSLog(@"return back from user account vc");
+    }
+}
+
+-(IBAction)unwindSegueFromScannedNewHyveVC:(UIStoryboardSegue*)segue
+{
+    ScannedNewHyveViewController *snhvc = segue.sourceViewController;
+    
+    if([snhvc isKindOfClass:[ScannedNewHyveViewController class]])
+    {
+        NSLog(@"BACK FROM SCANNED NEW HYVE VIEWCONTROLLER");
+        [self.hyveDevicesMutableArray addObjectsFromArray:snhvc.selectedNewScannedHyveMutableArray];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.hyveListTable reloadData];
+        });
     }
 }
 

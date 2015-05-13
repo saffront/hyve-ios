@@ -13,5 +13,5 @@
 @interface ScannedNewHyveViewController : UIViewController
 @property (strong, nonatomic) NSMutableArray *scannedNewHyveMutableArray;
 @property (strong, nonatomic) NSMutableArray *pairedHyveMutableArray;
-
+@property (strong, nonatomic) NSMutableArray *selectedNewScannedHyveMutableArray;
 @end

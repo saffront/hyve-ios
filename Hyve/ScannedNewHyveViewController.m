@@ -17,7 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *instructionLabel;
 @property (weak, nonatomic) IBOutlet UIButton *pairButton;
 @property (strong, nonatomic) Hyve *hyve;
-@property (strong, nonatomic) NSMutableArray *selectedNewScannedHyveMutableArray;
+
 @property (strong, nonatomic) NSMutableDictionary *newlyPairedHyveMutableDictionary;
 @property (nonatomic) KVNProgressConfiguration *loadingProgressView;
 @property (weak, nonatomic) IBOutlet UIButton *goBackButton;
@@ -84,12 +84,13 @@
 {
     [self.pairButton setUserInteractionEnabled:YES];
     self.pairButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:22];
+    [self.pairButton addTarget:self action:@selector(onPairButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [self.pairButton setTitle:@"Pair" forState:UIControlStateNormal];
     [self.pairButton setBackgroundColor:[UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1]];
     [self.pairButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
 
-- (IBAction)onPairButtonPressed:(id)sender
+- (void)onPairButtonPressed
 {
     [self settingUpProgressView];
     
@@ -106,8 +107,9 @@
         }
         
         self.newlyPairedHyveMutableDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:hyve.peripheralName,@"name",hyve.peripheralUUIDString,@"uuid",hyve.peripheralRSSI,@"distance", nil];
+        [self connectToHyve:self.newlyPairedHyveMutableDictionary];
     }
-    [self connectToHyve:self.newlyPairedHyveMutableDictionary];
+
 }
 
 #pragma mark - submit paired hyve to server
@@ -133,7 +135,6 @@
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
-    NSString *email = [userDefaults objectForKey:@"email"];
 
     NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves"];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -150,11 +151,12 @@
         
         if (self.selectedNewScannedHyveMutableArray.count > 0)
         {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"scannedNewHyve" object:self.selectedNewScannedHyveMutableArray];
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"scannedNewHyve" object:self.selectedNewScannedHyveMutableArray];
         }
         self.loadingProgressView.minimumSuccessDisplayTime = 1.5;
         [KVNProgress showSuccessWithStatus:@"Pairing successful!"];
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [KVNProgress dismiss];
+//        [self dismissViewControllerAnimated:YES completion:nil];
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
@@ -212,7 +214,6 @@
     return cell;
 }
 
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.pairButton setUserInteractionEnabled:YES];
@@ -236,6 +237,10 @@
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.selectedNewScannedHyveMutableArray.count == 0) {
+        [self.pairButton setUserInteractionEnabled:NO];
+    }
+    
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
     if (cell.accessoryType == UITableViewCellAccessoryCheckmark)

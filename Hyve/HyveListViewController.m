@@ -1009,14 +1009,9 @@
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (editingStyle == UITableViewCellEditingStyleDelete)
-//    {
-//        NSLog(@"pressed");
-//        CBPeripheral *peripheralToBeDisconnected = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
-//        [self.centralManager cancelPeripheralConnection:peripheralToBeDisconnected];
-//        
-//        [self.hyveListTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-//    }
+    /*
+     DO NOT remove this method. Although nothing is in here, it is required for editActionsForRowAtIndexPath to work
+    */
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath

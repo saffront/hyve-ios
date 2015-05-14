@@ -15,11 +15,11 @@
 @end
 
 @implementation AppDelegate
-
+//807843305957843
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    SimpleAuth.configuration[@"facebook"] = @{ @"app_id" : @"807843305957843"};
+    SimpleAuth.configuration[@"facebook"] = @{ @"app_id" : @"626434010827475"};
     
     for (NSString* family in [UIFont familyNames])
     {

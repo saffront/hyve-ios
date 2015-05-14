@@ -17,10 +17,7 @@
 #import <CNPGridMenu.h>
 #import <DKCircleButton.h>
 #import <POP.h>
-#import <MBLoadingIndicator.h>
 #import <KVNProgress.h>
-
-//32A9DD44-9B1C-BAA5-8587-8A2D36E0623E  - hive
 
 @interface HyveDetailsViewController () <UIImagePickerControllerDelegate, CNPGridMenuDelegate, CBPeripheralDelegate, CBCentralManagerDelegate, UITextFieldDelegate>
 
@@ -39,7 +36,6 @@
 @property BOOL takePictureButtonDidPressed;
 @property BOOL setPresetIconButtonDidPressed;
 @property (strong, nonatomic) NSString *hyveDistance;
-@property (strong, nonatomic) MBLoadingIndicator *loadingIndicator;
 @property (strong, nonatomic) AWSS3PutObjectRequest *por;
 @property (strong, nonatomic) AWSS3 *s3;
 @property (strong, nonatomic) NSURLSessionDownloadTask *downloadTask;
@@ -52,6 +48,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.hyveNameTextField.userInteractionEnabled = NO;
+    
     [self.hyveImageButton setImage:[UIImage imageNamed:@"defaultHyveImage"] forState:UIControlStateNormal];
     self.takePictureButtonDidPressed = NO;
     self.setPresetIconButtonDidPressed = NO;
@@ -277,7 +275,6 @@
     }
     
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-//    [self.loadingIndicator finish];
     self.loadingProgressView.minimumSuccessDisplayTime = 1.5;
     [KVNProgress showSuccessWithStatus:@"Found Hyve!"];
 
@@ -377,7 +374,6 @@
             [self.hyveImageButton setContentVerticalAlignment:UIControlContentVerticalAlignmentFill];
             
             self.takePictureButtonDidPressed = YES;
-//            [self.loadingIndicator finish];
             self.loadingProgressView.minimumSuccessDisplayTime = 1.5;
             [KVNProgress showSuccessWithStatus:@"Image taken!"];
 
@@ -701,12 +697,11 @@
                 else
                 {
                     [self writingDistanceDataToHyve:characteristic withDataOne:'<' withDataTwo:'S' withDataThree:'1' withDataFour:'0' withDataFive:'0' withDataSix:'>' withDataSeven:'<' withDataEight:'X' withDataNine:'>'];
-                    self.hyveDistance = @"16 meters";
+                    self.hyveDistance = @"16";
                 }
             }
     }
 }
-
 
 #pragma mark - writing distance data
 -(void)writingDistanceDataToHyve:(CBCharacteristic*)characteristic withDataOne:(char)dataOne withDataTwo:(char)dataTwo withDataThree:(char)dataThree withDataFour:(char)dataFour withDataFive:(char)dataFive withDataSix:(char)dataSix withDataSeven:(char)dataSeven withDataEight:(char)dataEight withDataNine:(char)dataNine

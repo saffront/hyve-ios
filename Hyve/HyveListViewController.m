@@ -74,7 +74,6 @@
 
     [self connected];
     [self setDefaultUserProfile];
-    [self showingInstructionalScreenToFirstTimeUser];
 }
 
 #pragma mark - viewDidAppear
@@ -158,42 +157,24 @@
         self.instructionalScreenView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
         
         self.instructionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.instructionalScreenView.frame.size.width, self.instructionalScreenView.frame.size.height)];
-        self.instructionImageView.image = [UIImage imageNamed:@"swipeInstruction2"];
+        self.instructionImageView.image = [UIImage imageNamed:@"swipeInstruction"];
         
         CGFloat midX = CGRectGetMidX(self.view.bounds);
         CGFloat midY = CGRectGetMidY(self.view.bounds);
         
-        UIButton *dismissButton = [[UIButton alloc] initWithFrame:CGRectMake(midX, midY + 130, 150, 100)];
-        [dismissButton setTitle:@"Gotcha!" forState:UIControlStateNormal];
+        UIButton *dismissButton = [[UIButton alloc] initWithFrame:CGRectMake(midX, midY, self.view.frame.size.width, 70)];
+        [dismissButton setCenter:CGPointMake(midX, self.view.frame.size.height - 30)];
+        [dismissButton setTitle:@"Got it!" forState:UIControlStateNormal];
         [dismissButton addTarget:self action:@selector(onDismissInstructionalScreenPressed) forControlEvents:UIControlEventTouchUpInside];
-        dismissButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:18];
+        dismissButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:22];
         [dismissButton setBackgroundColor:[UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1]];
         
         [self.instructionalScreenView addSubview:dismissButton];
         [self.instructionalScreenView addSubview:self.instructionImageView];
-        [self.view bringSubviewToFront:self.instructionalScreenView];
-        
-/*
-         UIImage *instruction1 = [UIImage imageNamed:@"swipeInstruction1"];
-         UIImage *instruction2 = [UIImage imageNamed:@"swipeInstruction2"];
-         UIImage *instruction3 = [UIImage imageNamed:@"swipeInstruction3"];
-         UIImage *instruction4 = [UIImage imageNamed:@"swipeInstruction4"];
-         
-         NSArray *gifInstruction = @[instruction1, instruction2, instruction3, instruction4];
- 
- 
-        self.instructionImageView.animationImages = gifInstruction;
-        self.instructionImageView.animationDuration = 3;
-        self.instructionImageView.animationRepeatCount = 1;
-
-        [self.instructionalScreenView addSubview:self.instructionImageView];
+        [self.instructionalScreenView bringSubviewToFront:dismissButton];
         [self.view addSubview:self.instructionalScreenView];
         [self.view bringSubviewToFront:self.instructionalScreenView];
         
-        [self.instructionImageView startAnimating];
-        
-        [NSTimer scheduledTimerWithTimeInterval:12 target:self selector:@selector(instructionGIFFinish) userInfo:nil repeats:NO];
-*/
     }
 }
 
@@ -203,23 +184,6 @@
     self.hyveListTable.alpha = 1;
     self.userProfileImageButton.alpha = 1;
 }
-
-//-(void)instructionGIFFinish
-//{
-//    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-//    UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-//    blurEffectView.frame = self.instructionImageView.bounds;
-//    [self.instructionImageView addSubview:blurEffectView];
-//
-//    UIButton *dismissButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2, 150, 100)];
-//    [dismissButton setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds))];
-//    [dismissButton setTitle:@"Gotcha!" forState:UIControlStateNormal];
-//    [dismissButton addTarget:self action:@selector(onDismissInstructionalScreenPressed) forControlEvents:UIControlEventTouchUpInside];
-//    dismissButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:18];
-//    [dismissButton setBackgroundColor:[UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1]];
-////    [self.instructionalScreenView addSubview:dismissButton];
-//    [self.instructionImageView addSubview:dismissButton];
-//}
 
 #pragma mark - default user profile
 -(void)setDefaultUserProfile
@@ -278,6 +242,7 @@
                 userProfileHeader.alpha = 1;
                 backgroundImageView.alpha = 1;
                 username.alpha = 1;
+                [self showingInstructionalScreenToFirstTimeUser];
             }
         });
     });
@@ -1105,6 +1070,7 @@
                 self.fromUserAccountVC = YES;
                 self.hyveListTable.alpha = 1;
                 self.userProfileImageButton.alpha = 1;
+                [self showingInstructionalScreenToFirstTimeUser];
             }
         });
     });

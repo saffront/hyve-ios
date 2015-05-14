@@ -264,12 +264,6 @@
 #define COCOAPODS_VERSION_MINOR_KVNProgress 2
 #define COCOAPODS_VERSION_PATCH_KVNProgress 1
 
-// MBSimpleLoadingIndicator
-#define COCOAPODS_POD_AVAILABLE_MBSimpleLoadingIndicator
-#define COCOAPODS_VERSION_MAJOR_MBSimpleLoadingIndicator 0
-#define COCOAPODS_VERSION_MINOR_MBSimpleLoadingIndicator 1
-#define COCOAPODS_VERSION_PATCH_MBSimpleLoadingIndicator 0
-
 // MZAppearance
 #define COCOAPODS_POD_AVAILABLE_MZAppearance
 #define COCOAPODS_VERSION_MAJOR_MZAppearance 1

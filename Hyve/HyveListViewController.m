@@ -19,7 +19,6 @@
 #import <BlurryModalSegue.h>
 #import <QuartzCore/QuartzCore.h>
 #import <POP.h>
-#import <MBLoadingIndicator.h>
 #import <KVNProgress.h>
 
 @interface HyveListViewController () <UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, CBPeripheralDelegate, UIGestureRecognizerDelegate, CBCentralManagerDelegate>
@@ -29,7 +28,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *hyveListTable;
 @property float defaultY;
 @property (strong, nonatomic) UIImagePickerController *imagePickerController;
-@property (strong, nonatomic) MBLoadingIndicator *loadingIndicator;
 @property (strong, nonatomic) UIImage *userProfileImage;
 @property (strong, nonatomic) DKCircleButton *swarmHyveButton;
 @property (strong, nonatomic) NSString *RSSI;
@@ -192,7 +190,6 @@
 
         UIView *userProfileHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.hyveListTable.frame.size.width, 200)];
         [userProfileHeader setUserInteractionEnabled:YES];
-        [userProfileHeader bringSubviewToFront:self.loadingIndicator];
         userProfileHeader.alpha = 0;
         
         UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, -200, userProfileHeader.frame.size.width, userProfileHeader.frame.size.height + 200)];
@@ -252,12 +249,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
-//    static dispatch_once_t once;
-    
-//    dispatch_once(&once, ^{
-//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(populateTableWithNewScannedHyve:) name:@"scannedNewHyve" object:nil];
-//    });
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingUserImage:) name:@"user" object:nil];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
@@ -1016,7 +1007,6 @@
         [self.userProfileImageButton setImage:[UIImage imageNamed:@"defaultUserProfileImage"] forState:UIControlStateNormal];
         UIView *userProfileHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.hyveListTable.frame.size.width, 200)];
         [userProfileHeader setUserInteractionEnabled:YES];
-        [userProfileHeader bringSubviewToFront:self.loadingIndicator];
         
         UIImageView *backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, -200, userProfileHeader.frame.size.width, userProfileHeader.frame.size.height + 200)];
         

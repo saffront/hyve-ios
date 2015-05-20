@@ -708,7 +708,7 @@
     cell.disconnectButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
     [cell.disconnectButton setTitle:@"DISCONNECT" forState:UIControlStateNormal];
     [cell.disconnectButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [cell.disconnectButton addTarget:self action:@selector(onDisconnectButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [cell.disconnectButton addTarget:self action:@selector(onDisconnectButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [cell.disconnectButton setTag:indexPath.row];
     
     if ([self.hyve.peripheralName isEqualToString:@""] || self.hyve.peripheralName == nil)
@@ -766,7 +766,6 @@
 
 -(void)onConnectButtonPressedInCell:(UIButton*)sender
 {
-    NSLog(@"index number is %d",sender.tag);
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sender.tag inSection:0];
 //    HyveListTableViewCell *cell = (HyveListTableViewCell*)[self.hyveListTable cellForRowAtIndexPath:indexPath];
@@ -777,9 +776,13 @@
     [self.hyveListTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }
 
--(void)onDisconnectButtonPressed
+-(void)onDisconnectButtonPressed:(UIButton*)sender
 {
-    NSLog(@"DISCONNECT is touched");
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sender.tag inSection:0];
+    CBPeripheral *hyve = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
+    
+    [self.centralManager cancelPeripheralConnection:hyve];
+    [self.hyveListTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 //footer

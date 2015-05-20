@@ -766,9 +766,7 @@
 
 -(void)onConnectButtonPressedInCell:(UIButton*)sender
 {
-    
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sender.tag inSection:0];
-//    HyveListTableViewCell *cell = (HyveListTableViewCell*)[self.hyveListTable cellForRowAtIndexPath:indexPath];
     CBPeripheral *hyve = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
     
     [self.centralManager connectPeripheral:hyve options:nil];
@@ -969,6 +967,7 @@
 -(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     CBPeripheral *peripheralToBeBuzzed = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
+    peripheralToBeBuzzed.delegate = self;
     
     NSString *buzz = @"Buzz";
     NSString *buzzWithSpace = [buzz stringByPaddingToLength:10 withString:@" " startingAtIndex:0];
@@ -992,14 +991,14 @@
     }];
     buzzAction.backgroundColor = [UIColor colorWithRed:0.89 green:0.39 blue:0.16 alpha:1];
     
-    UITableViewRowAction *disconnectAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Disconnect"  handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
-        
-        CBPeripheral *peripheralToBeDisconnected = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
-        [self.centralManager cancelPeripheralConnection:peripheralToBeDisconnected];
-        [self.hyveListTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-        
-    }];
-    disconnectAction.backgroundColor = [UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1];
+//    UITableViewRowAction *disconnectAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Disconnect"  handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+//        
+//        CBPeripheral *peripheralToBeDisconnected = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
+//        [self.centralManager cancelPeripheralConnection:peripheralToBeDisconnected];
+//        [self.hyveListTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+//        
+//    }];
+//    disconnectAction.backgroundColor = [UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1];
     
     
     UITableViewRowAction *unbuzzAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Unbuzz" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
@@ -1015,7 +1014,7 @@
     }];
     unbuzzAction.backgroundColor = [UIColor colorWithRed:1 green:0.64 blue:0 alpha:1];
     
-    return @[unbuzzAction, buzzAction,disconnectAction];
+    return @[unbuzzAction, buzzAction];
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath

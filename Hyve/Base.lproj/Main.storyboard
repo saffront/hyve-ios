@@ -1500,22 +1500,20 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="izj-MW-hVs" secondAttribute="trailing" id="4Am-Yo-85g"/>
-                            <constraint firstItem="pxV-kL-DgI" firstAttribute="top" secondItem="izj-MW-hVs" secondAttribute="bottom" constant="76" id="iHv-OM-Qll">
-                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
-                            </constraint>
-                            <constraint firstItem="izj-MW-hVs" firstAttribute="top" secondItem="iVX-pF-caR" secondAttribute="top" id="ozK-zn-A0N"/>
-                            <constraint firstItem="izj-MW-hVs" firstAttribute="leading" secondItem="iVX-pF-caR" secondAttribute="leading" id="vbO-sp-Zbx"/>
+                            <constraint firstAttribute="trailing" secondItem="izj-MW-hVs" secondAttribute="trailing" id="9rl-sD-Gbx"/>
+                            <constraint firstItem="izj-MW-hVs" firstAttribute="leading" secondItem="iVX-pF-caR" secondAttribute="leading" id="DeQ-J2-Scs"/>
+                            <constraint firstItem="pxV-kL-DgI" firstAttribute="top" secondItem="izj-MW-hVs" secondAttribute="bottom" id="WCw-Cq-kqf"/>
+                            <constraint firstItem="izj-MW-hVs" firstAttribute="top" secondItem="iVX-pF-caR" secondAttribute="top" id="mev-hr-VH8"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="izj-MW-hVs"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="iHv-OM-Qll"/>
-                                <exclude reference="4Am-Yo-85g"/>
-                                <exclude reference="ozK-zn-A0N"/>
-                                <exclude reference="vbO-sp-Zbx"/>
+                                <exclude reference="9rl-sD-Gbx"/>
+                                <exclude reference="DeQ-J2-Scs"/>
+                                <exclude reference="mev-hr-VH8"/>
+                                <exclude reference="WCw-Cq-kqf"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -1523,10 +1521,10 @@
                                 <include reference="izj-MW-hVs"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="iHv-OM-Qll"/>
-                                <include reference="4Am-Yo-85g"/>
-                                <include reference="ozK-zn-A0N"/>
-                                <include reference="vbO-sp-Zbx"/>
+                                <include reference="9rl-sD-Gbx"/>
+                                <include reference="DeQ-J2-Scs"/>
+                                <include reference="mev-hr-VH8"/>
+                                <include reference="WCw-Cq-kqf"/>
                             </mask>
                         </variation>
                     </view>

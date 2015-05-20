@@ -402,6 +402,10 @@
 
 - (IBAction)onHyveDistanceButtonPressed:(id)sender
 {
+    CNPGridMenuItem *zero = [CNPGridMenuItem new];
+    zero.title = [NSString stringWithFormat:@"Zero \r meter"];
+    zero.icon = [UIImage imageNamed:@"one"];
+    
     CNPGridMenuItem *one = [CNPGridMenuItem new];
     one.title = [NSString stringWithFormat:@"One \r meter"];
     one.icon = [UIImage imageNamed:@"one"];
@@ -422,7 +426,7 @@
     sixteen.title = [NSString stringWithFormat:@"Sixteen \r meters"];
     sixteen.icon = [UIImage imageNamed:@"sixteen"];
     
-    self.gridMenu = [[CNPGridMenu alloc] initWithMenuItems:@[one,two,four,eight,sixteen]];
+    self.gridMenu = [[CNPGridMenu alloc] initWithMenuItems:@[zero,one,two,four,eight,sixteen]];
     self.gridMenu.delegate = self;
     self.gridMenu.blurEffectStyle = UIBlurEffectStyleDark;
     [self presentGridMenu:self.gridMenu animated:YES completion:^{
@@ -540,6 +544,12 @@
         [self.hyveImageButton setImage:[UIImage imageNamed:@"remote"] forState:UIControlStateNormal];
         [self dismissGridMenuAnimated:YES completion:nil];
         self.setPresetIconButtonDidPressed = YES;
+    }
+    else if ([item.title isEqualToString:@"Zero \r meter"])
+    {
+        [self.hyveDistanceButton setTitle:@"Turn off proximity" forState:UIControlStateNormal];
+        self.hyveDistance = @"0";
+        [self dismissGridMenuAnimated:YES completion:nil];
     }
     else if ([item.title isEqualToString:@"One \r meter"])
     {

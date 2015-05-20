@@ -492,6 +492,7 @@
 {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     [cell.hyveImage setImage:[UIImage imageNamed:@"defaultHyveImage"] forState:UIControlStateNormal];
+    [cell.hyveImage setUserInteractionEnabled:NO];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
@@ -717,6 +718,7 @@
         cell.hyveName.font = [UIFont fontWithName:@"OpenSans-Bold" size:22];
         cell.hyveName.textColor = [UIColor colorWithRed:0.29 green:0.29 blue:0.29 alpha:1];
         [cell.hyveImage setImage:[UIImage imageNamed:@"defaultHyveImage"] forState:UIControlStateNormal];
+        [cell.hyveImage setUserInteractionEnabled:NO];
         cell.hyveBattery.alpha = 0;
         cell.hyveProximity.alpha = 0;
         cell.hyveName.numberOfLines = 0;

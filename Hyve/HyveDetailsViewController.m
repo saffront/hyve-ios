@@ -404,7 +404,7 @@
 {
     CNPGridMenuItem *zero = [CNPGridMenuItem new];
     zero.title = [NSString stringWithFormat:@"Zero \r meter"];
-    zero.icon = [UIImage imageNamed:@"one"];
+    zero.icon = [UIImage imageNamed:@"zero"];
     
     CNPGridMenuItem *one = [CNPGridMenuItem new];
     one.title = [NSString stringWithFormat:@"One \r meter"];

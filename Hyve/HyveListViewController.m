@@ -283,8 +283,6 @@
 #pragma mark - swarm
 -(void)holdOntoSwarmButton
 {
-    NSLog(@"Swarm button is hold down");
-    
     for (CBPeripheral *peripheral in self.hyveDevicesMutableArray) {
         
         if (peripheral.state == CBPeripheralStateConnected)
@@ -703,13 +701,15 @@
     [cell.connectButton setTitle:@"CONNECT" forState:UIControlStateNormal];
     cell.connectButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
     [cell.connectButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [cell.connectButton addTarget:self action:@selector(onConnectButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [cell.connectButton addTarget:self action:@selector(onConnectButtonPressedInCell:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.connectButton setTag:indexPath.row];
 
     cell.disconnectButton.backgroundColor = [UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1];
     cell.disconnectButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
     [cell.disconnectButton setTitle:@"DISCONNECT" forState:UIControlStateNormal];
     [cell.disconnectButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [cell.disconnectButton addTarget:self action:@selector(onDisconnectButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [cell.disconnectButton setTag:indexPath.row];
     
     if ([self.hyve.peripheralName isEqualToString:@""] || self.hyve.peripheralName == nil)
     {
@@ -764,9 +764,17 @@
     return cell;
 }
 
--(void)onConnectButtonPressed
+-(void)onConnectButtonPressedInCell:(UIButton*)sender
 {
-    NSLog(@"connect button is pressed");
+    NSLog(@"index number is %d",sender.tag);
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sender.tag inSection:0];
+//    HyveListTableViewCell *cell = (HyveListTableViewCell*)[self.hyveListTable cellForRowAtIndexPath:indexPath];
+    CBPeripheral *hyve = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
+    
+    [self.centralManager connectPeripheral:hyve options:nil];
+    
+    [self.hyveListTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 -(void)onDisconnectButtonPressed
@@ -787,7 +795,7 @@
         self.hyveListTableViewFooter = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 100)];
         self.hyveListTableViewFooter.backgroundColor = [UIColor clearColor];
         
-        self.swarmMenuButton = [[UIButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, 50, 70, 70)];
+        self.swarmMenuButton = [[UIButton alloc] initWithFrame:CGRectMake(self.hyveListTableViewFooter.frame.size.width / 2, 10, 70, 70)];
         self.swarmMenuButton.tag = 1;
         [self.swarmMenuButton setCenter:CGPointMake(CGRectGetMidX(self.hyveListTableViewFooter.bounds), CGRectGetMidY(self.hyveListTableViewFooter.bounds))];
         [self.swarmMenuButton setImage:[UIImage imageNamed:@"hexMenuHamburger"] forState:UIControlStateNormal];
@@ -817,16 +825,14 @@
     return self.hyveListTableViewFooter;
 }
 
--(void)onSwarmButtonPressed:(DKCircleButton*)sender
+-(void)onSwarmButtonPressed:(UIButton*)sender
 {
-    NSLog(@"swarm button pressed!");
+
     [self holdOntoSwarmButton];
 }
 
 -(void)onScanHyveButtonPressed:(id)sender
 {
-    NSLog(@"scan hyve button pressed!");
-    
     self.scanNewHyveCentralManager = self.centralManager;
     
     [self.scanNewHyveCentralManager scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@NO}];
@@ -906,10 +912,8 @@
     }];
 }
 
--(void)onHyveMenuButtonPressed:(DKCircleButton*)sender
+-(void)onHyveMenuButtonPressed:(UIButton*)sender
 {
-    NSLog(@"HYVE MENU BUTTON PRESSED");
-
     CGPoint finalPosition = CGPointMake(self.hyveListTable.frame.size.width / 2 + 90, 50);
     POPSpringAnimation *moveSwarmButtonAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
     if (sender.tag == 1)

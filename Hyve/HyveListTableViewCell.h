@@ -15,6 +15,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *hyveName;
 @property (strong, nonatomic) IBOutlet UILabel *hyveBattery;
 @property (strong, nonatomic) IBOutlet UILabel *hyveProximity;
+@property (strong, nonatomic) IBOutlet UIButton *connectButton;
+@property (strong, nonatomic) IBOutlet UIButton *disconnectButton;
 
 
 @end

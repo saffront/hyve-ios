@@ -49,6 +49,7 @@
 @property (strong, nonatomic) UIView *instructionalScreenView;
 @property (strong, nonatomic) UIImageView *instructionImageView;
 
+
 @end
 
 @implementation HyveListViewController
@@ -698,6 +699,17 @@
     cell.backgroundColor = [UIColor clearColor];
     cell.hyveContentView.backgroundColor = [UIColor colorWithRed:0.50 green:0.50 blue:0.50 alpha:0.4];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.connectButton.backgroundColor = [UIColor colorWithRed:0.89 green:0.39 blue:0.16 alpha:1];
+    [cell.connectButton setTitle:@"CONNECT" forState:UIControlStateNormal];
+    cell.connectButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
+    [cell.connectButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [cell.connectButton addTarget:self action:@selector(onConnectButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+
+    cell.disconnectButton.backgroundColor = [UIColor colorWithRed:0.22 green:0.63 blue:0.80 alpha:1];
+    cell.disconnectButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
+    [cell.disconnectButton setTitle:@"DISCONNECT" forState:UIControlStateNormal];
+    [cell.disconnectButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [cell.disconnectButton addTarget:self action:@selector(onDisconnectButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     
     if ([self.hyve.peripheralName isEqualToString:@""] || self.hyve.peripheralName == nil)
     {
@@ -752,10 +764,20 @@
     return cell;
 }
 
+-(void)onConnectButtonPressed
+{
+    NSLog(@"connect button is pressed");
+}
+
+-(void)onDisconnectButtonPressed
+{
+    NSLog(@"DISCONNECT is touched");
+}
+
 //footer
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 100;
+    return 170;
 }
 
 -(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section

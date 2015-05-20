@@ -840,7 +840,6 @@
     
 }
 
-
 //writing response to hyve
 -(void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {

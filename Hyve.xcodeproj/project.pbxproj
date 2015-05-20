@@ -50,6 +50,7 @@
 		3BA2D34A1AA9A9C9008CA9E4 /* HyveListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA2D3491AA9A9C9008CA9E4 /* HyveListViewController.m */; };
 		3BBC2F791AB96D4C001A4390 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BBC2F781AB96D4C001A4390 /* QuartzCore.framework */; };
 		3BC0B4521AD29AC70074DA62 /* Hyve.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BC0B4511AD29AC70074DA62 /* Hyve.m */; };
+		3BE8A8F41B0C597C0091C157 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BE8A8F31B0C597C0091C157 /* CoreData.framework */; };
 		3BF7685C1AD7C89C00E238E3 /* EmailLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF7685B1AD7C89C00E238E3 /* EmailLoginViewController.m */; };
 		3BFDD94E1AA854D200849EDA /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BFDD94D1AA854D200849EDA /* CoreBluetooth.framework */; };
 /* End PBXBuildFile section */
@@ -132,6 +133,7 @@
 		3BBC2F781AB96D4C001A4390 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3BC0B4501AD29AC70074DA62 /* Hyve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hyve.h; sourceTree = "<group>"; };
 		3BC0B4511AD29AC70074DA62 /* Hyve.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Hyve.m; sourceTree = "<group>"; };
+		3BE8A8F31B0C597C0091C157 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		3BF7685A1AD7C89C00E238E3 /* EmailLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailLoginViewController.h; sourceTree = "<group>"; };
 		3BF7685B1AD7C89C00E238E3 /* EmailLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailLoginViewController.m; sourceTree = "<group>"; };
 		3BFDD94D1AA854D200849EDA /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
@@ -143,6 +145,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BE8A8F41B0C597C0091C157 /* CoreData.framework in Frameworks */,
 				3B6C72351ABBBFAC006ECC0C /* UIKit.framework in Frameworks */,
 				3B6C72381ABBBFCF006ECC0C /* GoogleOpenSource.framework in Frameworks */,
 				3B6C72391ABBBFCF006ECC0C /* GooglePlus.framework in Frameworks */,
@@ -333,6 +336,7 @@
 		565EC602E325AFAD2F08862D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3BE8A8F31B0C597C0091C157 /* CoreData.framework */,
 				3B6C72361ABBBFCF006ECC0C /* GoogleOpenSource.framework */,
 				3B6C72371ABBBFCF006ECC0C /* GooglePlus.framework */,
 				3B6C72341ABBBFAC006ECC0C /* UIKit.framework */,

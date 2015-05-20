@@ -828,7 +828,11 @@
 
 -(void)onSwarmButtonPressed:(UIButton*)sender
 {
-
+    [sender pop_removeAllAnimations];
+    POPSpringAnimation *springAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+    springAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
+    springAnimation.springBounciness = 20.0f;
+    [sender pop_addAnimation:springAnimation forKey:@"swarmButtonSpring"];
     [self holdOntoSwarmButton];
 }
 

@@ -42,6 +42,7 @@
 @property (strong, nonatomic) NSURLSession *session;
 @property (nonatomic) KVNProgressConfiguration *loadingProgressView;
 @property (strong, nonatomic) NSNumber *lastWritingIndex;
+@property (strong, nonatomic) NSString *randomAmazonKeyString;
 
 @end
 
@@ -51,6 +52,7 @@
     [super viewDidLoad];
     self.hyveNameTextField.userInteractionEnabled = NO;
     
+    self.hyveDistance = @"16";
     [self.hyveImageButton setImage:[UIImage imageNamed:@"defaultHyveImage"] forState:UIControlStateNormal];
     self.takePictureButtonDidPressed = NO;
     self.setPresetIconButtonDidPressed = NO;
@@ -384,7 +386,6 @@
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    NSLog(@"Cancel image picker was called");
     [self.imagePickerController dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -398,7 +399,6 @@
     self.hyveDistanceButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     [self.hyveDistanceButton setContentEdgeInsets:UIEdgeInsetsMake(0, 20, 0, 0)];
     [self.hyveDistanceButton setTitle:@"Set Proximity" forState:UIControlStateNormal];
-
 }
 
 - (IBAction)onHyveDistanceButtonPressed:(id)sender
@@ -596,7 +596,22 @@
     [self.centralManager connectPeripheral:self.peripheral options:nil];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [self connectToAmazonS3:self.peripheral];
+        
+        if (self.setPresetIconButtonDidPressed == YES || self.takePictureButtonDidPressed == YES) {
+            [self connectToAmazonS3:self.peripheral];
+        }
+        else
+        {
+            NSString *hyveName = self.hyveNameTextField.text;
+            NSString *hyveProximity = self.hyveDistance;
+            NSString *hyveUUIDString = self.peripheral.identifier.UUIDString;
+            
+            NSDictionary *hyveDictionary = @{@"name":hyveName,
+                                             @"distance":hyveProximity,
+                                             @"uuid":hyveUUIDString};
+            
+            [self connectToHyve:hyveDictionary];
+        }
     });
 
     self.loadingProgressView = [KVNProgressConfiguration defaultConfiguration];
@@ -611,7 +626,7 @@
 #pragma mark - styling connect button
 -(void)stylingConnectButton
 {
-    [self.connectButton setTitle:@"Connect" forState:UIControlStateNormal];
+    [self.connectButton setTitle:@"SAVE" forState:UIControlStateNormal];
     self.connectButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:20];
     [self.connectButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.connectButton setBackgroundColor:[UIColor colorWithRed:0.89 green:0.39 blue:0.16 alpha:1]];
@@ -938,7 +953,8 @@
     [AWSServiceManager defaultServiceManager].defaultServiceConfiguration = configuration;
     
     UIImage *imageToBeUploadedToS3 = self.hyveImageButton.imageView.image;
-    NSString *pathToImage = [NSTemporaryDirectory() stringByAppendingString:@"hyveImage.png"];
+    self.randomAmazonKeyString = [[NSUUID UUID] UUIDString];
+    NSString *pathToImage = [NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@.png",self.randomAmazonKeyString]];
     NSData *hyveImageData = UIImagePNGRepresentation(imageToBeUploadedToS3);
     
     NSLog(@"%@",[NSByteCountFormatter stringFromByteCount:hyveImageData.length countStyle:NSByteCountFormatterCountStyleFile]);
@@ -948,7 +964,7 @@
     //Transfer manager upload
     AWSS3TransferManagerUploadRequest *uploadRequest = [AWSS3TransferManagerUploadRequest new];
     uploadRequest.bucket = kAWS_BUCKET;
-    uploadRequest.key = @"hyveImage.png";
+    uploadRequest.key = [NSString stringWithFormat:@"%@.png",self.randomAmazonKeyString];
     uploadRequest.body = hyveImageURL;
     
     //transfer to S3
@@ -996,7 +1012,7 @@
     NSLog(@"uploadOutput %@", uploadOutput);
     
     AWSS3GetPreSignedURLRequest *getPresignedURLRequest = [AWSS3GetPreSignedURLRequest new];
-    getPresignedURLRequest.key = @"hyveImage.png";
+    getPresignedURLRequest.key = [NSString stringWithFormat:@"%@.png", self.randomAmazonKeyString];
     getPresignedURLRequest.HTTPMethod = AWSHTTPMethodGET;
     getPresignedURLRequest.bucket = kAWS_BUCKET;
     getPresignedURLRequest.expires = [NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval) 63115200]; //31622400

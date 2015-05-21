@@ -651,7 +651,7 @@
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
     }];
-    self.patchedSwarmInfo = NO;
+//    self.patchedSwarmInfo = NO;
 }
 
 #pragma mark - styling background view

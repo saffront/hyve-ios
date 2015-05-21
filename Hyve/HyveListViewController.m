@@ -284,14 +284,23 @@
 #pragma mark - swarm
 -(void)pressOnSwarmButton
 {
-    for (CBPeripheral *peripheral in self.hyveDevicesMutableArray) {
-        
-        if (peripheral.state == CBPeripheralStateConnected)
-        {
-            NSLog(@"peripheral %@", peripheral);
-            peripheral.delegate = self;
-            [peripheral readRSSI];
+    if (self.patchedSwarmInfo == NO)
+    {
+        for (CBPeripheral *peripheral in self.hyveDevicesMutableArray) {
+            
+            if (peripheral.state == CBPeripheralStateConnected)
+            {
+                NSLog(@"peripheral %@", peripheral);
+                peripheral.delegate = self;
+                [peripheral readRSSI];
+            }
         }
+        self.patchedSwarmInfo = YES;
+    }
+    else
+    {
+        self.patchedSwarmInfo = NO;
+        [self.hyveListTable reloadData];
     }
 }
 
@@ -447,8 +456,6 @@
     }
     
     [manager GET:hyveURLString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        NSLog(@"responseObject retrieveUserInfoAndPairedHyve: \r\r %@", responseObject);
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             

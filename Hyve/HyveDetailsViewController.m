@@ -41,6 +41,7 @@
 @property (strong, nonatomic) NSURLSessionDownloadTask *downloadTask;
 @property (strong, nonatomic) NSURLSession *session;
 @property (nonatomic) KVNProgressConfiguration *loadingProgressView;
+@property (strong, nonatomic) NSNumber *lastWritingIndex;
 
 @end
 
@@ -352,7 +353,7 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         UIImage *imageTakenByUser = [info valueForKey:UIImagePickerControllerOriginalImage];
-        CGRect rect = CGRectMake(0, 0, 580, 580);
+        CGRect rect = CGRectMake(0, 0, 280, 280);
         
         UIGraphicsBeginImageContext(rect.size);
         [imageTakenByUser drawInRect:rect];
@@ -594,6 +595,10 @@
     NSLog(@"Connect app to hyve");
     [self.centralManager connectPeripheral:self.peripheral options:nil];
     
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [self connectToAmazonS3:self.peripheral];
+    });
+
     self.loadingProgressView = [KVNProgressConfiguration defaultConfiguration];
     [KVNProgress setConfiguration:self.loadingProgressView];
     self.loadingProgressView.backgroundType = KVNProgressBackgroundTypeBlurred;
@@ -775,6 +780,7 @@
             {
                 byte[0] = dataNine;
                 [self writingDistanceNumberDataToHyveHardware:byte characteristic:characteristic];
+                self.lastWritingIndex = [NSNumber numberWithInteger:index];
                 break;
             }
             default:
@@ -862,25 +868,31 @@
     {
         NSLog(@"didWriteValueForCharacteristic : %@ \r characteristic.value %@ \r characteristic.descriptors %@ \r characteristic.properties %u", characteristic, characteristic.value, characteristic.descriptors, characteristic.properties );
 
-        NSString *hyveName = self.hyveNameTextField.text;
-        NSString *hyveProximity = self.hyveDistance;
-        UIImage *hyveImage = self.hyveImageButton.imageView.image;
-        NSString *hyveUUIDString = peripheral.identifier.UUIDString;
+//        NSString *hyveName = self.hyveNameTextField.text;
+//        NSString *hyveProximity = self.hyveDistance;
+//        UIImage *hyveImage = self.hyveImageButton.imageView.image;
+//        NSString *hyveUUIDString = peripheral.identifier.UUIDString;
         
-        
+/*
         if (self.setPresetIconButtonDidPressed == YES || self.takePictureButtonDidPressed == YES)
         {
 //            NSDictionary *hyveDictionary = @{@"name":hyveName,
 //                                             @"distance":hyveProximity,
 //                                             @"uuid":hyveUUIDString,
 //                                             @"image":avatarImageStringInSixtyFour};
-            
+         
+
             static dispatch_once_t sendingHyveDictionaryToHyveServerOnce;
             dispatch_once(&sendingHyveDictionaryToHyveServerOnce, ^{
 //                [self connectToHyve:hyveDictionary];
                 [self connectToAmazonS3:peripheral];
             });
-
+            
+            if ([self.lastWritingIndex isEqualToNumber:[NSNumber numberWithInteger:8]])
+            {
+                NSLog(@"self.lastWritingIndex %@", self.lastWritingIndex);
+            }
+            
         }
         else
         {
@@ -897,6 +909,7 @@
                 [self connectToHyve:hyveDictionary];
             });
         }
+*/
     }
 }
 
@@ -927,6 +940,8 @@
     UIImage *imageToBeUploadedToS3 = self.hyveImageButton.imageView.image;
     NSString *pathToImage = [NSTemporaryDirectory() stringByAppendingString:@"hyveImage.png"];
     NSData *hyveImageData = UIImagePNGRepresentation(imageToBeUploadedToS3);
+    
+    NSLog(@"%@",[NSByteCountFormatter stringFromByteCount:hyveImageData.length countStyle:NSByteCountFormatterCountStyleFile]);
     [hyveImageData writeToFile:pathToImage atomically:YES];
     NSURL *hyveImageURL = [[NSURL alloc] initFileURLWithPath:pathToImage];
     

@@ -48,6 +48,7 @@
 @property (strong, nonatomic) UIButton *swarmButton;
 @property (strong, nonatomic) UIView *instructionalScreenView;
 @property (strong, nonatomic) UIImageView *instructionImageView;
+@property (strong, nonatomic) NSIndexPath *hyveIndexPath;
 
 
 @end
@@ -281,7 +282,7 @@
 }
 
 #pragma mark - swarm
--(void)holdOntoSwarmButton
+-(void)pressOnSwarmButton
 {
     for (CBPeripheral *peripheral in self.hyveDevicesMutableArray) {
         
@@ -523,7 +524,7 @@
                 {
                     hyve.imageURLString = [pairedHyves valueForKeyPath:@"image.image.url"];
                     
-                    if ([hyve.imageURLString isKindOfClass:[NSNull class]])
+                    if ([hyve.imageURLString isKindOfClass:[NSNull class]] || [hyve.imageURLString isEqualToString:@""])
                     {
                         NSLog(@"imageURLString : %@", hyve.imageURLString);
                         dispatch_async(dispatch_get_main_queue(), ^{
@@ -534,17 +535,17 @@
                             cell.hyveImage.borderSize = 3.0f;
                         });
                     }
-                    else if ([hyve.imageURLString isEqualToString:@""])
-                    {
-                        
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [cell.hyveImage setImage:[UIImage imageNamed:@"defaultHyveImage"] forState:UIControlStateNormal];
-                            cell.hyveImage.contentMode = UIViewContentModeScaleAspectFill;
-                            cell.hyveImage.borderColor = [UIColor whiteColor];
-                            cell.hyveImage.userInteractionEnabled = NO;
-                            cell.hyveImage.borderSize = 3.0f;
-                        });
-                    }
+//                    else if ([hyve.imageURLString isEqualToString:@""])
+//                    {
+//                        
+//                        dispatch_async(dispatch_get_main_queue(), ^{
+//                            [cell.hyveImage setImage:[UIImage imageNamed:@"defaultHyveImage"] forState:UIControlStateNormal];
+//                            cell.hyveImage.contentMode = UIViewContentModeScaleAspectFill;
+//                            cell.hyveImage.borderColor = [UIColor whiteColor];
+//                            cell.hyveImage.userInteractionEnabled = NO;
+//                            cell.hyveImage.borderSize = 3.0f;
+//                        });
+//                    }
                     else
                     {
                         NSURL *imageURL = [NSURL URLWithString:hyve.imageURLString];
@@ -747,6 +748,13 @@
             cell.hyveProximity.numberOfLines = 0;
             cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:14];
         }
+        else if (peripheral.state == CBPeripheralStateConnecting)
+        {
+            cell.hyveProximity.text = @"Proximity: Connecting";
+            cell.hyveProximity.textColor = [UIColor whiteColor];
+            cell.hyveProximity.numberOfLines = 0;
+            cell.hyveProximity.font = [UIFont fontWithName:@"OpenSans-SemiBold" size:14];
+        }
         else
         {
             cell.hyveProximity.text = @"Proximity: Not Connected";
@@ -766,14 +774,32 @@
     return cell;
 }
 
+-(void)updateConnectedHyveProximity:(NSIndexPath*)indexPath hyve:(CBPeripheral*)peripheral
+{
+    if (peripheral.state == CBPeripheralStateConnecting) {
+        [self updateConnectedHyveProximity:indexPath hyve:peripheral];
+    }
+    else
+    {
+        [self.hyveListTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    }
+}
+
 -(void)onConnectButtonPressedInCell:(UIButton*)sender
 {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sender.tag inSection:0];
-    CBPeripheral *hyve = [self.hyveDevicesMutableArray objectAtIndex:indexPath.row];
+    self.indexPath = [NSIndexPath indexPathForRow:sender.tag inSection:0];
+    CBPeripheral *hyve = [self.hyveDevicesMutableArray objectAtIndex:self.indexPath.row];
     
     [self.centralManager connectPeripheral:hyve options:nil];
     
-    [self.hyveListTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    [self.hyveListTable reloadRowsAtIndexPaths:@[self.indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    
+    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(updateHyveProximity) userInfo:nil repeats:NO];
+}
+
+-(void)updateHyveProximity
+{
+    [self.hyveListTable reloadRowsAtIndexPaths:@[self.indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 -(void)onDisconnectButtonPressed:(UIButton*)sender
@@ -835,7 +861,7 @@
     springAnimation.velocity = [NSValue valueWithCGPoint:CGPointMake(10, 10)];
     springAnimation.springBounciness = 20.0f;
     [sender pop_addAnimation:springAnimation forKey:@"swarmButtonSpring"];
-    [self holdOntoSwarmButton];
+    [self pressOnSwarmButton];
 }
 
 -(void)onScanHyveButtonPressed:(id)sender

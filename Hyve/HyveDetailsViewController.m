@@ -50,7 +50,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.hyveNameTextField.userInteractionEnabled = NO;
+    self.hyveNameTextField.userInteractionEnabled = YES;
     
     self.hyveDistance = @"16";
     [self.hyveImageButton setImage:[UIImage imageNamed:@"defaultHyveImage"] forState:UIControlStateNormal];

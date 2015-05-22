@@ -506,7 +506,8 @@
 #pragma mark - register user to hyve
 -(void)registerUserToHyve:(NSMutableDictionary*)userInfoDictionaryJSON
 {
-    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/register"];
+//    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/register"];
+    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-production.herokuapp.com/api/v1/register"];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];

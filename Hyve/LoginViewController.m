@@ -256,7 +256,8 @@
 
 -(void)registerUserToHyve:(NSMutableDictionary*)userInfoDictionaryJSON
 {
-    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/user_sessions"];
+//    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/user_sessions"];
+    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-production.herokuapp.com/api/v1/user_sessions"];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];

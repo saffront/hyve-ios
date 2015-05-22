@@ -50,7 +50,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.hyveNameTextField.userInteractionEnabled = YES;
+    self.hyveNameTextField.userInteractionEnabled = NO;
     
     self.hyveDistance = @"16";
     [self.hyveImageButton setImage:[UIImage imageNamed:@"defaultHyveImage"] forState:UIControlStateNormal];
@@ -186,7 +186,8 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
     
-    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves/%@",[self.peripheral.identifier UUIDString]];
+//    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves/%@",[self.peripheral.identifier UUIDString]];
+    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-production.herokuapp.com/api/v1/hyves/%@",[self.peripheral.identifier UUIDString]];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
@@ -1095,8 +1096,9 @@
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
     
     NSString *uuid = [self.peripheral.identifier UUIDString];
-    NSString *hyveUserAccountString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves/%@",uuid];
-    
+//    NSString *hyveUserAccountString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves/%@",uuid];
+    NSString *hyveUserAccountString = [NSString stringWithFormat:@"http://hyve-production.herokuapp.com/api/v1/hyves/%@",uuid];
+
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];

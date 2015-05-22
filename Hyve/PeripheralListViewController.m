@@ -106,7 +106,6 @@
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor clearColor];
 
-    
 }
 
 #pragma mark - styling background view
@@ -322,7 +321,8 @@
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
     NSString *email = [userDefaults objectForKey:@"email"];
     
-    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves"];
+//    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves"];
+    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-production.herokuapp.com/api/v1/hyves"];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -344,7 +344,7 @@
         NSLog(@"error %@ \r \r error localized:%@", error, [error localizedDescription]);
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble with Internet connectivity. Unable to pair with Hyve" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hyve" message:@"Trouble connecting with server. Unable to pair with Hyve" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
         [alertController addAction:okAction];
         [self presentViewController:alertController animated:YES completion:nil];

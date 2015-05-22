@@ -76,13 +76,6 @@
     [self setDefaultUserProfile];
 }
 
-#pragma mark - viewDidAppear
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-
-}
-
 #pragma mark - connected
 -(BOOL)connected
 {
@@ -264,8 +257,6 @@
     });
 }
 
-
-
 #pragma mark - loading progress view
 -(void)settingLoadingProgressView
 {
@@ -338,8 +329,9 @@
                                      @"uuid":[peripheral.identifier UUIDString]};
     
     NSString *uuid = [peripheral.identifier UUIDString];
-    NSString *hyveUserAccountString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves/%@",uuid];
-    
+//    NSString *hyveUserAccountString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/hyves/%@",uuid];
+    NSString *hyveUserAccountString = [NSString stringWithFormat:@"http://hyve-production.herokuapp.com/api/v1/hyves/%@",uuid];
+
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -382,20 +374,20 @@
     [self settingHeaderForHyveListTable:username imageURLString:userProfileImage];
 }
 
-#pragma mark - populateTableWithNewScannedHyve
--(void)populateTableWithNewScannedHyve:(NSNotification*)notification
-{
-    [self.scannedNewHyveMutableArray removeAllObjects];
-    NSMutableArray *newScannedHyveMutableArray = notification.object;
-    
-    [self.hyveDevicesMutableArray addObjectsFromArray:newScannedHyveMutableArray];
-    
-    NSLog(@"self.hyveDevicesMutableArray %@", self.hyveDevicesMutableArray);
-        
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.hyveListTable reloadData];
-    });
-}
+//#pragma mark - populateTableWithNewScannedHyve
+//-(void)populateTableWithNewScannedHyve:(NSNotification*)notification
+//{
+//    [self.scannedNewHyveMutableArray removeAllObjects];
+//    NSMutableArray *newScannedHyveMutableArray = notification.object;
+//    
+//    [self.hyveDevicesMutableArray addObjectsFromArray:newScannedHyveMutableArray];
+//    
+//    NSLog(@"self.hyveDevicesMutableArray %@", self.hyveDevicesMutableArray);
+//        
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [self.hyveListTable reloadData];
+//    });
+//}
 
 #pragma mark - styling navigation bar
 -(void)stylingNavigationBar
@@ -431,7 +423,8 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
     
-    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/account"];
+//    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/account"];
+    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-production.herokuapp.com/api/v1/account"];
     
     Reachability *reachability = [Reachability reachabilityWithHostName:@"www.google.com"];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -505,8 +498,9 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
     
-    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/account"];
-    
+//    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/account"];
+    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-production.herokuapp.com/api/v1/account"];
+
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -594,7 +588,8 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *api_token = [userDefaults objectForKey:@"api_token"];
     
-    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/account"];
+//    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-staging.herokuapp.com/api/v1/account"];
+    NSString *hyveURLString = [NSString stringWithFormat:@"http://hyve-production.herokuapp.com/api/v1/account"];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
